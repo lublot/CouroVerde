@@ -25,8 +25,8 @@
 					require_once(ABSPATH .'/controllers/'.$class.'.php');
 				}
 			}
-			else if(file_exists(ABSPATH .'/model/'.$class.'.php')){
-				require_once(ABSPATH.'/model/'.$class.'.php');
+			else if(file_exists(ABSPATH .'/models/'.$class.'.php')){
+				require_once(ABSPATH.'/models/'.$class.'.php');
 			}
 			else{
 				require_once(ABSPATH.'/autoloader.php');
