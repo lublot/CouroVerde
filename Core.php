@@ -30,6 +30,7 @@ class Core{
                 array_shift($path);
             }
 
+
             //Tratamento para parametros POST 
             if(isset($_POST) && !empty($_POST)){//Verifica se a variável global foi setada e se tem conteúdo
                 $this->parametros[] = $_POST;

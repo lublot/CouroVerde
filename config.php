@@ -13,8 +13,7 @@
 	header("Content-type: text/html; charset=utf-8");
 	define('DEBUG',true);
 	define( 'ABSPATH', dirname( __FILE__ ) );
-	define('URI_BASE',"http://localhost/".$pasta."/index.php");
-
+	define('URI_BASE',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/index.php");
 
 	if(DEBUG === true){
 		define("HOST","localhost");
@@ -23,6 +22,6 @@
 		define("NAMEDB","INSERIR NOME DO BANCO");
 		define( 'CHARSETDB', 'utf8' );
 	}
-	require_once("/autoloader.php");
+	require_once("autoloader.php");
 
 ?>
