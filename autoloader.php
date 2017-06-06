@@ -25,6 +25,11 @@
 					require_once(ABSPATH .'/controllers/'.$class.'.php');
 				}
 			}
+			else if(strpos($class,"DAO") > -1){
+				if(file_exists(ABSPATH .'/DAO/'.$class.'.php')){
+					require_once(ABSPATH .'/DAO/'.$class.'.php');
+				}
+			}
 			else if(file_exists(ABSPATH .'/models/'.$class.'.php')){
 				require_once(ABSPATH.'/models/'.$class.'.php');
 			}

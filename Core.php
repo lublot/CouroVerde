@@ -43,12 +43,16 @@ class Core{
         if(isset($this->controller) && !empty($this->controller)){//Verifica se tudo foi definido corretamente
             if(isset($this->metodo) && !empty($this->metodo)){
                 $metodo = $this->metodo;
-                if(!isset($this->parametros) || empty($this->parametros)){
-                    $this->parametros = array();
-                }
-                $c = new $this->controller();//Instancia o controller desejado
-                $c->$metodo($this->parametros);//Chama o metodo desejado
+            }else{
+                $metodo = "index";
             }
+
+            if(!isset($this->parametros) || empty($this->parametros)){
+                $this->parametros = array();
+            }
+
+            $c = new $this->controller();//Instancia o controller desejado
+            $c->$metodo($this->parametros);//Chama o metodo desejado
         }
        // call_user_func_array(array($c, $this->metodo), $this->parametros);
         
