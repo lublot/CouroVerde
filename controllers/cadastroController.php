@@ -70,11 +70,14 @@ class cadastroController{
         return false;
     }
 
+    
     private function validarCampo($campo){//Verifica se determinado campo está vazio
         if(isset($campo) && !empty($campo)){
             return true;
         }
         return false;
     }
+
+ 
 }
 ?>
