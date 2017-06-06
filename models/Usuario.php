@@ -2,7 +2,7 @@
 
 class Usuario {
 
-    //Adicionei um método
+    //Adicionei um método para gerarId
     
     /* atributos do usuário */
     private $id;
