@@ -40,6 +40,7 @@ class UsuarioDAO extends Database{
         $query = $this->PDO->prepare($query);
         $query->execute($valores);
 
+        $usuarios = array();
         if($query->rowCount() > 0){
             foreach($query->fetchAll() as $item){
                 $usuarios[] = new Usuario($item);

@@ -19,7 +19,7 @@ class cadastroController{
                 && $this->validarCampo($dados['senha']) && $this->validarCampo($dados['email'])
                 && $this->validarCampo($dados['id'])){
                 
-                
+
                 require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
                 
                 $id = addslashes($dados['id']);
@@ -64,9 +64,26 @@ class cadastroController{
     }
 
     public function verificar(){
+        $id = $_GET['i'];
         $nome = $_GET['n'];
         $email = $_GET['e'];
         $sobrenome = $_GET['s'];
+
+        $usuarioDao = new UsuarioDAO();
+        $usuario = $usuarioDao->buscar(null,array("email"=>$email));
+
+        if(count($usuario)>0){
+            $nomeMd5 = md5($usuario->getNome());
+            $emailMd5 = md5($usuario->getEmail());
+            $sobrenomeMd5 = md5($usuario->getSobrenome());
+            
+            if(strcmp($nome,$nomeMd5)==0 && strcmp($email,$emailMd5)==0 && strcmp($sobrenome,$sobrenomeMd5)==0){
+                $usuario->setAtivo(true);
+                $usuarioDao->salvar($usuario);
+            }
+        }
+        
+        
     }
     private function validarForm($dados){//Verifica a integridade do array de informações recebidas
         if(array_key_exists("nome",$dados) && array_key_exists("sobrenome",$dados) && array_key_exists("email",$dados) && array_key_exists("senha",$dados)){
