@@ -15,14 +15,19 @@ class cadastroController{
     public function confirmar($dados = array()){
         $dados = $this->POST;
         if($this->validarForm($dados)){
-            if($this->validarCampo($dados['nome']) && $this->validarCampo($dados['sobrenome']) && $this->validarCampo($dados['senha']) && $this->validarCampo($dados['email'])){
+            if($this->validarCampo($dados['nome']) && $this->validarCampo($dados['sobrenome']) 
+                && $this->validarCampo($dados['senha']) && $this->validarCampo($dados['email'])
+                && $this->validarCampo($dados['id'])){
+                
+                
                 require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
                 
+                $id = addslashes($dados['id']);
                 $nome = addslashes($dados['nome']);
                 $sobrenome = addslashes($dados['sobrenome']);
                 $email = addslashes($dados['email']);
             
-                $linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&s=".md5($sobrenome);
+                $linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&i=".md5($id)."&s=".md5($sobrenome);
                 
                 $mail = new PHPMailer();
 
