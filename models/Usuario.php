@@ -25,20 +25,21 @@ class Usuario {
      * @param unknown $confirmouCadastro indica se confirmou o cadastro
      */
     public function __construct($id,$email, $nome, $sobrenome, $senha, $confirmouCadastro) {
-        $this->$id;
+        $this->id = $id;
         $this->email = $email;
         $this->nome = $nome;
         $this->sobrenome = $sobrenome;
         $this->senha = $senha;
-        $this->estaAtivo = $confirmouCadastro;
+        $this->confirmouCadastro = $confirmouCadastro;
     }
+    
 
     /**
      * Obtém o id do usuário.
      * @return id
      */
     public function getId() {
-        return $id;
+        return $this->id;
     }
 
     /**
@@ -46,7 +47,7 @@ class Usuario {
      * @return email
      */
     public function getEmail() {
-        return $email;
+        return $this->email;
     }
 
     /**
@@ -62,7 +63,7 @@ class Usuario {
      * @return nome
      */
     public function getNome() {
-        return $nome;
+        return $this->nome;
     }
 
     /**
@@ -78,7 +79,7 @@ class Usuario {
      * @return sobrenome
      */
     public function getSobrenome() {
-        return $sobrenome;
+        return $this->sobrenome;
     }
 
     /**
@@ -94,7 +95,7 @@ class Usuario {
      * @return senha
      */
     public function getSenha() {
-        return $senha;
+        return $this->senha;
     }
 
     /**
@@ -109,16 +110,16 @@ class Usuario {
      * Verifica se o usuário confirmou o cadastro.
      * @return <code>true</code>, se ele confirmou o cadastro; <code>false</code>, caso contrário
      */
-    public function isAtivo() {
-        return $confirmouCadastro;
+    public function confirmouCadastro() {
+        return $this->confirmouCadastro;
     }
 
     /**
      * Configura se o usuário confirmou o cadastro.
      * @param unknown $confirmouCadastro indicação se o usuário confirmou o cadastro
      */
-    public function setEstaAtivo($confirmouCadastro) {
-        $this->estaAtivo = $confirmouCadastro;
+    public function setconfirmouCadastro($confirmouCadastro) {
+        $this->confirmouCadastro = $confirmouCadastro;
     }
 
 }

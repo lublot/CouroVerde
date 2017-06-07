@@ -27,7 +27,7 @@ class cadastroController{
                 $sobrenome = addslashes($dados['sobrenome']);
                 $email = addslashes($dados['email']);
             
-                $linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&i=".md5($id)."&s=".md5($sobrenome);
+                $linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&i=".$id."&s=".md5($sobrenome);
                 
                 $mail = new PHPMailer();
 
@@ -70,16 +70,18 @@ class cadastroController{
         $sobrenome = $_GET['s'];
 
         $usuarioDao = new UsuarioDAO();
-        $usuario = $usuarioDao->buscar(null,array("email"=>$email));
+        $usuario = $usuarioDao->buscar(null,array("idUsuario"=>$id));
 
         if(count($usuario)>0){
+            $usuario = array_shift($usuario);
+            $id = $usuario->getId();
             $nomeMd5 = md5($usuario->getNome());
             $emailMd5 = md5($usuario->getEmail());
             $sobrenomeMd5 = md5($usuario->getSobrenome());
             
             if(strcmp($nome,$nomeMd5)==0 && strcmp($email,$emailMd5)==0 && strcmp($sobrenome,$sobrenomeMd5)==0){
-                $usuario->setAtivo(true);
-                $usuarioDao->salvar($usuario);
+                $usuario->setconfirmouCadastro(true);
+                $usuarioDao->alterar(array('confirmouCadastro'=>$usuario->confirmouCadastro()),array('idUsuario'=>$usuario->getId()));
             }
         }
         
@@ -98,8 +100,6 @@ class cadastroController{
             return true;
         }
         return false;
-    }
-
- 
+    } 
 }
 ?>
