@@ -101,5 +101,47 @@ class cadastroController{
 		}
 		return false;
 	}
+
+	/**
+	* Verifica se o email informado é válido.
+	* @return <code>true</code>, se o email informado for válido; <code>false</code>, caso contrário.
+	*/
+	private function validarEmail($email) {
+		if(!$this->validarCampo($email)) {
+			return false;
+		}
+		
+		$dividido = explode("@", $email); //tenta dividir o email a partir da @
+		
+		if (count($dividido) == 2) { //verifica se o email informado possui @
+			$segundaparte = explode(".com", $dividido[1]); //tenta encontrar .com na segunda parte do email
+			
+			if(count($segundaparte) == 2) { //verifica se tem apenas um .com no email
+				return true;
+			}
+		} 
+
+		return false;
+	}
+
+	/**
+	* Cadastra novo usuário.
+	*/
+	public function cadastrar() {
+		$usuarioDAO = new UsuarioDAO();
+		$nome = $_POST["nome"];
+		$sobrenome = $_POST["sobrenome"];
+		$senha = $_POST["senha"];
+		$email = $_POST["email"];
+
+		if($this->validarCampo($nome) && $this->validarCampo($sobrenome) && $this->validarCampo($senha) && $this->validarEmail($email)) {
+			$usuarioDAO->inserir(new Usuario($nome, $sobrenome, $senha, $email));
+		} else {
+			//VOU OLHAR COMO FAZ EXCEÇÃO EM PHP PRA INSERIR UMA NO CASO DOS CAMPOS NÃO SEREM VÁLIDOS
+		}
+
+		$this->confirmar(array("nome" => $nome, "sobrenome" => $sobrenome, "senha" => $senha, "email" => $email));
+		
+	}
 }
 ?>
