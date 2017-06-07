@@ -15,14 +15,19 @@ class cadastroController{
     public function confirmar($dados = array()){
         $dados = $this->POST;
         if($this->validarForm($dados)){
-            if($this->validarCampo($dados['nome']) && $this->validarCampo($dados['sobrenome']) && $this->validarCampo($dados['senha']) && $this->validarCampo($dados['email'])){
+            if($this->validarCampo($dados['nome']) && $this->validarCampo($dados['sobrenome']) 
+                && $this->validarCampo($dados['senha']) && $this->validarCampo($dados['email'])
+                && $this->validarCampo($dados['id'])){
+                
+
                 require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
                 
+                $id = addslashes($dados['id']);
                 $nome = addslashes($dados['nome']);
                 $sobrenome = addslashes($dados['sobrenome']);
                 $email = addslashes($dados['email']);
             
-                $linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&s=".md5($sobrenome);
+                $linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&i=".$id."&s=".md5($sobrenome);
                 
                 $mail = new PHPMailer();
 
@@ -59,9 +64,28 @@ class cadastroController{
     }
 
     public function verificar(){
+        $id = $_GET['i'];
         $nome = $_GET['n'];
         $email = $_GET['e'];
         $sobrenome = $_GET['s'];
+
+        $usuarioDao = new UsuarioDAO();
+        $usuario = $usuarioDao->buscar(null,array("idUsuario"=>$id));
+
+        if(count($usuario)>0){
+            $usuario = array_shift($usuario);
+            $id = $usuario->getId();
+            $nomeMd5 = md5($usuario->getNome());
+            $emailMd5 = md5($usuario->getEmail());
+            $sobrenomeMd5 = md5($usuario->getSobrenome());
+            
+            if(strcmp($nome,$nomeMd5)==0 && strcmp($email,$emailMd5)==0 && strcmp($sobrenome,$sobrenomeMd5)==0){
+                $usuario->setconfirmouCadastro(true);
+                $usuarioDao->alterar(array('confirmouCadastro'=>$usuario->confirmouCadastro()),array('idUsuario'=>$usuario->getId()));
+            }
+        }
+        
+        
     }
     private function validarForm($dados){//Verifica a integridade do array de informações recebidas
         if(array_key_exists("nome",$dados) && array_key_exists("sobrenome",$dados) && array_key_exists("email",$dados) && array_key_exists("senha",$dados)){
@@ -76,9 +100,13 @@ class cadastroController{
             return true;
         }
         return false;
+<<<<<<< HEAD
     }
     
 
  
+=======
+    } 
+>>>>>>> branch 'master' of https://github.com/EmersonBrSouza/CouroVerde.git
 }
 ?>

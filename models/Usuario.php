@@ -7,7 +7,6 @@
  */
 class Usuario {
 
-    //Adicionei um método para gerarId
     
     /* atributos do usuário */
     private $id;
@@ -15,8 +14,7 @@ class Usuario {
     private $nome;
     private $sobrenome;
     private $senha;
-    private $estaAtivo;
-    private static $contId = 0;
+    private $confirmouCadastro;
 
     /**
      * Construtor da classe
@@ -24,31 +22,24 @@ class Usuario {
      * @param unknown $nome nome do usuário
      * @param unknown $sobrenome sobrenome do usuário
      * @param unknown $senha senha do usuário
-     * @param unknown $estaAtivo indica se está ativo
+     * @param unknown $confirmouCadastro indica se confirmou o cadastro
      */
-    public function __construct($email, $nome, $sobrenome, $senha, $estaAtivo) {
-        $this->geraId();
+    public function __construct($id,$email, $nome, $sobrenome, $senha, $confirmouCadastro) {
+        $this->id = $id;
         $this->email = $email;
         $this->nome = $nome;
         $this->sobrenome = $sobrenome;
         $this->senha = $senha;
-        $this->estaAtivo = $estaAtivo;
+        $this->confirmouCadastro = $confirmouCadastro;
     }
-
-    /**
-     * Gera automaticamente id do usuário.
-     */
-    private function gerarId() { //gera o id do usuário
-        $this->id = $contId;
-        Usuario::$contId++;
-    }
+    
 
     /**
      * Obtém o id do usuário.
      * @return id
      */
     public function getId() {
-        return $id;
+        return $this->id;
     }
 
     /**
@@ -56,7 +47,7 @@ class Usuario {
      * @return email
      */
     public function getEmail() {
-        return $email;
+        return $this->email;
     }
 
     /**
@@ -72,7 +63,7 @@ class Usuario {
      * @return nome
      */
     public function getNome() {
-        return $nome;
+        return $this->nome;
     }
 
     /**
@@ -88,7 +79,7 @@ class Usuario {
      * @return sobrenome
      */
     public function getSobrenome() {
-        return $sobrenome;
+        return $this->sobrenome;
     }
 
     /**
@@ -104,7 +95,7 @@ class Usuario {
      * @return senha
      */
     public function getSenha() {
-        return $senha;
+        return $this->senha;
     }
 
     /**
@@ -116,19 +107,19 @@ class Usuario {
     }
 
     /**
-     * Verifica se o usuário está ativo.
-     * @return <code>true</code>, se ele está ativo; <code>false</code>, caso contrário
+     * Verifica se o usuário confirmou o cadastro.
+     * @return <code>true</code>, se ele confirmou o cadastro; <code>false</code>, caso contrário
      */
-    public function isAtivo() {
-        return $estaAtivo;
+    public function confirmouCadastro() {
+        return $this->confirmouCadastro;
     }
 
     /**
-     * Configura se o usuário está ativo.
-     * @param unknown $estaAtivo indicação se o usuário está ativo
+     * Configura se o usuário confirmou o cadastro.
+     * @param unknown $confirmouCadastro indicação se o usuário confirmou o cadastro
      */
-    public function setEstaAtivo($estaAtivo) {
-        $this->estaAtivo = $estaAtivo;
+    public function setconfirmouCadastro($confirmouCadastro) {
+        $this->confirmouCadastro = $confirmouCadastro;
     }
 
 }

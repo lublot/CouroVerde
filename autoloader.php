@@ -27,6 +27,7 @@
 			}
 			else if(strpos($class,"DAO") > -1){
 				if(file_exists(ABSPATH .'/DAO/'.$class.'.php')){
+					require_once(ABSPATH.'/DAO/Database.php');
 					require_once(ABSPATH .'/DAO/'.$class.'.php');
 				}
 			}

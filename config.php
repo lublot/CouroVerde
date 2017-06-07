@@ -19,7 +19,7 @@
 		define("HOST","localhost");
 		define("USERDB","root");
 		define("PASSDB","");
-		define("NAMEDB","INSERIR NOME DO BANCO");
+		define("NAMEDB","webmuseu");
 		define( 'CHARSETDB', 'utf8' );
 	}
 	require_once("autoloader.php");
