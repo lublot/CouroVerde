@@ -8,14 +8,47 @@ class cadastroController{
 			"senha" => "12345678");//Como a gnt não tem view ainda, vamos testando as informações nesse array
 	
 	
+	/**
+	* Cadastra novo usuário.
+	*/
 	public function index(){
-		echo "Ola ".$this->POST['nome'];
+		require_once(ABSPATH.'/util/GerenciarSenha.php');
+		
+		if($this->validarForm($_POST)){
+			$usuarioDAO = new UsuarioDAO();
+			$nome = addslashes($_POST["nome"]);
+			$sobrenome = addslashes($_POST["sobrenome"]);
+			$senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
+			$email = addslashes($_POST["email"]);
+
+		
+			if($this->validarNome($nome) && $this->validarNome($sobrenome) && $this->validarCampo($senha) && $this->validarEmail($email)) {
+				$usuarioDAO->inserir(new Usuario(null,$email,$nome, $sobrenome, $senha, false));
+				
+				$usuario = $usuarioDAO->buscar(array(),array("email"=>$email))[0]; //Busca o usuário récem cadastrado
+				$this->confirmar(array("nome" => $usuario->getNome(), 
+							   "sobrenome" => $usuario->getSobrenome(),
+							   "senha" => $usuario->getSenha(),
+							   "email" => $usuario->getEmail(),
+							   "id" => $usuario->getId()));
+			} else {
+			//VOU OLHAR COMO FAZ EXCEÇÃO EM PHP PRA INSERIR UMA NO CASO DOS CAMPOS NÃO SEREM VÁLIDOS
+			}
+		}
+
+		echo "<script>window.location.replace('".URI_BASE."/cadastro/confirmar"."');</script>"; // Redireciona a página
 	}
 	
-	public function confirmar($dados = array()){
-		$dados = $this->POST;
+
+
+
+	/**
+	* Envia um email de confirmação para o usuário
+	*@param unknown $dados - dados do usuário
+	*/
+	public function confirmar($dados){
 		if($this->validarForm($dados)){
-			if($this->validarCampo($dados['nome']) && $this->validarCampo($dados['sobrenome'])
+			if($this->validarNome($dados['nome']) && $this->validarNome($dados['sobrenome'])
 					&& $this->validarCampo($dados['senha']) && $this->validarCampo($dados['email'])
 					&& $this->validarCampo($dados['id'])){
 						
@@ -53,16 +86,18 @@ class cadastroController{
 										"Link de Confirmação: ".$linkConfirmacao;
 										
 										
-										if(!$mail->send()) {
-											echo 'Message could not be sent.';
-											echo 'Mailer Error: ' . $mail->ErrorInfo;
-										} else {
-											
-										}
+						if(!$mail->send()) {
+
+						} else {
+							
+						}
 			}
 		}
 	}
 	
+	/**
+	* Confirma e ativa a conta do usuário
+	*/
 	public function verificar(){
 		$id = $_GET['i'];
 		$nome = $_GET['n'];
@@ -87,20 +122,43 @@ class cadastroController{
 		
 		
 	}
-	private function validarForm($dados){//Verifica a integridade do array de informações recebidas
+
+	/**
+	*Verifica a integridade do array de informações recebidas
+	*@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
+	*/
+	private function validarForm($dados){
 		if(array_key_exists("nome",$dados) && array_key_exists("sobrenome",$dados) && array_key_exists("email",$dados) && array_key_exists("senha",$dados)){
 			return true;
 		}
 		return false;
 	}
 	
-	
-	private function validarCampo($campo){//Verifica se determinado campo está vazio
+	/**
+	* Verifica se determinado campo tem informação.
+	* @return <code>true</code>, se houver informação; <code>false</code>, caso contrário
+	*/
+	private function validarCampo($campo){
 		if(isset($campo) && !empty($campo)){
 			return true;
 		}
 		return false;
 	}
+
+	/**
+	* Verifica se o nome informado é válido.
+	* @return <code>true</code>, se o nome informado for válido; <code>false</code>, caso contrário
+	*/
+	private function validarNome($nome){
+		if(!$this->validarCampo($nome)) {
+			return false;
+		}
+		if(preg_match("(\d{1})",$nome) > 0){ //Se houver algum número na string o número é inválido
+			return false;
+		}
+		return true;
+	}
+
 
 	/**
 	* Verifica se o email informado é válido.
@@ -122,26 +180,6 @@ class cadastroController{
 		} 
 
 		return false;
-	}
-
-	/**
-	* Cadastra novo usuário.
-	*/
-	public function cadastrar() {
-		$usuarioDAO = new UsuarioDAO();
-		$nome = $_POST["nome"];
-		$sobrenome = $_POST["sobrenome"];
-		$senha = $_POST["senha"];
-		$email = $_POST["email"];
-
-		if($this->validarCampo($nome) && $this->validarCampo($sobrenome) && $this->validarCampo($senha) && $this->validarEmail($email)) {
-			$usuarioDAO->inserir(new Usuario($nome, $sobrenome, $senha, $email));
-		} else {
-			//VOU OLHAR COMO FAZ EXCEÇÃO EM PHP PRA INSERIR UMA NO CASO DOS CAMPOS NÃO SEREM VÁLIDOS
-		}
-
-		$this->confirmar(array("nome" => $nome, "sobrenome" => $sobrenome, "senha" => $senha, "email" => $email));
-		
 	}
 }
 ?>

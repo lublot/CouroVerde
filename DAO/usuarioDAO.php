@@ -4,6 +4,11 @@ class UsuarioDAO extends Database{
 
     //Não seria bom se as classes DAO fosse Singleton? Vi uma implementação que era assim e faz sentido, a gente não precisa de vários objetos
 
+
+    /**
+    * Insere um usuário no banco de dados;
+    * @param unknown $usuario - o usuário a ser inserido no banco;
+    * */
     public function inserir($usuario){
         
         $nome = $usuario->getNome();
@@ -21,7 +26,12 @@ class UsuarioDAO extends Database{
         }
     }
 
-    public function alterar($dados=array("nome"=>"pedro"),$filtros=array("idUsuario"=>2,"nome"=>"Emerson")){
+    /**
+    * Altera informações de um usuário no banco de dados;
+    * @param unknown $dados - um array contendo as colunas e valores para a alteração. Ex: array("nome"=>"João");
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idUsuario"=>5);
+    * */
+    public function alterar($dados,$filtros){
         $query = "UPDATE usuario SET ";
 
         foreach($dados as $chave=>$valor){
@@ -44,11 +54,33 @@ class UsuarioDAO extends Database{
 
     }
 
-    public function remover(){
+    /**
+    * Remove um usuário do banco de dados;
+    * @param unknown $filtros - um array contendo os filtros usados na identificação do usuário. Ex: array("idUsuario"=>5);
+    * */
+    public function remover($filtros){
+        $query = "DELETE FROM usuario WHERE ";
 
+        if(count($filtros) > 0){
+            $aux = array();
+
+            foreach($filtros as $chave=>$valor){
+                $aux[] = $chave." = "."'$valor'";
+            }
+
+            $query .= implode(" AND ",$aux);
+        }
+
+        $this->PDO->query($query);
     }
 
-    public function buscar($campos=array("nome","teste"),$filtros=array("id"=>1)){
+    /**
+    * Busca um ou vários usuários no banco de dados;
+    * @param unknown $campos - um array contendo os campos desejados
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idUsuario"=>5);
+    * @return unknown $usuarios - um array contendo os usuários retornados na busca
+    */
+    public function buscar($campos,$filtros){
         $query = "SELECT ";
 
         if(count($campos) == 0){

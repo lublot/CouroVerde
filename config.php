@@ -1,10 +1,9 @@
 <?php
 
 	/**
-
-	Aqui ficarão as configurações gerais do sistema, tais como: Login e senha do banco de dados, Ambiente de desenvolvimento, etc...
-
-	**/
+	*
+	*Aqui ficarão as configurações gerais do sistema, tais como: Login e senha do banco de dados, Ambiente de desenvolvimento, etc...
+	*/
 
 	$ds = DIRECTORY_SEPARATOR;
 	$pasta = explode($ds,getcwd());
