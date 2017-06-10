@@ -22,7 +22,7 @@ class cadastroController{
 			$email = addslashes($_POST["email"]);
 
 		
-			if($this->validarNome($nome) && $this->validarNome($sobrenome) && $this->validarCampo($senha) && $this->validarEmail($email)) {
+			if($this->validarNome($nome) && $this->validarNome($sobrenome) && $this->validarSenha($senha) && $this->validarEmail($email)) {
 				$usuarioDAO->inserir(new Usuario(null,$email,$nome, $sobrenome, $senha, false));
 				
 				$usuario = $usuarioDAO->buscar(array(),array("email"=>$email))[0]; //Busca o usuário récem cadastrado
@@ -32,7 +32,7 @@ class cadastroController{
 							   "email" => $usuario->getEmail(),
 							   "id" => $usuario->getId()));
 			} else {
-			//VOU OLHAR COMO FAZ EXCEÇÃO EM PHP PRA INSERIR UMA NO CASO DOS CAMPOS NÃO SEREM VÁLIDOS
+			
 			}
 		}
 
@@ -181,5 +181,24 @@ class cadastroController{
 
 		return false;
 	}
+
+	/**
+	* Verifica se a senha informada é válida, isto é, se possui ao menos 8 e no máximo 32 caracteres.
+	* @return <code>true</code>, se a senha informada for válida; <code>false</code>, caso contrário.
+	*/
+	private function validarSenha($senha) {
+		if(!$this->validarCampo($senha)) {
+			return false;
+		}
+
+		$tamanho = strlen($senha); //obtém tamanho da senha
+		if($tamanho < 8 || $tamanho > 32) { //verifica se o tamanho da senha é adequado
+			return true;
+		}
+
+		return false;
+	}
+
+	
 }
 ?>
