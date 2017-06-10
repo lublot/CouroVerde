@@ -18,7 +18,7 @@
 		define("HOST","localhost");
 		define("USERDB","root");
 		define("PASSDB","");
-		define("NAMEDB","webmuseu");
+		define("NAMEDB","webMuseu");
 		define( 'CHARSETDB', 'utf8' );
 	}
 	require_once("autoloader.php");
