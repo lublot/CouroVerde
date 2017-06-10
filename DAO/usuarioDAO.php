@@ -15,10 +15,10 @@ class UsuarioDAO extends Database{
         $sobrenome = $usuario->getSobrenome();
         $email = $usuario->getEmail();
         $senha = $usuario->getSenha();
-        $confirmouCadastro = $usuario->confirmouCadastro();
+        $cadastroConfirmado = $usuario->confirmouCadastro();
 
-        $query = "INSERT INTO `usuario`(`idUsuario`, `nome`, `sobrenome`, `email`, `senha`, `confirmouCadastro`) 
-                  VALUES (null,'$nome','$sobrenome','$email','$senha','$confirmouCadastro')";
+        $query = "INSERT INTO `usuario`(`idUsuario`, `nome`, `sobrenome`, `email`, `senha`, `cadastroConfirmado`) 
+                  VALUES (null,'$nome','$sobrenome','$email','$senha','$cadastroConfirmado')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -105,7 +105,7 @@ class UsuarioDAO extends Database{
         $usuarios = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $usuarios[] = new Usuario($item['idUsuario'],$item['email'],$item['nome'],$item['sobrenome'],$item['senha'],$item['confirmouCadastro']);
+                $usuarios[] = new Usuario($item['idUsuario'],$item['email'],$item['nome'],$item['sobrenome'],$item['senha'],$item['cadastroConfirmado']);
             }    
         }
         
