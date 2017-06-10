@@ -28,8 +28,8 @@ class Administrador extends Funcionario {
 	* @param unknown $podeRealizarBackup indica se pode gerenciar funcionários
 	* 
 	*/
-    public function __construct($id,$email, $nome, $sobrenome, $senha, $confirmouCadastro, $matricula, $funcao, $podeCadastrarObra,$podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia, $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup, $podeVisualizarRelatorios, $podeGerenciarFuncionarios) {
-        parent::__construct($id,$email, $nome, $sobrenome, $senha, $confirmouCadastro, $matricula, $funcao, $podeCadastrarObra,$podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia, $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup);
+    public function __construct($id,$email, $nome, $sobrenome, $senha, $$cadastroConfirmado, $matricula, $funcao, $podeCadastrarObra,$podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia, $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup, $podeVisualizarRelatorios, $podeGerenciarFuncionarios) {
+        parent::__construct($id,$email, $nome, $sobrenome, $senha, $cadastroConfirmado, $matricula, $funcao, $podeCadastrarObra,$podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia, $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup);
         $this->podeVisualizarRelatorios = $podeVisualizarRelatorios;
         $this->podeGerenciarFuncionarios = $podeGerenciarFuncionarios;
     }
