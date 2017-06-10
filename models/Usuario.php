@@ -14,7 +14,7 @@ class Usuario {
     private $nome;
     private $sobrenome;
     private $senha;
-    private $confirmouCadastro;
+    private $cadastroConfirmado;
 
     /**
      * Construtor da classe
@@ -22,15 +22,15 @@ class Usuario {
      * @param unknown $nome nome do usuário
      * @param unknown $sobrenome sobrenome do usuário
      * @param unknown $senha senha do usuário
-     * @param unknown $confirmouCadastro indica se confirmou o cadastro
+     * @param unknown $cadastroConfirmado indica se confirmou o cadastro
      */
-    public function __construct($id,$email, $nome, $sobrenome, $senha, $confirmouCadastro) {
+    public function __construct($id,$email, $nome, $sobrenome, $senha, $cadastroConfirmado) {
         $this->id = $id;
         $this->email = $email;
         $this->nome = $nome;
         $this->sobrenome = $sobrenome;
         $this->senha = $senha;
-        $this->confirmouCadastro = $confirmouCadastro;
+        $this->cadastroConfirmado = $cadastroConfirmado;
     }
     
 
@@ -111,15 +111,15 @@ class Usuario {
      * @return <code>true</code>, se ele confirmou o cadastro; <code>false</code>, caso contrário
      */
     public function confirmouCadastro() {
-        return $this->confirmouCadastro;
+        return $this->cadastroConfirmado;
     }
 
     /**
      * Configura se o usuário confirmou o cadastro.
-     * @param unknown $confirmouCadastro indicação se o usuário confirmou o cadastro
+     * @param unknown $cadastroConfirmado indicação se o usuário confirmou o cadastro
      */
-    public function setconfirmouCadastro($confirmouCadastro) {
-        $this->confirmouCadastro = $confirmouCadastro;
+    public function setCadastroConfirmado($cadastroConfirmado) {
+        $this->cadastroConfirmado = $cadastroConfirmado;
     }
 
 }
