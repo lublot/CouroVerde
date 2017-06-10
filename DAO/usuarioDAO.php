@@ -2,9 +2,6 @@
 
 class UsuarioDAO extends Database{
 
-    //Não seria bom se as classes DAO fosse Singleton? Vi uma implementação que era assim e faz sentido, a gente não precisa de vários objetos
-
-
     /**
     * Insere um usuário no banco de dados;
     * @param unknown $usuario - o usuário a ser inserido no banco;

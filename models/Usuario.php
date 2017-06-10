@@ -2,7 +2,7 @@
 
 /**
  * Classe responsável por representar um usuário no contexto do sistema.
- * @author 
+ * @author MItologhic Software
  *
  */
 class Usuario {
