@@ -115,8 +115,8 @@ class cadastroController{
 			$sobrenomeMd5 = md5($usuario->getSobrenome());
 			
 			if(strcmp($nome,$nomeMd5)==0 && strcmp($email,$emailMd5)==0 && strcmp($sobrenome,$sobrenomeMd5)==0){
-				$usuario->setconfirmouCadastro(true);
-				$usuarioDao->alterar(array('confirmouCadastro'=>$usuario->confirmouCadastro()),array('idUsuario'=>$usuario->getId()));
+				$usuario->setCadastroConfirmado(true);
+				$usuarioDao->alterar(array('cadastroConfirmado'=>$usuario->confirmouCadastro()),array('idUsuario'=>$usuario->getId()));
 			}
 		}
 		
