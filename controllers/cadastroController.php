@@ -22,7 +22,22 @@ class cadastroController{
 			$email = addslashes($_POST["email"]);
 
 		
-			if($this->validarNome($nome) && $this->validarNome($sobrenome) && $this->validarSenha($senha) && $this->validarEmail($email)) {
+				if(!$this->validarNome($nome){
+					throw new NomeInvalidoException();
+				}
+
+				if(!$this->validarNome($sobrenome)){
+					throw new SobrenomeInvalidoException();
+				} 
+				
+				if(!$this->validarSenha($senha)){
+					throw new SenhaInvalidaException();
+				}
+				
+				if(!$this->validarEmail($email)){
+					throw new EmailInvalidoException();
+				}
+
 				$usuarioDAO->inserir(new Usuario(null,$email,$nome, $sobrenome, $senha, false));
 				
 				$usuario = $usuarioDAO->buscar(array(),array("email"=>$email))[0]; //Busca o usuário récem cadastrado
@@ -31,12 +46,10 @@ class cadastroController{
 							   "senha" => $usuario->getSenha(),
 							   "email" => $usuario->getEmail(),
 							   "id" => $usuario->getId()));
-			} else {
-			
-			}
+				echo "<script>window.location.replace('".URI_BASE."/cadastro/confirmar"."');</script>"; // Redireciona a página
+		} else{
+			throw new DadosCorrompidosException();
 		}
-
-		echo "<script>window.location.replace('".URI_BASE."/cadastro/confirmar"."');</script>"; // Redireciona a página
 	}
 	
 
@@ -48,50 +61,65 @@ class cadastroController{
 	*/
 	public function confirmar($dados){
 		if($this->validarForm($dados)){
-			if($this->validarNome($dados['nome']) && $this->validarNome($dados['sobrenome'])
-					&& $this->validarCampo($dados['senha']) && $this->validarCampo($dados['email'])
-					&& $this->validarCampo($dados['id'])){
-						
-						
-						require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
-						
-						$id = addslashes($dados['id']);
-						$nome = addslashes($dados['nome']);
-						$sobrenome = addslashes($dados['sobrenome']);
-						$email = addslashes($dados['email']);
-						
-						$linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&i=".$id."&s=".md5($sobrenome);
-						
-						$mail = new PHPMailer();
-						
-						$mail->isSMTP();                                      // Set mailer to use SMTP
-						$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
-						$mail->SMTPAuth = true;                               // Enable SMTP authentication
-						$mail->Username = 'websertour@gmail.com';                 // SMTP username
-						$mail->Password = 'sertourweb';                           // SMTP password
-						$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-						$mail->Port = 587;                                    // TCP port to connect to
-						$mail->CharSet = 'UTF-8';
-						
-						$mail->setFrom('websertour@websertour.com', 'Sertour');
-						$mail->addAddress($email, $nome);     // Add a recipient
-						$mail->addReplyTo('noreply@gmail.com', 'Não responda');
-						
-						$mail->isHTML(true);                                  // Set email format to HTML
-						
-						$mail->Subject = 'Sertour - Confirmação de cadastro';
-						$mail->Body    = "Olá, ".$nome.". Seja bem-vindo(a) ao WebMuseu Casa do Sertão, ficamos felizes com a sua presença!<br/><br/>"
-								."Seu cadastro está quase pronto, por favor,"
-										." clique no link a seguir e a gente cuida do resto :)<br/><br/>".
-										"Link de Confirmação: ".$linkConfirmacao;
-										
-										
-						if(!$mail->send()) {
 
-						} else {
-							
-						}
+			//Se os campos abaixo forem inválidos retornam exceções
+			if(!$this->validarNome($dados['nome'])){
+				throw new NomeInvalidoException();
 			}
+			if(!$this->validarNome($dados['sobrenome'])){
+				throw new SobrenomeInvalidoException();
+			}
+
+			if(!$this->validarCampo($dados['senha'])){
+				throw new SenhaInvalidaException();
+			}
+
+			if(!$this->validarCampo($dados['email'])){
+				throw new EmailInvalidoException();
+			}
+
+			if(!$this->validarCampo($dados['id'])){
+				throw new DadosCorrompidosException();			
+			}
+
+			require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
+			
+			$id = addslashes($dados['id']);
+			$nome = addslashes($dados['nome']);
+			$sobrenome = addslashes($dados['sobrenome']);
+			$email = addslashes($dados['email']);
+			
+			$linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&i=".$id."&s=".md5($sobrenome);
+			
+			$mail = new PHPMailer();
+			
+			$mail->isSMTP();                                      // Set mailer to use SMTP
+			$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+			$mail->SMTPAuth = true;                               // Enable SMTP authentication
+			$mail->Username = 'websertour@gmail.com';                 // SMTP username
+			$mail->Password = 'sertourweb';                           // SMTP password
+			$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+			$mail->Port = 587;                                    // TCP port to connect to
+			$mail->CharSet = 'UTF-8';
+			
+			$mail->setFrom('websertour@websertour.com', 'Sertour');
+			$mail->addAddress($email, $nome);     // Add a recipient
+			$mail->addReplyTo('noreply@gmail.com', 'Não responda');
+			
+			$mail->isHTML(true);                                  // Set email format to HTML
+			
+			$mail->Subject = 'Sertour - Confirmação de cadastro';
+			$mail->Body    = "Olá, ".$nome.". Seja bem-vindo(a) ao WebMuseu Casa do Sertão, ficamos felizes com a sua presença!<br/><br/>"
+					."Seu cadastro está quase pronto, por favor,"
+							." clique no link a seguir e a gente cuida do resto :)<br/><br/>".
+							"Link de Confirmação: ".$linkConfirmacao;
+							
+							
+			if(!$mail->send()) {
+				throw new EmailNaoEnviadoException();
+			}			
+		}else{
+			throw new DadosCorrompidosException();
 		}
 	}
 	
@@ -118,10 +146,12 @@ class cadastroController{
 				$usuario->setCadastroConfirmado(true);
 				$usuarioDao->alterar(array('cadastroConfirmado'=>$usuario->confirmouCadastro()),array('idUsuario'=>$usuario->getId()));
 			}
+		}else{
+			throw new UsuarioInexistenteException();
 		}
-		
-		
 	}
+
+
 
 	/**
 	*Verifica a integridade do array de informações recebidas
@@ -153,7 +183,7 @@ class cadastroController{
 		if(!$this->validarCampo($nome)) {
 			return false;
 		}
-		if(preg_match("(\d{1})",$nome) > 0){ //Se houver algum número na string o número é inválido
+		if(preg_match("([^ A-Za-zà-ú'])",$nome) > 0){ //O nome só pode conter letras e caracteres acentuados,espaços e aspas simples
 			return false;
 		}
 		return true;
