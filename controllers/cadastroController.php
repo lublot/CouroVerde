@@ -38,6 +38,7 @@ class cadastroController
                 throw new EmailInvalidoException();
             }
 
+
             $usuarioDAO->inserir(new Usuario(null, $email, $nome, $sobrenome, $senha, false));
             $usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //Busca o usuário récem cadastrado
             $this->confirmar(array("nome" => $usuario->getNome(),
@@ -56,7 +57,7 @@ class cadastroController
     *@param unknown $dados - dados do usuário
     */
     public function confirmar($dados) {
-        if ($this->validarForm($dados)) {
+        if ($this->validarForm($dados)) { //essa validação já foi feita anteriormente, precisa fazer de novo?
             //Acho que as validações abaixo são desnecessárias pq já foram feitas no método anterior.
             //Se os campos abaixo forem inválidos retornam exceções
             if (!$this->validarNome($dados['nome'])) {
