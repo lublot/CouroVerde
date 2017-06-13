@@ -19,6 +19,17 @@ form#formLogin{
   padding: 10px;
 }
 
+.center {
+  margin: 0 auto;
+  width:80%
+}
+
+img#logo{
+      display: block;
+      margin: auto;
+      width: 40%;}
+
 a{
   text-align: center;
+
 }
