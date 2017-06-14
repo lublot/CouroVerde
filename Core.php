@@ -9,7 +9,7 @@ class Core{
 
     public function run() {
  
-        $path = explode("index.php",$_SERVER['PHP_SELF']);// Divide a string da url
+        $path = explode($ds,$_SERVER['PHP_SELF']);// Divide a string da url
         $path = end($path);//Pega o final do array
         
         if(!empty($path)){//Verifica se contém algo
