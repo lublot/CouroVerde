@@ -24,6 +24,9 @@ class loginController {
             if (!$this->validarEmail($email)) {
                 throw new EmailInvalidoException();
             }
+            if($this->verificarSeUsuarioExiste($email)) {
+				throw new EmailJaCadastradoException();
+			}
 
             $usuario = $this->usuarioDAO->login($email, $senha);
             if($usuario){//verifica a existencia do usuário que tentou logar
@@ -79,6 +82,21 @@ class loginController {
             $this->usuarioDAO->logout();
         }
     }
+
+    /**
+    * Obtém um usuário cadastrado através do seu email.
+    *@param unknown $email - email do usuário
+	*@return <code>true</code>, caso exista um usuário com o email informado; <code>NULL</code>, caso contrário.
+    */
+	private function verificarSeUsuarioExiste($email) {
+		$usuarioDAO = new UsuarioDAO();
+		$usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //tenta obter usuário
+		
+		if(count($usuario) == 0) {
+			return false;
+		}
+		return true;
+	}
 }
 
 ?>

@@ -38,7 +38,6 @@ class cadastroController
                 throw new EmailInvalidoException();
             }
 
-
             $usuarioDAO->inserir(new Usuario(null, $email, $nome, $sobrenome, $senha, false));
             $usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //Busca o usuário récem cadastrado
             $this->confirmar(array("nome" => $usuario->getNome(),
@@ -225,4 +224,5 @@ class cadastroController
 
         return false;
     }
+
 }
