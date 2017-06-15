@@ -102,7 +102,12 @@ class UsuarioDAO extends Database{
         $usuarios = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $usuarios[] = new Usuario($item['idUsuario'],$item['email'],$item['nome'],$item['sobrenome'],$item['senha'],$item['cadastroConfirmado']);
+                $usuarios[] = new Usuario(isset($item['idUsuario'])?$item['idUsuario']:null,
+                                          isset($item['email'])?$item['email']:null,
+                                          isset($item['nome'])?$item['nome']:null,
+                                          isset($item['sobrenome'])?$item['sobrenome']:null,
+                                          isset($item['senha'])?$item['senha']:null,
+                                          isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null);
             }    
         }
         

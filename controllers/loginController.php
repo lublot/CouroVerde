@@ -39,17 +39,18 @@ class loginController {
     }
 
     private function login($email, $senha){
-        $campos = array("email", "senha");
+        $campos = array("nome","email", "senha");
         $filtro = array(
-            "email" => $email;
-            "senha" => $senha;
+            "email" => $email,
+            "senha" => $senha,
         );
 
         $usuarios = $this->usuarioDAO->buscar($campos, $filtro);
-        if(count($usuarios) > 1){
+        if(count($usuarios) > 0){
             session_start();
-            $_SESSION['email'] = $usuario[0]->email;
-            $_SESSION['senha'] = $usuario[0]->senha;
+            $_SESSION['nome'] = $usuario[0]->getNome();
+            $_SESSION['email'] = $usuario[0]->getEmail();
+            $_SESSION['senha'] = $usuario[0]->getSenha();
             $this->isLogged = true;
             return true;
         }
@@ -117,11 +118,6 @@ class loginController {
         return false;
     }
 
-    public function logout(){
-        if($this->usuarioDAO->isLogged == true){
-            $this->usuarioDAO->logout();
-        }
-    }
 }
 
 ?>
