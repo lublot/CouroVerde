@@ -57,7 +57,7 @@ class loginController {
     /**
     * Realiza o logout do usuário
     */
-    private function logout(){
+    public function logout(){
         // Inicializa a sessão.
         session_start();
         // Apaga todas as variáveis da sessão
