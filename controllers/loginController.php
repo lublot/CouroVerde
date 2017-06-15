@@ -87,16 +87,99 @@ class loginController {
         $usuario = $usuarioDao->buscarUsuarioGoogle(array("idUsuarioGoogle"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros);
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
-            
             $_SESSION = array();//Limpa os dados de token
             $_SESSION['nome'] = $usuario[0]->getNome();
             $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
             $_SESSION['email'] = $usuario[0]->getEmail();
 
-            //Falta redirecionar usuário
+            //Redireciona para a home configurada como de usuário
         }else{
             $cadastro = new cadastroController();
             $cadastro->cadastrarUsuarioGoogle($me);
+            //Redireciona para página confirmando cadastro
+        }
+    }
+
+    /**
+    * Realiza a autenticação do login via Facebook.
+    **/
+    public function acessoFacebook() {
+        require_once __DIR__ . '/php-graph-sdk-5.4/src/Facebook/autoload.php';
+
+        $fb = new Facebook\Facebook([
+        'app_id' => '1435160229855766',
+        'app_secret' => 'fa696e39b476a2c926ff6f2fa080532d',
+        'default_graph_version' => 'v2.9',
+        ]);
+
+        $helper = $fb->getRedirectLoginHelper();
+        if (isset($_GET['state'])) {
+            var_dump($_GET);
+            $helper->getPersistentDataHandler()->set('state', $_GET['state']);
+        }
+
+        try {
+            $accessToken = $helper->getAccessToken();
+        } catch (Facebook\Exceptions\FacebookResponseException $e) {
+            throw new AcessoExternoErroException($e->getSubErrorCode());
+            exit;
+        } catch (Facebook\Exceptions\FacebookSDKException $e) {
+            throw new AcessoExternoErroException('SDK');
+            exit;
+        }
+
+        if (! isset($accessToken)) {
+            throw new AcessoExternoNegadoException();
+            exit;
+        }
+
+        // Logged in
+        // The OAuth 2.0 client handler helps us manage access tokens
+        $oAuth2Client = $fb->getOAuth2Client();
+
+        // Get the access token metadata from /debug_token
+        $tokenMetadata = $oAuth2Client->debugToken($accessToken);
+
+        // Validation (these will throw FacebookSDKException's when they fail)
+        $tokenMetadata->validateAppId($tokenMetadata->getAppId());
+        // If you know the user ID this access token belongs to, you can validate it here
+        //$tokenMetadata->validateUserId('123');
+        $tokenMetadata->validateExpiration();
+
+
+        if (! $accessToken->isLongLived()) {
+        
+            try {
+                $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+            } catch (Facebook\Exceptions\FacebookSDKException $e) {
+                throw new AcessoExternoErroException('SDK_LONG_LIVED_ACESS_TOKEN');
+                exit;
+            }
+        }
+
+        $_SESSION['fb_access_token'] = (string) $accessToken;
+
+        $response = $fb->get('/me?fields=first_name,last_name,email', $accessToken);
+        $graph = $response->getGraphUser();
+
+        $usuarioDao = new UsuarioDAO();
+        $usuario = $usuarioDao->buscarUsuarioFacebook(array($graph->getId()),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros);
+        
+        if(count($usuario)>0){//Se o usuário estiver cadastrado...
+            $usuario = $usuario[0];
+            $_SESSION = array();//Limpa os dados de token
+            $_SESSION['nome'] = $usuario->getNome();
+            $_SESSION['sobrenome'] = $usuario->getSobrenome();
+            $_SESSION['email'] = $usuario->getEmail();
+            //Falta redirecionar usuário
+        }else{
+            $cadastro = new cadastroController();
+            $cadastro->cadastrarUsuarioFacebook([
+                'fb_id' => $graph->getId(),
+                'nome' => $graph->getFirstName(),
+                'sobrenome' => $graph->getLastName(),
+                'email' => $graph->getEmail()
+            ]);
             //Falta redirecionar usuário
         }
     }
@@ -122,6 +205,8 @@ class loginController {
         // Por último, destrói a sessão
         session_destroy();
     }
+
+
 
      /**
     * Verifica se determinado campo tem informação.

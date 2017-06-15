@@ -53,7 +53,7 @@ class cadastroController
 
     /**
     * Envia um email de confirmação para o usuário
-    *@param unknown $dados - dados do usuário
+    * @param unknown $dados - dados do usuário
     */
     public function confirmar($dados) {
         if ($this->validarForm($dados)) { //essa validação já foi feita anteriormente, precisa fazer de novo?
@@ -168,8 +168,31 @@ class cadastroController
             $usuarioDao->inserirUsuarioGoogle($idGoogle,$idSistema[0]->getId());
         }else{
             
+        } 
+    }
+
+    /**
+    * Realiza o cadastro de um usuário que cadastra-se no sistema através do facebook.
+    * @param array $dados - array contendo os dados do usuário
+    */
+    public function cadastrarUsuarioFacebook(array $dados) {
+        $usuarioDAO = new UsuarioDao();
+
+        //criando um usuário e registrando
+        $usuario = new Usuario(null, $dados['email'], $dados['nome'], $dados['sobrenome'], null, true);
+        $usuarioDAO->inserir($usuario);
+
+        $usuarioCadastrado = $usuarioDAO->buscar(array('idUsuario'), array('email'=>$dados['email'])); //obtém o usuário cadastrado recentemente
+
+        if(count($usuarioCadastrado) > 0) { //se o usuário for encontrado
+            $usuarioCadastrado = $usuarioCadastrado[0];
+            $usuarioDAO->inserirUsuarioGoogle($dados['fb_id'],$usuarioCadastrado->getID());
+        } else {
+            throw new ErroCadastroException();
         }
-        
+
+
+
     }
 
     /**
