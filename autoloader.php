@@ -28,6 +28,10 @@
 					require_once(ABSPATH.'/DAO/Database.php');
 					require_once(ABSPATH .'/DAO/'.$class.'.php');
 				}
+			}else if(strpos($class,"Exception") > -1){
+				if(file_exists(ABSPATH .'/exceptions/'.$class.'.php')){
+					require_once(ABSPATH .'/exceptions/'.$class.'.php');
+				}
 			}
 			else if(file_exists(ABSPATH .'/models/'.$class.'.php')){
 				require_once(ABSPATH.'/models/'.$class.'.php');
