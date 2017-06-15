@@ -28,6 +28,7 @@ class loginController {
   
     }
 
+
     /**
     * Realiza o login do usuário
     * @param String $email, $senha
@@ -51,6 +52,52 @@ class loginController {
         }
         else{
             return false;
+        }
+    }
+
+    /**
+    * Realiza a autenticação via Google+
+    **/
+    public function acessarGoogle(){
+        session_start();
+        require_once (ABSPATH.'/vendor/credentialsConfig.php');
+
+        // $service implements the client interface, has to be set before auth call
+        $service = new Google_Service_Plus($client);
+
+        if (isset($_GET['code'])) { // we received the positive auth callback, get the token and store it in session
+            $client->authenticate($_GET['code']);
+            $_SESSION['token'] = $client->getAccessToken();
+        }
+
+        if (isset($_SESSION['token'])) { // extract token from session and configure client
+            $token = $_SESSION['token'];
+            $client->setAccessToken($token);
+        }
+
+        if (!$client->getAccessToken()) { // auth call to google
+            $authUrl = $client->createAuthUrl();
+            header("Location: ".$authUrl);
+            die;
+        }
+        $me = $service->people->get('me');
+        $filtros = array("idUsuarioGoogle"=>$me['id']);
+
+        $usuarioDao = new UsuarioDAO();
+        $usuario = $usuarioDao->buscarUsuarioGoogle(array("idUsuarioGoogle"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros);
+        
+        if(count($usuario)>0){//Se o usuário estiver cadastrado...
+            
+            $_SESSION = array();//Limpa os dados de token
+            $_SESSION['nome'] = $usuario[0]->getNome();
+            $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
+            $_SESSION['email'] = $usuario[0]->getEmail();
+
+            //Falta redirecionar usuário
+        }else{
+            $cadastro = new cadastroController();
+            $cadastro->cadastrarUsuarioGoogle($me);
+            //Falta redirecionar usuário
         }
     }
 

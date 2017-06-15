@@ -149,6 +149,29 @@ class cadastroController
     }
 	
 
+    public function cadastrarUsuarioGoogle($usuarioGoogle){
+        $usuarioDao = new UsuarioDAO();
+        
+        //Recebe os dados
+        $idGoogle = $usuarioGoogle['id'];
+        $nome = $usuarioGoogle['modelData']['name']['givenName'];
+        $sobrenome = $usuarioGoogle['modelData']['name']['familyName'];
+        $email = $usuarioGoogle['modelData']['emails'][0]['value'];
+        
+        //Cria um novo usuário
+        $usuario = new Usuario(null,$email,$nome,$sobrenome,null,true);
+        $usuarioDao->inserir($usuario);
+
+        $idSistema = $usuarioDao->buscar(array("idUsuario"),array("email"=>$email));//Recupera o usuário inserido
+
+        if(count($idSistema)>0){
+            $usuarioDao->inserirUsuarioGoogle($idGoogle,$idSistema[0]->getId());
+        }else{
+            
+        }
+        
+    }
+
     /**
     *Verifica a integridade do array de informações recebidas
     *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
