@@ -14,29 +14,69 @@ class loginController {
     //Login do usuário
     public function index(){
         require_once(ABSPATH.'/util/GerenciarSenha.php');
-        if ($this->validarForm($_POST)) {
-            $email = addslashes($_POST["email"]);
-            $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
 
-            if (!$this->validarSenha($senha)) {
+        if ($this->validarForm($this->POST)) {
+            $email = addslashes($this->POST["email"]);
+            //$senha = GerenciarSenha::criptografarSenha($this->POST["senha"]);
+            $senha = $this->POST["senha"];
+
+            /*if (!$this->validarSenha($senha)) {
                 throw new SenhaInvalidaException();
             } 
             if (!$this->validarEmail($email)) {
                 throw new EmailInvalidoException();
-            }
-            if($this->verificarSeUsuarioExiste($email)) {
-				throw new EmailJaCadastradoException();
-			}
+            }*/
 
-            $usuario = $this->usuarioDAO->login($email, $senha);
+            $usuario = $this->login($email, $senha);
             if($usuario){//verifica a existencia do usuário que tentou logar
                 header("Location: home.php"); //caso exista, é redirecinado para a página principal do sistema
             }
             else{
-                header("Location: index.php");//caso não existe usuario com esse login, ele continua na pagina
+               header("Location: index.php");//caso não existe usuario com esse login, ele continua na pagina
             }
         }
   
+    }
+
+    private function login($email, $senha){
+        $campos = array("email", "senha");
+        $filtro = array(
+            "email" => $email;
+            "senha" => $senha;
+        );
+
+        $usuarios = $this->usuarioDAO->buscar($campos, $filtro);
+        if(count($usuarios) > 1){
+            session_start();
+            $_SESSION['email'] = $usuario[0]->email;
+            $_SESSION['senha'] = $usuario[0]->senha;
+            $this->isLogged = true;
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private function logout(){
+        session_start();
+        $_SESSION = array();
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        session_destroy();
+    }
+
+     private function validarCampo($campo) {
+        if (isset($campo) && !empty($campo)) {
+            return true;
+        }
+        return false;
     }
 
     private function validarSenha($senha) {
@@ -82,21 +122,6 @@ class loginController {
             $this->usuarioDAO->logout();
         }
     }
-
-    /**
-    * Obtém um usuário cadastrado através do seu email.
-    *@param unknown $email - email do usuário
-	*@return <code>true</code>, caso exista um usuário com o email informado; <code>NULL</code>, caso contrário.
-    */
-	private function verificarSeUsuarioExiste($email) {
-		$usuarioDAO = new UsuarioDAO();
-		$usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //tenta obter usuário
-		
-		if(count($usuario) == 0) {
-			return false;
-		}
-		return true;
-	}
 }
 
 ?>

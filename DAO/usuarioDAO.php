@@ -2,8 +2,6 @@
 
 class UsuarioDAO extends Database{
 
-    public $isLogged = false;
-
     /**
     * Insere um usuário no banco de dados;
     * @param unknown $usuario - o usuário a ser inserido no banco;
@@ -109,39 +107,5 @@ class UsuarioDAO extends Database{
         }
         
         return $usuarios;
-    }
-
-    public function login($email, $senha){
-        $campos = array("email", "senha");
-        $filtro = array(
-            "email" => $email;
-            "senha" => $senha;
-        );
-        $usuarios = array();
-        $usuarios = buscar($campos, $filtro);
-        if(count($usuarios) == 1){
-            session_start();
-            $_SESSION['email'] = $usuario[0]->email;
-            $_SESSION['senha'] = $usuario[0]->senha;
-            $this->isLogged = true;
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public function logout(){
-        session_start();
-        $_SESSION = array();
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(
-                session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
-            );
-        }
-        session_destroy();
     }
 ?>
