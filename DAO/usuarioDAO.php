@@ -108,4 +108,5 @@ class UsuarioDAO extends Database{
         
         return $usuarios;
     }
+}
 ?>
