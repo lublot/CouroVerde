@@ -116,13 +116,14 @@ class UsuarioDAO extends Database{
 
 
     /**
-    * Insere um usuário na tabela usuariogoogle;
-    * @param unknown $idGoogle - o id da conta Google do usuário
-    * @param unknown $idUsuario - o usuário já inserido no banco;
+    * Insere um usuário na tabela especifica de usuários da rede social especificada
+    * @param String $idRedeSocial - o id da conta da rede social do usuário
+    * @param int $idUsuario - o usuário já inserido no banco
+    * @param String $redeSocial - nome da rede social usada pelo usuário no cadastro
     * */
-    public function inserirUsuarioGoogle($idGoogle,$idUsuario){
-        $query = "INSERT INTO `usuariogoogle`(`idUsuarioGoogle`, `idUsuario`) 
-                  VALUES ('$idGoogle','$idUsuario')";
+    public function inserirUsuarioContaExterna($idRedeSocial,$idUsuario,$redeSocial){
+        $query = "INSERT INTO `usuario".$redesocial."`(`idUsuarioGoogle`, `idUsuario`) 
+                  VALUES ('$idRedeSocial','$idUsuario')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -130,26 +131,34 @@ class UsuarioDAO extends Database{
         }
     }
 
-
-    /**
-    * Busca um ou vários usuários no banco de dados;
-    * @param unknown $camposTabelaGoogle - um array contendo os campos desejados da tabela 'usuariosGoogle'
-    * @param unknown $camposTabelaUsuario - um array contendo os campos desejados da tabela 'usuario'
-    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idUsuario"=>5);
-    * @return unknown $usuarios - um array contendo os usuários retornados na busca
+   /**
+    * Busca um ou vários usuários, cadastrados por conta externa (facebook ou google), no banco de dados
+    * @param array $camposTabela - um array contendo os campos desejados da tabela referente aos usuarios da rede social especifica
+    * @param array $camposTabelaUsuario - um array contendo os campos desejados da tabela 'usuario'
+    * @param array $filtros - um array contendo os filtros usados na busca. Ex: array("idUsuario"=>5);
+    * @param String $redeSocial - rede social usada no cadastro do usuário. Ex: array("idUsuario"=>5);
+    * @return array $usuarios - um array contendo os usuários retornados na busca
     */
-    public function buscarUsuarioGoogle($camposTabelaGoogle,$camposTabelaUsuario,$filtros){
+    public function buscarUsuarioContaExterna($camposTabela,$camposTabelaUsuario,$filtros,$redeSocial){
         $query = "SELECT ";
-        $tabela1 = "usuariogoogle";
+        
+        if(strcmp($redeSocial, 'facebook') == 0) {
+            $tabela1 = "usuariofacebook";
+            $redeSocial = 'usuarioFacebook'; //renomeando com a inicial maiuscula pra usar depois
+        } else if(strcmp($redeSocial, 'google') == 0) {
+            $tabela1 = "usuariogoogle";
+            $redeSocial = 'usuarioGoogle'; //renomeando com a inicial maiuscula pra usar depois
+        }
+
         $tabela2 = "usuario";
         $campos;
         $camposTabela1 = array();
         $camposTabela2 = array();
 
-        if(count($camposTabelaGoogle) == 0){ //Prepara a string do campo desejado
+        if(count($camposTabela) == 0){ //Prepara a string do campo desejado
             $camposTabela1 = $tabela1.'.'."*";
         }else{
-            foreach($camposTabelaGoogle as $key){
+            foreach($camposTabela as $key){
                 $camposTabela1[] = $tabela1.'.'.$key;
             }
         }
@@ -176,7 +185,8 @@ class UsuarioDAO extends Database{
 
         $query .= implode(', ',$campos)." FROM $tabela1";
 
-        $query .= " INNER JOIN $tabela2 ON $tabela1.idUsuarioGoogle = $tabela2.idUsuario";
+
+        $query .= " INNER JOIN $tabela2 ON $tabela1.idUsuario".$redeSocial. " = $tabela2.idUsuario";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";

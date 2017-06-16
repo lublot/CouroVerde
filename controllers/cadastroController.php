@@ -165,7 +165,7 @@ class cadastroController
         $idSistema = $usuarioDao->buscar(array("idUsuario"),array("email"=>$email));//Recupera o usuário inserido
 
         if(count($idSistema)>0){
-            $usuarioDao->inserirUsuarioGoogle($idGoogle,$idSistema[0]->getId());
+            $usuarioDao->inserirUsuarioContaExterna($idGoogle,$idSistema[0]->getId(),"google");
         }else{
             
         } 
@@ -186,7 +186,7 @@ class cadastroController
 
         if(count($usuarioCadastrado) > 0) { //se o usuário for encontrado
             $usuarioCadastrado = $usuarioCadastrado[0];
-            $usuarioDAO->inserirUsuarioGoogle($dados['fb_id'],$usuarioCadastrado->getID());
+            $usuarioDAO->inserirUsuarioContaExterna($dados['fb_id'],$usuarioCadastrado->getID(),"facebook");
         } else {
             throw new ErroCadastroException();
         }

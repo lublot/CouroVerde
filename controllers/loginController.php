@@ -84,7 +84,7 @@ class loginController {
         $filtros = array("idUsuarioGoogle"=>$me['id']);
 
         $usuarioDao = new UsuarioDAO();
-        $usuario = $usuarioDao->buscarUsuarioGoogle(array("idUsuarioGoogle"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros);
+        $usuario = $usuarioDao->buscarUsuarioContaExterna(array("idUsuarioGoogle"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros,"google");
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $_SESSION = array();//Limpa os dados de token
@@ -163,7 +163,7 @@ class loginController {
         $graph = $response->getGraphUser();
 
         $usuarioDao = new UsuarioDAO();
-        $usuario = $usuarioDao->buscarUsuarioFacebook(array($graph->getId()),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros);
+        $usuario = $usuarioDao->buscarUsuarioContaExterna(array($graph->getId()),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros,"facebook");
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $usuario = $usuario[0];
