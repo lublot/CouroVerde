@@ -144,10 +144,10 @@ class UsuarioDAO extends Database{
         
         if(strcmp($redeSocial, 'facebook') == 0) {
             $tabela1 = "usuariofacebook";
-            $redeSocial = 'usuarioFacebook'; //renomeando com a inicial maiuscula pra usar depois
+            $redeSocial = 'Facebook'; //renomeando com a inicial maiuscula pra usar depois
         } else if(strcmp($redeSocial, 'google') == 0) {
             $tabela1 = "usuariogoogle";
-            $redeSocial = 'usuarioGoogle'; //renomeando com a inicial maiuscula pra usar depois
+            $redeSocial = 'Google'; //renomeando com a inicial maiuscula pra usar depois
         }
 
         $tabela2 = "usuario";

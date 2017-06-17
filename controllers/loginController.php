@@ -88,6 +88,7 @@ class loginController {
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $_SESSION = array();//Limpa os dados de token
+            $_SESSION['id'] = $usuario->getId();
             $_SESSION['nome'] = $usuario[0]->getNome();
             $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
             $_SESSION['email'] = $usuario[0]->getEmail();
@@ -104,8 +105,8 @@ class loginController {
     * Realiza a autenticação do login via Facebook.
     **/
     public function acessoFacebook() {
-        require_once __DIR__ . '/php-graph-sdk-5.4/src/Facebook/autoload.php';
-
+        session_start();
+        require_once __DIR__ . '/php-graph-sdk-5.4/src/Facebook/autoload.php';  
         $fb = new Facebook\Facebook([
         'app_id' => '1435160229855766',
         'app_secret' => 'fa696e39b476a2c926ff6f2fa080532d',
@@ -168,6 +169,7 @@ class loginController {
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $usuario = $usuario[0];
             $_SESSION = array();//Limpa os dados de token
+            $_SESSION['id'] = $usuario->getId();
             $_SESSION['nome'] = $usuario->getNome();
             $_SESSION['sobrenome'] = $usuario->getSobrenome();
             $_SESSION['email'] = $usuario->getEmail();

@@ -148,7 +148,10 @@ class cadastroController
         }
     }
 	
-
+     /**
+    * Realiza o cadastro de um usuário que cadastra-se no sistema através do Google.
+    * @param array $usuarioGoogle - array contendo os dados do usuário
+    */
     public function cadastrarUsuarioGoogle($usuarioGoogle){
         $usuarioDao = new UsuarioDAO();
         
@@ -167,7 +170,7 @@ class cadastroController
         if(count($idSistema)>0){
             $usuarioDao->inserirUsuarioContaExterna($idGoogle,$idSistema[0]->getId(),"google");
         }else{
-            
+            throw new ErroCadastroException();
         } 
     }
 
