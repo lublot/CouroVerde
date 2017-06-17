@@ -229,7 +229,7 @@ class loginController {
         }
 
         $tamanho = strlen($senha); //obtém tamanho da senha
-        if ($tamanho < 8 || $tamanho > 32) { //verifica se o tamanho da senha é adequado
+        if ($tamanho < 8 || $tamanho >= 32) { //verifica se o tamanho da senha é adequado
             return true;
         }
         return false;
@@ -267,6 +267,104 @@ class loginController {
         return false;
     }
 
-}
+    /**
+    *Verifica a integridade do array do e-mail recebido
+    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
+    */
+    private function validarFormEmail($dados) {
+        if(array_key_exists("email", $dados)) {
+            return true;
+        }
+        return false;
+    }
 
+    /**
+    *Verifica a integridade do array de informações para a redefinicão de senha
+    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
+    */
+    private function validarFormRedefinir($dados) {
+        if(array_key_exists("senha", $dados) && array_key_exists("confirmarSenha", $dados)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+    *Envia o email para a redefinição de senha.
+    */
+    public function emailRedefinicao() {
+
+        if ($this->validarFormEmail($_POST)) {
+            $email = addslashes($_POST["email"]); //Recebe o endereço de e-mail digitado pelo usuário.
+
+            $usuarioDao = new UsuarioDAO();
+            $usuario = $usuarioDao->buscar(array(), array("email"=>$email))[0]; //Busca o usuário desejado.
+            $nome = $usuario->getNome();
+
+            if ($usuario == null) { //Verifica se o usuário existe.
+                throw new UsuarioInexistenteException(); //Caso não exista, lança uma exceção.
+            }
+
+            require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
+
+            $id = $usuario->getId(); //Recebe o ID do usuário encontrado.
+            
+            $linkRedefinir = URI_BASE."/login/redefinir/?e=".md5($email)."&i=".$id; //Gera um link composto pelas informações do usuário.
+
+            $mail = new PHPMailer();
+
+            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'websertour@gmail.com';                 // SMTP username
+            $mail->Password = 'sertourweb';                           // SMTP password
+            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 587;                                    // TCP port to connect to
+            $mail->CharSet = 'UTF-8';
+
+            $mail->setFrom('websertour@websertour.com', 'Sertour');
+            $mail->addAddress($email, $nome);     // Add a recipient
+            $mail->addReplyTo('noreply@gmail.com', 'Não responda');
+
+            $mail->isHTML(true);                                  // Set email format to HTML
+
+            $mail->Subject = 'Sertour - Redefinição de Senha';
+            $mail->Body    = "Olá, ".$nome.". Você solicitou uma redefinição de senha.<br/><br/>"
+                            ."Por favor, clique no link abaixo e insira sua nova senha: <br/><br/>".
+                            "Link de Redefinição: ".$linkRedefinir;
+
+            if (!$mail->send()) {
+                throw new EmailNaoEnviadoException();
+            }
+        } else {
+            throw new DadosCorrompidosException();
+        }
+    }
+
+    /**
+    *Redefine a senha.
+    */
+    public function redefinir() {
+        require_once(ABSPATH.'/util/GerenciarSenha.php');
+
+        if($this->validarFormRedefinir($_POST)) {
+            $novaSenha = GerenciarSenha::criptografarSenha($_POST["senha"]); //Recebe a nova senha do usuário.
+            $confirmarSenha = GerenciarSenha::criptografarSenha($_POST["confirmarSenha"]); //Recebe a confirmação de senha.
+
+            if (!$this->validarSenha($novaSenha) || !$this->validarSenha($confirmarSenha) ) { //Verifica se a nova senha digitada é válida.
+                throw new SenhaInvalidaException(); //Caso não seja, lança uma exceção.
+            } else if($novaSenha != $confirmarSenha) { //Verifica se a senha e a confirmação são iguais.
+                throw new SenhaInconsistenteException(); //Caso não seja, lança uma exceção.
+            }
+        
+            $id = $_GET['i']; //Obtém o ID a partir da URL.
+            $email = $_GET['e']; //Obtém o e-mail a partir da URL.
+
+            $usuarioDao = new UsuarioDAO();
+            $usuarioDao->alterar(array("senha"=>$novaSenha), array("idUsuario"=>$id)); //Altera a senha do usuário desejado.
+        } else {
+            throw new DadosCorrompidosException();
+        }
+    }
+}
 ?>
