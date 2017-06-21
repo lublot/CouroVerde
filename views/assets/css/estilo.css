@@ -1,6 +1,6 @@
 section#caixa-login {
   margin: 0 auto;
-  width: 370px;
+  width: 345px;
   padding: 20px;
   border: 2px solid black;
   border-radius: 10px;
@@ -27,7 +27,9 @@ form#formLogin{
 img#logo{
       display: block;
       margin: auto;
-      width: 40%;}
+      width: 12%;
+      padding: 15px;
+    }
 
 a{
   text-align: center;
