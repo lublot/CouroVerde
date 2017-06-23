@@ -21,11 +21,21 @@
 </head>
 
 <body style="background-color: rgb(241, 242, 246);">
+	
 	<!--Container geral para inserir da página-->
 	<div class="container">
-		<h1 class="text-center">Cadastro de Obras</h1>
-		<!--Section com os elementos agrupados no centro-->
+
+		<!--Título da caixa-->
+		<div id="titulo">
+			<h4 class="text-center">Registro da Obra</h4>
+ 		</div>
+		 <!--Fim do título da caixa-->
+
+		<!--Div com o contorno e organização dos elementos no centro-->
 		<div id="contorno">
+
+			<div>
+			<!--Section com os elementos agrupados no centro-->
 			<section id="caixa">
 
 				<h3 class="text-center">Identificação do Objeto</h3>
@@ -57,7 +67,7 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<!--Text: Número do Inventário-->
-									<input class="form-control" type="text" name="inventario" placeholder="Número do Inventário (*)">
+									<input class="form-control" type="number" name="inventario" placeholder="Número do Inventário (*)">
 								</div>
 							</div>
 							<div class="col-lg-6">
@@ -114,19 +124,71 @@
 						</div>
 						<!--Linha 6-->
 						<div class="col-lg-12">
-							<!--Textarea: Descrição-->
-							<textarea class="form-control" rows="3" name="descricao" placeholder="Descrição"></textarea>
+							<div class="form-group">
+								<!--Textarea: Descrição-->
+								<textarea class="form-control" id="fixa" rows="3" name="descricao" placeholder="Descrição"></textarea>
+							</div>
 						</div>
 
-						<!--Fim dos campos do formulário-->
 					</fieldset>
-					<!--Fim do formulário-->
+					<!--Fim dos campos do formulário-->
 				</form>
-				<!--Fim da seção com os campos do cadastro-->
+				<!--Fim do formulário-->
+
+
 			</section>
+			<!--Fim da seção com os campos do cadastro-->
+
+				<div class="modal-footer" style="border-top: 0; margin-right: 15px;">
+					<div class="form-group">
+						<button type="button" class="btn btn-default">Cancelar</button>
+						<button type="button" class="btn btn-success">Próximo</button>
+					</div>
+				</div>
+
+			</div>
+			
 		</div>
-		<!--Fim da div geral-->
+		<!--Fim da div contorno-->
 	</div>
+	<!--Fim da div geral-->
+
+	<!-- Footer -->
+	<footer class="footer-distributed">
+
+		<div class="footer-left">
+
+			<h3>Sertour</h3>
+
+			<p class="footer-company-name">MItologic Software® &copy; 2017</p>
+		</div>
+
+		<div class="footer-center">
+
+			<p class="footer-links">
+				<a href="#">Home</a>
+				<a href="#">Galeria</a>
+				<a href="#">Sobre</a>
+			</p>
+
+		</div>
+
+		<div class="footer-right">
+
+			<div class="footer-icons">
+				<p style="text-align: center;">
+					<a href="#"><i class="fa fa-twitter"></i></a>
+					<a href="#"><i class="fa fa-facebook"></i></a>
+					<a href="#"><i class="fa fa-google-plus"></i></a>
+				</p>
+
+			</div>
+
+
+		</div>
+
+	</footer>
+	<!-- /Footer -->
 
 </body>
 
