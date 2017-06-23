@@ -4,6 +4,7 @@
  * @author MItologhic Software
  *
  */
+namespace Util;
 class GerenciarSenha {
 	
 	private function __construct() {} //construtor privado para evitar instanciamento desncessário

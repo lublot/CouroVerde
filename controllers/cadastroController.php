@@ -5,7 +5,7 @@ namespace controllers;
 class cadastroController
 {
     
-    private $_POST;
+    public $_POST;
 
     public function configuraPOSTDefault() {
         $_POST = array("nome" => "Fulano",
@@ -18,7 +18,7 @@ class cadastroController
     * Cadastra novo usuário.
     */
     public function index() {
-        require_once('../util/GerenciarSenha.php');
+        require_once(ABSPATH.'/util/GerenciarSenha.php');
         
         if ($this->validarForm($_POST)) {
             $usuarioDAO = new UsuarioDAO();
@@ -208,9 +208,12 @@ class cadastroController
     *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
     */
     private function validarForm($dados) {
-        if (array_key_exists("nome", $dados) && array_key_exists("sobrenome", $dados) && array_key_exists("email", $dados) && array_key_exists("senha", $dados)) {
-            return true;
+        if(isset($dados) && !empty($dados)){
+            if (array_key_exists("nome", $dados) && array_key_exists("sobrenome", $dados) && array_key_exists("email", $dados) && array_key_exists("senha", $dados)) {
+                 return true;
+            }
         }
+        
         return false;
     }
     
@@ -230,9 +233,17 @@ class cadastroController
     * @return <code>true</code>, se o nome informado for válido; <code>false</code>, caso contrário
     */
     private function validarNome($nome) {
+    
         if (!$this->validarCampo($nome)) {
             return false;
         }
+
+        $aux = $nome;
+        $aux = str_replace(' ','',$aux); 
+        if(strlen($aux)==0){
+            return false;
+        }
+
         if (preg_match("([^ A-Za-zà-ú'])", $nome) > 0) { //O nome só pode conter letras e caracteres acentuados,espaços e aspas simples
             return false;
         }
@@ -249,17 +260,11 @@ class cadastroController
             return false;
         }
         
-        $dividido = explode("@", $email); //tenta dividir o email a partir da @
-        
-        if (count($dividido) == 2) { //verifica se o email informado possui @
-            $segundaparte = explode(".com", $dividido[1]); //tenta encontrar .com na segunda parte do email
-            
-            if (count($segundaparte) == 2) { //verifica se tem apenas um .com no email
-                return true;
-            }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -272,7 +277,7 @@ class cadastroController
         }
 
         $tamanho = strlen($senha); //obtém tamanho da senha
-        if ($tamanho < 8 || $tamanho > 32) { //verifica se o tamanho da senha é adequado
+        if ($tamanho >= 8 && $tamanho <= 32) { //verifica se o tamanho da senha é adequado
             return true;
         }
 
