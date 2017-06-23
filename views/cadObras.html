@@ -1,76 +1,97 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 	<meta charset="utf-8" />
 	<meta name="description" content="Setour" />
-	<meta name=viewport  content="width=device-width, initial-scale=1" />
+	<meta name=viewport content="width=device-width, initial-scale=1" />
 	<title>Cadastro de obras</title>
 
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-theme.css">
-	<link rel="stylesheet" href="css/estilo.css">
-	<link rel="stylesheet" href="css/bootstrap-social.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/css/bootstrap.css" />
+	<link rel="stylesheet" href="assets/css/bootstrap-theme.css" />
+	<link rel="stylesheet" href="assets/css/estilo.css" />
+	<link rel="stylesheet" href="assets/css/bootstrap-social.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 </head>
 
 <body>
 
-	<h1>Cadastro de Obras</h1>
+	<div class="container">
+		<h1 class="text-center">Cadastro de Obras</h1>
+		<section id="caixa">
+			<form method="post">
+				<h3 class="text-center">Identificação do Objeto</h3>
+				<fieldset>
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<input class="form-control" type="text" name="nome" placeholder="Nome do Objeto (*)">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<input class="form-control" type="text" name="titulo" placeholder="Título (*)">
+							</div>
+						</div>
+					</div>
 
-	<div class="table-responsive">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<input class="form-control" type="text" name="inventario" placeholder="Número do Inventário (*)">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<select class="form-control" name="colecao" required>
+								<option>Coleção (*)</option>
+							</select> </div>
+						</div>
+					</div>
 
-		<form method="post">
-			<fieldset>
-				<legend>Identificação do Objeto</legend>
-				<table cellspacing="10">
-					<tr>
-						<td align="left">
-							<input type="text" name="nome" placeholder="Nome do Objeto (*)">
-						</td>
-						<td>
-							<input type="text" name="titulo" placeholder="Título (*)">
-						</td>
-					</tr>
-					<tr>
-						<td align="left">
-							<input type="text" name="inventario" placeholder="Número do Inventário (*)">
-						</td>
-						<td>
-							<input type="text" name="colecao" placeholder="Coleção (*)">
-						</td>
-					</tr>
-					<tr>
-						<td align="left">
-							<input type="text" name="origem" placeholder="Origem">
-						</td>
-						<td>
-							<input type="text" name="procedencia" placeholder="Procedência">
-						</td>
-					</tr>
-					<tr>
-						<td align="left">
-							<input type="text" name="classificacao" placeholder="Classificação (*)">
-						</td>
-						<td>
-							<input type="text" name="funcao" placeholder="Função">
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<input type="text" name="tags" placeholder="Palavras-chave" align="justify">
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<input type="text" name="descricao" placeholder="Descrição">
-						</td>
-					</tr>
-				</table>
-			</fieldset>
-		</form>
 
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<input class="form-control" type="text" name="origem" placeholder="Origem">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<input class="form-control" type="text" name="procedencia" placeholder="Procedência">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<select class="form-control" name="classificacao" required>
+								<option>Classificação (*)</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<input class="form-control" type="text" name="funcao" placeholder="Função"> </div>
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<input class="form-control" type="text" name="tags" placeholder="Palavras-chave" align="justify">
+						</div>
+					</div>
+
+					<div class="col-lg-12">
+						<textarea class="form-control" rows="3" name="descricao" placeholder="Descrição"></textarea>
+					</div>
+				</fieldset>
+			</form>
+		</section>
 	</div>
 
 </body>
+
 </html>
