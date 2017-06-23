@@ -8,7 +8,7 @@ section#caixa-login {
 
 section#caixa{
 
-  padding: 0px 70px 15px;
+  padding: 0px 65px 5px;
   margin: 10px 30px 15px;
   border-color: #e5e5e5 #eee #eee;
   /*border-color: black black;*/
@@ -24,7 +24,7 @@ div#contorno {
 	border-color: #e5e5e5 #eee #eee;
 	border-style: solid;
 	border-width: 1px 0;
-	padding: 15px 0px 50px;
+	padding: 15px 0px 15px;
  	margin: 15px 135px 15px;
   	box-shadow: inset 0 3px 6px rgba(0,0,0,.05);
 }
@@ -33,6 +33,20 @@ div#container {
   background: white;
   margin: 20px 0;
   padding: 10px;
+}
+
+div#titulo {
+	background-color: #b3b3b3;
+	border-color: #e5e5e5 #333333 #eee;
+	border-style: solid;
+	border-width: 1px 0;
+ 	margin: 15px 135px -15px;
+	box-shadow: inset 0 3px 6px rgba(0,0,0,.05);
+}
+
+textarea#fixa{
+	overflow: auto;
+	resize: none;
 }
 
 
@@ -88,7 +102,9 @@ a{
 
 .footer-distributed h3{
 	color:  #ffffff;
-	font: normal 36px 'Cookie', cursive;
+	/*font: normal 36px 'Cookie', cursive;*/
+	/*Acho que em Sans-serif fica mais sério e profissional, mas deixei o Cookie caso optem por usar ele*/
+	font: normal 36px sans-serif;
 	margin: 0;
 }
 
