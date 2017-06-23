@@ -1,6 +1,9 @@
 <?php
 
-class ObraDAO(){
+namespace DAO;
+
+
+class ObraDAO {
 
     /**
     * Insere um usuário no banco de dados;

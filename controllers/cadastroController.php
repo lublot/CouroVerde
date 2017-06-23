@@ -1,19 +1,24 @@
 <?php
 
+namespace controllers;
+
 class cadastroController
 {
     
-    private $POST = array("nome" => "Fulano",
-            "sobrenome" => "De Tal",
-            "email" => "ebssoueu@gmail.com",
-            "senha" => "12345678");//Como a gnt não tem view ainda, vamos testando as informações nesse array
-    
+    private $_POST;
+
+    public function configuraPOSTDefault() {
+        $_POST = array("nome" => "Fulano",
+        "sobrenome" => "De Tal",
+        "email" => "ebssoueu@gmail.com",
+        "senha" => "12345678");//Como a gnt não tem view ainda, vamos testando as informações nesse array
+    }
     
     /**
     * Cadastra novo usuário.
     */
     public function index() {
-        require_once(ABSPATH.'/util/GerenciarSenha.php');
+        require_once('../util/GerenciarSenha.php');
         
         if ($this->validarForm($_POST)) {
             $usuarioDAO = new UsuarioDAO();

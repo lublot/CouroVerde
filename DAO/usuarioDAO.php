@@ -1,5 +1,7 @@
 <?php
 
+namespace DAO;
+
 class UsuarioDAO extends Database{
 
     /**

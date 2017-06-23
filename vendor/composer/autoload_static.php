@@ -18,6 +18,10 @@ class ComposerStaticInit36bf6d8e0beaedd722a6af3460664169
         array (
             'phpseclib\\' => 10,
         ),
+        'c' => 
+        array (
+            'controllers\\' => 12,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
@@ -39,12 +43,20 @@ class ComposerStaticInit36bf6d8e0beaedd722a6af3460664169
         array (
             'Firebase\\JWT\\' => 13,
         ),
+        'D' => 
+        array (
+            'DAO\\' => 4,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
+        'controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/controllers',
         ),
         'Psr\\Log\\' => 
         array (
@@ -81,6 +93,10 @@ class ComposerStaticInit36bf6d8e0beaedd722a6af3460664169
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'DAO\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/DAO',
         ),
     );
 
