@@ -2,7 +2,7 @@
 
 namespace controllers;
 
-class cadastroController
+class cadastroController 
 {
     
     public $_POST;

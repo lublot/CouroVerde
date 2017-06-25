@@ -51,11 +51,10 @@ class Core{
             if(!isset($this->parametros) || empty($this->parametros)){
                 $this->parametros = array();
             }
-
             $c = new $this->controller();//Instancia o controller desejado
             $c->$metodo($this->parametros);//Chama o metodo desejado
         }
-       // call_user_func_array(array($c, $this->metodo), $this->parametros);
+        //call_user_func_array(array($this->controller, $this->metodo), $this->parametros);
         
         
     }

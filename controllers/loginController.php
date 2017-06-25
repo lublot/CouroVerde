@@ -1,13 +1,16 @@
 <?php
-namespace controllers;
+//namespace controllers;
+use Util\GerenciarSenha as GerenciarSenha;
 
-class loginController {
+
+class loginController extends mainController{
 
     //Login do usuário
     public function index(){
         require_once(ABSPATH.'/util/GerenciarSenha.php');
-
+        $this->carregarConteudo('login',array());
         if ($this->validarForm($_POST)) {
+            
             $email = addslashes($_POST["email"]);
             $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
 
@@ -17,15 +20,18 @@ class loginController {
             if (!$this->validarEmail($email)) {
                 throw new EmailInvalidoException();
             }
-
+            
             $usuario = $this->login($email, $senha);
             if($usuario){//verifica a existencia do usuário que tentou logar
-                header("Location: home.php"); //caso exista, é redirecinado para a página principal do sistema
+                $this->redirecionarPagina('home');
+                //header("Location: home.php"); //caso exista, é redirecinado para a página principal do sistema
             }
             else{
-                header("Location: index.php");//caso não existe usuario com esse login, ele continua na pagina
+                $this->redirecionarPagina('login');
+                //header("Location: index.php");//caso não existe usuario com esse login, ele continua na pagina
             }
         }
+        
   
     }
 

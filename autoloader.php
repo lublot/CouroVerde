@@ -20,6 +20,7 @@
 	spl_autoload_register(function($class){//Importa as classes automaticamente
 			if(strpos($class,"Controller") > -1){
 				if(file_exists(ABSPATH .'/controllers/'.$class.'.php')){
+					require_once(ABSPATH .'/controllers/mainController.php');
 					require_once(ABSPATH .'/controllers/'.$class.'.php');
 				}
 			}

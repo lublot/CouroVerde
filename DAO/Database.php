@@ -1,5 +1,5 @@
 <?php
-
+//namespace DAO;
 class Database{
 
     protected $PDO;
