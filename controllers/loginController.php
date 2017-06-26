@@ -1,6 +1,6 @@
 <?php
 namespace controllers;
-//use Util\GerenciarSenha as GerenciarSenha;
+use util\GerenciarSenha as GerenciarSenha;
 
 
 class loginController extends mainController{

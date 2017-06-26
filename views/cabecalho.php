@@ -1,41 +1,101 @@
-<header class="container">
-    <div class="row">
-        <div class="col-sm-8">
-            <h1><i class="fa fa-bars" aria-hidden="true"></i>  Sertour</h1>
-        </div>
-        <div class="col-sm-4">
-            <button type="submit" class="btn btn-redondo">
-                <h3><i class="fa fa-lock" aria-hidden="true"></i> Entrar</h3>
-            </div>
-            
-        </div>
-    </div>
+<div class="container">
+      <div class="row">
+          <div class="col-md-1 col-sm-1"></div>
+          <div class="col-xs-12 col-md-11">
+               <h2><i class="fa fa-bars"></i> Sertour</h2>
+          </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="menu">
-                <h4 class="item">Home</h4>
-                <h4 class="item">Explorar</h4>
-                <h4 class="item">Sobre</h4>
-                <?php 
+      </div>
+
+      <div class="row">
+          <div class="col-xs-12 visible-xs-block" >
+                <?php
                     if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
-                        echo '<h4 class="item">Painel Administrativo</h4>';
+                        echo '<span style="float:right"><b>Olá, '.$_SESSION['nome'].'!</b></span><br><br>';
                     }else{
-                       
+                       echo '<center><span><a href="#"><strong>Fazer Login</strong></a></span> ou <span><a href="#"><strong> Cadastre-se!</strong></a></span></center><br>';     
                     }
-                ?>
-            </div>
-            <div class="text-right">
-                <?php 
-                if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
-                  echo '<span class="text-right">Bem-vindo(a), '.$_SESSION['nome'].'</span>';
-                }else{
-                  echo '<span class="text-right"><a href="#">Não possui uma conta? Cadastre-se!</a></span>';  
-                }
-                ?>
-            </div>  
-        </div>
-    </div>
+                ?>   
+          </div>
+      </div>
 
-    <hr>
-</header>
+      <div class="row">
+          
+          <div class="col-xs-12 visible-xs-block">
+                <div class="flex">
+                  <span class="item-cabecalho">
+                      <i class="fa fa-home" aria-hidden="true"></i>
+                      <a href="#"> Home</a>
+                  </span>
+
+                  <span class="item-cabecalho">
+                      <i class="fa fa-sign-in" aria-hidden="true"></i>
+                      <a href="#"> Explorar </a>
+                  </span>
+                  
+                  <span class="item-cabecalho">
+                      <i class="fa fa-info-circle" aria-hidden="true"></i>
+                      <a href="#"> Sobre </a>
+                  </span>
+                    
+                    <?php
+                        if(isset($_SESSION['tipo_usuario']) && !empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']){
+                            if($_SESSION['tipo_usuario'] == 'Administrador' || $_SESSION['tipo_usuario'] == 'Funcionario'){
+                                echo '<span class="item-cabecalho">
+                                      <i class="fa fa-cogs" aria-hidden="true"></i>
+                                      <a href="#"> Admin </a>
+                                      </span>';
+                            }
+                        }                             
+                    ?>
+                </div>
+                
+          </div>
+          
+
+          <div class="col-md-1 hidden-xs"></div>
+          <div class="col-md-6 col-sm-8 hidden-xs">
+              <div class="flex">
+                  <span class="item-cabecalho">
+                      <i class="fa fa-home" aria-hidden="true"></i>
+                      <a href="#"> Home</a>
+                  </span>
+
+                  <span class="item-cabecalho">
+                      <i class="fa fa-sign-in" aria-hidden="true"></i>
+                      <a href="#"> Explorar </a>
+                  </span>
+                  
+                  <span class="item-cabecalho">
+                      <i class="fa fa-info-circle" aria-hidden="true"></i>
+                      <a href="#"> Sobre </a>
+                  </span>
+
+                  <?php
+                        if(isset($_SESSION['tipo_usuario']) && !empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']){
+                            if($_SESSION['tipo_usuario'] == 'Administrador' || $_SESSION['tipo_usuario'] == 'Funcionario'){
+                                echo '<span class="item-cabecalho">
+                                      <i class="fa fa-cogs" aria-hidden="true"></i>
+                                      <a href="#">Painel Administrativo </a>
+                                      </span>';
+                            }
+                        }
+                  ?>
+
+                </div>
+          </div>
+          <div class="col-sm-0 col-md-2 hidden-xs"></div>
+          <div class="col-sm-4 col-md-3 hidden-xs">
+                <?php
+                    if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
+                        echo '<span style="float:right"><b>Olá, '.$_SESSION['nome'].'!</b></span>';
+                    }else{
+                       echo '<center><span><a href="#"><strong>Fazer Login</strong></a></span> ou <span><a href="#"><strong> Cadastre-se!</strong></a></span></center>';     
+                    }
+                ?> 
+                
+          </div>
+      </div>
+      <hr>
+  </div>
+  

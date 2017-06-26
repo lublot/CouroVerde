@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="description" content="Setour" />
-    <meta name=viewport  content="width=device-width, initial-scale=1" />
+    <meta name=viewport  content="width=device-width, initial-scale=1 user-scalable=no" />
 
     <title>Sertour</title>
 
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-theme.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/estilo.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/cabecalho.css')?>>
+    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/topo.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-social.css')?>>
     <script type ="text/javascript" src=<?php $this->path('assets/js/jquery-3.2.1.min.js')?>></script>
     <script type="text/javascript" src=<?php $this->path('assets/js/bootstrap.js');?>></script>

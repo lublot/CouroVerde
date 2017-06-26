@@ -1,0 +1,27 @@
+header{
+    background-color: white;
+    margin-bottom:1px; 
+}
+
+.flex{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.item-cabecalho:first-child{
+    margin-left:0px;
+}
+.item-cabecalho{
+    float:left;
+    font-size:medium;
+    
+}
+.item-cabecalho a{
+    font-size:medium;
+    color: black;
+    text-decoration-style: none;  
+    font-weight: bold;  
+}
