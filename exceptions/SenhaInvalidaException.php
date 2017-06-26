@@ -7,7 +7,7 @@ namespace exceptions;
  *
  */
 
-class SenhaInvalidaException extends Exception
+class SenhaInvalidaException extends \Exception
 {
     
     /**

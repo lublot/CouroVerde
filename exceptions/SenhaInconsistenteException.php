@@ -7,7 +7,7 @@ namespace exceptions;
  *
  */
 
-class SenhaInconsistenteException extends Exception
+class SenhaInconsistenteException extends \Exception
 {
     
     /**

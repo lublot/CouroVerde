@@ -7,7 +7,7 @@ namespace exceptions;
  *
  */
 
-class NomeInvalidoException extends Exception
+class SobrenomeInvalidoException extends \Exception
 {
     
     /**

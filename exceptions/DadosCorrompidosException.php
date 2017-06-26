@@ -7,7 +7,7 @@ namespace exceptions;
  *
  */
 
-class DadosCorrompidosException extends Exception
+class DadosCorrompidosException extends \Exception
 {
     
     /**
