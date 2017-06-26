@@ -1,4 +1,6 @@
 <?php
+namespace exceptions;
+
 /**
  * Classe responsável por representar uma exceção lançada quando já existe usuário cadastrado com o email informado.
  * @author MItologhic Software

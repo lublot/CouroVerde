@@ -1,4 +1,6 @@
 <?php
+namespace exceptions;
+
 /**
  * Classe responsável por representar uma exceção lançada quando ao tentar verificar ou alterar um usuário inexistente.
  * @author MItologhic Software

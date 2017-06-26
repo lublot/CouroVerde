@@ -14,9 +14,21 @@ class ComposerStaticInit36bf6d8e0beaedd722a6af3460664169
     );
 
     public static $prefixLengthsPsr4 = array (
+        'u' => 
+        array (
+            'util\\' => 5,
+        ),
         'p' => 
         array (
             'phpseclib\\' => 10,
+        ),
+        'm' => 
+        array (
+            'models\\' => 7,
+        ),
+        'e' => 
+        array (
+            'exceptions\\' => 11,
         ),
         'c' => 
         array (
@@ -50,9 +62,21 @@ class ComposerStaticInit36bf6d8e0beaedd722a6af3460664169
     );
 
     public static $prefixDirsPsr4 = array (
+        'util\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/util',
+        ),
         'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
+        'models\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/models',
+        ),
+        'exceptions\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/exceptions',
         ),
         'controllers\\' => 
         array (

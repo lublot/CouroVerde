@@ -1,4 +1,6 @@
 <?php
+namespace models;
+
 /**
 * Classe responsável por modelar um administrador no contexto do sistema
 * @author MItologhic Software

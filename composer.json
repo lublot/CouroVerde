@@ -5,7 +5,10 @@
     "autoload":{
         "psr-4": {
             "controllers\\": "controllers/",
-            "DAO\\": "DAO/"
+            "DAO\\": "DAO/",
+            "exceptions\\": "exceptions/", 
+            "models\\": "models/",
+            "util\\": "util/"
         }
     } 
 }

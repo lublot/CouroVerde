@@ -1,4 +1,7 @@
 <?php
+namespace models;
+
+
 
 /**
 * Classe responsável por modelar um funcionário no contexto do sistema

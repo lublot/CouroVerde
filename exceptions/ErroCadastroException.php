@@ -1,4 +1,6 @@
 <?php
+namespace exceptions;
+
 /**
  * Classe responsável por representar uma exceção lançada quando um erro ocorre durante um cadastro.
  * @author MItologhic Software

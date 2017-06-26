@@ -1,4 +1,6 @@
 <?php
+namespace exceptions;
+
 /**
  * Classe responsável por representar uma exceção lançada quando o login por meio externo não é permitido pelo usuário.
  * @author MItologhic Software
