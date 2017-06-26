@@ -1,0 +1,45 @@
+.menu{
+    list-style: none;
+}
+.menu .item:first-child{
+    margin: 10px 2.5px 0px 0px;
+    padding: 5px 10px 5px 0px;
+}
+.menu .item:first-child:hover{
+    margin: 10px 10px 0px 0px;
+    padding: 5px 10px;
+}
+.item{
+    float:left;
+    margin: 10px 2.5px;
+    padding: 5px 10px;
+}
+
+.item:hover{
+    cursor: pointer;
+    background-color: #e5e0e0;
+    padding: 5px 12px;
+   
+}
+.text-right{
+    float:right;
+    margin: 3px 0px;
+    padding: 5px 10px;
+}
+
+.text-right:hover{
+    background: rgba(0, 0, 0, 0);
+}
+
+hr{
+    margin-top:0px;
+    border-top: 1px solid #a0a0a0;
+}
+
+.btn-redondo{
+    color:white;
+    background-color: #292c2f;
+    cursor:pointer;
+    text-align: center;
+    padding: 5px 5px;
+}

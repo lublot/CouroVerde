@@ -10,15 +10,17 @@
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-theme.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/estilo.css')?>>
+    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/cabecalho.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-social.css')?>>
-
+    <script type ="text/javascript" src=<?php $this->path('assets/js/jquery-3.2.1.min.js')?>></script>
+    <script type="text/javascript" src=<?php $this->path('assets/js/bootstrap.js');?>></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    
 
 
   </head>
   <body>
-
+    <?php $this->carregarCabecalho()?>
     <div id="container">
       
       <img src=<?php $this->path('assets/images/logo.jpg')?>  class="img-rounded" id="logo">
@@ -101,6 +103,6 @@
     <!-- /Footer -->
 
 
-    <script type="text/javascript" src="js/bootstrap.js"></script>
+    
   </body>
 </html>
