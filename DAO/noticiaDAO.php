@@ -1,7 +1,11 @@
 <?php
 namespace DAO;
 
-/**
+require_once dirname(__DIR__).'\vendor\autoload.php';
+use \models\Noticia as Noticia;
+
+class noticiaDAO {
+    /**
     * Insere um usuário no banco de dados;
     * @param unknown $usuario - o usuário a ser inserido no banco;
     * */
@@ -154,6 +158,7 @@ namespace DAO;
         
         return $noticias;
     }
+}
 
 
 ?>

@@ -1,6 +1,9 @@
 <?php
-
 namespace DAO;
+
+require_once dirname(__DIR__).'\vendor\autoload.php';
+use \DAO\Database as a;
+use \models\Usuario as Usuario;
 
 class UsuarioDAO extends Database{
 
