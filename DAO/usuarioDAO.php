@@ -1,6 +1,9 @@
 <?php
-
 namespace DAO;
+
+require_once dirname(__DIR__).'\vendor\autoload.php';
+use \DAO\Database as a;
+use \models\Usuario as Usuario;
 
 class UsuarioDAO extends Database{
 
@@ -14,10 +17,10 @@ class UsuarioDAO extends Database{
         $sobrenome = $usuario->getSobrenome();
         $email = $usuario->getEmail();
         $senha = $usuario->getSenha();
-        $cadastroConfirmado = $usuario->confirmouCadastro();
+        $cadastroConfirmado = $usuario->confirmouCadastro() == false ? 0 : 1;
 
-        $query = "INSERT INTO `usuario`(`idUsuario`, `nome`, `sobrenome`, `email`, `senha`, `cadastroConfirmado`) 
-                  VALUES (null,'$nome','$sobrenome','$email','$senha','$cadastroConfirmado')";
+        $query = "INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado) VALUES (null, '$nome', '$sobrenome', '$email', '$senha', $cadastroConfirmado)";
+
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){

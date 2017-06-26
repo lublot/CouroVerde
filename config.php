@@ -11,7 +11,7 @@
 
 	header("Content-type: text/html; charset=utf-8");
 	define('DEBUG',true);
-	define( 'ABSPATH', dirname( __FILE__ ) );
+    define('ABSPATH', dirname(dirname( __FILE__ )));
 	define('URI_BASE',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/index.php");
 	define('ROOT_URL',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/");
 	define('VIEW_BASE',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/views/");//Recupera a pasta da view
@@ -21,8 +21,9 @@
 		define("USERDB","root");
 		define("PASSDB","");
 		define("NAMEDB","webMuseu");
-		define( 'CHARSETDB', 'utf8' );
+		define('CHARSETDB', 'utf8' );
 	}
+
 	require_once("autoloader.php");
 
 ?>

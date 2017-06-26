@@ -1,10 +1,10 @@
 <?php
-require_once '../../vendor/autoload.php';
+require_once dirname(dirname(__DIR__)).'\vendor\autoload.php';
 
-define(ABSPATH,dirname(__DIR__).'\..');
+//define(ABSPATH,dirname(__DIR__).'\..');
 use \controllers\cadastroController as cadastroController;
-use Util\GerenciarSenha as GerenciarSenha;
-use PHPUnit\Framework\TestCase;
+use \util\GerenciarSenha as GerenciarSenha;
+use \PHPUnit\Framework\TestCase;
 use \DAO\usuarioDAO as usuarioDAO;
 
 
@@ -17,14 +17,7 @@ class cadastroControllerTest extends TestCase
         $this->instancia->configuraPOSTDefault();
     }
 
-    // public static function setUpBeforeClass() {
-    //     $instancia = new cadastroController();  
-    //     $instancia->configuraPOSTDefault();
-    // }
-
-    public function testConfirmar()
-    {
-        
+    public function testConfirmar() {
         $this->instancia->index();
         $usuarioDAO = new UsuarioDAO();
         $usuario = $usuarioDAO->buscar(array(), array("email"=>$email)); //Busca o usuário récem cadastrado

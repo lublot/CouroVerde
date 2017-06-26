@@ -12,6 +12,8 @@ use \exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
 use \exceptions\ErroCadastroException as ErroCadastroException;
 use \DAO\usuarioDAO as usuarioDAO;
 use \util\GerenciarSenha as GerenciarSenha;
+use \models\Usuario as Usuario;
+
 
 class cadastroController 
 {
@@ -23,8 +25,18 @@ class cadastroController
         "sobrenome" => "De Tal",
         "email" => "ebssoueu@gmail.com",
         "senha" => "12345678");//Como a gnt não tem view ainda, vamos testando as informações nesse array
+        $ds = DIRECTORY_SEPARATOR;
+        $pasta = explode($ds,getcwd());
+        $pasta = end($pasta);
+
+        define('DEBUG',true);
+        define('ABSPATH', dirname(dirname( __FILE__ )));
+        define('URI_BASE',"http://"."localhost"."/".$pasta."/index.php");
+        define('ROOT_URL',"http://"."localhost"."/".$pasta."/");
+        define('VIEW_BASE',"http://"."localhost"."/".$pasta."/views/");//Recupera a pasta da view
+
     }
-    
+
     /**
     * Cadastra novo usuário.
     */
@@ -53,6 +65,7 @@ class cadastroController
             }
 
             $usuarioDAO->inserir(new Usuario(null, $email, $nome, $sobrenome, $senha, false));
+            var_dump($usuarioDAO);
             $usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //Busca o usuário récem cadastrado
             $this->confirmar(array("nome" => $usuario->getNome(),
                                "sobrenome" => $usuario->getSobrenome(),
@@ -93,7 +106,7 @@ class cadastroController
                 throw new DadosCorrompidosException();
             }
 
-            require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
+            require(ABSPATH.'\plugins\PHPMailer\PHPMailerAutoload.php');
             
             $id = addslashes($dados['id']);
             $nome = addslashes($dados['nome']);
@@ -102,7 +115,7 @@ class cadastroController
             
             $linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&i=".$id."&s=".md5($sobrenome);
             
-            $mail = new PHPMailer();
+            $mail = new \PHPMailer();
             
             $mail->isSMTP();                                      // Set mailer to use SMTP
             $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
@@ -127,7 +140,7 @@ class cadastroController
                             
                             
             if (!$mail->send()) {
-                throw new EmailNaoEnviadoException();
+                throw new \EmailNaoEnviadoException();
             }
         } else {
             throw new DadosCorrompidosException();
