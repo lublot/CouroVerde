@@ -1,11 +1,13 @@
 <?php
+namespace exceptions;
+
 /**
  * Classe responsável por representar uma exceção lançada quando a senha e a confirmação da senha são diferentes durante a redefinição.
  * @author MItologhic Software
  *
  */
 
-class SenhaInconsistenteException extends Exception
+class SenhaInconsistenteException extends \Exception
 {
     
     /**

@@ -1,10 +1,12 @@
 <?php
+namespace exceptions;
+
 /**
  * Classe responsável por representar uma exceção lançada quando um erro ocorre durante o login por meio externo.
  * @author MItologhic Software
  *
  */
-class AcessoExternoErroException extends Exception
+class AcessoExternoErroException extends \Exception
 {
     /**
      * @var String código do erro.

@@ -1,4 +1,7 @@
 <?php
+namespace models;
+
+
 
 /**
  * Classe responsável por representar um usuário no contexto do sistema.

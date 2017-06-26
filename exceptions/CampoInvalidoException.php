@@ -1,4 +1,6 @@
 <?php
+namespace exceptions;
+
 /**
  * Classe responsável por representar uma exceção lançada quando um campo é preenchida de forma inválida.
  * @author MItologhic Software

@@ -1,4 +1,5 @@
 <?php
+namespace DAO;
 
 /**
     * Insere um usuário no banco de dados;

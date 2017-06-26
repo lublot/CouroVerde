@@ -1,4 +1,10 @@
 <?php
+require_once __DIR__.'\vendor\autoload.php';
+
+use \controllers\homeController;
+use \controllers\cadastroController;
+use \controllers\loginController;
+
 
 class Core{
 
@@ -8,7 +14,6 @@ class Core{
 
 
     public function run() {
-        
         $path = explode("index.php",$_SERVER['PHP_SELF']);// Divide a string da url
         $path = end($path);//Pega o final do array
         
@@ -16,7 +21,7 @@ class Core{
             $path = explode('/',$path);//Divide a string onde tem '/'
             array_shift($path);//Retira o primeiro elemento do array
             
-            $this->controller = $path[0].'Controller';//Concatena a palavra com "Controller" e seta o controller atual
+            $this->controller = 'controllers\\'.$path[0].'Controller';//Concatena a palavra com "Controller" e seta o controller atual
             array_shift($path);//Retira o primeiro elemento do array
             
             if(isset($path[0]) && !empty($path[0])){ // Verifica se o array contém algo
@@ -35,8 +40,8 @@ class Core{
             if(isset($_POST) && !empty($_POST)){//Verifica se a variável global foi setada e se tem conteúdo
                 $this->parametros[] = $_POST;
             }
-        }else{//Define o controller principal caso nenhum outro tenha sido escolhido
-            $this->controller = "homeController";
+        } else {//Define o controller principal caso nenhum outro tenha sido escolhido
+            $this->controller = "controllers\homeController";
             $this->metodo = "index";
             
         }
@@ -51,10 +56,11 @@ class Core{
             if(!isset($this->parametros) || empty($this->parametros)){
                 $this->parametros = array();
             }
+
             $c = new $this->controller();//Instancia o controller desejado
             $c->$metodo($this->parametros);//Chama o metodo desejado
         }
-        //call_user_func_array(array($this->controller, $this->metodo), $this->parametros);
+       // call_user_func_array(array($c, $this->metodo), $this->parametros);
         
         
     }
