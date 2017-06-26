@@ -1,6 +1,16 @@
 <?php
 
 namespace controllers;
+use \exceptions\NomeInvalidoException as NomeInvalidoException;
+use \exceptions\SobrenomeInvalidoException as SobrenomeInvalidoException;
+use \exceptions\SenhaInvalidaException as SenhaInvalidaException;
+use \exceptions\EmailInvalidoException as EmailInvalidoException;
+use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
+use \exceptions\EmailNaoEnviadoException as EmailNaoEnviadoException;
+use \exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
+use \exceptions\ErroCadastroException as ErroCadastroException;
+use \DAO\usuarioDAO as usuarioDAO;
+use \util\GerenciarSenha as GerenciarSenha;
 
 class cadastroController 
 {
@@ -17,9 +27,7 @@ class cadastroController
     /**
     * Cadastra novo usuário.
     */
-    public function index() {
-        require_once(ABSPATH.'/util/GerenciarSenha.php');
-        
+    public function index() {        
         if ($this->validarForm($_POST)) {
             $usuarioDAO = new UsuarioDAO();
             $nome = addslashes($_POST["nome"]);
