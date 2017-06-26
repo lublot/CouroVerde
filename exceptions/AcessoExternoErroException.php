@@ -18,7 +18,7 @@ class AcessoExternoErroException extends \Exception
      *
      * @param String codigo código do erro ocorrido
      */
-    public function __construct(String $codigo=NULL) {
+    public function __construct() {
         if(isset($codigo)) {
             parent::__construct("Algo deu errado!<br>Consulte o servidor externo de login para mais informações.<br>Código do erro:".$codigo);
         } else {
