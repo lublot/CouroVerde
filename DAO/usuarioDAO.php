@@ -127,8 +127,16 @@ class UsuarioDAO extends Database{
     * @param String $redeSocial - nome da rede social usada pelo usuário no cadastro
     * */
     public function inserirUsuarioContaExterna($idRedeSocial,$idUsuario,$redeSocial){
-        $query = "INSERT INTO `usuario".$redesocial."`(`idUsuarioGoogle`, `idUsuario`) 
-                  VALUES ('$idRedeSocial','$idUsuario')";
+        if(strcmp($redeSocial, 'facebook') == 0) {
+            $tabela1 = "usuariofacebook";
+            $colunaId = 'idUsuarioFacebook'; //renomeando com a inicial maiuscula pra usar depois
+        } else if(strcmp($redeSocial, 'google') == 0) {
+            $tabela1 = "usuariogoogle";
+            $colunaId = 'idUsuarioGoogle'; //renomeando com a inicial maiuscula pra usar depois
+        }
+    
+        $query = "INSERT INTO ".$tabela1."(".$colunaId.", idUsuario) VALUES ('".$idRedeSocial."', '.$idUsuario.')";
+
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
