@@ -38,7 +38,7 @@ class cadastroController
             $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
             $email = addslashes($_POST["email"]);
 
-            if (!$this->validarNome($sobrenome)) {
+            if (!$this->validarNome($nome)) {
                 throw new NomeInvalidoException();
             }
 
@@ -55,7 +55,6 @@ class cadastroController
             }
 
             $usuarioDAO->inserir(new Usuario(null, $email, $nome, $sobrenome, $senha, false));
-            var_dump($usuarioDAO);
             $usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //Busca o usuário récem cadastrado
             $this->confirmar(array("nome" => $usuario->getNome(),
                                "sobrenome" => $usuario->getSobrenome(),
