@@ -1,7 +1,7 @@
 <?php
 
     //Script de Configuração de Credenciais
-    require_once 'autoload.php';
+    require_once './autoload.php';
 
     $scriptUri = "http://".$_SERVER["HTTP_HOST"].$_SERVER['PHP_SELF'];
     $client = new Google_Client();

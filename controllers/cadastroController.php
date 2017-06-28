@@ -1,7 +1,7 @@
 <?php
 namespace controllers;
 
-require_once dirname(__DIR__).'\vendor\autoload.php';
+require_once dirname(__DIR__).'/vendor/autoload.php';
 use \exceptions\NomeInvalidoException as NomeInvalidoException;
 use \exceptions\SobrenomeInvalidoException as SobrenomeInvalidoException;
 use \exceptions\SenhaInvalidaException as SenhaInvalidaException;
@@ -25,16 +25,6 @@ class cadastroController
         "sobrenome" => "De Tal",
         "email" => "ebssoueu@gmail.com",
         "senha" => "12345678");//Como a gnt não tem view ainda, vamos testando as informações nesse array
-        $ds = DIRECTORY_SEPARATOR;
-        $pasta = explode($ds,getcwd());
-        $pasta = end($pasta);
-
-        define('DEBUG',true);
-        define('ABSPATH', dirname(dirname( __FILE__ )));
-        define('URI_BASE',"http://"."localhost"."/".$pasta."/index.php");
-        define('ROOT_URL',"http://"."localhost"."/".$pasta."/");
-        define('VIEW_BASE',"http://"."localhost"."/".$pasta."/views/");//Recupera a pasta da view
-
     }
 
     /**
@@ -106,7 +96,7 @@ class cadastroController
                 throw new DadosCorrompidosException();
             }
 
-            require(ABSPATH.'\plugins\PHPMailer\PHPMailerAutoload.php');
+            require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
             
             $id = addslashes($dados['id']);
             $nome = addslashes($dados['nome']);

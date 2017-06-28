@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__.'\vendor\autoload.php';
-require_once __DIR__.'\Core.php';
+require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__.'/Core.php';
 use \exceptions\ArquivoNaoEncontradoException as ArquivoNaoEncontradoException;
 
 	/*
@@ -22,12 +22,12 @@ use \exceptions\ArquivoNaoEncontradoException as ArquivoNaoEncontradoException;
 	}
 
 	//completar
-	if(!file_exists(__DIR__.'\controllers\cadastroController.php') or !file_exists(__DIR__.'\controllers\loginController.php') or !file_exists(__DIR__.'\controllers\mainController.php')) {
+	if(!file_exists(__DIR__.'/controllers/cadastroController.php') or !file_exists(__DIR__.'/controllers/loginController.php') or !file_exists(__DIR__.'/controllers/mainController.php')) {
 		throw new ArquivoNaoEncontradoException();
 	}
 
 	//completar
-	if(!file_exists(__DIR__.'\DAO\Database.php')) {
+	if(!file_exists(__DIR__.'/DAO/Database.php')) {
 		throw new ArquivoNaoEncontradoException();
 	}
 
