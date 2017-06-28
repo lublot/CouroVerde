@@ -17,14 +17,33 @@ use \models\Usuario as Usuario;
 
 class cadastroController 
 {
-    
-    public $_POST;
+    private $_POST;
 
-    public function configuraPOSTDefault() {
-        $_POST = array("nome" => "Fulano",
-        "sobrenome" => "De Tal",
-        "email" => "ebssoueu@gmail.com",
-        "senha" => "12345678");//Como a gnt não tem view ainda, vamos testando as informações nesse array
+    /**
+    * Configura a classe para realização de teste.
+     * @param String $email email do usuário
+     * @param String $nome nome do usuário
+     * @param String $sobrenome sobrenome do usuário
+     * @param String $senha senha do usuário
+     */
+    public function configuraAmbienteParaTeste($nome, $sobrenome, $email, $senha, $id) {
+        $_POST = array("nome" => $nome,
+        "sobrenome" => $sobrenome,
+        "email" => $email,
+        "senha" => $senha);
+
+        $_GET = array("i" => md5($id), 
+        "n" => md5($nome),
+        "e" => md5($email),
+        "s" => md5($sobrenome));
+
+        if(!defined('ABSPATH')) {
+            define("ABSPATH", dirname(dirname( __FILE__ )));
+        }
+
+        if(!defined('URI_BASE')) {
+            define("URI_BASE","http://"."localhost"."/"."cadastro"."/index.php");
+        }
     }
 
     /**
@@ -32,27 +51,27 @@ class cadastroController
     */
     public function index() {        
         if ($this->validarForm($_POST)) {
+            if (!$this->validarNome($_POST["nome"])) {
+                throw new NomeInvalidoException();
+            }
+
+            if (!$this->validarNome($_POST["sobrenome"])) {
+                throw new SobrenomeInvalidoException();
+            }
+                
+            if (!$this->validarSenha($_POST["senha"])) {
+                throw new SenhaInvalidaException();
+            }
+                
+            if (!$this->validarEmail($_POST["email"])) {
+                throw new EmailInvalidoException();
+            }
+            
             $usuarioDAO = new UsuarioDAO();
             $nome = addslashes($_POST["nome"]);
             $sobrenome = addslashes($_POST["sobrenome"]);
             $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
             $email = addslashes($_POST["email"]);
-
-            if (!$this->validarNome($nome)) {
-                throw new NomeInvalidoException();
-            }
-
-            if (!$this->validarNome($sobrenome)) {
-                throw new SobrenomeInvalidoException();
-            }
-                
-            if (!$this->validarSenha($senha)) {
-                throw new SenhaInvalidaException();
-            }
-                
-            if (!$this->validarEmail($email)) {
-                throw new EmailInvalidoException();
-            }
 
             $usuarioDAO->inserir(new Usuario(null, $email, $nome, $sobrenome, $senha, false));
             $usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //Busca o usuário récem cadastrado
@@ -83,11 +102,11 @@ class cadastroController
                 throw new SobrenomeInvalidoException();
             }
 
-            if (!$this->validarCampo($dados['senha'])) {
+            if (!$this->validarSenha($dados['senha'])) {
                 throw new SenhaInvalidaException();
             }
 
-            if (!$this->validarCampo($dados['email'])) {
+            if (!$this->validarEmail($dados['email'])) {
                 throw new EmailInvalidoException();
             }
 

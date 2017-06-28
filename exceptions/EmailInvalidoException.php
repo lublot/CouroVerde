@@ -7,7 +7,7 @@ namespace exceptions;
  *
  */
 
-class EmailInvalidoException extends Exception
+class EmailInvalidoException extends \Exception
 {
     
     /**
