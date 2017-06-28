@@ -38,7 +38,7 @@ class cadastroController
             $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
             $email = addslashes($_POST["email"]);
 
-            if (!$this->validarNome($sobrenome)) {
+            if (!$this->validarNome($nome)) {
                 throw new NomeInvalidoException();
             }
 
