@@ -7,7 +7,7 @@ namespace exceptions;
  *
  */
 
-class UsuarioInexistenteException extends Exception
+class UsuarioInexistenteException extends \Exception
 {
     
     /**

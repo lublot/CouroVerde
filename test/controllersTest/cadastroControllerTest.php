@@ -122,7 +122,7 @@ class cadastroControllerTest extends TestCase
         $usuario = $usuario[0];
         $this->assertEquals('v@gmail.com', $usuario->getEmail()); //certifica-se que o email é igual ao esperado     
     }
-
+    
     /**
     * Testa o cadastro de usuário via Google.
     */
@@ -141,23 +141,6 @@ class cadastroControllerTest extends TestCase
         $usuario = $usuario[0];
         $this->assertEquals('g@gmail.com', $usuario->getEmail()); //certifica-se que o email é igual ao esperado     
     }    
-
-    /**
-    * Testa a verificação da conta de usuário pós cadastro
-    */    
-    public function testVerificarCadastro() {
-        $this->instancia->configuraAmbienteParaTeste("Fulano", "De Tal", "y@gmail.com", "11111111", null);
-        $this->instancia->index();
-
-        $usuarioDAO = new UsuarioDAO();
-        $usuario = $usuarioDAO->buscar(array(), array("email"=>"y@gmail.com")); //Busca o usuário récem cadastrado
-        $this->assertEquals(1, count($usuario)); //certifica-se que apenas um usuário foi cadastrado
-        $usuario = $usuario[0];
-        $this->assertEquals('y@gmail.com', $usuario->getEmail()); //certifica-se que o email é igual ao esperado 
-        
-        $this->instancia->configuraAmbienteParaTeste($usuario->getNome(), $usuario->getSobrenome(), $usuario->getEmail(), $usuario->getSenha(), $usuario->getId());
-        $this->instancia->verificar();
-    }
 
     /**
     * Testa o método validarCampo() do CadastroController

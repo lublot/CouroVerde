@@ -17,7 +17,6 @@ use \models\Usuario as Usuario;
 
 class cadastroController 
 {
-    private $_POST;
 
     /**
     * Configura a classe para realização de teste.
@@ -32,7 +31,7 @@ class cadastroController
         "email" => $email,
         "senha" => $senha);
 
-        $_GET = array("i" => md5($id), 
+        $_GET = array("i" => $id, 
         "n" => md5($nome),
         "e" => md5($email),
         "s" => md5($sobrenome));
@@ -113,8 +112,6 @@ class cadastroController
             if (!$this->validarCampo($dados['id'])) {
                 throw new DadosCorrompidosException();
             }
-
-            require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
             
             $id = addslashes($dados['id']);
             $nome = addslashes($dados['nome']);
@@ -122,6 +119,8 @@ class cadastroController
             $email = addslashes($dados['email']);
             
             $linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&i=".$id."&s=".md5($sobrenome);
+
+            require_once(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
             
             $mail = new \PHPMailer();
             
@@ -148,7 +147,7 @@ class cadastroController
                             
                             
             if (!$mail->send()) {
-                throw new \EmailNaoEnviadoException();
+                throw new EmailNaoEnviadoException();
             }
         } else {
             throw new DadosCorrompidosException();
@@ -180,14 +179,14 @@ class cadastroController
             }
         } else {
             throw new UsuarioInexistenteException();
-        }
+        }        
     }
 	
-     /**
+    /**
     * Realiza o cadastro de um usuário que cadastra-se no sistema através do Google.
     * @param array $usuarioGoogle - array contendo os dados do usuário
     */
-    public function cadastrarUsuarioGoogle($usuarioGoogle){
+    public function cadastrarUsuarioGoogle($usuarioGoogle) {
         $usuarioDao = new UsuarioDAO();
         
         //Recebe os dados
@@ -207,6 +206,7 @@ class cadastroController
         }else{
             throw new ErroCadastroException();
         } 
+        
     }
 
     /**
@@ -228,8 +228,6 @@ class cadastroController
         } else {
             throw new ErroCadastroException();
         }
-
-
 
     }
 
