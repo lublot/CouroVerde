@@ -106,4 +106,15 @@ class ValidacaoDados {
         }
         return false;
     }
+
+    /**
+    *Verifica a integridade do array do e-mail recebido
+    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
+    */
+    public static function validarFormEmail($dados) {
+        if(array_key_exists("email", $dados)) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -15,6 +15,6 @@ class EmailInvalidoException extends \Exception
 	*/
     public function __construct()
     {
-        parent::__construct("Informe um endereço de email existente.");
+        parent::__construct("Email inválido");
     }
 }

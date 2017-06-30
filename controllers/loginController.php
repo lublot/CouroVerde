@@ -8,18 +8,23 @@ use exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
 use exceptions\SenhaInvalidaException as SenhaInvalidaException;
 use exceptions\EmailInvalidoException as EmailInvalidoException;
 session_start();
-class loginController extends mainController{
 
-    
+class loginController extends mainController{
+    protected $dados = array();
 
     /**
     * Configura a classe para realização de teste.
      * @param String $email email do usuário
      * @param String $senha senha do usuário
+     * @param String $novaSenha nova senha para o caso de redefinição
      */
-    public function configuraAmbienteParaTeste($email, $senha) {
+    public function configuraAmbienteParaTeste($email, $senha, $novaSenha) {
         $_POST = array("email" => $email,
-        "senha" => $senha);
+        "senha" => isset($novaSenha)?$novaSenha:$senha,
+        "confirmarSenha" => isset($novaSenha)?$novaSenha:$senha);
+
+        $_GET = array("i" => 172,
+        "e" => $email);
 
         $ds = DIRECTORY_SEPARATOR;
 	    $pasta = explode($ds,getcwd());
@@ -41,18 +46,22 @@ class loginController extends mainController{
             $_SERVER["REQUEST_URI"] = "REQUEST_URI";
         }
 
+        if(!defined('URI_BASE')) {
+            define('URI_BASE',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/index.php");
+        }
+
         if(!defined('VIEW_BASE')) {
             define("VIEW_BASE", "http://".$_SERVER['SERVER_NAME']."/".$pasta."/views/");
         }
     }
 
-    protected $dados = array();
+    public function getDados() {
+        return $this->dados;
+    }
+
     //Login do usuário
     public function index(){
-
-        
         if(!isset($_SESSION['nome']) && !isset($_SESSION['sobrenome']) && !isset($_SESSION['email'])){
-        
             if (ValidacaoDados::validarForm($_POST, "login")) {
                 try{
                     $email = addslashes($_POST["email"]);
@@ -72,11 +81,11 @@ class loginController extends mainController{
                         $this->redirecionarPagina('home');
                     } 
                 }catch(UsuarioInexistenteException $e){
-                    $this->dados['exception'] = 'Email e / ou Senha estão incorretos';  
+                    $this->dados['exception'] = $e->getMessage();  
                 }catch(SenhaInvalidaException $e){
-                    $this->dados['exception'] = 'A senha deve conter entre 8 e 32 caracteres';
+                    $this->dados['exception'] = $e->getMessage();
                 }catch(EmailInvalidoException $e){
-                    $this->dados['exception'] = 'Email inválido';
+                    $this->dados['exception'] = $e->getMessage();
                 }
             }
             $this->carregarConteudo('login',$this->dados);
@@ -109,8 +118,7 @@ class loginController extends mainController{
             $_SESSION['email'] = $usuario[0]->getEmail();
             return true;
 
-        }
-        else{
+        } else {
             throw new UsuarioInexistenteException();
         } 
     }
@@ -175,7 +183,6 @@ class loginController extends mainController{
 
         $helper = $fb->getRedirectLoginHelper();
         if (isset($_GET['state'])) {
-            var_dump($_GET);
             $helper->getPersistentDataHandler()->set('state', $_GET['state']);
         }
 
@@ -275,7 +282,7 @@ class loginController extends mainController{
     */
     public function emailRedefinicao() {
 
-        if ($this->validarFormEmail($_POST)) {
+        if (ValidacaoDados::validarFormEmail($_POST)) {
             $email = addslashes($_POST["email"]); //Recebe o endereço de e-mail digitado pelo usuário.
 
             $usuarioDao = new UsuarioDAO();
@@ -292,7 +299,7 @@ class loginController extends mainController{
             
             $linkRedefinir = URI_BASE."/login/redefinir/?e=".md5($email)."&i=".$id; //Gera um link composto pelas informações do usuário.
 
-            $mail = new PHPMailer();
+            $mail = new \PHPMailer();
 
             $mail->isSMTP();                                      // Set mailer to use SMTP
             $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
@@ -326,9 +333,7 @@ class loginController extends mainController{
     *Redefine a senha.
     */
     public function redefinir() {
-        require_once(ABSPATH.'/util/GerenciarSenha.php');
-
-        if($this->validarFormRedefinir($_POST)) {
+        if(ValidacaoDados::validarFormRedefinir($_POST)) {
             $novaSenha = GerenciarSenha::criptografarSenha($_POST["senha"]); //Recebe a nova senha do usuário.
             $confirmarSenha = GerenciarSenha::criptografarSenha($_POST["confirmarSenha"]); //Recebe a confirmação de senha.
 
