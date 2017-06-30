@@ -1,23 +1,58 @@
 <?php
 namespace controllers;
+require_once dirname(__DIR__).'/vendor/autoload.php';
 use util\GerenciarSenha as GerenciarSenha;
-
+use \DAO\usuarioDAO as usuarioDAO;
+use \util\ValidacaoDados as ValidacaoDados;
 
 class loginController extends mainController{
 
+    /**
+    * Configura a classe para realização de teste.
+     * @param String $email email do usuário
+     * @param String $senha senha do usuário
+     */
+    public function configuraAmbienteParaTeste($email, $senha) {
+        $_POST = array("email" => $email,
+        "senha" => $senha);
+
+        $ds = DIRECTORY_SEPARATOR;
+	    $pasta = explode($ds,getcwd());
+	    $pasta = end($pasta);
+
+        if(!defined('ABSPATH')) {
+            define('ABSPATH', dirname(dirname( __FILE__ )));
+        }
+
+        if(!defined('ROOT_URL')) {
+            define("ROOT_URL", 'ROOT_URL');
+        }
+
+        if(!isset($_SERVER["SERVER_NAME"])) {
+            $_SERVER["SERVER_NAME"] = "localhost";
+        }
+
+        if(!isset($_SERVER['REQUEST_URI'])) {
+            $_SERVER["REQUEST_URI"] = "REQUEST_URI";
+        }
+
+        if(!defined('VIEW_BASE')) {
+            define("VIEW_BASE", "http://".$_SERVER['SERVER_NAME']."/".$pasta."/views/");
+        }
+    }
+
     //Login do usuário
     public function index(){
-        require_once(ABSPATH.'/util/GerenciarSenha.php');
         $this->carregarConteudo('login',array());
-        if ($this->validarForm($_POST)) {
+        if (ValidacaoDados::validarForm($_POST)) {
             
             $email = addslashes($_POST["email"]);
             $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
 
-            if (!$this->validarSenha($senha)) {
+            if (!ValidacaoDados::validarSenha($senha)) {
                 throw new SenhaInvalidaException();
             } 
-            if (!$this->validarEmail($email)) {
+            if (!ValidacaoDados::validarEmail($email)) {
                 throw new EmailInvalidoException();
             }
             
@@ -31,8 +66,6 @@ class loginController extends mainController{
                 //header("Location: index.php");//caso não existe usuario com esse login, ele continua na pagina
             }
         }
-        
-  
     }
 
 
@@ -42,11 +75,12 @@ class loginController extends mainController{
     */
     private function login($email, $senha){
         //Crio dois arrays para usar na busca do usuario. 
-        $campos = array("nome","email", "senha");
+        $campos = array("nome","senha", "email","sobrenome");
         $filtro = array(
             "email" => $email,
             "senha" => $senha,
         );
+
         $usuarioDAO = new UsuarioDAO();
         $usuario = $usuarioDAO->buscar($campos, $filtro);//Recebe o objeto do usuario que vai logar
         if(count($usuario) > 0){ //Verifica se existe usuario
@@ -65,7 +99,7 @@ class loginController extends mainController{
     /**
     * Realiza a autenticação via Google+
     **/
-    public function acessarGoogle(){
+    public function acessoGoogle(){
         session_start();
         require_once (ABSPATH.'/vendor/credentialsConfig.php');
 
@@ -216,88 +250,6 @@ class loginController extends mainController{
     }
 
 
-
-     /**
-    * Verifica se determinado campo tem informação.
-    * @return <code>true</code>, se houver informação; <code>false</code>, caso contrário
-    */
-    private function validarCampo($campo) {
-        if (isset($campo) && !empty($campo)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    * Verifica se a senha informada é válida, isto é, se possui ao menos 8 e no máximo 32 caracteres.
-    * @return <code>true</code>, se a senha informada for válida; <code>false</code>, caso contrário.
-    */
-    private function validarSenha($senha) {
-        if (!$this->validarCampo($senha)) {
-            return false;
-        }
-
-        $tamanho = strlen($senha); //obtém tamanho da senha
-        if ($tamanho < 8 || $tamanho >= 32) { //verifica se o tamanho da senha é adequado
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    * Verifica se o email informado é válido.
-    * @return <code>true</code>, se o email informado for válido; <code>false</code>, caso contrário.
-    */
-    private function validarEmail($email) {
-        if (!$this->validarCampo($email)) {
-            return false;
-        }
-        
-        $dividido = explode("@", $email); //tenta dividir o email a partir da @
-        
-        if (count($dividido) == 2) { //verifica se o email informado possui @
-            $segundaparte = explode(".com", $dividido[1]); //tenta encontrar .com na segunda parte do email
-            
-            if (count($segundaparte) == 2) { //verifica se tem apenas um .com no email
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-    *Verifica a integridade do array de informações recebidas
-    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
-    */
-    private function validarForm($dados) {
-        if (array_key_exists("email", $dados) && array_key_exists("senha", $dados)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    *Verifica a integridade do array do e-mail recebido
-    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
-    */
-    private function validarFormEmail($dados) {
-        if(array_key_exists("email", $dados)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    *Verifica a integridade do array de informações para a redefinicão de senha
-    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
-    */
-    private function validarFormRedefinir($dados) {
-        if(array_key_exists("senha", $dados) && array_key_exists("confirmarSenha", $dados)) {
-            return true;
-        }
-        return false;
-    }
-
     /**
     *Envia o email para a redefinição de senha.
     */
@@ -356,11 +308,11 @@ class loginController extends mainController{
     public function redefinir() {
         require_once(ABSPATH.'/util/GerenciarSenha.php');
 
-        if($this->validarFormRedefinir($_POST)) {
+        if(ValidacaoDados::validarFormRedefinir($_POST)) {
             $novaSenha = GerenciarSenha::criptografarSenha($_POST["senha"]); //Recebe a nova senha do usuário.
             $confirmarSenha = GerenciarSenha::criptografarSenha($_POST["confirmarSenha"]); //Recebe a confirmação de senha.
 
-            if (!$this->validarSenha($novaSenha) || !$this->validarSenha($confirmarSenha) ) { //Verifica se a nova senha digitada é válida.
+            if (!ValidacaoDados::validarSenha($novaSenha) || !ValidacaoDados::validarSenha($confirmarSenha) ) { //Verifica se a nova senha digitada é válida.
                 throw new SenhaInvalidaException(); //Caso não seja, lança uma exceção.
             } else if($novaSenha != $confirmarSenha) { //Verifica se a senha e a confirmação são iguais.
                 throw new SenhaInconsistenteException(); //Caso não seja, lança uma exceção.

@@ -6,14 +6,15 @@ use \exceptions\NomeInvalidoException as NomeInvalidoException;
 use \exceptions\SobrenomeInvalidoException as SobrenomeInvalidoException;
 use \exceptions\SenhaInvalidaException as SenhaInvalidaException;
 use \exceptions\EmailInvalidoException as EmailInvalidoException;
+use \exceptions\EmailJaCadastradoException as EmailJaCadastradoException;
 use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
 use \exceptions\EmailNaoEnviadoException as EmailNaoEnviadoException;
 use \exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
 use \exceptions\ErroCadastroException as ErroCadastroException;
 use \DAO\usuarioDAO as usuarioDAO;
 use \util\GerenciarSenha as GerenciarSenha;
+use \util\ValidacaoDados as ValidacaoDados;
 use \models\Usuario as Usuario;
-
 
 class cadastroController 
 {
@@ -43,30 +44,39 @@ class cadastroController
         if(!defined('URI_BASE')) {
             define("URI_BASE","http://"."localhost"."/"."cadastro"."/index.php");
         }
+
+        
     }
 
     /**
     * Cadastra novo usuário.
     */
     public function index() {        
-        if ($this->validarForm($_POST)) {
-            if (!$this->validarNome($_POST["nome"])) {
+        if (ValidacaoDados::validarForm($_POST)) {
+            $usuarioDAO = new UsuarioDAO();
+            $email = addslashes($_POST["email"]);
+            $usuario = $usuarioDAO->buscar(array(), array("email"=>$email));
+
+            if(count($usuario) > 0) { //verifica se já existe usuário cadastrado
+                throw new EmailJaCadastradoException();
+            }
+
+            if (!ValidacaoDados::validarNome($_POST["nome"])) {
                 throw new NomeInvalidoException();
             }
 
-            if (!$this->validarNome($_POST["sobrenome"])) {
+            if (!ValidacaoDados::validarNome($_POST["sobrenome"])) {
                 throw new SobrenomeInvalidoException();
             }
                 
-            if (!$this->validarSenha($_POST["senha"])) {
+            if (!ValidacaoDados::validarSenha($_POST["senha"])) {
                 throw new SenhaInvalidaException();
             }
                 
-            if (!$this->validarEmail($_POST["email"])) {
+            if (!ValidacaoDados::validarEmail($_POST["email"])) {
                 throw new EmailInvalidoException();
             }
             
-            $usuarioDAO = new UsuarioDAO();
             $nome = addslashes($_POST["nome"]);
             $sobrenome = addslashes($_POST["sobrenome"]);
             $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
@@ -90,26 +100,26 @@ class cadastroController
     * @param unknown $dados - dados do usuário
     */
     public function confirmar($dados) {
-        if ($this->validarForm($dados)) { //essa validação já foi feita anteriormente, precisa fazer de novo?
+        if (ValidacaoDados::validarForm($dados)) { //essa validação já foi feita anteriormente, precisa fazer de novo?
             //Acho que as validações abaixo são desnecessárias pq já foram feitas no método anterior.
             //Se os campos abaixo forem inválidos retornam exceções
-            if (!$this->validarNome($dados['nome'])) {
+            if (!ValidacaoDados::validarNome($dados['nome'])) {
                 throw new NomeInvalidoException();
             }
 
-            if (!$this->validarNome($dados['sobrenome'])) {
+            if (!ValidacaoDados::validarNome($dados['sobrenome'])) {
                 throw new SobrenomeInvalidoException();
             }
 
-            if (!$this->validarSenha($dados['senha'])) {
+            if (!ValidacaoDados::validarSenha($dados['senha'])) {
                 throw new SenhaInvalidaException();
             }
 
-            if (!$this->validarEmail($dados['email'])) {
+            if (!ValidacaoDados::validarEmail($dados['email'])) {
                 throw new EmailInvalidoException();
             }
 
-            if (!$this->validarCampo($dados['id'])) {
+            if (!ValidacaoDados::validarCampo($dados['id'])) {
                 throw new DadosCorrompidosException();
             }
             
@@ -144,8 +154,6 @@ class cadastroController
                     ."Seu cadastro está quase pronto, por favor,"
                             ." clique no link a seguir e a gente cuida do resto :)<br/><br/>".
                             "Link de Confirmação: ".$linkConfirmacao;
-                            
-                            
             if (!$mail->send()) {
                 throw new EmailNaoEnviadoException();
             }
@@ -229,87 +237,6 @@ class cadastroController
             throw new ErroCadastroException();
         }
 
-    }
-
-    /**
-    *Verifica a integridade do array de informações recebidas
-    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
-    */
-    private function validarForm($dados) {
-        if(isset($dados) && !empty($dados)){
-            if (array_key_exists("nome", $dados) && array_key_exists("sobrenome", $dados) && array_key_exists("email", $dados) && array_key_exists("senha", $dados)) {
-                 return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-    * Verifica se determinado campo tem informação.
-    * @return <code>true</code>, se houver informação; <code>false</code>, caso contrário
-    */
-    private function validarCampo($campo) {
-        if (isset($campo) && !empty($campo)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    * Verifica se o nome informado é válido.
-    * @return <code>true</code>, se o nome informado for válido; <code>false</code>, caso contrário
-    */
-    private function validarNome($nome) {
-    
-        if (!$this->validarCampo($nome)) {
-            return false;
-        }
-
-        $aux = $nome;
-        $aux = str_replace(' ','',$aux); 
-        if(strlen($aux)==0){
-            return false;
-        }
-
-        if (preg_match("([^ A-Za-zà-ú'])", $nome) > 0) { //O nome só pode conter letras e caracteres acentuados,espaços e aspas simples
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-    * Verifica se o email informado é válido.
-    * @return <code>true</code>, se o email informado for válido; <code>false</code>, caso contrário.
-    */
-    private function validarEmail($email) {
-        if (!$this->validarCampo($email)) {
-            return false;
-        }
-        
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-    * Verifica se a senha informada é válida, isto é, se possui ao menos 8 e no máximo 32 caracteres.
-    * @return <code>true</code>, se a senha informada for válida; <code>false</code>, caso contrário.
-    */
-    private function validarSenha($senha) {
-        if (!$this->validarCampo($senha)) {
-            return false;
-        }
-
-        $tamanho = strlen($senha); //obtém tamanho da senha
-        if ($tamanho >= 8 && $tamanho <= 32) { //verifica se o tamanho da senha é adequado
-            return true;
-        }
-
-        return false;
     }
 
 }

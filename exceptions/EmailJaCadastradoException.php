@@ -6,7 +6,7 @@ namespace exceptions;
  * @author MItologhic Software
  *
  */
-class EmailJaCadastradoException extends Exception
+class EmailJaCadastradoException extends \Exception
 {
     
     /**
