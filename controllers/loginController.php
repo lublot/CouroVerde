@@ -236,6 +236,7 @@ class loginController extends mainController{
 
         $response = $fb->get('/me?fields=first_name,last_name,email', $accessToken);
         $graph = $response->getGraphUser();
+        $filtros = array("idUsuarioFacebook"=>$graph->getId());
 
         $usuarioDao = new UsuarioDAO();
         $usuario = $usuarioDao->buscarUsuarioContaExterna(array($graph->getId()),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros,"facebook");
@@ -247,7 +248,7 @@ class loginController extends mainController{
             $_SESSION['nome'] = $usuario->getNome();
             $_SESSION['sobrenome'] = $usuario->getSobrenome();
             $_SESSION['email'] = $usuario->getEmail();
-            //Falta redirecionar usuário
+            echo "aquiii";
         }else{
             $cadastro = new cadastroController();
             $cadastro->cadastrarUsuarioFacebook([
