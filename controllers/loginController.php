@@ -62,7 +62,6 @@ class loginController extends mainController{
 
     //Login do usuário
     public function index(){
-        if(!isset($_SESSION['nome']) && !isset($_SESSION['sobrenome']) && !isset($_SESSION['email'])){
             if (ValidacaoDados::validarForm($_POST, "login")) {
                 try{
                     $email = addslashes($_POST["email"]);
@@ -90,9 +89,7 @@ class loginController extends mainController{
                 }
             }
             $this->carregarConteudo('login',$this->dados);
-        }else{
-            $this->redirecionarPagina('home');
-        }
+
         
     }
 
@@ -248,7 +245,7 @@ class loginController extends mainController{
             $_SESSION['nome'] = $usuario->getNome();
             $_SESSION['sobrenome'] = $usuario->getSobrenome();
             $_SESSION['email'] = $usuario->getEmail();
-            echo "aquiii";
+            //Falta redirecionar usuário
         }else{
             $cadastro = new cadastroController();
             $cadastro->cadastrarUsuarioFacebook([

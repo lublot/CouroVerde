@@ -134,9 +134,9 @@ class UsuarioDAO extends Database{
             $tabela1 = "usuariogoogle";
             $colunaId = 'idUsuarioGoogle'; //renomeando com a inicial maiuscula pra usar depois
         }
-    
-        $query = "INSERT INTO ".$tabela1."(".$colunaId.", idUsuario) VALUES ('".$idRedeSocial."', '.$idUsuario.')";
 
+        $query = "INSERT INTO ". $tabela1." (".$colunaId.", idUsuario) VALUES ('".$idRedeSocial."', ".$idUsuario.")";
+    
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
