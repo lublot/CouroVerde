@@ -49,40 +49,36 @@ class loginController extends mainController{
     protected $dados = array();
     //Login do usuário
     public function index(){
+
         
         if(!isset($_SESSION['nome']) && !isset($_SESSION['sobrenome']) && !isset($_SESSION['email'])){
-            if ($this->validarForm($_POST)) {
-            
-            
-            
+        
+            if (ValidacaoDados::validarForm($_POST, "login")) {
+                try{
+                    $email = addslashes($_POST["email"]);
+                    $senha = $_POST["senha"];
 
-            try{
-                $email = addslashes($_POST["email"]);
-                $senha = $_POST["senha"];
+                    if (!ValidacaoDados::validarSenha($senha)) {
+                        throw new SenhaInvalidaException();
+                    } 
+                    if (!ValidacaoDados::validarEmail($email)) {
+                        throw new EmailInvalidoException();
+                    }
 
-                if (!ValidacaoDados::validarSenha($senha)) {
-                    throw new SenhaInvalidaException();
-                } 
-                if (!ValidacaoDados::validarEmail($email)) {
-                    throw new EmailInvalidoException();
+                    $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
+                    $usuario = $this->login($email, $senha);
+                    
+                    if($usuario){
+                        $this->redirecionarPagina('home');
+                    } 
+                }catch(UsuarioInexistenteException $e){
+                    $this->dados['exception'] = 'Email e / ou Senha estão incorretos';  
+                }catch(SenhaInvalidaException $e){
+                    $this->dados['exception'] = 'A senha deve conter entre 8 e 32 caracteres';
+                }catch(EmailInvalidoException $e){
+                    $this->dados['exception'] = 'Email inválido';
                 }
-
-                $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
-                $usuario = $this->login($email, $senha);
-                
-                if($usuario){
-                    $this->redirecionarPagina('home');
-                } 
-            }catch(UsuarioInexistenteException $e){
-                $this->dados['exception'] = 'Email e / ou Senha estão incorretos';  
-            }catch(SenhaInvalidaException $e){
-                $this->dados['exception'] = 'A senha deve conter entre 8 e 32 caracteres';
-            }catch(EmailInvalidoException $e){
-                $this->dados['exception'] = 'Email inválido';
             }
-            
-            }
-            
             $this->carregarConteudo('login',$this->dados);
         }else{
             $this->redirecionarPagina('home');
@@ -112,10 +108,11 @@ class loginController extends mainController{
             $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
             $_SESSION['email'] = $usuario[0]->getEmail();
             return true;
+
         }
         else{
             throw new UsuarioInexistenteException();
-        }
+        } 
     }
 
     /**
@@ -349,16 +346,6 @@ class loginController extends mainController{
         } else {
             throw new DadosCorrompidosException();
         }
-    }
-
-    public static function validarForm($dados) {
-        if(isset($dados) && !empty($dados)){
-            if (array_key_exists("email", $dados) && array_key_exists("senha", $dados)) {
-                 return true;
-            }
-        }
-        
-        return false;
     }
 }
 ?>

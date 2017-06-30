@@ -23,13 +23,12 @@ class loginControllerTest extends TestCase {
         //considerando que existe o seguinte cadastro no Banco de Dados: Nome: Fulano, Sobrenome: De Tal, Email: vvalmeida96@gmail.com, Senha: 11111111) 
         $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '11111111');
         $this->instancia->index();
-        
+
         //verifica se os dados da sessão são os esperados
         $this->assertEquals('Fulano', $_SESSION['nome']);
         $this->assertEquals('vvalmeida96@gmail.com', $_SESSION['email']);
         $this->assertEquals('De Tal', $_SESSION['sobrenome']);
     }
-
 
 
 }

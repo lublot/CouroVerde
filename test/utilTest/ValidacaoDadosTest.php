@@ -154,22 +154,22 @@ class ValidacaoDadosTest extends TestCase {
         
         //Testa um valor nulo, espera false como resposta;
         $dado = null;
-        $resposta = ValidacaoDados::validarForm($dado);
+        $resposta = ValidacaoDados::validarForm($dado, "cadastro");
         $this->assertEquals(false,$resposta);
 
         //Testa um array com conteúdo válido, espera true como resposta
         $dado = array("nome"=>"Joaquim","sobrenome"=>"Nabuco","senha"=>"12345678","email"=>"teste@gmail.com"); 
-        $resposta = ValidacaoDados::validarForm($dado);
+        $resposta = ValidacaoDados::validarForm($dado, "cadastro");
         $this->assertEquals(true,$resposta);
         
         //Testa um array faltando campos, espera 'false' como resposta
         $dado = array("nome"=>"Joaquim","senha"=>"12345678","email"=>"teste@gmail.com");
-        $resposta = ValidacaoDados::validarForm($dado);
+        $resposta = ValidacaoDados::validarForm($dado, "cadastro");
         $this->assertEquals(false,$resposta);
 
         //Testa um array onde o nome da chave foi editado, espera 'false' como resposta
         $dado = array("PRIMEIROnome"=>"Joaquim","sobrenome"=>"Nabuco","senha"=>"12345678","email"=>"teste@gmail.com");
-        $resposta = ValidacaoDados::validarForm($dado);
+        $resposta = ValidacaoDados::validarForm($dado, "cadastro");
         $this->assertEquals(false,$resposta);
 
     }    
