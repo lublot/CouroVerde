@@ -1,126 +1,29 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
 		<title>Sertour</title>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<!--JavaScript do materialize responsavel pela dinamica do painel de noticias-->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 		<!-- CSS do materialize resposavel pela aparencia do painel de noticias-->
-		<link rel="stylesheet" type="text/css" href="/assets/css/materialize.min.css">
-		<link rel="stylesheet" href="/assets/css/bootstrap.css" />
-		<link rel="stylesheet" href="/assets/css/bootstrap-theme.css" />
-		<link rel="stylesheet" href="/assets/css/estilo.css" />
-		<link rel="stylesheet" href="/assets/css/bootstrap-social.css" />
+		<link rel="stylesheet" type="text/css" href=<?php $this->path('assets/css/materialize.min.css');?>>
+		<link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap.css')?>>
+        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-theme.css')?>>
+        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/estilo.css')?>>
+        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/topo.css')?>>
+        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-social.css')?>>
+        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.css')?>>
+        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.min.css')?>>
+        <script type ="text/javascript" src=<?php $this->path('assets/js/jquery-3.2.1.min.js')?>></script>
+        <script type="text/javascript" src=<?php $this->path('assets/js/bootstrap.js');?>></script>
 		<!--Fonte do materialize para o painel de noticias-->
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
     <body>
 
-    <!--CABEÇALHO TIRAR DAQUI DEPOIS-->
-    <div class="container">
-      <div class="row">
-          <div class="col-md-1 col-sm-1"></div>
-          <div class="col-xs-12 col-md-11">
-               <h2><i class="fa fa-bars"></i> Sertour</h2>
-          </div>
-
-      </div>
-
-      <div class="row">
-          <div class="col-xs-12 visible-xs-block" >
-                <?php
-                    if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
-                        echo '<span style="float:right"><b>Olá, '.$_SESSION['nome'].'!</b></span><br><br>';
-                    }else{
-                       echo '<center><span><a href="#"><strong>Fazer Login</strong></a></span> ou <span><a href="#"><strong> Cadastre-se!</strong></a></span></center><br>';     
-                    }
-                ?>   
-          </div>
-      </div>
-
-      <div class="row">
-          
-          <div class="col-xs-12 visible-xs-block">
-                <div class="flex">
-                  <span class="item-cabecalho">
-                      <i class="fa fa-home" aria-hidden="true"></i>
-                      <a href="#"> Home</a>
-                  </span>
-
-                  <span class="item-cabecalho">
-                      <i class="fa fa-sign-in" aria-hidden="true"></i>
-                      <a href="#"> Explorar </a>
-                  </span>
-                  
-                  <span class="item-cabecalho">
-                      <i class="fa fa-info-circle" aria-hidden="true"></i>
-                      <a href="#"> Sobre </a>
-                  </span>
-                    
-                    <?php
-                        if(isset($_SESSION['tipo_usuario']) && !empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']){
-                            if($_SESSION['tipo_usuario'] == 'Administrador' || $_SESSION['tipo_usuario'] == 'Funcionario'){
-                                echo '<span class="item-cabecalho">
-                                      <i class="fa fa-cogs" aria-hidden="true"></i>
-                                      <a href="#"> Admin </a>
-                                      </span>';
-                            }
-                        }                             
-                    ?>
-                </div>
-                
-          </div>
-          
-
-          <div class="col-md-1 hidden-xs"></div>
-          <div class="col-md-6 col-sm-8 hidden-xs">
-              <div class="flex">
-                  <span class="item-cabecalho">
-                      <i class="fa fa-home" aria-hidden="true"></i>
-                      <a href="#"> Home</a>
-                  </span>
-
-                  <span class="item-cabecalho">
-                      <i class="fa fa-sign-in" aria-hidden="true"></i>
-                      <a href="#"> Explorar </a>
-                  </span>
-                  
-                  <span class="item-cabecalho">
-                      <i class="fa fa-info-circle" aria-hidden="true"></i>
-                      <a href="#"> Sobre </a>
-                  </span>
-
-                  <?php
-                        if(isset($_SESSION['tipo_usuario']) && !empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']){
-                            if($_SESSION['tipo_usuario'] == 'Administrador' || $_SESSION['tipo_usuario'] == 'Funcionario'){
-                                echo '<span class="item-cabecalho">
-                                      <i class="fa fa-cogs" aria-hidden="true"></i>
-                                      <a href="#">Painel Administrativo </a>
-                                      </span>';
-                            }
-                        }
-                  ?>
-
-                </div>
-          </div>
-          <div class="col-sm-0 col-md-2 hidden-xs"></div>
-          <div class="col-sm-4 col-md-3 hidden-xs">
-                <?php
-                    if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
-                        echo '<span style="float:right"><b>Olá, '.$_SESSION['nome'].'!</b></span>';
-                    }else{
-                       echo '<center><span><a href="#"><strong>Fazer Login</strong></a></span> ou <span><a href="#"><strong> Cadastre-se!</strong></a></span></center>';     
-                    }
-                ?> 
-                
-          	</div>
-      		</div>
-      		<hr>
-  		</div>
-
-  		<!--FIM CABEÇALHO-->
-
+    <?php $this->carregarCabecalho();?>
+        
     	<!--Divisão responsavel pelo panel rotativo-->	
     	<div class="slider">
     	<!--<div class="slider fullscreen">-->
@@ -131,7 +34,7 @@
   		</div>
 
   		<!-- Codigo responsavel por inserir  dinamicamente as imagens e os textos das noticias-->
-  		<?php
+  		<!--<?php
   			/* SELECT * FROM nome_da_tabela .....*/
   		 	$result_carousel = "SELECT * FROM noticias ORDER BY id ASC";
             /* 
@@ -149,44 +52,9 @@
             	</script>
             	<?php
             }
-        ?> 
+        ?> -->
 
-        <!--RODAPPE-->
-        <footer class="footer-distributed">
-
-      		<div class="footer-left">
-
-        	<h3>Sertour</h3>
-
-        		<p class="footer-company-name">MItologic Software® &copy; 2017</p>
-      		</div>
-
-      		<div class="footer-center">
-
-       		 	<p class="footer-links">
-        			<a href="#">Home</a>
-        			<a href="#">Galeria</a>
-        			<a href="#">Sobre</a>
-        		</p>
-
-      		</div>
-
-      		<div class="footer-right">
-
-        		<div class="footer-icons">
-          			<p style="text-align: center;">
-          				<a href="#"><i class="fa fa-twitter"></i></a>
-          				<a href="#"><i class="fa fa-facebook"></i></a>
-          				<a href="#"><i class="fa fa-google-plus"></i></a>
-          			</p>
-
-        		</div>
-
-    		</div>
-
-		</footer>
-
-		<!--FIM RODAPE-->
+        <?php $this->carregarRodape()?>
 
 		<script type="text/javascript">
 	 		//Inicializa o "slide" das noticias

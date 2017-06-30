@@ -1,3 +1,4 @@
+<?php session_start()?>
 <div class="container">
       <div class="row">
           <div class="col-md-1 col-sm-1"></div>
@@ -9,11 +10,21 @@
 
       <div class="row">
           <div class="col-xs-12 visible-xs-block" >
+              
                 <?php
                     if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
-                        echo '<span style="float:right"><b>Olá, '.$_SESSION['nome'].'!</b></span><br><br>';
+                        echo '<span style="float:right" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <b>Olá, '.$_SESSION['nome'].'! <span class="caret"></span></b>
+                              </span>
+                                <br>
+                                <br>';
+                        echo '<ul class="dropdown-menu pull-right">
+                                <li><a href="#">Gerenciar Conta</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="'.ROOT_URL.'login/logout">Sair</a></li>
+                              </ul>';
                     }else{
-                       echo '<center><span><a href="#"><strong>Fazer Login</strong></a></span> ou <span><a href="#"><strong> Cadastre-se!</strong></a></span></center><br>';     
+                       echo '<center><span><a href="'.ROOT_URL.'login"><strong>Fazer Login</strong></a></span> ou <span><a href="'.ROOT_URL.'cadastro"><strong> Cadastre-se!</strong></a></span></center><br>';     
                     }
                 ?>   
           </div>
@@ -88,9 +99,18 @@
           <div class="col-sm-4 col-md-3 hidden-xs">
                 <?php
                     if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
-                        echo '<span style="float:right"><b>Olá, '.$_SESSION['nome'].'!</b></span>';
+                        echo '<span style="float:right" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <b>Olá, '.$_SESSION['nome'].'! <span class="caret"></span></b>
+                              </span>
+                                <br>
+                                <br>';
+                        echo '<ul class="dropdown-menu pull-right">
+                                <li><a href="#">Gerenciar Conta</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="'.ROOT_URL.'login/logout">Sair</a></li>
+                              </ul>';
                     }else{
-                       echo '<center><span><a href="#"><strong>Fazer Login</strong></a></span> ou <span><a href="#"><strong> Cadastre-se!</strong></a></span></center>';     
+                       echo '<center><span><a href="'.ROOT_URL.'login"><strong>Fazer Login</strong></a></span> ou <span><a href="'.ROOT_URL.'cadastro"><strong> Cadastre-se!</strong></a></span></center><br>';     
                     }
                 ?> 
                 

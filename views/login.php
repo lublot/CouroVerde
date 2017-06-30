@@ -12,6 +12,8 @@
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/estilo.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/topo.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-social.css')?>>
+    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.css')?>>
+    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.min.css')?>>
     <script type ="text/javascript" src=<?php $this->path('assets/js/jquery-3.2.1.min.js')?>></script>
     <script type="text/javascript" src=<?php $this->path('assets/js/bootstrap.js');?>></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -20,14 +22,14 @@
 
   </head>
   <body>
-    <?php $this->carregarCabecalho()?>
+
     <div id="container">
       
       <img src=<?php $this->path('assets/images/logo.jpg')?>  class="img-rounded" id="logo">
       <section id="caixa-login">
           <h4 class="text-center">Login</h4>
 
-            <form class="form-horizontal " id="formLogin" method="POST" action=<?php $this->paginaAtual()?>>
+            <form class="form-horizontal " id="formLogin" method="POST">
                 <div class="form-group col-xs-12.3">
                     <input type="email" class="form-control" name="email" placeholder="Email">
                 </div>
@@ -41,6 +43,14 @@
                     <button type="submit" class="btn btn-default btn-md center">Entrar</button>
                   </div>
                 </div>
+                <h6 class="text-center text-danger">
+                  <?php 
+                  if(isset($this->dados) && !empty($this->dados)){
+                    if(isset($this->dados['exception']) && !empty($this->dados['exception'])){
+                      echo $this->dados['exception'];
+                    }
+                  }?>
+                </h6>
           </form>
 
           <a href="mailto:#"> <h5 class="text-center">Cadastre-se <br/> </h5></a>
@@ -50,13 +60,13 @@
           <div class="center" style="margin: 0 auto; width:43%">
 
           <a class="btn btn-social-icon btn-lg btn-facebook ">
-         <Span class = "fa fa-facebook"> </ span>
+         <span class = "fa fa-facebook"> </span>
           </a>
 
           <img src=<?php $this->path('assets/images/divisor.jpg')?>>
 
           <a class="btn btn-social-icon btn-lg btn-google-plus ">
-         <Span class = "fa fa-google-plus"> </ span>
+         <span class = "fa fa-google-plus"> </span>
 
           </a>
         </div>

@@ -2,11 +2,11 @@
 namespace controllers;
 
 
-class homeController{
+class homeController extends mainController{
 
 
     public function index(){
-        echo "Hello World";
+        $this->carregarConteudo('home',array());
     }
 }
 

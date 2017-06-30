@@ -4,8 +4,13 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use util\GerenciarSenha as GerenciarSenha;
 use \DAO\usuarioDAO as usuarioDAO;
 use \util\ValidacaoDados as ValidacaoDados;
-
+use exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
+use exceptions\SenhaInvalidaException as SenhaInvalidaException;
+use exceptions\EmailInvalidoException as EmailInvalidoException;
+session_start();
 class loginController extends mainController{
+
+    
 
     /**
     * Configura a classe para realização de teste.
@@ -41,31 +46,48 @@ class loginController extends mainController{
         }
     }
 
+    protected $dados = array();
     //Login do usuário
     public function index(){
-        $this->carregarConteudo('login',array());
-        if (ValidacaoDados::validarForm($_POST)) {
+        
+        if(!isset($_SESSION['nome']) && !isset($_SESSION['sobrenome']) && !isset($_SESSION['email'])){
+            if ($this->validarForm($_POST)) {
             
-            $email = addslashes($_POST["email"]);
-            $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
+            
+            
 
-            if (!ValidacaoDados::validarSenha($senha)) {
-                throw new SenhaInvalidaException();
-            } 
-            if (!ValidacaoDados::validarEmail($email)) {
-                throw new EmailInvalidoException();
+            try{
+                $email = addslashes($_POST["email"]);
+                $senha = $_POST["senha"];
+
+                if (!ValidacaoDados::validarSenha($senha)) {
+                    throw new SenhaInvalidaException();
+                } 
+                if (!ValidacaoDados::validarEmail($email)) {
+                    throw new EmailInvalidoException();
+                }
+
+                $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
+                $usuario = $this->login($email, $senha);
+                
+                if($usuario){
+                    $this->redirecionarPagina('home');
+                } 
+            }catch(UsuarioInexistenteException $e){
+                $this->dados['exception'] = 'Email e / ou Senha estão incorretos';  
+            }catch(SenhaInvalidaException $e){
+                $this->dados['exception'] = 'A senha deve conter entre 8 e 32 caracteres';
+            }catch(EmailInvalidoException $e){
+                $this->dados['exception'] = 'Email inválido';
             }
             
-            $usuario = $this->login($email, $senha);
-            if($usuario){//verifica a existencia do usuário que tentou logar
-                $this->redirecionarPagina('home');
-                //header("Location: home.php"); //caso exista, é redirecinado para a página principal do sistema
             }
-            else{
-                $this->redirecionarPagina('login');
-                //header("Location: index.php");//caso não existe usuario com esse login, ele continua na pagina
-            }
+            
+            $this->carregarConteudo('login',$this->dados);
+        }else{
+            $this->redirecionarPagina('home');
         }
+        
     }
 
 
@@ -85,14 +107,14 @@ class loginController extends mainController{
         $usuario = $usuarioDAO->buscar($campos, $filtro);//Recebe o objeto do usuario que vai logar
         if(count($usuario) > 0){ //Verifica se existe usuario
         //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema
-            session_start();
+            
             $_SESSION['nome'] = $usuario[0]->getNome();
             $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
             $_SESSION['email'] = $usuario[0]->getEmail();
             return true;
         }
         else{
-            return false;
+            throw new UsuarioInexistenteException();
         }
     }
 
@@ -232,7 +254,7 @@ class loginController extends mainController{
     */
     public function logout(){
         // Inicializa a sessão.
-        session_start();
+       
         // Apaga todas as variáveis da sessão
         $_SESSION = array();
         // Se é preciso matar a sessão, então os cookies de sessão também devem ser apagados.
@@ -247,6 +269,7 @@ class loginController extends mainController{
         }
         // Por último, destrói a sessão
         session_destroy();
+        $this->redirecionarPagina('home');
     }
 
 
@@ -308,7 +331,7 @@ class loginController extends mainController{
     public function redefinir() {
         require_once(ABSPATH.'/util/GerenciarSenha.php');
 
-        if(ValidacaoDados::validarFormRedefinir($_POST)) {
+        if($this->validarFormRedefinir($_POST)) {
             $novaSenha = GerenciarSenha::criptografarSenha($_POST["senha"]); //Recebe a nova senha do usuário.
             $confirmarSenha = GerenciarSenha::criptografarSenha($_POST["confirmarSenha"]); //Recebe a confirmação de senha.
 
@@ -326,6 +349,16 @@ class loginController extends mainController{
         } else {
             throw new DadosCorrompidosException();
         }
+    }
+
+    public static function validarForm($dados) {
+        if(isset($dados) && !empty($dados)){
+            if (array_key_exists("email", $dados) && array_key_exists("senha", $dados)) {
+                 return true;
+            }
+        }
+        
+        return false;
     }
 }
 ?>
