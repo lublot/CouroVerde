@@ -7,6 +7,7 @@ use \util\ValidacaoDados as ValidacaoDados;
 use exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
 use exceptions\SenhaInvalidaException as SenhaInvalidaException;
 use exceptions\EmailInvalidoException as EmailInvalidoException;
+use exceptions\AcessoExternoNegadoException as AcessoExternoNegadoException;
 session_start();
 
 class loginController extends mainController{
@@ -127,11 +128,11 @@ class loginController extends mainController{
     * Realiza a autenticação via Google+
     **/
     public function acessoGoogle(){
-        session_start();
+
         require_once (ABSPATH.'/vendor/credentialsConfig.php');
 
         // $service implements the client interface, has to be set before auth call
-        $service = new Google_Service_Plus($client);
+        $service = new \Google_Service_Plus($client);
 
         if (isset($_GET['code'])) { // we received the positive auth callback, get the token and store it in session
             $client->authenticate($_GET['code']);
@@ -166,16 +167,22 @@ class loginController extends mainController{
             $cadastro = new cadastroController();
             $cadastro->cadastrarUsuarioGoogle($me);
             //Redireciona para página confirmando cadastro
+            $_SESSION = array();//Limpa os dados de token
+            $_SESSION['id'] = $me['id'];
+            $_SESSION['nome'] = $me['modelData']['name']['givenName'];
+            $_SESSION['sobrenome'] = $me['modelData']['name']['familyName'];
+            $_SESSION['email'] = $me['modelData']['emails'][0]['value'];
         }
+        $this->redirecionarPagina('home');
     }
 
     /**
     * Realiza a autenticação do login via Facebook.
     **/
     public function acessoFacebook() {
-        session_start();
-        require_once __DIR__ . '/php-graph-sdk-5.4/src/Facebook/autoload.php';  
-        $fb = new Facebook\Facebook([
+
+        require_once ABSPATH. '/php-graph-sdk-5.4/src/Facebook/autoload.php';  
+        $fb = new \Facebook\Facebook([
         'app_id' => '1435160229855766',
         'app_secret' => 'fa696e39b476a2c926ff6f2fa080532d',
         'default_graph_version' => 'v2.9',
@@ -249,8 +256,14 @@ class loginController extends mainController{
                 'sobrenome' => $graph->getLastName(),
                 'email' => $graph->getEmail()
             ]);
-            //Falta redirecionar usuário
+
+            $_SESSION = array();//Limpa os dados de token
+            $_SESSION['id'] = $graph->getId();
+            $_SESSION['nome'] = $graph->getFirstName();
+            $_SESSION['sobrenome'] = $graph->getLastName();
+            $_SESSION['email'] = $graph->getEmail();
         }
+        $this->redirecionarPagina('home');
     }
 
     /**

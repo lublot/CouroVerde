@@ -1,10 +1,10 @@
 <?php
 
     //Script de Configuração de Credenciais
-    require_once './autoload.php';
+    require_once ABSPATH.'/vendor/autoload.php';
 
-    $scriptUri = "http://".$_SERVER["HTTP_HOST"].$_SERVER['PHP_SELF'];
-    $client = new Google_Client();
+    $scriptUri = "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'];
+    $client = new \Google_Client();
     $client->setAccessType('online'); // default: offline
     $client->setApplicationName('WebMuseu - Casa do Sertão');
     $client->setClientId('175968974460-seagsbc9m8j2mo1b2fma9fi7c3gkcddj.apps.googleusercontent.com');

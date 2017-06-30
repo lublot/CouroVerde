@@ -6,7 +6,7 @@ namespace exceptions;
  * @author MItologhic Software
  *
  */
-class AcessoExternoErroException extends \Exception
+class AcessoExternoNegadoException extends \Exception
 {
 
     /**

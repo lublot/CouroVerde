@@ -16,6 +16,7 @@
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.min.css')?>>
     <script type ="text/javascript" src=<?php $this->path('assets/js/jquery-3.2.1.min.js')?>></script>
     <script type="text/javascript" src=<?php $this->path('assets/js/bootstrap.js');?>></script>
+    <script type="text/javascript" src=<?php $this->path('assets/js/login-script.js');?>></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
 
@@ -59,13 +60,13 @@
 
           <div class="center" style="margin: 0 auto; width:43%">
 
-          <a class="btn btn-social-icon btn-lg btn-facebook ">
+          <a class="btn btn-social-icon btn-lg btn-facebook " href=<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'/acessoFacebook';?>>
          <span class = "fa fa-facebook"> </span>
           </a>
 
           <img src=<?php $this->path('assets/images/divisor.jpg')?>>
 
-          <a class="btn btn-social-icon btn-lg btn-google-plus ">
+          <a class="btn btn-social-icon btn-lg btn-google-plus " href=<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'/acessoGoogle';?>>
          <span class = "fa fa-google-plus"> </span>
 
           </a>
