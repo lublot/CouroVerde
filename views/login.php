@@ -60,7 +60,7 @@
 
           <div class="center" style="margin: 0 auto; width:43%">
 
-          <a class="btn btn-social-icon btn-lg btn-facebook " href=<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'/acessoFacebook';?>>
+          <a class="btn btn-social-icon btn-lg btn-facebook " id='btn-facebook'>
          <span class = "fa fa-facebook"> </span>
           </a>
 
