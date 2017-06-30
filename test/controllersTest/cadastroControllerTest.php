@@ -16,8 +16,7 @@ use \PHPUnit\Framework\TestCase;
 use \DAO\usuarioDAO as usuarioDAO;
 
 
-class cadastroControllerTest extends TestCase
-{
+class cadastroControllerTest extends TestCase {
     private $instancia;
 
     /**
@@ -167,6 +166,9 @@ class cadastroControllerTest extends TestCase
         $usuario = $usuario[0];
         $this->assertEquals('g@gmail.com', $usuario->getEmail()); //certifica-se que o email é igual ao esperado     
     }    
+
+
+
 
 
 }

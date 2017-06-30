@@ -44,7 +44,7 @@ class loginController extends mainController{
     //Login do usuário
     public function index(){
         $this->carregarConteudo('login',array());
-        if (ValidacaoDados::validarForm($_POST)) {
+        if (ValidacaoDados::validarForm($_POST, "login")) {
             
             $email = addslashes($_POST["email"]);
             $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
@@ -90,8 +90,7 @@ class loginController extends mainController{
             $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
             $_SESSION['email'] = $usuario[0]->getEmail();
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
