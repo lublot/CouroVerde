@@ -52,7 +52,7 @@ class cadastroController
     * Cadastra novo usuário.
     */
     public function index() {        
-        if (ValidacaoDados::validarForm($_POST, "cadastro")) {
+        if (ValidacaoDados::validarForm($_POST, array("nome","sobrenome","email","senha"))) {
             $usuarioDAO = new UsuarioDAO();
             $email = addslashes($_POST["email"]);
             $usuario = $usuarioDAO->buscar(array(), array("email"=>$email));
@@ -100,7 +100,7 @@ class cadastroController
     * @param unknown $dados - dados do usuário
     */
     public function confirmar($dados) {
-        if (ValidacaoDados::validarForm($dados, "cadastro")) { //essa validação já foi feita anteriormente, precisa fazer de novo?
+        if (ValidacaoDados::validarForm($dados, array("nome","sobrenome","email","senha"))) { //essa validação já foi feita anteriormente, precisa fazer de novo?
             //Acho que as validações abaixo são desnecessárias pq já foram feitas no método anterior.
             //Se os campos abaixo forem inválidos retornam exceções
             if (!ValidacaoDados::validarNome($dados['nome'])) {

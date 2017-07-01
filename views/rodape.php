@@ -10,9 +10,9 @@
       <div class="footer-center">
 
         <p class="footer-links">
-          <a href="#">Home</a>
+          <a href="<?php echo ROOT_URL.'home'?>">Home</a>
           <a href="#">Galeria</a>
-          <a href="#">Sobre</a>
+          <a href="<?php echo ROOT_URL.'sobre'?>">Sobre</a>
         </p>
 
       </div>
