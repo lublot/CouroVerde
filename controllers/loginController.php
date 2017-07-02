@@ -19,12 +19,12 @@ class loginController extends mainController{
      * @param String $senha senha do usuário
      * @param String $novaSenha nova senha para o caso de redefinição
      */
-    public function configuraAmbienteParaTeste($email, $senha, $novaSenha) {
+    public function configuraAmbienteParaTeste($email, $senha, $novaSenha, $id) {
         $_POST = array("email" => $email,
         "senha" => isset($novaSenha)?$novaSenha:$senha,
         "confirmarSenha" => isset($novaSenha)?$novaSenha:$senha);
 
-        $_GET = array("i" => 172,
+        $_GET = array("i" => $id,
         "e" => $email);
 
         $ds = DIRECTORY_SEPARATOR;
@@ -41,6 +41,10 @@ class loginController extends mainController{
 
         if(!isset($_SERVER["SERVER_NAME"])) {
             $_SERVER["SERVER_NAME"] = "localhost";
+        }
+
+        if(!isset($_SERVER["HTTP_HOST"])) {
+            $_SERVER["HTTP_HOST"] = 'HTTP_HOST';
         }
 
         if(!isset($_SERVER['REQUEST_URI'])) {
@@ -104,7 +108,7 @@ class loginController extends mainController{
     */
     private function login($email, $senha){
         //Crio dois arrays para usar na busca do usuario. 
-        $campos = array("nome","senha", "email","sobrenome","cadastroConfirmado");
+        $campos = array();
         $filtro = array(
             "email" => $email,
             "senha" => $senha,
@@ -112,6 +116,7 @@ class loginController extends mainController{
 
         $usuarioDAO = new UsuarioDAO();
         $usuario = $usuarioDAO->buscar($campos, $filtro);//Recebe o objeto do usuario que vai logar
+        echo 'KKKKKKK'.count($usuario);
         if(count($usuario) > 0){ //Verifica se existe usuario
         //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema
             if($usuario[0]->confirmouCadastro()){
