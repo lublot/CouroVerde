@@ -183,7 +183,7 @@ class cadastroController
             
             if (strcmp($nome, $nomeMd5)==0 && strcmp($email, $emailMd5)==0 && strcmp($sobrenome, $sobrenomeMd5)==0) {
                 $usuario->setCadastroConfirmado(true);
-                $usuarioDao->alterar(array('cadastroConfirmado'=>$usuario->confirmouCadastro()), array('idUsuario'=>$usuario->getId()));
+                $usuarioDao->alterar(array('cadastroConfirmado'=>1), array('idUsuario'=>$usuario->getId()));
             }
         } else {
             throw new UsuarioInexistenteException();

@@ -50,7 +50,6 @@ class UsuarioDAO extends Database{
 
             $query .= implode(" AND ",$aux);
         }
-
         
         $this->PDO->query($query);
 
@@ -107,12 +106,22 @@ class UsuarioDAO extends Database{
         $usuarios = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
+                if(isset($item['cadastroConfirmado'])) {
+                    if(strcmp($item['cadastroConfirmado'], 1)==0) {
+                        $cadastroConfirmado = true;
+                    } else {
+                        $cadastroConfirmado = false;
+                    }
+                } else {
+                    $cadastroConfirmado = null;
+                }
+
                 $usuarios[] = new Usuario(isset($item['idUsuario'])?$item['idUsuario']:null,
                                           isset($item['email'])?$item['email']:null,
                                           isset($item['nome'])?$item['nome']:null,
                                           isset($item['sobrenome'])?$item['sobrenome']:null,
                                           isset($item['senha'])?$item['senha']:null,
-                                          isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null);
+                                          $cadastroConfirmado);
             }    
         }
         
@@ -218,12 +227,19 @@ class UsuarioDAO extends Database{
         $usuarios = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
+                
+                if(isset($item['cadastroConfirmado'])) {
+                    $cadastroConfirmado = strcmp($item['cadastroConfirmado'], 1)?true:false;
+                } else {
+                    $cadastroConfirmado = null;
+                }                
+                
                 $usuarios[] = new Usuario(isset($item['idUsuario'])?$item['idUsuario']:null,
                                           isset($item['email'])?$item['email']:null,
                                           isset($item['nome'])?$item['nome']:null,
                                           isset($item['sobrenome'])?$item['sobrenome']:null,
                                           isset($item['senha'])?$item['senha']:null,
-                                          isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null);
+                                          $cadastroConfirmado);
             }    
         }
         
