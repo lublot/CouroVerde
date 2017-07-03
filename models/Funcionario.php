@@ -1,8 +1,6 @@
 <?php
 namespace models;
 
-
-
 /**
 * Classe responsável por modelar um funcionário no contexto do sistema
 * @author MItologhic Software
@@ -36,8 +34,8 @@ class Funcionario extends Usuario {
 	* @param unknown $podeRealizarBackup indica se pode realizar backup
 	* 
 	*/
-	public function __construct($id,$email, $nome, $sobrenome, $senha, $cadastroConfirmado, $matricula, $funcao, $podeCadastrarObra,$podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia, $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup) {
-		parent::__construct($id, $email, $nome, $sobrenome, $senha, $cadastroConfirmado);
+	public function __construct($id,$email, $nome, $sobrenome, $senha, $cadastroConfirmado, $tipoUsuario, $matricula, $funcao, $podeCadastrarObra,$podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia, $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup) {
+		parent::__construct($id, $email, $nome, $sobrenome, $senha, $cadastroConfirmado, $tipoUsuario);
 		$this->matricula = $matricula;
 		$this->funcao = $funcao;
 		$this->podeCadastrarObra = $podeCadastrarObra;

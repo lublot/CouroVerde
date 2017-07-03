@@ -1,38 +1,104 @@
 <?php
 namespace controllers;
-//use Util\GerenciarSenha as GerenciarSenha;
-
+require_once dirname(__DIR__).'/vendor/autoload.php';
+use util\GerenciarSenha as GerenciarSenha;
+use \DAO\usuarioDAO as usuarioDAO;
+use \util\ValidacaoDados as ValidacaoDados;
+use exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
+use exceptions\SenhaInvalidaException as SenhaInvalidaException;
+use exceptions\EmailInvalidoException as EmailInvalidoException;
+use exceptions\AcessoExternoNegadoException as AcessoExternoNegadoException;
+session_start();
 
 class loginController extends mainController{
+    protected $dados = array();
+
+    /**
+    * Configura a classe para realização de teste.
+     * @param String $email email do usuário
+     * @param String $senha senha do usuário
+     * @param String $novaSenha nova senha para o caso de redefinição
+     */
+    public function configuraAmbienteParaTeste($email, $senha, $novaSenha, $id) {
+        $_POST = array("email" => $email,
+        "senha" => isset($novaSenha)?$novaSenha:$senha,
+        "confirmarSenha" => isset($novaSenha)?$novaSenha:$senha);
+
+        $_GET = array("i" => $id,
+        "e" => $email);
+
+        $ds = DIRECTORY_SEPARATOR;
+	    $pasta = explode($ds,getcwd());
+	    $pasta = end($pasta);
+
+        if(!defined('ABSPATH')) {
+            define('ABSPATH', dirname(dirname( __FILE__ )));
+        }
+
+        if(!defined('ROOT_URL')) {
+            define('ROOT_URL',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/");
+        }
+
+        if(!isset($_SERVER["SERVER_NAME"])) {
+            $_SERVER["SERVER_NAME"] = "localhost";
+        }
+
+        if(!isset($_SERVER["HTTP_HOST"])) {
+            $_SERVER["HTTP_HOST"] = 'HTTP_HOST';
+        }
+
+        if(!isset($_SERVER['REQUEST_URI'])) {
+            $_SERVER["REQUEST_URI"] = "REQUEST_URI";
+        }
+
+        if(!defined('URI_BASE')) {
+            define('URI_BASE',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/index.php");
+        }
+
+        if(!defined('VIEW_BASE')) {
+            define("VIEW_BASE", "http://".$_SERVER['SERVER_NAME']."/".$pasta."/views/");
+        }
+    }
+
+    public function getDados() {
+        return $this->dados;
+    }
 
     //Login do usuário
     public function index(){
-        require_once(ABSPATH.'/util/GerenciarSenha.php');
-        $this->carregarConteudo('login',array());
-        if ($this->validarForm($_POST)) {
-            
-            $email = addslashes($_POST["email"]);
-            $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
+        if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){
+            if (ValidacaoDados::validarForm($_POST, array("email","senha"))) {
+                try{
+                    $email = addslashes($_POST["email"]);
+                    $senha = $_POST["senha"];
 
-            if (!$this->validarSenha($senha)) {
-                throw new SenhaInvalidaException();
-            } 
-            if (!$this->validarEmail($email)) {
-                throw new EmailInvalidoException();
+                    if (!ValidacaoDados::validarSenha($senha)) {
+                        throw new SenhaInvalidaException();
+                    } 
+                    if (!ValidacaoDados::validarEmail($email)) {
+                        throw new EmailInvalidoException();
+                    }
+
+                    $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
+                    $usuario = $this->login($email, $senha);
+                    
+                    if($usuario->confirmouCadastro()){
+                        $this->redirecionarPagina('home');
+                    }else{
+                        $this->redirecionarPagina('login');//LEMBRAR DE MUDAR
+                    }
+                }catch(UsuarioInexistenteException $e){
+                    $this->dados['exception'] = $e->getMessage();  
+                }catch(SenhaInvalidaException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }catch(EmailInvalidoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }
             }
-            
-            $usuario = $this->login($email, $senha);
-            if($usuario){//verifica a existencia do usuário que tentou logar
-                $this->redirecionarPagina('home');
-                //header("Location: home.php"); //caso exista, é redirecinado para a página principal do sistema
-            }
-            else{
-                $this->redirecionarPagina('login');
-                //header("Location: index.php");//caso não existe usuario com esse login, ele continua na pagina
-            }
+            $this->carregarConteudo('login',$this->dados);
+        }else{
+            $this->redirecionarPagina('home');
         }
-        
-  
     }
 
 
@@ -42,35 +108,40 @@ class loginController extends mainController{
     */
     private function login($email, $senha){
         //Crio dois arrays para usar na busca do usuario. 
-        $campos = array("nome","email", "senha");
+        $campos = array();
         $filtro = array(
             "email" => $email,
             "senha" => $senha,
         );
+
         $usuarioDAO = new UsuarioDAO();
         $usuario = $usuarioDAO->buscar($campos, $filtro);//Recebe o objeto do usuario que vai logar
+
         if(count($usuario) > 0){ //Verifica se existe usuario
         //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema
-            session_start();
-            $_SESSION['nome'] = $usuario[0]->getNome();
-            $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
-            $_SESSION['email'] = $usuario[0]->getEmail();
-            return true;
-        }
-        else{
-            return false;
-        }
+            if($usuario[0]->confirmouCadastro()){
+                $_SESSION['nome'] = $usuario[0]->getNome();
+                $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
+                $_SESSION['email'] = $usuario[0]->getEmail();
+                $_SESSION['tipoUsuario'] = $usuario[0]->getTipo();
+                $_SESSION['confirmouCadastro'] = $usuario[0]->confirmouCadastro();
+            }
+           return $usuario[0];
+
+        } else {
+            throw new UsuarioInexistenteException();
+        } 
     }
 
     /**
     * Realiza a autenticação via Google+
     **/
-    public function acessarGoogle(){
-        session_start();
+    public function acessoGoogle(){
+
         require_once (ABSPATH.'/vendor/credentialsConfig.php');
 
         // $service implements the client interface, has to be set before auth call
-        $service = new Google_Service_Plus($client);
+        $service = new \Google_Service_Plus($client);
 
         if (isset($_GET['code'])) { // we received the positive auth callback, get the token and store it in session
             $client->authenticate($_GET['code']);
@@ -91,30 +162,38 @@ class loginController extends mainController{
         $filtros = array("idUsuarioGoogle"=>$me['id']);
 
         $usuarioDao = new UsuarioDAO();
-        $usuario = $usuarioDao->buscarUsuarioContaExterna(array("idUsuarioGoogle"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros,"google");
+        $usuario = $usuarioDao->buscarUsuarioContaExterna(array("idUsuarioGoogle"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado","tipoUsuario"),$filtros,"google");
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $_SESSION = array();//Limpa os dados de token
-            $_SESSION['id'] = $usuario->getId();
+            $_SESSION['id'] = $usuario[0]->getId();
             $_SESSION['nome'] = $usuario[0]->getNome();
             $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
             $_SESSION['email'] = $usuario[0]->getEmail();
-
+            $_SESSION['tipoUsuario'] = $usuario[0]->getTipo();
+            $_SESSION['confirmouCadastro'] = $usuario[0]->confirmouCadastro();
+            
             //Redireciona para a home configurada como de usuário
         }else{
             $cadastro = new cadastroController();
             $cadastro->cadastrarUsuarioGoogle($me);
             //Redireciona para página confirmando cadastro
+            $_SESSION = array();//Limpa os dados de token
+            $_SESSION['id'] = $me['id'];
+            $_SESSION['nome'] = $me['modelData']['name']['givenName'];
+            $_SESSION['sobrenome'] = $me['modelData']['name']['familyName'];
+            $_SESSION['email'] = $me['modelData']['emails'][0]['value'];
         }
+        $this->redirecionarPagina('home');
     }
 
     /**
     * Realiza a autenticação do login via Facebook.
     **/
     public function acessoFacebook() {
-        session_start();
-        require_once __DIR__ . '/php-graph-sdk-5.4/src/Facebook/autoload.php';  
-        $fb = new Facebook\Facebook([
+
+        require_once ABSPATH. '/php-graph-sdk-5.4/src/Facebook/autoload.php';  
+        $fb = new \Facebook\Facebook([
         'app_id' => '1435160229855766',
         'app_secret' => 'fa696e39b476a2c926ff6f2fa080532d',
         'default_graph_version' => 'v2.9',
@@ -122,7 +201,6 @@ class loginController extends mainController{
 
         $helper = $fb->getRedirectLoginHelper();
         if (isset($_GET['state'])) {
-            var_dump($_GET);
             $helper->getPersistentDataHandler()->set('state', $_GET['state']);
         }
 
@@ -169,9 +247,10 @@ class loginController extends mainController{
 
         $response = $fb->get('/me?fields=first_name,last_name,email', $accessToken);
         $graph = $response->getGraphUser();
+        $filtros = array("idUsuarioFacebook"=>$graph->getId());
 
         $usuarioDao = new UsuarioDAO();
-        $usuario = $usuarioDao->buscarUsuarioContaExterna(array($graph->getId()),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros,"facebook");
+        $usuario = $usuarioDao->buscarUsuarioContaExterna(array("idUsuarioFacebook"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado","tipoUsuario"),$filtros,"facebook");
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $usuario = $usuario[0];
@@ -180,6 +259,8 @@ class loginController extends mainController{
             $_SESSION['nome'] = $usuario->getNome();
             $_SESSION['sobrenome'] = $usuario->getSobrenome();
             $_SESSION['email'] = $usuario->getEmail();
+            $_SESSION['tipoUsuario'] = $usuario->getTipo();
+            $_SESSION['cadastroConfirmado'] = $usuario->getTipo();
             //Falta redirecionar usuário
         }else{
             $cadastro = new cadastroController();
@@ -189,8 +270,14 @@ class loginController extends mainController{
                 'sobrenome' => $graph->getLastName(),
                 'email' => $graph->getEmail()
             ]);
-            //Falta redirecionar usuário
+
+            $_SESSION = array();//Limpa os dados de token
+            $_SESSION['id'] = $graph->getId();
+            $_SESSION['nome'] = $graph->getFirstName();
+            $_SESSION['sobrenome'] = $graph->getLastName();
+            $_SESSION['email'] = $graph->getEmail();
         }
+        $this->redirecionarPagina('home');
     }
 
     /**
@@ -198,7 +285,7 @@ class loginController extends mainController{
     */
     public function logout(){
         // Inicializa a sessão.
-        session_start();
+       
         // Apaga todas as variáveis da sessão
         $_SESSION = array();
         // Se é preciso matar a sessão, então os cookies de sessão também devem ser apagados.
@@ -213,97 +300,16 @@ class loginController extends mainController{
         }
         // Por último, destrói a sessão
         session_destroy();
+        $this->redirecionarPagina('home');
     }
 
-
-
-     /**
-    * Verifica se determinado campo tem informação.
-    * @return <code>true</code>, se houver informação; <code>false</code>, caso contrário
-    */
-    private function validarCampo($campo) {
-        if (isset($campo) && !empty($campo)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    * Verifica se a senha informada é válida, isto é, se possui ao menos 8 e no máximo 32 caracteres.
-    * @return <code>true</code>, se a senha informada for válida; <code>false</code>, caso contrário.
-    */
-    private function validarSenha($senha) {
-        if (!$this->validarCampo($senha)) {
-            return false;
-        }
-
-        $tamanho = strlen($senha); //obtém tamanho da senha
-        if ($tamanho < 8 || $tamanho >= 32) { //verifica se o tamanho da senha é adequado
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    * Verifica se o email informado é válido.
-    * @return <code>true</code>, se o email informado for válido; <code>false</code>, caso contrário.
-    */
-    private function validarEmail($email) {
-        if (!$this->validarCampo($email)) {
-            return false;
-        }
-        
-        $dividido = explode("@", $email); //tenta dividir o email a partir da @
-        
-        if (count($dividido) == 2) { //verifica se o email informado possui @
-            $segundaparte = explode(".com", $dividido[1]); //tenta encontrar .com na segunda parte do email
-            
-            if (count($segundaparte) == 2) { //verifica se tem apenas um .com no email
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-    *Verifica a integridade do array de informações recebidas
-    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
-    */
-    private function validarForm($dados) {
-        if (array_key_exists("email", $dados) && array_key_exists("senha", $dados)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    *Verifica a integridade do array do e-mail recebido
-    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
-    */
-    private function validarFormEmail($dados) {
-        if(array_key_exists("email", $dados)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    *Verifica a integridade do array de informações para a redefinicão de senha
-    *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
-    */
-    private function validarFormRedefinir($dados) {
-        if(array_key_exists("senha", $dados) && array_key_exists("confirmarSenha", $dados)) {
-            return true;
-        }
-        return false;
-    }
 
     /**
     *Envia o email para a redefinição de senha.
     */
     public function emailRedefinicao() {
 
-        if ($this->validarFormEmail($_POST)) {
+        if (ValidacaoDados::validarForm($_POST,array("email"))) {
             $email = addslashes($_POST["email"]); //Recebe o endereço de e-mail digitado pelo usuário.
 
             $usuarioDao = new UsuarioDAO();
@@ -318,9 +324,9 @@ class loginController extends mainController{
 
             $id = $usuario->getId(); //Recebe o ID do usuário encontrado.
             
-            $linkRedefinir = URI_BASE."/login/redefinir/?e=".md5($email)."&i=".$id; //Gera um link composto pelas informações do usuário.
+            $linkRedefinir = ROOT_URL."login/redefinir/?e=".md5($email)."&i=".$id; //Gera um link composto pelas informações do usuário.
 
-            $mail = new PHPMailer();
+            $mail = new \PHPMailer();
 
             $mail->isSMTP();                                      // Set mailer to use SMTP
             $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
@@ -336,7 +342,13 @@ class loginController extends mainController{
             $mail->addReplyTo('noreply@gmail.com', 'Não responda');
 
             $mail->isHTML(true);                                  // Set email format to HTML
-
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
             $mail->Subject = 'Sertour - Redefinição de Senha';
             $mail->Body    = "Olá, ".$nome.". Você solicitou uma redefinição de senha.<br/><br/>"
                             ."Por favor, clique no link abaixo e insira sua nova senha: <br/><br/>".
@@ -354,13 +366,11 @@ class loginController extends mainController{
     *Redefine a senha.
     */
     public function redefinir() {
-        require_once(ABSPATH.'/util/GerenciarSenha.php');
-
-        if($this->validarFormRedefinir($_POST)) {
+        if(ValidacaoDados::validarForm($_POST,array("senha","confirmarSenha"))) {
             $novaSenha = GerenciarSenha::criptografarSenha($_POST["senha"]); //Recebe a nova senha do usuário.
             $confirmarSenha = GerenciarSenha::criptografarSenha($_POST["confirmarSenha"]); //Recebe a confirmação de senha.
 
-            if (!$this->validarSenha($novaSenha) || !$this->validarSenha($confirmarSenha) ) { //Verifica se a nova senha digitada é válida.
+            if (!ValidacaoDados::validarSenha($novaSenha) || !ValidacaoDados::validarSenha($confirmarSenha) ) { //Verifica se a nova senha digitada é válida.
                 throw new SenhaInvalidaException(); //Caso não seja, lança uma exceção.
             } else if($novaSenha != $confirmarSenha) { //Verifica se a senha e a confirmação são iguais.
                 throw new SenhaInconsistenteException(); //Caso não seja, lança uma exceção.

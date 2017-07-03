@@ -18,6 +18,7 @@ class Usuario {
     private $sobrenome;
     private $senha;
     private $cadastroConfirmado;
+    private $tipoUsuario;
 
     /**
      * Construtor da classe
@@ -27,13 +28,14 @@ class Usuario {
      * @param unknown $senha senha do usuário
      * @param unknown $cadastroConfirmado indica se confirmou o cadastro
      */
-    public function __construct($id,$email, $nome, $sobrenome, $senha, $cadastroConfirmado) {
+    public function __construct($id,$email, $nome, $sobrenome, $senha, $cadastroConfirmado,$tipoUsuario) {
         $this->id = $id;
         $this->email = $email;
         $this->nome = $nome;
         $this->sobrenome = $sobrenome;
         $this->senha = $senha;
         $this->cadastroConfirmado = $cadastroConfirmado;
+        $this->tipoUsuario = $tipoUsuario;
     }
     
 
@@ -93,6 +95,21 @@ class Usuario {
         $this->sobrenome = $sobrenome;
     }
 
+     /**
+     * Obtém o tipo do usuário.
+     * @return tipoUsuario
+     */
+    public function getTipo() {
+        return $this->tipoUsuario;
+    }
+
+    /**
+     * Configura o nome do usuário.
+     * @param unknown $nome nome do usuário
+     */
+    public function setTipo($tipoUsuario) {
+        $this->tipoUsuario = $tipoUsuario;
+    }
     /**
      * Obtém a senha do usuário.
      * @return senha

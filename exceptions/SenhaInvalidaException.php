@@ -15,6 +15,6 @@ class SenhaInvalidaException extends \Exception
 	*/
     public function __construct()
     {
-        parent::__construct("Informe uma senha que contenha no máximo 8 e no mínimo 32 caracteres.");
+        parent::__construct("A senha deve conter entre 8 e 32 caracteres");
     }
 }

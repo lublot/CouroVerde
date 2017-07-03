@@ -7,7 +7,7 @@ namespace exceptions;
  *
  */
 
-class UsuarioInexistenteException extends Exception
+class UsuarioInexistenteException extends \Exception
 {
     
     /**
@@ -15,6 +15,6 @@ class UsuarioInexistenteException extends Exception
 	*/
     public function __construct()
     {
-        parent::__construct("O usuário especificado não existe.");
+        parent::__construct("Email e/ou Senha estão incorretos");
     }
 }

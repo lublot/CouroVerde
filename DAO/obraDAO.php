@@ -1,7 +1,9 @@
 <?php
-
 namespace DAO;
 
+require_once dirname(__DIR__).'/vendor/autoload.php';
+use \DAO\Database as Database;
+use \models\Obra as Obra;
 
 class ObraDAO {
 
