@@ -11,6 +11,7 @@ class Noticia {
     private $idNoticia;
     private $titulo;
     private $subtitulo;
+    private $descricao;
     private $caminhoImagem;
     private $data;
 
@@ -19,17 +20,18 @@ class Noticia {
      * @param unknown $idNoticia id da notícia     
      * @param unknown $titulo titulo da notícia
      * @param unknown $subtitulo subtitulo da notícia
+     * @param unknown $descricao descricao da notícia     
      * @param unknown $caminhoImagem caminho da imagem da notícia
      * @param unknown $data data da notícia  
      */
-    public function __construct($idNoticia,$titulo, $subtitulo, $caminhoImagem, $data) {
+    public function __construct($idNoticia,$titulo, $subtitulo, $descricao, $caminhoImagem, $data) {
         $this->idNoticia = $idNoticia;
         $this->titulo = $titulo;
         $this->subtitulo = $subtitulo;
+        $this->descricao = $descricao;
         $this->caminhoImagem = $caminhoImagem;
         $this->data = $data;
     }
-    
 
     /**
      * Obtém o idNoticia.
@@ -102,6 +104,22 @@ class Noticia {
     public function setData($data) {
         $this->data = $data;
     }  
+
+    /**
+     * Obtém a descrição da notícia.
+     * @return descricao
+     */
+    public function getDescricao() {
+        return $this->descricao;
+    }
+
+    /**
+     * Configura a descricao da notícia.
+     * @param unknown $descricao descricao da notícia
+     */
+    public function setDescricao($descricao) {
+        $this->descricao = $descricao;
+    }     
 
 }
 
