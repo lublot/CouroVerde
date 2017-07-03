@@ -36,7 +36,7 @@ class loginController extends mainController{
         }
 
         if(!defined('ROOT_URL')) {
-            define("ROOT_URL", 'ROOT_URL');
+            define('ROOT_URL',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/");
         }
 
         if(!isset($_SERVER["SERVER_NAME"])) {
@@ -116,13 +116,15 @@ class loginController extends mainController{
 
         $usuarioDAO = new UsuarioDAO();
         $usuario = $usuarioDAO->buscar($campos, $filtro);//Recebe o objeto do usuario que vai logar
-        echo 'KKKKKKK'.count($usuario);
+
         if(count($usuario) > 0){ //Verifica se existe usuario
         //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema
             if($usuario[0]->confirmouCadastro()){
                 $_SESSION['nome'] = $usuario[0]->getNome();
                 $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
                 $_SESSION['email'] = $usuario[0]->getEmail();
+                $_SESSION['tipoUsuario'] = $usuario[0]->getTipo();
+                $_SESSION['confirmouCadastro'] = $usuario[0]->confirmouCadastro();
             }
            return $usuario[0];
 
@@ -160,15 +162,17 @@ class loginController extends mainController{
         $filtros = array("idUsuarioGoogle"=>$me['id']);
 
         $usuarioDao = new UsuarioDAO();
-        $usuario = $usuarioDao->buscarUsuarioContaExterna(array("idUsuarioGoogle"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros,"google");
+        $usuario = $usuarioDao->buscarUsuarioContaExterna(array("idUsuarioGoogle"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado","tipoUsuario"),$filtros,"google");
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $_SESSION = array();//Limpa os dados de token
-            $_SESSION['id'] = $usuario->getId();
+            $_SESSION['id'] = $usuario[0]->getId();
             $_SESSION['nome'] = $usuario[0]->getNome();
             $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
             $_SESSION['email'] = $usuario[0]->getEmail();
-
+            $_SESSION['tipoUsuario'] = $usuario[0]->getTipo();
+            $_SESSION['confirmouCadastro'] = $usuario[0]->confirmouCadastro();
+            
             //Redireciona para a home configurada como de usuário
         }else{
             $cadastro = new cadastroController();
@@ -246,7 +250,7 @@ class loginController extends mainController{
         $filtros = array("idUsuarioFacebook"=>$graph->getId());
 
         $usuarioDao = new UsuarioDAO();
-        $usuario = $usuarioDao->buscarUsuarioContaExterna(array($graph->getId()),array("idUsuario","nome","sobrenome","email","cadastroConfirmado"),$filtros,"facebook");
+        $usuario = $usuarioDao->buscarUsuarioContaExterna(array("idUsuarioFacebook"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado","tipoUsuario"),$filtros,"facebook");
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $usuario = $usuario[0];
@@ -255,6 +259,8 @@ class loginController extends mainController{
             $_SESSION['nome'] = $usuario->getNome();
             $_SESSION['sobrenome'] = $usuario->getSobrenome();
             $_SESSION['email'] = $usuario->getEmail();
+            $_SESSION['tipoUsuario'] = $usuario->getTipo();
+            $_SESSION['cadastroConfirmado'] = $usuario->getTipo();
             //Falta redirecionar usuário
         }else{
             $cadastro = new cadastroController();
@@ -318,7 +324,7 @@ class loginController extends mainController{
 
             $id = $usuario->getId(); //Recebe o ID do usuário encontrado.
             
-            $linkRedefinir = URI_BASE."/login/redefinir/?e=".md5($email)."&i=".$id; //Gera um link composto pelas informações do usuário.
+            $linkRedefinir = ROOT_URL."login/redefinir/?e=".md5($email)."&i=".$id; //Gera um link composto pelas informações do usuário.
 
             $mail = new \PHPMailer();
 
@@ -336,7 +342,13 @@ class loginController extends mainController{
             $mail->addReplyTo('noreply@gmail.com', 'Não responda');
 
             $mail->isHTML(true);                                  // Set email format to HTML
-
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
             $mail->Subject = 'Sertour - Redefinição de Senha';
             $mail->Body    = "Olá, ".$nome.". Você solicitou uma redefinição de senha.<br/><br/>"
                             ."Por favor, clique no link abaixo e insira sua nova senha: <br/><br/>".

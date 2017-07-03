@@ -18,8 +18,10 @@ class UsuarioDAO extends Database{
         $email = $usuario->getEmail();
         $senha = $usuario->getSenha();
         $cadastroConfirmado = $usuario->confirmouCadastro() == false ? 0 : 1;
+        $tipoUsuario = $usuario->getTipo();
 
-        $query = "INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado) VALUES (null, '$nome', '$sobrenome', '$email', '$senha', $cadastroConfirmado)";
+
+        $query = "INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado,tipoUsuario) VALUES (null, '$nome', '$sobrenome', '$email', '$senha', $cadastroConfirmado,'$tipoUsuario')";
 
         try{
             $this->PDO->query($query);
@@ -121,7 +123,8 @@ class UsuarioDAO extends Database{
                                           isset($item['nome'])?$item['nome']:null,
                                           isset($item['sobrenome'])?$item['sobrenome']:null,
                                           isset($item['senha'])?$item['senha']:null,
-                                          $cadastroConfirmado);
+                                          $cadastroConfirmado,
+                                          isset($item['tipoUsuario'])?$item['tipoUsuario']:null);
             }    
         }
         
@@ -208,7 +211,7 @@ class UsuarioDAO extends Database{
         $query .= implode(', ',$campos)." FROM $tabela1";
 
 
-        $query .= " INNER JOIN $tabela2 ON $tabela1.idUsuario".$redeSocial. " = $tabela2.idUsuario";
+        $query .= " INNER JOIN $tabela2 ON $tabela1.idUsuario"."="."$tabela2.idUsuario";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -221,9 +224,9 @@ class UsuarioDAO extends Database{
             $query .= implode(" AND ",$aux);
         }
 
-        
+        $a = fopen('teste.txt','w'); fwrite($a,$query);fclose($a);    
         $result = $this->PDO->query($query);
-
+    
         $usuarios = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
@@ -239,7 +242,8 @@ class UsuarioDAO extends Database{
                                           isset($item['nome'])?$item['nome']:null,
                                           isset($item['sobrenome'])?$item['sobrenome']:null,
                                           isset($item['senha'])?$item['senha']:null,
-                                          $cadastroConfirmado);
+                                          $cadastroConfirmado,
+                                          isset($item['tipoUsuario'])?$item['tipoUsuario']:null);
             }    
         }
         

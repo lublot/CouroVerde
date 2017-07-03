@@ -18,6 +18,6 @@ class EmailNaoEnviadoException extends \Exception
      *
      */
     public function __construct() {
-        parent::__construct("O email não foi enviado.");
+        parent::__construct("Não foi possível enviar um email de confirmação. Tente novamente mais tarde ou contate-nos");
     }
 }
