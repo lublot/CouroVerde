@@ -36,7 +36,7 @@
                 <div class="flex">
                   <span class="item-cabecalho">
                       <i class="fa fa-home" aria-hidden="true"></i>
-                      <a href="#"> Home</a>
+                      <a href=<?php echo ROOT_URL.'home'?>> Home</a>
                   </span>
 
                   <span class="item-cabecalho">
@@ -46,7 +46,7 @@
                   
                   <span class="item-cabecalho">
                       <i class="fa fa-info-circle" aria-hidden="true"></i>
-                      <a href="#"> Sobre </a>
+                      <a href="<?php echo ROOT_URL.'sobre'?>"> Sobre </a>
                   </span>
                     
                     <?php
@@ -69,17 +69,17 @@
               <div class="flex">
                   <span class="item-cabecalho">
                       <i class="fa fa-home" aria-hidden="true"></i>
-                      <a href="#"> Home</a>
+                      <a href="<?php echo ROOT_URL.'home'?>"> Home</a>
                   </span>
 
                   <span class="item-cabecalho">
                       <i class="fa fa-sign-in" aria-hidden="true"></i>
-                      <a href="#"> Explorar </a>
+                      <a href="#"> Galeria </a>
                   </span>
                   
                   <span class="item-cabecalho">
                       <i class="fa fa-info-circle" aria-hidden="true"></i>
-                      <a href="#"> Sobre </a>
+                      <a href="<?php echo ROOT_URL.'sobre'?>"> Sobre </a>
                   </span>
 
                   <?php

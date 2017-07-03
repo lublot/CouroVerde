@@ -19,12 +19,12 @@ class loginController extends mainController{
      * @param String $senha senha do usuário
      * @param String $novaSenha nova senha para o caso de redefinição
      */
-    public function configuraAmbienteParaTeste($email, $senha, $novaSenha) {
+    public function configuraAmbienteParaTeste($email, $senha, $novaSenha, $id) {
         $_POST = array("email" => $email,
         "senha" => isset($novaSenha)?$novaSenha:$senha,
         "confirmarSenha" => isset($novaSenha)?$novaSenha:$senha);
 
-        $_GET = array("i" => 172,
+        $_GET = array("i" => $id,
         "e" => $email);
 
         $ds = DIRECTORY_SEPARATOR;
@@ -41,6 +41,10 @@ class loginController extends mainController{
 
         if(!isset($_SERVER["SERVER_NAME"])) {
             $_SERVER["SERVER_NAME"] = "localhost";
+        }
+
+        if(!isset($_SERVER["HTTP_HOST"])) {
+            $_SERVER["HTTP_HOST"] = 'HTTP_HOST';
         }
 
         if(!isset($_SERVER['REQUEST_URI'])) {
@@ -62,7 +66,8 @@ class loginController extends mainController{
 
     //Login do usuário
     public function index(){
-            if (ValidacaoDados::validarForm($_POST, "login")) {
+        if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){
+            if (ValidacaoDados::validarForm($_POST, array("email","senha"))) {
                 try{
                     $email = addslashes($_POST["email"]);
                     $senha = $_POST["senha"];
@@ -77,9 +82,11 @@ class loginController extends mainController{
                     $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
                     $usuario = $this->login($email, $senha);
                     
-                    if($usuario){
+                    if($usuario->confirmouCadastro()){
                         $this->redirecionarPagina('home');
-                    } 
+                    }else{
+                        $this->redirecionarPagina('login');//LEMBRAR DE MUDAR
+                    }
                 }catch(UsuarioInexistenteException $e){
                     $this->dados['exception'] = $e->getMessage();  
                 }catch(SenhaInvalidaException $e){
@@ -89,8 +96,9 @@ class loginController extends mainController{
                 }
             }
             $this->carregarConteudo('login',$this->dados);
-
-        
+        }else{
+            $this->redirecionarPagina('home');
+        }
     }
 
 
@@ -100,7 +108,7 @@ class loginController extends mainController{
     */
     private function login($email, $senha){
         //Crio dois arrays para usar na busca do usuario. 
-        $campos = array("nome","senha", "email","sobrenome");
+        $campos = array();
         $filtro = array(
             "email" => $email,
             "senha" => $senha,
@@ -108,13 +116,15 @@ class loginController extends mainController{
 
         $usuarioDAO = new UsuarioDAO();
         $usuario = $usuarioDAO->buscar($campos, $filtro);//Recebe o objeto do usuario que vai logar
+        echo 'KKKKKKK'.count($usuario);
         if(count($usuario) > 0){ //Verifica se existe usuario
         //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema
-            
-            $_SESSION['nome'] = $usuario[0]->getNome();
-            $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
-            $_SESSION['email'] = $usuario[0]->getEmail();
-            return true;
+            if($usuario[0]->confirmouCadastro()){
+                $_SESSION['nome'] = $usuario[0]->getNome();
+                $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
+                $_SESSION['email'] = $usuario[0]->getEmail();
+            }
+           return $usuario[0];
 
         } else {
             throw new UsuarioInexistenteException();
@@ -293,7 +303,7 @@ class loginController extends mainController{
     */
     public function emailRedefinicao() {
 
-        if (ValidacaoDados::validarFormEmail($_POST)) {
+        if (ValidacaoDados::validarForm($_POST,array("email"))) {
             $email = addslashes($_POST["email"]); //Recebe o endereço de e-mail digitado pelo usuário.
 
             $usuarioDao = new UsuarioDAO();
@@ -344,7 +354,7 @@ class loginController extends mainController{
     *Redefine a senha.
     */
     public function redefinir() {
-        if(ValidacaoDados::validarFormRedefinir($_POST)) {
+        if(ValidacaoDados::validarForm($_POST,array("senha","confirmarSenha"))) {
             $novaSenha = GerenciarSenha::criptografarSenha($_POST["senha"]); //Recebe a nova senha do usuário.
             $confirmarSenha = GerenciarSenha::criptografarSenha($_POST["confirmarSenha"]); //Recebe a confirmação de senha.
 

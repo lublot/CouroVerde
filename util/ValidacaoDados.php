@@ -14,21 +14,15 @@ class ValidacaoDados {
     *Verifica a integridade do array de informações recebidas
     *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
     */
-    public static function validarForm($dados, $origem) {
-        if(strcmp($origem, "cadastro") == 0) {
-            if(isset($dados) && !empty($dados)){
-                if (array_key_exists("nome", $dados) && array_key_exists("sobrenome", $dados) && array_key_exists("email", $dados) && array_key_exists("senha", $dados)) {
-                    return true;
-                }
-            }            
-        } else if(strcmp($origem, "login") == 0) {
-            if(array_key_exists("senha", $dados) && array_key_exists("email", $dados)) {
-                return true;
+    public static function validarForm($array,$chaves){
+        foreach($chaves as $chave){
+            if(!array_key_exists($chave,$array)){
+                return false;
             }
         }
-        
-        return false;
+        return true;
     }
+    
     
     /**
     * Verifica se determinado campo tem informação.
