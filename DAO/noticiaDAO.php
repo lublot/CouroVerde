@@ -6,19 +6,18 @@ use \models\Noticia as Noticia;
 
 class noticiaDAO {
     /**
-    * Insere um usuário no banco de dados;
-    * @param unknown $usuario - o usuário a ser inserido no banco;
+    * Insere uma notícia no banco de dados;
+    * @param Noticia $noticia - o usuário a ser inserido no banco;
     * */
-    public function inserir($usuario){
-        
-        $nome = $usuario->getNome();
-        $sobrenome = $usuario->getSobrenome();
-        $email = $usuario->getEmail();
-        $senha = $usuario->getSenha();
-        $cadastroConfirmado = $usuario->confirmouCadastro();
+    public function inserir($noticia){
+        $titulo = $noticia->getTitulo();
+        $subtitulo = $noticia->getSubtitulo();
+        $descricao = $noticia->getDescricao();
+        $caminhoImagem = $noticia->getCaminhoImagem();
+        $data = $noticia->getData();
 
-        $query = "INSERT INTO `usuario`(`idUsuario`, `nome`, `sobrenome`, `email`, `senha`, `cadastroConfirmado`) 
-                  VALUES (null,'$nome','$sobrenome','$email','$senha','$cadastroConfirmado')";
+        $query = "INSERT INTO noticia(idUsuario, subtitulo, descricao, caminhoImagem, data) VALUES (null, '$titulo', '$subtitulo', '$descricao', '$caminhoImagem', '$data'')";
+
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -27,9 +26,9 @@ class noticiaDAO {
     }
 
     /**
-    * Altera informações de um usuário no banco de dados;
-    * @param unknown $dados - um array contendo as colunas e valores para a alteração. Ex: array("nome"=>"João");
-    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idUsuario"=>5);
+    * Altera informações de uma notícia no banco de dados;
+    * @param unknown $dados - um array contendo as colunas e valores para a alteração. Ex: array("titulo"=>"Título");
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idNoticia"=>5);
     * */
     public function alterar($dados,$filtros){
         $query = "UPDATE usuario SET ";
@@ -55,11 +54,11 @@ class noticiaDAO {
     }
 
     /**
-    * Remove um usuário do banco de dados;
-    * @param unknown $filtros - um array contendo os filtros usados na identificação do usuário. Ex: array("idUsuario"=>5);
+    * Remove uma notícia do banco de dados;
+    * @param unknown $filtros - um array contendo os filtros usados na identificação da notícia. Ex: array("idNoticia"=>5);
     * */
     public function remover($filtros){
-        $query = "DELETE FROM usuario WHERE ";
+        $query = "DELETE FROM noticia WHERE ";
 
         if(count($filtros) > 0){
             $aux = array();
@@ -75,10 +74,10 @@ class noticiaDAO {
     }
 
     /**
-    * Busca um ou vários usuários no banco de dados;
+    * Busca uma ou várias notícias no banco de dados;
     * @param unknown $campos - um array contendo os campos desejados
-    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idUsuario"=>5);
-    * @return unknown $usuarios - um array contendo os usuários retornados na busca
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idNoticia"=>5);
+    * @return unknown $noticias - um array contendo os notícias retornados na busca
     */
     public function buscar($campos,$filtros){
         $query = "SELECT ";
@@ -87,7 +86,7 @@ class noticiaDAO {
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)."FROM usuario";
+        $query .= implode(',',$campos)."FROM noticia";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -102,14 +101,14 @@ class noticiaDAO {
 
         $result = $this->PDO->query($query);
 
-        $usuarios = array();
+        $noticias = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $usuarios[] = new Usuario($item['idUsuario'],$item['email'],$item['nome'],$item['sobrenome'],$item['senha'],$item['cadastroConfirmado']);
+                $noticias[] = new Noticia($item['titulo'],$item['subtitulo'],$item['descricao'],$item['caminhoImagem'],$item['data']);
             }    
         }
         
-        return $usuarios;
+        return $noticias;
     }
 
 
