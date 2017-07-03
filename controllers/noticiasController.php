@@ -47,7 +47,7 @@ class noticiasController extends mainController{
     }
 
     private function uploadImagem() {
-            $arqCaminho = "uploads/imgnoticia/" . date("Ymd") . date("His") . basename($_FILES["user_file"]["name"]);
+            $arqCaminho = "media/noticias/imagens/" . date("Ymd") . date("His") . basename($_FILES["user_file"]["name"]);
             $uploadOk = true;
             $extensaoImg = pathinfo($arqCaminho, PATHINFO_EXTENSION);
             
