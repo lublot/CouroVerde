@@ -2,7 +2,7 @@
 
 namespace DAO;
 
-class funcionarioDAO extends Database{
+class FuncionarioDAO extends Database{
 
     /**
     * Insere um funcionário no banco de dados;

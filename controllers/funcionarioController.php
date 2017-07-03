@@ -7,6 +7,8 @@ use \exceptions\SenhaInvalidaException as SenhaInvalidaException;
 use \exceptions\EmailInvalidoException as EmailInvalidoException;
 use \exceptions\EmailJaCadastradoException as EmailJaCadastradoException;
 use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
+use \exceptions\NivelDeAcessoInsuficienteException as NivelDeAcessoInsuficienteException;
+use \exceptions\MatriculaInvalidaException as MatriculaInvalidaException;
 use DAO\FuncionarioDAO as FuncionarioDAO;
 use \util\GerenciarSenha as GerenciarSenha;
 use \util\ValidacaoDados as ValidacaoDados;
@@ -17,7 +19,7 @@ class funcionarioController extends mainController {
     public function cadastrarFuncionario() {
         if($this->verificarFuncionario() == 'Administrador') {
             if (ValidacaoDados::validarForm($_POST, array("nome","sobrenome","email","senha", "matricula", "funcao"))) {
-                $funcionarioDAO = new funcionarioDAO();
+                $funcionarioDAO = new FuncionarioDAO();
 
                 $email = addslashes($_POST["email"]);
                 $funcionario = $funcionarioDAO->buscar(array(), array("email"=>$email));
