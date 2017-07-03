@@ -111,4 +111,21 @@ class ValidacaoDados {
         }
         return false;
     }
+
+    /**
+    * Verifica se a matricula informada é válida, isto é, se possui ao menos somente números.
+    * @return <code>true</code>, se a matrícula informada for válida; <code>false</code>, caso contrário.
+    */
+    public static function validarMatricula($matricula) {
+        if (!ValidacaoDados::validarCampo($matricula)) {
+            return false;
+        }
+
+        if(!is_numeric($matricula)){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 }
