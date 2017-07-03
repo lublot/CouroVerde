@@ -165,9 +165,22 @@ class cadastroControllerTest extends TestCase {
         $this->assertEquals(1, count($usuario)); //certifica-se que apenas um usuário foi cadastrado
         $usuario = $usuario[0];
         $this->assertEquals('g@gmail.com', $usuario->getEmail()); //certifica-se que o email é igual ao esperado     
-    }    
+    } 
 
+    /**
+    * Testa a verificação de cadastro.
+    */
+    public function testVerificar() {
+        $usuarioDao = new UsuarioDAO();
+        $usuario = $usuarioDao->buscar(null, array("email"=>'vvalmeida96@gmail.com'));
 
+        $this->assertEquals(1, count($usuario));
+        $usuario = $usuario[0];
+
+        $this->instancia->configuraAmbienteParaTeste("Fulano", "De Tal", "vvalmeida96@gmail.com", "11111111", $usuario->getId());
+        $this->instancia->verificar();        
+        $this->assertEquals(true, $usuario->confirmouCadastro());
+    }
 
 
 

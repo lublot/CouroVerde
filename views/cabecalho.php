@@ -10,7 +10,7 @@
 
       <div class="row">
           <div class="col-xs-12 visible-xs-block" >
-              
+
                 <?php
                     if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
                         echo '<span style="float:right" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,8 +50,8 @@
                   </span>
                     
                     <?php
-                        if(isset($_SESSION['tipo_usuario']) && !empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']){
-                            if($_SESSION['tipo_usuario'] == 'Administrador' || $_SESSION['tipo_usuario'] == 'Funcionario'){
+                        if(isset($_SESSION['tipoUsuario']) && !empty($_SESSION['tipoUsuario']) && $_SESSION['tipoUsuario']){
+                            if($_SESSION['tipoUsuario'] == 'ADMINISTRADOR' || $_SESSION['tipoUsuario'] == 'FUNCIONARIO'){
                                 echo '<span class="item-cabecalho">
                                       <i class="fa fa-cogs" aria-hidden="true"></i>
                                       <a href="#"> Admin </a>
@@ -83,8 +83,8 @@
                   </span>
 
                   <?php
-                        if(isset($_SESSION['tipo_usuario']) && !empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario']){
-                            if($_SESSION['tipo_usuario'] == 'Administrador' || $_SESSION['tipo_usuario'] == 'Funcionario'){
+                        if(isset($_SESSION['tipoUsuario']) && !empty($_SESSION['tipoUsuario']) && $_SESSION['tipoUsuario']){
+                            if($_SESSION['tipoUsuario'] == 'ADMINISTRADOR' || $_SESSION['tipoUsuario'] == 'FUNCIONARIO'){
                                 echo '<span class="item-cabecalho">
                                       <i class="fa fa-cogs" aria-hidden="true"></i>
                                       <a href="#">Painel Administrativo </a>

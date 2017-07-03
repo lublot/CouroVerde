@@ -48,7 +48,6 @@ class funcionarioDAO extends Database{
             $query .= implode(" AND ",$aux);
         }
 
-        echo $query;
         $this->PDO->query($query);
 
     }

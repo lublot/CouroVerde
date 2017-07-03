@@ -67,7 +67,12 @@ class adminController extends mainController{
                     $matricula = $this->POST['matriculaFuncionario'];
                     $senha = md5($this->POST['senhaAdmin']);
 
-                    if(false){// Se a senha do administrador estiver correta, IMPLEMENTAR....
+                    $adminDAO = new AdministradorDAO();
+                    $adminDAO = $adminDAO->buscar(array('senhaAdmin',array()));
+                    $senhaArmazenada = $adminDAO[0]->getSenhaAdmin();
+
+
+                    if(strcmp($senhaArmazenada,$senha)==0){// Se a senha do administrador estiver correta, IMPLEMENTAR....
                         $funcionarioDao = new FuncionarioDAO();
                         $funcionarioDao->remover(array('matricula'=>$matricula));
                     }else{

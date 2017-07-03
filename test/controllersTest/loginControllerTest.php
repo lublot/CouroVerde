@@ -23,9 +23,9 @@ class loginControllerTest extends TestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testLoginComCasosCorretosEErros() {
+    public function testLogin() {
         //considerando que existe o seguinte cadastro no Banco de Dados: Nome: Fulano, Sobrenome: De Tal, Email: vvalmeida96@gmail.com, Senha: 11111111) 
-        $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '11111111', null);
+        $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '11111111', null, null);
         $this->instancia->index();
 
         //verifica se os dados da sessão são os esperados
@@ -39,7 +39,7 @@ class loginControllerTest extends TestCase {
      * @preserveGlobalState disabled
      */
     public function testLoginEmailinvalido() {
-        $this->instancia->configuraAmbienteParaTeste('vvalmeida96', '11111111', null);
+        $this->instancia->configuraAmbienteParaTeste('vvalmeida96', '11111111', null, null);
         $this->instancia->index();
 
         //verifica se os dados não foram setados
@@ -56,7 +56,7 @@ class loginControllerTest extends TestCase {
      * @preserveGlobalState disabled
      */
     public function testLoginSenhaInvalida() {
-        $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '1', null);
+        $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '1', null, null);
         $this->instancia->index();
 
         //verifica se os dados não foram setados
@@ -74,7 +74,7 @@ class loginControllerTest extends TestCase {
      */
      public function testLogout() {
         //considerando que existe o seguinte cadastro no Banco de Dados: Nome: Fulano, Sobrenome: De Tal, Email: vvalmeida96@gmail.com, Senha: 11111111) 
-        $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '11111111', null);
+        $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '11111111', null, null);
         $this->instancia->index();
         $this->instancia->logout();
 
@@ -88,15 +88,49 @@ class loginControllerTest extends TestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-     public function testEmailRedefinicao() {
+     public function testRedefinir() {
+        $usuarioDao = new UsuarioDAO();
+        $usuario = $usuarioDao->buscar(null, array("email"=>'vvalmeida96@gmail.com')); //obtém o usuário
+
+        $this->assertEquals(1, count($usuario)); //verifica se foi obtido apenas um usuário
+        $usuario = $usuario[0];
+
         //considerando que existe o seguinte cadastro no Banco de Dados: Nome: Fulano, Sobrenome: De Tal, Email: vvalmeida96@gmail.com, Senha: 11111111) 
-        $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '11111111', null);
-        $this->instancia->EmailRedefinicao();
+        $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '11111111', '22222222', $usuario->getId()); //redefine o ambiente com a nova senha
+        $this->instancia->redefinir(); //chama o método de redefinir
 
+        $usuario = $usuarioDao->buscar(null, array("email"=>'vvalmeida96@gmail.com')); //busca o usuário pelo email
 
+        $this->assertEquals(1, count($usuario)); //verifica se foi obtido apenas um usuário
+        $usuario = $usuario[0];
+
+        $this->assertEquals(md5('22222222'), $usuario->getSenha()); //verifica se a senha foi alterada
+
+        //AS LINHAS ABAIXO VÃO ALTERAR NOVAMENTE A SENHA PARA A ORIGINAL, POIS OS DADOS SERÃO UTILIZADOS EM OUTROS TESTES
+        //considerando que existe o seguinte cadastro no Banco de Dados: Nome: Fulano, Sobrenome: De Tal, Email: vvalmeida96@gmail.com, Senha: 11111111) 
+        $this->instancia->configuraAmbienteParaTeste('vvalmeida96@gmail.com', '11111111', '11111111', $usuario->getId());
+        $this->instancia->redefinir();
+
+        $usuario = $usuarioDao->buscar(null, array("email"=>'vvalmeida96@gmail.com'));
+
+        $this->assertEquals(1, count($usuario));
+        $usuario = $usuario[0];
+
+        $this->assertEquals(md5('11111111'), $usuario->getSenha());            
      }
 
-
-
-
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+     public function testRedefinirDadosCorrompidos() {
+        //considerando que existe o seguinte cadastro no Banco de Dados: Nome: Fulano, Sobrenome: De Tal, Email: vvalmeida96@gmail.com, Senha: 11111111) 
+        $this->instancia->configuraAmbienteParaTeste(null, null, null, null); //redefine o ambiente com a nova senha
+        try {
+            $this->instancia->redefinir(); //chama o método de redefinir
+        } catch (DadosCorrompidosException $e) {
+            $this->assertTrue(true);
+        }
+           
+     }
 }

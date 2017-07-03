@@ -16,7 +16,7 @@ use \util\GerenciarSenha as GerenciarSenha;
 use \util\ValidacaoDados as ValidacaoDados;
 use \models\Usuario as Usuario;
 
-class cadastroController 
+class cadastroController extends mainController
 {
 
     /**
@@ -45,54 +45,78 @@ class cadastroController
             define("URI_BASE","http://"."localhost"."/"."cadastro"."/index.php");
         }
 
+        $ds = DIRECTORY_SEPARATOR;
+	    $pasta = explode($ds,getcwd());
+	    $pasta = end($pasta);
+
+        if(!defined('ROOT_URL')) {
+            define('ROOT_URL',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/");
+        }
         
     }
 
+    protected $dados = array();
     /**
     * Cadastra novo usuário.
     */
-    public function index() {        
-        if (ValidacaoDados::validarForm($_POST, array("nome","sobrenome","email","senha"))) {
-            $usuarioDAO = new UsuarioDAO();
-            $email = addslashes($_POST["email"]);
-            $usuario = $usuarioDAO->buscar(array(), array("email"=>$email));
+    public function index() {   
+        if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){  
+            if (ValidacaoDados::validarForm($_POST, array("nome","sobrenome","email","senha"))) {
+                try{
+                    $usuarioDAO = new UsuarioDAO();
+                    $email = addslashes($_POST["email"]);
+                    $usuario = $usuarioDAO->buscar(array(), array("email"=>$email));
 
-            if(count($usuario) > 0) { //verifica se já existe usuário cadastrado
-                throw new EmailJaCadastradoException();
-            }
+                    if(count($usuario) > 0) { //verifica se já existe usuário cadastrado
+                        throw new EmailJaCadastradoException();
+                    }
 
-            if (!ValidacaoDados::validarNome($_POST["nome"])) {
-                throw new NomeInvalidoException();
-            }
+                    if (!ValidacaoDados::validarNome($_POST["nome"])) {
+                        throw new NomeInvalidoException();
+                    }
 
-            if (!ValidacaoDados::validarNome($_POST["sobrenome"])) {
-                throw new SobrenomeInvalidoException();
-            }
+                    if (!ValidacaoDados::validarNome($_POST["sobrenome"])) {
+                        throw new SobrenomeInvalidoException();
+                    }
+                        
+                    if (!ValidacaoDados::validarSenha($_POST["senha"])) {
+                        throw new SenhaInvalidaException();
+                    }
+                        
+                    if (!ValidacaoDados::validarEmail($_POST["email"])) {
+                        throw new EmailInvalidoException();
+                    }
+                    
+                    $nome = addslashes($_POST["nome"]);
+                    $sobrenome = addslashes($_POST["sobrenome"]);
+                    $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
+                    $email = addslashes($_POST["email"]);
+
+                    $usuarioDAO->inserir(new Usuario(null, $email, $nome, $sobrenome, $senha, false,'USUARIO'));
+                    $usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //Busca o usuário récem cadastrado
+                    $this->confirmar(array("nome" => $usuario->getNome(),
+                                    "email" => $usuario->getEmail(),
+                                    "id" => $usuario->getId()));
+                    echo "<script>window.location.replace('".ROOT_URL."cadastro/confirmar"."');</script>"; // Redireciona a página
+                }catch(EmailJaCadastradoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }catch(NomeInvalidoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }catch(SobrenomeInvalidoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }catch(SenhaInvalidaException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }catch(EmailInvalidoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }catch(EmailNaoEnviadoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }
                 
-            if (!ValidacaoDados::validarSenha($_POST["senha"])) {
-                throw new SenhaInvalidaException();
             }
-                
-            if (!ValidacaoDados::validarEmail($_POST["email"])) {
-                throw new EmailInvalidoException();
-            }
-            
-            $nome = addslashes($_POST["nome"]);
-            $sobrenome = addslashes($_POST["sobrenome"]);
-            $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
-            $email = addslashes($_POST["email"]);
-
-            $usuarioDAO->inserir(new Usuario(null, $email, $nome, $sobrenome, $senha, false));
-            $usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //Busca o usuário récem cadastrado
-            $this->confirmar(array("nome" => $usuario->getNome(),
-                               "sobrenome" => $usuario->getSobrenome(),
-                               "senha" => $usuario->getSenha(),
-                               "email" => $usuario->getEmail(),
-                               "id" => $usuario->getId()));
-                echo "<script>window.location.replace('".URI_BASE."/cadastro/confirmar"."');</script>"; // Redireciona a página
-        } else {
-            throw new DadosCorrompidosException();
-        }
+            $this->carregarConteudo('cadastro',$this->dados);
+        }else{//Se o usuário já estiver logado
+            $this->redirecionarPagina('home');
+        }  
     }
 
     /**
@@ -100,35 +124,12 @@ class cadastroController
     * @param unknown $dados - dados do usuário
     */
     public function confirmar($dados) {
-        if (ValidacaoDados::validarForm($dados, array("nome","sobrenome","email","senha"))) { //essa validação já foi feita anteriormente, precisa fazer de novo?
-            //Acho que as validações abaixo são desnecessárias pq já foram feitas no método anterior.
-            //Se os campos abaixo forem inválidos retornam exceções
-            if (!ValidacaoDados::validarNome($dados['nome'])) {
-                throw new NomeInvalidoException();
-            }
+        if (ValidacaoDados::validarForm($dados, array("email","id","nome"))) { 
 
-            if (!ValidacaoDados::validarNome($dados['sobrenome'])) {
-                throw new SobrenomeInvalidoException();
-            }
-
-            if (!ValidacaoDados::validarSenha($dados['senha'])) {
-                throw new SenhaInvalidaException();
-            }
-
-            if (!ValidacaoDados::validarEmail($dados['email'])) {
-                throw new EmailInvalidoException();
-            }
-
-            if (!ValidacaoDados::validarCampo($dados['id'])) {
-                throw new DadosCorrompidosException();
-            }
-            
             $id = addslashes($dados['id']);
             $nome = addslashes($dados['nome']);
-            $sobrenome = addslashes($dados['sobrenome']);
             $email = addslashes($dados['email']);
-            
-            $linkConfirmacao = URI_BASE."/cadastro/verificar/?n=".md5($nome)."&e=".md5($email)."&i=".$id."&s=".md5($sobrenome);
+            $linkConfirmacao = ROOT_URL."cadastro/verificar/?e=".md5($email)."&i=".$id;
 
             require_once(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
             
@@ -143,6 +144,14 @@ class cadastroController
             $mail->Port = 587;                                    // TCP port to connect to
             $mail->CharSet = 'UTF-8';
             
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
+
             $mail->setFrom('websertour@websertour.com', 'Sertour');
             $mail->addAddress($email, $nome);     // Add a recipient
             $mail->addReplyTo('noreply@gmail.com', 'Não responda');
@@ -154,11 +163,12 @@ class cadastroController
                     ."Seu cadastro está quase pronto, por favor,"
                             ." clique no link a seguir e a gente cuida do resto :)<br/><br/>".
                             "Link de Confirmação: ".$linkConfirmacao;
+            
             if (!$mail->send()) {
-                throw new EmailNaoEnviadoException();
+                return false;
+            }else{
+                return true;
             }
-        } else {
-            throw new DadosCorrompidosException();
         }
     }
     
@@ -167,23 +177,19 @@ class cadastroController
     */
     public function verificar() {
         $id = $_GET['i'];
-        $nome = $_GET['n'];
         $email = $_GET['e'];
-        $sobrenome = $_GET['s'];
-        
+
         $usuarioDao = new UsuarioDAO();
         $usuario = $usuarioDao->buscar(null, array("idUsuario"=>$id));
         
         if (count($usuario)>0) {
             $usuario = array_shift($usuario);
             $id = $usuario->getId();
-            $nomeMd5 = md5($usuario->getNome());
             $emailMd5 = md5($usuario->getEmail());
-            $sobrenomeMd5 = md5($usuario->getSobrenome());
             
-            if (strcmp($nome, $nomeMd5)==0 && strcmp($email, $emailMd5)==0 && strcmp($sobrenome, $sobrenomeMd5)==0) {
+            if (strcmp($email, $emailMd5)==0) {
                 $usuario->setCadastroConfirmado(true);
-                $usuarioDao->alterar(array('cadastroConfirmado'=>$usuario->confirmouCadastro()), array('idUsuario'=>$usuario->getId()));
+                $usuarioDao->alterar(array('cadastroConfirmado'=>1), array('idUsuario'=>$usuario->getId()));
             }
         } else {
             throw new UsuarioInexistenteException();
@@ -204,7 +210,7 @@ class cadastroController
         $email = $usuarioGoogle['modelData']['emails'][0]['value'];
         
         //Cria um novo usuário
-        $usuario = new Usuario(null,$email,$nome,$sobrenome,null,true);
+        $usuario = new Usuario(null,$email,$nome,$sobrenome,null,true,'USUARIO');
         $usuarioDao->inserir($usuario);
 
         $idSistema = $usuarioDao->buscar(array("idUsuario"),array("email"=>$email));//Recupera o usuário inserido
@@ -225,7 +231,7 @@ class cadastroController
         $usuarioDAO = new UsuarioDao();
 
         //criando um usuário e registrando
-        $usuario = new Usuario(null, $dados['email'], $dados['nome'], $dados['sobrenome'], null, true);
+        $usuario = new Usuario(null, $dados['email'], $dados['nome'], $dados['sobrenome'], null, true,'USUARIO');
         $usuarioDAO->inserir($usuario);
 
         $usuarioCadastrado = $usuarioDAO->buscar(array('idUsuario'), array('email'=>$dados['email'])); //obtém o usuário cadastrado recentemente
