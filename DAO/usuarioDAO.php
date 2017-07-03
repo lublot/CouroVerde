@@ -224,7 +224,7 @@ class UsuarioDAO extends Database{
             $query .= implode(" AND ",$aux);
         }
 
-        $a = fopen('teste.txt','w'); fwrite($a,$query);fclose($a);    
+        
         $result = $this->PDO->query($query);
     
         $usuarios = array();
