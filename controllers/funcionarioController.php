@@ -12,10 +12,10 @@ use \util\GerenciarSenha as GerenciarSenha;
 use \util\ValidacaoDados as ValidacaoDados;
 use \models\Funcionario as Funcionario;
 
-class funcionarioController {
+class funcionarioController extends mainController {
 
     public function cadastrarFuncionario() {
-        if(verificarFuncionario() == 'Administrador') {
+        if($this->verificarFuncionario() == 'Administrador') {
             if (ValidacaoDados::validarForm($_POST, array("nome","sobrenome","email","senha", "matricula", "funcao"))) {
                 $funcionarioDAO = new funcionarioDAO();
 
@@ -68,7 +68,7 @@ class funcionarioController {
                     $podeCadastrarObra = 1;
                 }
                 if(isset($_POST["gerenciarObra"])) {
-                    $podeGerenciarObra = 1
+                    $podeGerenciarObra = 1;
                 }
                 if(isset($_POST["remocaoObra"])) {
                     $podeRemoverObra = 1;
@@ -86,7 +86,7 @@ class funcionarioController {
                     $podeRealizarBackup = 1;
                 }
 
-                $novoFuncionario = new Funcionario(null, $email, $nome, $sobrenome, $senha, false, 'Funcionario',
+                $novoFuncionario = new Funcionario(null, $email, $nome, $sobrenome, $senha, 1, 'Funcionario',
                 $matricula, $funcao, $podeCadastrarObra, $podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia,
                 $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup);
 

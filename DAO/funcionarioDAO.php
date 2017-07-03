@@ -14,12 +14,26 @@ class funcionarioDAO extends Database{
         $sobrenome = $funcionario->getSobrenome();
         $email = $funcionario->getEmail();
         $senha = $funcionario->getSenha();
-        $cadastroConfirmado = 1;
+        $cadastroConfirmado = $funcionario->confirmouCadastro();
+        $tipoUsuario = $funcionario->getTipo();
 
-        $query = "INSERT INTO funcionario(matricula, funcao, cadastraObra, gerenciaObra, removeObra, cadastraNoticia, gerenciaNoticia, removeNoticia,backup) VALUES (null, '$nome', '$sobrenome', '$email', '$senha', $cadastroConfirmado)";
+        $matricula = $funcionario->getMatricula();
+        $funcao = $funcionario->getFuncao();
+        $cadastraObra = $funcionario->isPodeCadastrarObra();
+        $gerenciaObra = $funcionario->isPodeGerenciarObra();
+        $removeObra = $funcionario->isPodeRemoverObra();
+        $cadastraNoticia = $funcionario->isPodeCadastrarNoticia();
+        $gerenciaNoticia = $funcionario->isPodeGerenciarNoticia();
+        $removeNoticia = $funcionario->isPodeRemoverNoticia();
+        $backup = $funcionario->isPodeRealizarBackup();
+
+        $queryUsuario = "INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado, tipoUsuario) VALUES (null, '$nome', '$sobrenome', '$email', '$senha', $cadastroConfirmado,'$tipoUsuario')";
+
+        $queryFuncionario = "INSERT INTO funcionario(matricula, funcao, cadastraObra, gerenciaObra, removeObra, cadastraNoticia, gerenciaNoticia, removeNoticia, backup) VALUES ('$matricula', '$funcao', '$cadastraObra', '$gerenciaObra', '$removeObra', '$cadastraNoticia', '$gerenciaNoticia', '$removeNoticia', '$backup')";
 
         try{
-            $this->PDO->query($query);
+            $this->PDO->query($queryUsuario);
+            $this->PDO->query($queryFuncionario);
         }catch(PDOException $e){
 
         }
