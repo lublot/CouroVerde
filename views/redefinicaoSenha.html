@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+
+    <meta name="description" content="Setour" />
+    <meta name=viewport  content="width=device-width, initial-scale=1" />
+
+    <title>Sertour</title>
+
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="assets/css/estilo.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-social.css">
+    <link rel="stylesheet" type ="text/css" href="assets/css/site.mim.css">
+    <link rel="stylesheet" type ="text/css" href="assets/css/bootstrap.min.css">
+
+    <script type ="text/javascript" src="assets/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+    function validaSenha (input){
+        if (input.value != document.getElementById('txtSenha').value) {
+        input.setCustomValidity('Senhas não correspondem');
+      } else {
+        input.setCustomValidity('');
+      }
+    }
+    </script>
+
+  </head>
+  <body>
+
+    <div id="container">
+
+    <form id="formCadastro" class="form-horizontal" method="POST" name="formulario" action="">
+        <div class="form-group">
+            <label class="col-xs-2 control-label">Senha</label>
+            <div class="col-xs-2">
+                <input type="password" class="form-control" name="senha" id="txtSenha" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label">Repetir a senha</label>
+            <div class="col-xs-2">
+                <input type="password" class="form-control" name="repetir_senha" id="repetir_senha" required oninput="validaSenha(this)"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-xs-offset-2 col-xs-1">
+            <button type="submit" class="btn btn-default btn-md center testar">Entrar</button>
+          </div>
+        </div>
+    </form>
+
+  </div>
+
+
+  </body>
+</html>
