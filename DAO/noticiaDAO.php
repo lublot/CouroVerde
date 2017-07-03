@@ -151,7 +151,7 @@ class noticiaDAO {
         $noticias = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $noticias[] = new Noticia($item['idNoticia'],$item['email'],$item['nome'],$item['sobrenome'],$item['senha'],$item['cadastroConfirmado']);
+                $noticias[] = new Noticia($item['titulo'],$item['subtitulo'],$item['descricao'],$item['caminhoImagem'],$item['data']);
             }    
         }
         
