@@ -6,6 +6,7 @@ use \DAO\noticiaDAO as noticiaDAO;
 use \util\ValidacaoDados as ValidacaoDados;
 use exceptions\CampoNoticiaInvalidoException as CampoNoticiaInvalidoException;
 use exceptions\DadosCorrompidosException as DadosCorrompidosException;
+use exceptions\NoticiaNaoEncontradaException as NoticiaNaoEncontradaException;
 
 
 class noticiasController extends mainController{
@@ -99,20 +100,21 @@ class noticiasController extends mainController{
 
             $noticiaDAO = new noticiaDAO();
 
+            $idNoticia = addslashes($POST['idNoticia']);
             $titulo = addslashes($POST['titulo']);
             $descricao = addslashes($POST['descricao']);
             $subtitulo = isset($_POST['subtitulo']) ? addslashes($_POST['subtitulo']) : null;
             $data = addslashes(date('d-m-y')); //obtém a data atual
             $caminhoImagem = addslashes($caminhoImagem);
 
-            $campos = array('idNoticia'=>null,
+            $campos = array('idNoticia'=> $idNoticia ? null,
                             'titulo'=> $titulo ? null,
                             'subtitulo'=> $subtitulo ? null,
                             'descricao'=>$descricao ? null,
                             'caminhoImagem'=>$caminhoImagem ? null,
                             'data'=>$data ? null);
 
-            $noticiaDAO->alterar($campos,array('titulo'=>$titulo));
+            $noticiaDAO->alterar($campos,array('idNoticia'=>$idNoticia));
         } else {
             throw new DadosCorrompidosException();
         }
@@ -120,10 +122,47 @@ class noticiasController extends mainController{
     }
 
     public function buscarNoticia(){
+        if(isset($_POST["submit"]) {
+            $noticiaDAO = new noticiaDAO();
+            $noticia = $noticiaDAO->buscar(array(),array('idNoticia'=>$_POST['idNoticia']));
+
+            if(count($noticia) > 0){ //Existe uma noticia correspondente ao ID pesquisado no banco de dados
+                $idNoticia = $noticia[0]->getidNoticia();
+                $titulo = $noticia[0]->getTitulo();
+                $$descricao = $noticia[0]->getDescricao();
+                $subtitulo = $noticia[0]->getCaminhoImagem();
+                $data = $noticia[0]->getData();
+                $caminhoImagem = $noticia[0]->getCaminhoImagem();
+
+                $campos = array('idNoticia'=> $idNoticia ? null,
+                                'titulo'=> $titulo ? null,
+                                'subtitulo'=> $subtitulo ? null,
+                                'descricao'=>$descricao ? null,
+                                'caminhoImagem'=>$caminhoImagem ? null,
+                                'data'=>$data ? null);
+                return $campos;
+            } else {
+            throw new NoticiaNaoEncontradaException();
+            }
+        } 
 
     }
 
     public function removerNoticia(){
+        if(isset($_POST["submit"]) {
+            $noticiaDAO = new noticiaDAO();
+            $noticia = $noticiaDAO->buscar(array(),array('idNoticia'=>$_POST['idNoticia']));
 
+            if(count($noticia) > 0){
+                $idNoticia = $noticia[0]->getidNoticia();
+                $noticiaDAO->remover(array('idNoticia'=>$idNoticia));
+            }
+        }
+    }
+
+    public function listarTodasNoticias(){
+        $noticiaDAO = new noticiaDAO();
+        $noticias = $noticiaDAO->buscar();
+        echo json_encode($noticias);
     }
 }

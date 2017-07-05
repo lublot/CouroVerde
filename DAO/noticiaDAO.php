@@ -7,7 +7,7 @@ use \models\Noticia as Noticia;
 class noticiaDAO {
     /**
     * Insere uma notícia no banco de dados;
-    * @param Noticia $noticia - a noticia a ser inserido no banco;
+    * @param Noticia $noticia - a noticia a ser inserida no banco;
     * */
     public function inserir($noticia){
         $titulo = $noticia->getTitulo();

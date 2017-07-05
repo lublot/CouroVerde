@@ -89,7 +89,7 @@ class adminController extends mainController{
     public function listarTodosFuncionarios(){
         if(isset($_SESSION['tipoUsuario']) && !empty($_SESSION['tipoUsuario'])){
             if($_SESSION['tipoUsuario'] == 'Administrador'){
-                $funcionarioDAO = new FuncionarioDAO();
+                $funcionarioDAO = new FuncionarioDAO(); // não seria "funcionarioDAO"?
                 $funcionarios = $funcionarioDAO->buscar();
 
                 echo json_encode($funcionarios);
