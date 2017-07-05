@@ -8,19 +8,51 @@ use \models\Obra as Obra;
 class ObraDAO {
 
     /**
-    * Insere um usuário no banco de dados;
-    * @param unknown $usuario - o usuário a ser inserido no banco;
+    * Insere uma obra no banco de dados;
+    * @param unknown $obra - a obra a ser inserida no banco;
     * */
-    public function inserir($usuario){
+    public function inserir($obra){
         
-        $nome = $usuario->getNome();
-        $sobrenome = $usuario->getSobrenome();
-        $email = $usuario->getEmail();
-        $senha = $usuario->getSenha();
-        $cadastroConfirmado = $usuario->confirmouCadastro();
+        $nome = $obra->getNome();
+        $titulo = $obra->getTitulo();
+        $numInventario = $obra->getNumInventario();
+        $colecao = $obra->getColecao();
+        $origem = $obra->getOrigem();
+        $procedencia = $obra->getProcedencia();
+        $classificacao = $obra->getClassificacao();
+        $funcao = $obra->getFuncao();
+        $palavrasChave = $obra->getPalavrasChave();
+        $descricao = $obra->getDescricao();
+        $altura = $obra->getAltura();
+        $largura = $obra->getLargura();
+        $diametro = $obra->getDiametro();
+        $peso = $obra->getPeso();
+        $comprimento = $obra->getComprimento();
+        $materiais = $obra->getMateriais();
+        $tecnicas = $obra->getTecnicas();
+        $autoria = $obra->getAutoria();
+        $marcas = $obra->getMarcas();
+        $historico = $obra->getHistorico();
+        $modoAquisicao = $obra->getModoAquisicao();
+        $dataAquisicao = $obra->getDataAquisicao();
+        $autor = $obra->getAutor();
+        $observacoes = $obra->getObservacoes();
+        $estado = $obra->getEstado();
+        $caminhoImagem1 = $obra->getCaminhoImagem1();
+        $caminhoImagem2 = $obra->getCaminhoImagem2();
+        $caminhoImagem3 = $obra->getCaminhoImagem3();
+        $caminhoImagem4 = $obra->getCaminhoImagem4();
+        $caminhoImagem5 = $obra->getCaminhoImagem5();
+        $caminhoModelo3D = $obra->getCaminhoModelo3D();
 
-        $query = "INSERT INTO `usuario`(`idUsuario`, `nome`, `sobrenome`, `email`, `senha`, `cadastroConfirmado`) 
-                  VALUES (null,'$nome','$sobrenome','$email','$senha','$cadastroConfirmado')";
+        $query = "INSERT INTO obra(idUsuario, nome, titulo, numInventario, colecao, origem, procedencia, classificacao,
+                                    funcao, palavrasChave, descricao, altura, largura, diametro, peso, comprimento, materiais,
+                                    tecnicas, autoria, marcas, historico, modoAquisicao, dataAquisicao, autor, observacoes,
+                                    estado, caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) 
+                  VALUES (null,'$nome','$titulo','$numInventario', '$colecao', '$origem', '$procedencia', '$classificacao',
+                            '$funcao', '$palavrasChave', , '$descricao', '$altura', '$largura', '$diametro', '$peso', '$comprimento', '$materiais',
+                            '$tecnicas', '$autoria', '$marcas', '$historico', '$modoAquisicao', '$dataAquisicao', '$autor', '$observacoes', 
+                            '$estado', '$caminhoImagem1', '$caminhoImagem2', '$caminhoImagem3', '$caminhoImagem4', '$caminhoImagem5', '$caminhoModelo3D')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
