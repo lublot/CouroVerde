@@ -19,7 +19,7 @@ class noticiasControllerTest extends TestCase {
     
         //remove todas as noticias anteriormente cadastradas antes de realizar o teste
         $noticiaDAO = new NoticiaDAO();
-        $noticiaDAO->remover(array());
+        $noticiaDAO->remover(array("1"=>"1"));
     }
 
     /**
@@ -98,5 +98,83 @@ class noticiasControllerTest extends TestCase {
         $this->instancia->cadastrarNoticia();
     }      
 
+
+    /**
+    * Testa a edição do titulo de uma notícia com sucesso;
+    */
+
+    public function testEditarNoticiaSucesso(){
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1','Subtitulo1',dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia');
+        $this->instancia->cadastrarNoticia();
+
+        $noticiaDAO = new NoticiaDAO();
+        $noticia = $noticiaDAO->buscar(array(),array("titulo"=> "Titulo 1"));
+        $idNoticia = $noticia[0]->getIdNoticia();
+        $this->assertEquals(1,count($noticia));
+
+        $tituloNovo = 'Titulo Novo';
+        $this->instancia->configurarAmbienteParaTeste($tituloNovo,'Descricao 1','Subtitulo1',dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia',$idNoticia);
+        $this->instancia->alterarNoticia();
+        $noticia = $noticiaDAO->buscar(array(),array("titulo"=>$tituloNovo));
+        $this->assertEquals(1,count($noticia));
+    }
+
+    /**
+    * Testa a edição do subtitulo de uma notícia com sucesso;
+    */
+    public function testEditarSubtituloNoticiaSucesso(){
+         $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1','Subtitulo1',dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia');
+        $this->instancia->cadastrarNoticia();
+
+        $noticiaDAO = new NoticiaDAO();
+        $noticia = $noticiaDAO->buscar(array(),array("titulo"=> "Titulo 1"));
+        $idNoticia = $noticia[0]->getIdNoticia();
+        $this->assertEquals(1,count($noticia));
+
+        $subtituloNovo = 'Subtitulo Novo';
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1',$subtituloNovo,dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia',$idNoticia);
+        $this->instancia->alterarNoticia();
+        $noticia = $noticiaDAO->buscar(array(),array("subtitulo"=>$subtituloNovo));
+        $this->assertEquals(1,count($noticia));
+    }
+
+    /**
+    * Testa a edição de uma notícia com falha;
+    */
+    public function testEditarNoticiaComFalha(){
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1','Subtitulo1',dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia');
+        $this->instancia->cadastrarNoticia();
+
+        $noticiaDAO = new NoticiaDAO();
+        $noticia = $noticiaDAO->buscar(array(),array("titulo"=> "Titulo 1"));
+        $idNoticia = $noticia[0]->getIdNoticia();
+        $this->assertEquals(1,count($noticia));
+
+        $subtituloNovo = 'Subtitulo Novo';
+        $this->instancia->configurarAmbienteParaTeste(null,'Descricao 1',$subtituloNovo,dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia',$idNoticia);
+        $this->expectException(CampoNoticiaInvalidoException::class); //exceção esperada
+        $this->instancia->alterarNoticia();        
+    }
+
+    /**
+    * Testa a remoção de uma notícia com sucesso
+    */
+
+    public function testRemocaoComSucesso(){
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1','Subtitulo1',dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia');
+        $this->instancia->cadastrarNoticia();
+
+        $noticiaDAO = new NoticiaDAO();
+        $noticia = $noticiaDAO->buscar(array(),array("titulo"=> "Titulo 1"));
+        $idNoticia = $noticia[0]->getIdNoticia();
+        $this->assertEquals(1,count($noticia));
+
+        $subtituloNovo = 'Subtitulo Novo';
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1',$subtituloNovo,dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia',$idNoticia);
+        $this->instancia->removerNoticia();
+
+        $noticia = $noticiaDAO->buscar(array(),array("titulo"=> "Titulo 1"));
+        $this->assertEquals(0,count($noticia));
+    }
 
 }

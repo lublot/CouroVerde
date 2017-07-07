@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="description" content="Setour" />
-    <meta name=viewport  content="width=device-width, initial-scale=1 user-scalable=no" />
+    <meta name=viewport  content="width=device-width, initial-scale=1" />
 
     <title>Sertour</title>
 
@@ -27,52 +27,51 @@
     <div id="container">
       
       <img src=<?php $this->path('assets/images/logo.jpg')?>  class="img-rounded" id="logo">
-      <section id="caixa-login">
-          <h4 class="text-center">Login</h4>
+          <section id="caixa-login">
+              <h4 class="text-center">Login</h4>
 
-            <form class="form-horizontal " id="formLogin" method="POST">
-                <div class="form-group col-xs-12.3">
-                    <input type="email" class="form-control" name="email" placeholder="Email">
-                </div>
+                <form class="form-horizontal " id="formLogin" method="POST">
+                    <div class="form-group col-xs-12.3">
+                        <input type="email" class="form-control" name="email" placeholder="Email">
+                    </div>
 
-                <div class="form-group col-xs-12.3">
-                    <input type="password" class="form-control" name="senha" placeholder="Senha">
-                </div>
+                    <div class="form-group col-xs-12.3">
+                        <input type="password" class="form-control" name="senha" placeholder="Senha">
+                    </div>
 
-                <div class="form-group">
-                  <div class="col-sm-offset-4 col-sm-5">
-                    <button type="submit" class="btn btn-default btn-md center">Entrar</button>
-                  </div>
-                </div>
-                <h6 class="text-center text-danger">
-                  <?php 
-                  if(isset($this->dados) && !empty($this->dados)){
-                    if(isset($this->dados['exception']) && !empty($this->dados['exception'])){
-                      echo $this->dados['exception'];
-                    }
-                  }?>
-                </h6>
-          </form>
+                    <div class="form-group">
+                      <div class="col-sm-offset-4 col-sm-5">
+                        <button type="submit" class="btn btn-default btn-md center">Entrar</button>
+                      </div>
+                    </div>
+                    <h6 class="text-center text-danger">
+                      <?php 
+                      if(isset($this->dados) && !empty($this->dados)){
+                        if(isset($this->dados['exception']) && !empty($this->dados['exception'])){
+                          echo $this->dados['exception'];
+                        }
+                      }?>
+                    </h6>
+              </form>
 
-          <a href="mailto:#"> <h5 class="text-center">Cadastre-se <br/> </h5></a>
-          <a href="mailto:#"> <h5 class="text-center" style="padding-bottom: 15px;"> Esqueci a minha senha</h5></a>
-          <h6 class="text-center">Outras opções de Login</h6>
+              <a href=<?php echo ROOT_URL.'cadastro'?>> <h5 class="text-center">Cadastre-se <br/> </h5></a>
+              <a href= <?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'recuperar'?>> <h5 class="text-center" style="padding-bottom: 15px;"> Esqueci a minha senha</h5></a>
+              <h6 class="text-center">Outras opções de Login</h6>
 
-          <div class="center" style="margin: 0 auto; width:43%">
+              <div class="center" style="margin: 0 auto; width:43%">
 
-          <a class="btn btn-social-icon btn-lg btn-facebook " id='btn-facebook'>
-         <span class = "fa fa-facebook"> </span>
-          </a>
+                <a class="btn btn-social-icon btn-lg btn-facebook " id='btn-facebook'>
+                  <span class = "fa fa-facebook"> </span>
+                </a>
 
-          <img src=<?php $this->path('assets/images/divisor.jpg')?>>
+                <img src=<?php $this->path('assets/images/divisor.jpg')?>>
 
-          <a class="btn btn-social-icon btn-lg btn-google-plus " href=<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'/acessoGoogle';?>>
-         <span class = "fa fa-google-plus"> </span>
+                <a class="btn btn-social-icon btn-lg btn-google-plus " href=<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'/acessoGoogle';?>>
+                  <span class = "fa fa-google-plus"> </span>
+                </a>
 
-          </a>
-        </div>
-
-      </section>
+              </div>
+        </section>
 
     </div>
     <?php $this->carregarRodape()?>

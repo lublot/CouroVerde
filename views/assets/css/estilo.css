@@ -73,6 +73,8 @@ a{
   text-align: center;
 
 }
+/*html, body {height:100%;}*/
+
 
 .footer-distributed{
 	background-color: #292c2f;
@@ -81,9 +83,10 @@ a{
 	width: 100%;
 	text-align: left;
 	font: bold 16px sans-serif;
-
+	position:relative;
+	bottom: -100px;
 	padding: 55px 50px;
-	margin-top: 80px;
+	margin-top: 70px;
 }
 
 .footer-distributed .footer-left,

@@ -69,8 +69,10 @@ class ObraDAO {
         $query = "UPDATE obra SET ";
 
         foreach($dados as $chave=>$valor){
-            $query .= $chave.'='."'$valor'";
+            $query .= $chave.'='."'$valor',";
         }
+
+        $query = substr($query, 0, -1);
 
         if(count($filtros) > 0){
             $query .= " WHERE ";

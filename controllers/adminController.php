@@ -7,7 +7,7 @@ class adminController extends mainController{
 
     private $POST = array('senhaAdmin'=>'abs','matriculaFuncionario'=>'15111157');
 
-    
+
 
 
     public function listarTodosFuncionarios(){

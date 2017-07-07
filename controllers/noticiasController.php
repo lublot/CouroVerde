@@ -12,11 +12,12 @@ use exceptions\NoticiaNaoEncontradaException as NoticiaNaoEncontradaException;
 
 class noticiasController extends mainController{
 
-    public function configurarAmbienteParaTeste($titulo, $descricao, $subtitulo, $caminhoImagem, $nomeImagem, $post) {
+    public function configurarAmbienteParaTeste($titulo, $descricao, $subtitulo, $caminhoImagem, $nomeImagem, $post,$idNoticia=0) {
         //seta valores necessários para o teste
         $_POST['titulo'] = $titulo;
         $_POST['descricao'] = $descricao;
         $_POST['subtitulo'] = $subtitulo;
+        $_POST['idNoticia'] = $idNoticia;
         $_FILES["user_file"]["tmp_name"] = $caminhoImagem;
         $_FILES["user_file"]["name"] = $nomeImagem;
 
@@ -125,27 +126,26 @@ class noticiasController extends mainController{
             }
             
             try {
-                $caminhoImagem = uploadImagem();
+                $caminhoImagem = $this->uploadImagem();
             } catch (ErroUploadImagemException $e) {
                 throw $e;
             }
 
-            $noticiaDAO = new noticiaDAO();
+            $noticiaDAO = new NoticiaDAO();
 
-            $idNoticia = addslashes($POST['idNoticia']);
-            $titulo = addslashes($POST['titulo']);
-            $descricao = addslashes($POST['descricao']);
+            $idNoticia = addslashes($_POST['idNoticia']);
+            $titulo = addslashes($_POST['titulo']);
+            $descricao = addslashes($_POST['descricao']);
             $subtitulo = isset($_POST['subtitulo']) ? addslashes($_POST['subtitulo']) : null;
-            $data = addslashes(date('d-m-y')); //obtém a data atual
+            $data = addslashes(date('Y-m-d')); //obtém a data atual
             $caminhoImagem = addslashes($caminhoImagem);
 
-            $campos = array('idNoticia'=> $idNoticia ? $idNoticia : null,
-                            'titulo'=> $titulo ? $titulo : null,
-                            'subtitulo'=> $subtitulo ? $subtitulo: null,
-                            'descricao'=>$descricao ? $descricao : null,
-                            'caminhoImagem'=>$caminhoImagem ? $caminhoImagem : null,
-                            'data'=>$data ? $data : null);
-
+            $campos = array('titulo'=> $titulo,
+                            'subtitulo'=> $subtitulo,
+                            'descricao'=>$descricao,
+                            'caminhoImagem'=>$caminhoImagem,
+                            'data'=>$data);
+           
             $noticiaDAO->alterar($campos,array('idNoticia'=>$idNoticia));
         } else {
             throw new DadosCorrompidosException();
@@ -154,41 +154,25 @@ class noticiasController extends mainController{
     }
 
     public function buscarNoticia(){
-        if(isset($_POST["submit"])) {
-            $noticiaDAO = new noticiaDAO();
+        if(isset($_POST["idNoticia"])) {
+            $noticiaDAO = new NoticiaDAO();
             $noticia = $noticiaDAO->buscar(array(),array('idNoticia'=>$_POST['idNoticia']));
 
             if(count($noticia) > 0){ //Existe uma noticia correspondente ao ID pesquisado no banco de dados
-                $idNoticia = $noticia[0]->getidNoticia();
-                $titulo = $noticia[0]->getTitulo();
-                $$descricao = $noticia[0]->getDescricao();
-                $subtitulo = $noticia[0]->getCaminhoImagem();
-                $data = $noticia[0]->getData();
-                $caminhoImagem = $noticia[0]->getCaminhoImagem();
-
-            $campos = array('idNoticia'=> $idNoticia ? $idNoticia : null,
-                            'titulo'=> $titulo ? $titulo : null,
-                            'subtitulo'=> $subtitulo ? $subtitulo: null,
-                            'descricao'=>$descricao ? $descricao : null,
-                            'caminhoImagem'=>$caminhoImagem ? $caminhoImagem : null,
-                            'data'=>$data ? $data : null);
-                return $campos;
+                return $noticia[0];
             } else {
-            throw new NoticiaNaoEncontradaException();
+                throw new NoticiaNaoEncontradaException();
             }
         } 
 
     }
 
     public function removerNoticia(){
-        if(isset($_POST["submit"])) {
-            $noticiaDAO = new noticiaDAO();
-            $noticia = $noticiaDAO->buscar(array(),array('idNoticia'=>$_POST['idNoticia']));
-        }
-            if(count($noticia) > 0){
-                $idNoticia = $noticia[0]->getidNoticia();
-                $noticiaDAO->remover(array('idNoticia'=>$idNoticia));
-            }
+        if(isset($_POST["idNoticia"])) {
+            $idNoticia = $_POST['idNoticia'];
+            $noticiaDAO = new NoticiaDAO();
+            $noticiaDAO->remover(array('idNoticia'=>$idNoticia));
+        }              
     }
 
     public function listarTodasNoticias(){
