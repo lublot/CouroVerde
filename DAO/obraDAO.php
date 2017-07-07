@@ -16,10 +16,10 @@ class ObraDAO {
         $nome = $obra->getNome();
         $titulo = $obra->getTitulo();
         $numInventario = $obra->getNumInventario();
-        $colecao = $obra->getColecao();
+        $idColecao = $obra->getIdColecao();
         $origem = $obra->getOrigem();
         $procedencia = $obra->getProcedencia();
-        $classificacao = $obra->getClassificacao();
+        $idClassificacao = $obra->getIdClassificacao();
         $funcao = $obra->getFuncao();
         $palavrasChave = $obra->getPalavrasChave();
         $descricao = $obra->getDescricao();
@@ -45,11 +45,11 @@ class ObraDAO {
         $caminhoImagem5 = $obra->getCaminhoImagem5();
         $caminhoModelo3D = $obra->getCaminhoModelo3D();
 
-        $query = "INSERT INTO obra(idUsuario, nome, titulo, numInventario, colecao, origem, procedencia, classificacao,
+        $query = "INSERT INTO obra(idUsuario, nome, titulo, numInventario, idColecao, origem, procedencia, idClassificacao,
                                     funcao, palavrasChave, descricao, altura, largura, diametro, peso, comprimento, materiais,
                                     tecnicas, autoria, marcas, historico, modoAquisicao, dataAquisicao, autor, observacoes,
                                     estado, caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) 
-                  VALUES (null,'$nome','$titulo','$numInventario', '$colecao', '$origem', '$procedencia', '$classificacao',
+                  VALUES (null,'$nome','$titulo','$numInventario', '$idColecao', '$origem', '$procedencia', '$idClassificacao',
                             '$funcao', '$palavrasChave', , '$descricao', '$altura', '$largura', '$diametro', '$peso', '$comprimento', '$materiais',
                             '$tecnicas', '$autoria', '$marcas', '$historico', '$modoAquisicao', '$dataAquisicao', '$autor', '$observacoes', 
                             '$estado', '$caminhoImagem1', '$caminhoImagem2', '$caminhoImagem3', '$caminhoImagem4', '$caminhoImagem5', '$caminhoModelo3D')";
