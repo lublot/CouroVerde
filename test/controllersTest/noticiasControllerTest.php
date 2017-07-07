@@ -1,0 +1,102 @@
+<?php
+require_once dirname(__FILE__).'/../../vendor/autoload.php';
+
+use \PHPUnit\Framework\TestCase;
+use \DAO\usuarioDAO as usuarioDAO;
+use \DAO\noticiaDAO as noticiaDAO;
+use \controllers\noticiasController as noticiasController;
+use \exceptions\CampoNoticiaInvalidoException as CampoNoticiaInvalidoException;
+use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
+
+
+
+class noticiasControllerTest extends TestCase {
+    private $instancia;
+
+
+    public function setUp(){
+        $this->instancia = new noticiasController(); //obtém instancia do controller
+    
+        //remove todas as noticias anteriormente cadastradas antes de realizar o teste
+        $noticiaDAO = new NoticiaDAO();
+        $noticiaDAO->remover(array());
+    }
+
+    /**
+     * Testa o cadastro de uma notícia.      
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testCadastrarNoticia() {
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST');
+        $this->instancia->cadastrarNoticia();
+
+        $noticiaDAO = new NoticiaDAO();
+        $noticiasObtidas = $noticiaDAO->buscar(array(), array(
+            "titulo" => 'Titulo 1',
+            'descricao' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.',
+            'subtitulo' => 'Subtitulo 1'
+        ));
+
+        $this->assertEquals(1, count($noticiasObtidas)); //verifica se apenas uma notícia foi encontrada
+        
+        $noticia = $noticiasObtidas[0];
+
+        $this->assertEquals('Titulo 1', $noticia->getTitulo());
+        $this->assertEquals('Subtitulo 1', $noticia->getSubtitulo());
+        $this->assertEquals('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', $noticia->getDescricao());
+        $this->assertEquals(date('d/m/Y'), $noticia->getData()); //verifica se a data é a de hoje
+        $this->assertNotFalse(strpos($noticia->getCaminhoImagem(), 'img1.gif')); //verifica se o caminho contém o nome da imagem
+
+    }
+
+    /**
+     * Testa o cadastro de uma notícia com título inválido.      
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testCadastrarNoticiaCampoTituloInvalido() {
+        $this->instancia->configurarAmbienteParaTeste(null, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST');
+        $this->expectException(CampoNoticiaInvalidoException::class); //exceção esperada
+        $this->instancia->cadastrarNoticia();
+    }    
+
+    /**
+     * Testa o cadastro de uma notícia sem subtítulo, já que esse campo é opcional.      
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testCadastrarNoticiaSemSubtitulo() {
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', null, dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST');
+        $this->instancia->cadastrarNoticia();
+
+        $noticiaDAO = new NoticiaDAO();
+        $noticiasObtidas = $noticiaDAO->buscar(array(), array(
+            "titulo" => 'Titulo 1',
+            'descricao' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.',
+            'subtitulo' => null
+        ));
+
+        $this->assertEquals(1, count($noticiasObtidas)); //verifica se apenas uma notícia foi encontrada
+        
+        $noticia = $noticiasObtidas[0];
+
+        $this->assertEquals('Titulo 1', $noticia->getTitulo());
+        $this->assertEquals(null, $noticia->getSubtitulo());
+        $this->assertEquals('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', $noticia->getDescricao());
+        $this->assertNotFalse(strpos($noticia->getCaminhoImagem(), 'img1.gif')); //verifica se o caminho contém o nome da imagem
+    }
+
+    /**
+     * Testa o cadastro de uma notícia sem a variável super global POST estar setada com dados.      
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testCadastrarNoticiaDadosCorrompidos() {
+        $this->instancia->configurarAmbienteParaTeste(null, null, null, dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', null);
+        $this->expectException(DadosCorrompidosException::class); //exceção esperada
+        $this->instancia->cadastrarNoticia();
+    }      
+
+
+}
