@@ -11,7 +11,7 @@ class ObraDAO {
     * Insere uma obra no banco de dados;
     * @param unknown $obra - a obra a ser inserida no banco;
     * */
-    public function inserir($obra){
+    public function inserirObra($obra){
         
         $nome = $obra->getNome();
         $titulo = $obra->getTitulo();
@@ -45,7 +45,7 @@ class ObraDAO {
         $caminhoImagem5 = $obra->getCaminhoImagem5();
         $caminhoModelo3D = $obra->getCaminhoModelo3D();
 
-        $query = "INSERT INTO obra(idUsuario, nome, titulo, numInventario, idColecao, origem, procedencia, idClassificacao,
+        $query = "INSERT INTO obra(idObra, nome, titulo, numInventario, idColecao, origem, procedencia, idClassificacao,
                                     funcao, palavrasChave, descricao, altura, largura, diametro, peso, comprimento, materiais,
                                     tecnicas, autoria, marcas, historico, modoAquisicao, dataAquisicao, autor, observacoes,
                                     estado, caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) 
@@ -178,6 +178,40 @@ class ObraDAO {
         }
         
         return $obras;
+    }
+
+    /**
+    * Insere uma coleção no banco de dados;
+    * @param unknown $colecao - A coleção a ser inserida no banco;
+    * */
+    public function inserirColecao($colecao){
+        
+        $nome = $colecao->getNome();
+
+        $query = "INSERT INTO Colecao(idColecao, nome) 
+                  VALUES (null,'$nome')";
+        try{
+            $this->PDO->query($query);
+        }catch(PDOException $e){
+
+        }
+    }
+
+    /**
+    * Insere uma coleção no banco de dados;
+    * @param unknown $colecao - A coleção a ser inserida no banco;
+    * */
+    public function inserirClassificacao($classificacao){
+        
+        $nome = $classificacao->getNome();
+
+        $query = "INSERT INTO Classificacao(idClassificacao, nome) 
+                  VALUES (null,'$nome')";
+        try{
+            $this->PDO->query($query);
+        }catch(PDOException $e){
+
+        }
     }
 }
 
