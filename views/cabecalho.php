@@ -3,7 +3,7 @@
       <div class="row">
           <div class="col-md-1 col-sm-1"></div>
           <div class="col-xs-12 col-md-11">
-               <h2><i class="fa fa-bars"></i> Sertour</h2>
+              <h2><i class="fa fa-bars"></i> Sertour</h2> 
           </div>
 
       </div>
