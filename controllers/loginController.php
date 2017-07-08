@@ -8,7 +8,7 @@ use exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
 use exceptions\SenhaInvalidaException as SenhaInvalidaException;
 use exceptions\EmailInvalidoException as EmailInvalidoException;
 use exceptions\AcessoExternoNegadoException as AcessoExternoNegadoException;
-
+session_start();
 
 class loginController extends mainController{
     protected $dados = array();
@@ -138,7 +138,6 @@ class loginController extends mainController{
     * Realiza a autenticação via Google+
     **/
     public function acessoGoogle(){
-        session_start();
         require_once (ABSPATH.'/vendor/credentialsConfig.php');
 
         // $service implements the client interface, has to be set before auth call
@@ -192,7 +191,6 @@ class loginController extends mainController{
     * Realiza a autenticação do login via Facebook.
     **/
     public function acessoFacebook() {
-        session_start();
         require_once ABSPATH. '/php-graph-sdk-5.4/src/Facebook/autoload.php';  
         $fb = new \Facebook\Facebook([
         'app_id' => '1435160229855766',

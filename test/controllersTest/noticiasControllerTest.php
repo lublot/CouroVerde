@@ -7,8 +7,7 @@ use \DAO\noticiaDAO as noticiaDAO;
 use \controllers\noticiasController as noticiasController;
 use \exceptions\CampoNoticiaInvalidoException as CampoNoticiaInvalidoException;
 use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
-
-
+use \models\Noticia as Noticia;
 
 class noticiasControllerTest extends TestCase {
     private $instancia;
@@ -101,8 +100,9 @@ class noticiasControllerTest extends TestCase {
 
     /**
     * Testa a edição do titulo de uma notícia com sucesso;
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
     */
-
     public function testEditarNoticiaSucesso(){
         $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1','Subtitulo1',dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia');
         $this->instancia->cadastrarNoticia();
@@ -121,6 +121,8 @@ class noticiasControllerTest extends TestCase {
 
     /**
     * Testa a edição do subtitulo de uma notícia com sucesso;
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
     */
     public function testEditarSubtituloNoticiaSucesso(){
          $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1','Subtitulo1',dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia');
@@ -140,6 +142,8 @@ class noticiasControllerTest extends TestCase {
 
     /**
     * Testa a edição de uma notícia com falha;
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
     */
     public function testEditarNoticiaComFalha(){
         $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1','Subtitulo1',dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia');
@@ -151,15 +155,16 @@ class noticiasControllerTest extends TestCase {
         $this->assertEquals(1,count($noticia));
 
         $subtituloNovo = 'Subtitulo Novo';
-        $this->instancia->configurarAmbienteParaTeste(null,'Descricao 1',$subtituloNovo,dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia',$idNoticia);
-        $this->expectException(CampoNoticiaInvalidoException::class); //exceção esperada
-        $this->instancia->alterarNoticia();        
+        $this->instancia->configurarAmbienteParaTeste('','Descricao 1',$subtituloNovo,dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia',$idNoticia);
+        $this->expectException(CampoNoticiaInvalidoException::class); //exceção esperada        
+        $this->instancia->alterarNoticia();
     }
 
     /**
     * Testa a remoção de uma notícia com sucesso
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
     */
-
     public function testRemocaoComSucesso(){
         $this->instancia->configurarAmbienteParaTeste('Titulo 1','Descricao 1','Subtitulo1',dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif','img1.gif','Noticia');
         $this->instancia->cadastrarNoticia();
@@ -175,6 +180,34 @@ class noticiasControllerTest extends TestCase {
 
         $noticia = $noticiaDAO->buscar(array(),array("titulo"=> "Titulo 1"));
         $this->assertEquals(0,count($noticia));
+    }
+
+    /**
+    * Testa a busca de uma notícia com sucesso.
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
+    */
+    public function testBuscaNoticiaSucesso() {
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST');
+        $this->instancia->cadastrarNoticia();
+
+        $noticiaDAO = new NoticiaDAO();
+        $noticiasObtidas = $noticiaDAO->buscar(array(), array(
+            "titulo" => 'Titulo 1',
+            'descricao' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.',
+            'subtitulo' => 'Subtitulo 1'
+        ));
+
+        $this->assertEquals(1, count($noticiasObtidas)); //verifica se apenas uma notícia foi encontrada
+        
+        $noticia = $noticiasObtidas[0]; 
+
+        //var_dump($noticia);
+
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST', $noticia->getIdNoticia());
+        $noticiaBuscada = $this->instancia->buscarNoticia();
+        $this->assertTrue(isset($noticiaBuscada));
+        $this->assertEquals($noticia->getIdNoticia(), $noticiaBuscada->getIdNoticia());       
     }
 
 }
