@@ -7,6 +7,7 @@ use \DAO\noticiaDAO as noticiaDAO;
 use \controllers\noticiasController as noticiasController;
 use \exceptions\CampoNoticiaInvalidoException as CampoNoticiaInvalidoException;
 use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
+use \exceptions\NoticiaNaoEncontradaException as NoticiaNaoEncontradaException;
 use \models\Noticia as Noticia;
 
 class noticiasControllerTest extends TestCase {
@@ -183,11 +184,23 @@ class noticiasControllerTest extends TestCase {
     }
 
     /**
+    * Testa a remoção com sucesso de uma notícia não cadastrada no sistema.
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
+    */
+    public function testRemoverNoticiaNaoCadastrada() {
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST'); //configura o ambiente com o id default (0), que não possui uma noticia associada
+        $this->expectException(NoticiaNaoEncontradaException::class); //exceção esperada        
+        $this->instancia->removerNoticia();
+    }        
+
+    /**
     * Testa a busca de uma notícia com sucesso.
     * @runInSeparateProcess
     * @preserveGlobalState disabled    
     */
-    public function testBuscaNoticiaSucesso() {
+    public function testBuscarNoticiaSucesso() {
+        //realiza o cadastro da pesquisa
         $this->instancia->configurarAmbienteParaTeste('Titulo 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST');
         $this->instancia->cadastrarNoticia();
 
@@ -202,12 +215,22 @@ class noticiasControllerTest extends TestCase {
         
         $noticia = $noticiasObtidas[0]; 
 
-        //var_dump($noticia);
-
+        //tenta realizar a busca após a realização do cadastro
         $this->instancia->configurarAmbienteParaTeste('Titulo 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST', $noticia->getIdNoticia());
         $noticiaBuscada = $this->instancia->buscarNoticia();
         $this->assertTrue(isset($noticiaBuscada));
         $this->assertEquals($noticia->getIdNoticia(), $noticiaBuscada->getIdNoticia());       
+    }
+
+    /**
+    * Testa a busca de uma notícia que não está cadastrada no sistema.
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
+    */
+    public function testBuscarNoticiaNaoCadastrada() {
+        $this->instancia->configurarAmbienteParaTeste('Titulo 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST'); //o id está definido por default como 0 e não existe no sistema
+        $this->expectException(NoticiaNaoEncontradaException::class); //exceção esperada        
+        $noticiaBuscada = $this->instancia->buscarNoticia();   
     }
 
 }

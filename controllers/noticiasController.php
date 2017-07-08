@@ -71,7 +71,7 @@ class noticiasController extends mainController
 
     /**
     * Realiza o upload de uma imagem.
-    * @param String $caminhoImagem - caminho da imagem no diretório do sistema
+    * @return String $caminhoImagem - caminho da imagem no diretório do sistema
     */
     private function uploadImagem()
     {
@@ -157,7 +157,7 @@ class noticiasController extends mainController
 
     /**
     * Realiza a busca de uma notícia.
-    * @param Noticia $noticia - noticia obtida na busca
+    * @return Noticia $noticia - noticia obtida na busca
     */
     public function buscarNoticia()
     {
@@ -170,6 +170,8 @@ class noticiasController extends mainController
             } else {
                 throw new NoticiaNaoEncontradaException();
             }
+        } else {
+            throw new DadosCorrompidosException();
         }
     }
 
@@ -179,19 +181,27 @@ class noticiasController extends mainController
     public function removerNoticia()
     {
         if (isset($_POST["idNoticia"])) {
-            $idNoticia = $_POST['idNoticia'];
-            $noticiaDAO = new NoticiaDAO();
-            $noticiaDAO->remover(array('idNoticia'=>$idNoticia));
+             try {
+                $this->buscarNoticia();
+                $idNoticia = $_POST['idNoticia'];
+                $noticiaDAO = new NoticiaDAO();
+                $noticiaDAO->remover(array('idNoticia'=>$idNoticia));
+             } catch (NoticiaNaoEncontradaException $e) {
+                 throw $e;
+             }
+        } else {
+            throw new DadosCorrompidosException();
         }
     }
 
     /**
     * Efetua a listagem de todas as notícias.
     */
-    public function listarTodasNoticias()
-    {
+    public function listarTodasNoticias() {
         $noticiaDAO = new noticiaDAO();
         $noticias = $noticiaDAO->buscar();
         echo json_encode($noticias);
     }
+
+
 }
