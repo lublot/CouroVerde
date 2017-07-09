@@ -20,6 +20,7 @@ class loginControllerTest extends TestCase {
     }
 
     /**
+     * Testa a realização de login no sistema.    
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
@@ -35,6 +36,7 @@ class loginControllerTest extends TestCase {
     }
 
     /**
+     * Testa a realização de login com email inválido.        
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
@@ -52,6 +54,7 @@ class loginControllerTest extends TestCase {
     }
 
     /**
+     * Testa a realização de login com senha inválida.            
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
@@ -69,6 +72,7 @@ class loginControllerTest extends TestCase {
     }
 
     /**
+     * Testa a realização de logout no sistema.      
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
@@ -85,6 +89,7 @@ class loginControllerTest extends TestCase {
      }
 
     /**
+     * Testa a redefinição de senha.       
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
@@ -120,6 +125,7 @@ class loginControllerTest extends TestCase {
      }
 
     /**
+     * Testa a alteração de senha em uma situação na qual os dados necessários não foram enviados.            
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */

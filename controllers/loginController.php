@@ -120,6 +120,7 @@ class loginController extends mainController{
         if(count($usuario) > 0){ //Verifica se existe usuario
         //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema
             if($usuario[0]->confirmouCadastro()){
+                session_start();
                 $_SESSION['nome'] = $usuario[0]->getNome();
                 $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
                 $_SESSION['email'] = $usuario[0]->getEmail();
@@ -137,7 +138,6 @@ class loginController extends mainController{
     * Realiza a autenticação via Google+
     **/
     public function acessoGoogle(){
-
         require_once (ABSPATH.'/vendor/credentialsConfig.php');
 
         // $service implements the client interface, has to be set before auth call
@@ -191,7 +191,6 @@ class loginController extends mainController{
     * Realiza a autenticação do login via Facebook.
     **/
     public function acessoFacebook() {
-
         require_once ABSPATH. '/php-graph-sdk-5.4/src/Facebook/autoload.php';  
         $fb = new \Facebook\Facebook([
         'app_id' => '1435160229855766',
@@ -307,58 +306,70 @@ class loginController extends mainController{
     /**
     *Envia o email para a redefinição de senha.
     */
-    public function emailRedefinicao() {
+    public function recuperar() {
+        if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){
+            if (ValidacaoDados::validarForm($_POST,array("email"))) {
+                try{
+                    $email = addslashes($_POST["email"]); //Recebe o endereço de e-mail digitado pelo usuário.
 
-        if (ValidacaoDados::validarForm($_POST,array("email"))) {
-            $email = addslashes($_POST["email"]); //Recebe o endereço de e-mail digitado pelo usuário.
+                    $usuarioDao = new UsuarioDAO();
+                    $usuario = $usuarioDao->buscar(array(), array("email"=>$email))[0]; //Busca o usuário desejado.
+                    $nome = $usuario->getNome();
 
-            $usuarioDao = new UsuarioDAO();
-            $usuario = $usuarioDao->buscar(array(), array("email"=>$email))[0]; //Busca o usuário desejado.
-            $nome = $usuario->getNome();
+                    if ($usuario == null) { //Verifica se o usuário existe.
+                        throw new UsuarioInexistenteException(); //Caso não exista, lança uma exceção.
+                    }
 
-            if ($usuario == null) { //Verifica se o usuário existe.
-                throw new UsuarioInexistenteException(); //Caso não exista, lança uma exceção.
+                    require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
+
+                    $id = $usuario->getId(); //Recebe o ID do usuário encontrado.
+                    
+                    $linkRedefinir = ROOT_URL."login/redefinir/?e=".md5($email)."&i=".$id; //Gera um link composto pelas informações do usuário.
+
+                    $mail = new \PHPMailer();
+
+                    $mail->isSMTP();                                      // Set mailer to use SMTP
+                    $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+                    $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                    $mail->Username = 'websertour@gmail.com';                 // SMTP username
+                    $mail->Password = 'sertourweb';                           // SMTP password
+                    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+                    $mail->Port = 587;                                    // TCP port to connect to
+                    $mail->CharSet = 'UTF-8';
+
+                    $mail->setFrom('websertour@websertour.com', 'Sertour');
+                    $mail->addAddress($email, $nome);     // Add a recipient
+                    $mail->addReplyTo('noreply@gmail.com', 'Não responda');
+
+                    $mail->isHTML(true);                                  // Set email format to HTML
+                    $mail->SMTPOptions = array(
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    );
+                    $mail->Subject = 'Sertour - Redefinição de Senha';
+                    $mail->Body    = "Olá, ".$nome.". Você solicitou uma redefinição de senha.<br/><br/>"
+                                    ."Por favor, clique no link abaixo e insira sua nova senha: <br/><br/>".
+                                    "Link de Redefinição: ".$linkRedefinir;
+
+                    if (!$mail->send()) {
+                        throw new EmailNaoEnviadoException();
+                    }else{
+                        $this->dados['redefinido'] = true;
+                        $this->dados['email'] = $email;
+                        $this->carregarConteudo('pedidoRedefinicao',$this->dados);
+                    }
+                }catch(EmailNaoEnviadoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }catch(DadosCorrompidosException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }catch(UsuarioInexistentException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }
             }
-
-            require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
-
-            $id = $usuario->getId(); //Recebe o ID do usuário encontrado.
-            
-            $linkRedefinir = ROOT_URL."login/redefinir/?e=".md5($email)."&i=".$id; //Gera um link composto pelas informações do usuário.
-
-            $mail = new \PHPMailer();
-
-            $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = 'websertour@gmail.com';                 // SMTP username
-            $mail->Password = 'sertourweb';                           // SMTP password
-            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = 587;                                    // TCP port to connect to
-            $mail->CharSet = 'UTF-8';
-
-            $mail->setFrom('websertour@websertour.com', 'Sertour');
-            $mail->addAddress($email, $nome);     // Add a recipient
-            $mail->addReplyTo('noreply@gmail.com', 'Não responda');
-
-            $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
-            $mail->Subject = 'Sertour - Redefinição de Senha';
-            $mail->Body    = "Olá, ".$nome.". Você solicitou uma redefinição de senha.<br/><br/>"
-                            ."Por favor, clique no link abaixo e insira sua nova senha: <br/><br/>".
-                            "Link de Redefinição: ".$linkRedefinir;
-
-            if (!$mail->send()) {
-                throw new EmailNaoEnviadoException();
-            }
-        } else {
-            throw new DadosCorrompidosException();
+            $this->carregarConteudo('pedidoRedefinicao',$this->dados);
         }
     }
 
@@ -366,24 +377,44 @@ class loginController extends mainController{
     *Redefine a senha.
     */
     public function redefinir() {
-        if(ValidacaoDados::validarForm($_POST,array("senha","confirmarSenha"))) {
-            $novaSenha = GerenciarSenha::criptografarSenha($_POST["senha"]); //Recebe a nova senha do usuário.
-            $confirmarSenha = GerenciarSenha::criptografarSenha($_POST["confirmarSenha"]); //Recebe a confirmação de senha.
 
-            if (!ValidacaoDados::validarSenha($novaSenha) || !ValidacaoDados::validarSenha($confirmarSenha) ) { //Verifica se a nova senha digitada é válida.
-                throw new SenhaInvalidaException(); //Caso não seja, lança uma exceção.
-            } else if($novaSenha != $confirmarSenha) { //Verifica se a senha e a confirmação são iguais.
-                throw new SenhaInconsistenteException(); //Caso não seja, lança uma exceção.
+        if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){
+            if(ValidacaoDados::validarForm($_POST,array("senha","confirmarSenha"))) {
+                try{
+                    $novaSenha = GerenciarSenha::criptografarSenha($_POST["senha"]); //Recebe a nova senha do usuário.
+                    $confirmarSenha = GerenciarSenha::criptografarSenha($_POST["confirmarSenha"]); //Recebe a confirmação de senha.
+
+                    if (!ValidacaoDados::validarSenha($novaSenha) || !ValidacaoDados::validarSenha($confirmarSenha) ) { //Verifica se a nova senha digitada é válida.
+                        throw new SenhaInvalidaException(); //Caso não seja, lança uma exceção.
+                    } else if($novaSenha != $confirmarSenha) { //Verifica se a senha e a confirmação são iguais.
+                        throw new SenhaInconsistenteException(); //Caso não seja, lança uma exceção.
+                    }
+            
+                    $id = $_GET['i']; //Obtém o ID a partir da URL.
+                    $email = $_GET['e']; //Obtém o e-mail a partir da URL.
+
+                    $usuarioDao = new UsuarioDAO();
+                    $usuarioDao->alterar(array("senha"=>$novaSenha), array("idUsuario"=>$id)); //Altera a senha do usuário desejado. 
+                }catch(SenhaInvalidaException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }catch(SenhaInconsistenteException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }
             }
-        
-            $id = $_GET['i']; //Obtém o ID a partir da URL.
-            $email = $_GET['e']; //Obtém o e-mail a partir da URL.
 
-            $usuarioDao = new UsuarioDAO();
-            $usuarioDao->alterar(array("senha"=>$novaSenha), array("idUsuario"=>$id)); //Altera a senha do usuário desejado.
-        } else {
-            throw new DadosCorrompidosException();
+            $this->carregarConteudo("redefinicaoSenha",$this->dados);
         }
     }
+
+    public function emailEnviado(){
+        if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){
+            if(ValidacaoDados::validarForm($_POST,array("senha","confirmarSenha"))) {
+                
+                $this->carregarConteudo('emailEnviado',array());
+            
+            }
+        }
+    }
+   
 }
 ?>

@@ -1,0 +1,25 @@
+.div-caixa{
+
+  display: block;
+  margin: 3% auto 3% auto;
+
+}
+
+
+.div-caixa .section-esqueda{
+  border: 1px solid black;
+  margin: 0 1% 0 1%;
+  height: 500px; /* ver jeito melhor de responsividade*/
+
+
+}
+
+.div-caixa .section-direita{
+  border: 1px solid black;
+  margin: 0 1% 0 1%;
+  height: 500px; /* ver jeito melhor de responsividade*/
+
+}
+
+.menu-button{
+}

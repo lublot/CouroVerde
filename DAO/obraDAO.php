@@ -8,19 +8,51 @@ use \models\Obra as Obra;
 class ObraDAO {
 
     /**
-    * Insere um usuário no banco de dados;
-    * @param unknown $usuario - o usuário a ser inserido no banco;
+    * Insere uma obra no banco de dados;
+    * @param unknown $obra - a obra a ser inserida no banco;
     * */
-    public function inserir($usuario){
+    public function inserirObra($obra){
         
-        $nome = $usuario->getNome();
-        $sobrenome = $usuario->getSobrenome();
-        $email = $usuario->getEmail();
-        $senha = $usuario->getSenha();
-        $cadastroConfirmado = $usuario->confirmouCadastro();
+        $nome = $obra->getNome();
+        $titulo = $obra->getTitulo();
+        $numInventario = $obra->getNumInventario();
+        $idColecao = $obra->getIdColecao();
+        $origem = $obra->getOrigem();
+        $procedencia = $obra->getProcedencia();
+        $idClassificacao = $obra->getIdClassificacao();
+        $funcao = $obra->getFuncao();
+        $palavrasChave = $obra->getPalavrasChave();
+        $descricao = $obra->getDescricao();
+        $altura = $obra->getAltura();
+        $largura = $obra->getLargura();
+        $diametro = $obra->getDiametro();
+        $peso = $obra->getPeso();
+        $comprimento = $obra->getComprimento();
+        $materiais = $obra->getMateriais();
+        $tecnicas = $obra->getTecnicas();
+        $autoria = $obra->getAutoria();
+        $marcas = $obra->getMarcas();
+        $historico = $obra->getHistorico();
+        $modoAquisicao = $obra->getModoAquisicao();
+        $dataAquisicao = $obra->getDataAquisicao();
+        $autor = $obra->getAutor();
+        $observacoes = $obra->getObservacoes();
+        $estado = $obra->getEstado();
+        $caminhoImagem1 = $obra->getCaminhoImagem1();
+        $caminhoImagem2 = $obra->getCaminhoImagem2();
+        $caminhoImagem3 = $obra->getCaminhoImagem3();
+        $caminhoImagem4 = $obra->getCaminhoImagem4();
+        $caminhoImagem5 = $obra->getCaminhoImagem5();
+        $caminhoModelo3D = $obra->getCaminhoModelo3D();
 
-        $query = "INSERT INTO `usuario`(`idUsuario`, `nome`, `sobrenome`, `email`, `senha`, `cadastroConfirmado`) 
-                  VALUES (null,'$nome','$sobrenome','$email','$senha','$cadastroConfirmado')";
+        $query = "INSERT INTO obra(idObra, nome, titulo, numInventario, idColecao, origem, procedencia, idClassificacao,
+                                    funcao, palavrasChave, descricao, altura, largura, diametro, peso, comprimento, materiais,
+                                    tecnicas, autoria, marcas, historico, modoAquisicao, dataAquisicao, autor, observacoes,
+                                    estado, caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) 
+                  VALUES (null,'$nome','$titulo','$numInventario', '$idColecao', '$origem', '$procedencia', '$idClassificacao',
+                            '$funcao', '$palavrasChave', , '$descricao', '$altura', '$largura', '$diametro', '$peso', '$comprimento', '$materiais',
+                            '$tecnicas', '$autoria', '$marcas', '$historico', '$modoAquisicao', '$dataAquisicao', '$autor', '$observacoes', 
+                            '$estado', '$caminhoImagem1', '$caminhoImagem2', '$caminhoImagem3', '$caminhoImagem4', '$caminhoImagem5', '$caminhoModelo3D')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -37,8 +69,10 @@ class ObraDAO {
         $query = "UPDATE obra SET ";
 
         foreach($dados as $chave=>$valor){
-            $query .= $chave.'='."'$valor'";
+            $query .= $chave.'='."'$valor',";
         }
+
+        $query = substr($query, 0, -1);
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -146,6 +180,40 @@ class ObraDAO {
         }
         
         return $obras;
+    }
+
+    /**
+    * Insere uma coleção no banco de dados;
+    * @param unknown $colecao - A coleção a ser inserida no banco;
+    * */
+    public function inserirColecao($colecao){
+        
+        $nome = $colecao->getNome();
+
+        $query = "INSERT INTO Colecao(idColecao, nome) 
+                  VALUES (null,'$nome')";
+        try{
+            $this->PDO->query($query);
+        }catch(PDOException $e){
+
+        }
+    }
+
+    /**
+    * Insere uma coleção no banco de dados;
+    * @param unknown $colecao - A coleção a ser inserida no banco;
+    * */
+    public function inserirClassificacao($classificacao){
+        
+        $nome = $classificacao->getNome();
+
+        $query = "INSERT INTO Classificacao(idClassificacao, nome) 
+                  VALUES (null,'$nome')";
+        try{
+            $this->PDO->query($query);
+        }catch(PDOException $e){
+
+        }
     }
 }
 

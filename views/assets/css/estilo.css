@@ -9,11 +9,11 @@ section#caixa-login {
 
 section#caixa{
 
-  padding: 0px 65px 5px;
-  margin: 10px 30px 15px;
-  border-color: #e5e5e5 #eee #eee;
+  padding: 0px 35px 5px;
+  margin: 10px 30px 10px;
+  /*border-color: #e5e5e5 #eee #eee;*/
   /*border-color: black black;*/
-  border-style: solid;
+  border-style: none;
   border-width: 1px 0;
   -webkit-box-shadow: inset 0 3px 6px rgba(0,0,0,.05);
   box-shadow: inset 0 3px 15px rgba(0,0,0,.05);
@@ -73,6 +73,8 @@ a{
   text-align: center;
 
 }
+/*html, body {height:100%;}*/
+
 
 .footer-distributed{
 	background-color: #292c2f;
@@ -81,9 +83,10 @@ a{
 	width: 100%;
 	text-align: left;
 	font: bold 16px sans-serif;
-
+	position:relative;
+	bottom: -100px;
 	padding: 55px 50px;
-	margin-top: 80px;
+	margin-top: 70px;
 }
 
 .footer-distributed .footer-left,
@@ -244,5 +247,6 @@ a{
 	.footer-distributed .footer-center i{
 		margin-left: 0;
 	}
+
 
 }

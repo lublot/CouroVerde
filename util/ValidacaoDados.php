@@ -29,7 +29,7 @@ class ValidacaoDados {
     * @return <code>true</code>, se houver informação; <code>false</code>, caso contrário
     */
     public static function validarCampo($campo) {
-        if (isset($campo) && !empty($campo)) {
+        if ($campo != null && isset($campo) && !empty($campo)) {
             return true;
         }
         return false;
