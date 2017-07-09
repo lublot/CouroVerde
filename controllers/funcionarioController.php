@@ -1,6 +1,7 @@
 <?php
 namespace controllers;
 
+require_once dirname(__DIR__).'/vendor/autoload.php';
 use \exceptions\NomeInvalidoException as NomeInvalidoException;
 use \exceptions\SobrenomeInvalidoException as SobrenomeInvalidoException;
 use \exceptions\SenhaInvalidaException as SenhaInvalidaException;
