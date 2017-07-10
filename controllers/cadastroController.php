@@ -94,10 +94,11 @@ class cadastroController extends mainController
 
                     $usuarioDAO->inserir(new Usuario(null, $email, $nome, $sobrenome, $senha, false,'USUARIO'));
                     $usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //Busca o usuário récem cadastrado
-                    $this->confirmar(array("nome" => $usuario->getNome(),
-                                    "email" => $usuario->getEmail(),
-                                    "id" => $usuario->getId()));
+                    
+                    if($this->confirmar(array("nome" => $usuario->getNome(),"email" => $usuario->getEmail(),
+                                    "id" => $usuario->getId()))){
                     echo "<script>window.location.replace('".ROOT_URL."cadastro/confirmar"."');</script>"; // Redireciona a página
+                    }
                 }catch(EmailJaCadastradoException $e){
                     $this->dados['exception'] = $e->getMessage();
                 }catch(NomeInvalidoException $e){
@@ -165,11 +166,13 @@ class cadastroController extends mainController
                             "Link de Confirmação: ".$linkConfirmacao;
             
             if (!$mail->send()) {
-                return false;
+                throw new EmailNaoEnviadoException();
             }else{
                 return true;
             }
         }
+
+        $this->carregarConteudo('confirmacaoEmail',$this->dados);
     }
     
     /**
