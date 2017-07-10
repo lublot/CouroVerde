@@ -10,17 +10,7 @@
     <title>Sertour</title>
 
     <!-- Importação de estilo -->
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-theme.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/estilo.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/topo.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-social.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.min.css')?>>
-    <script type ="text/javascript" src=<?php $this->path('assets/js/jquery-3.2.1.min.js')?>></script>
-    <script type="text/javascript" src=<?php $this->path('assets/js/bootstrap.js');?>></script>
-    <script type="text/javascript" src=<?php $this->path('assets/js/login-script.js');?>></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <?php $this->carregarDependencias()?>
 
   </head>
 
@@ -32,13 +22,13 @@
       <?php $this->carregarCabecalho()?>
           
       <!-- Formulário de senha -->
-      <form data-toggle="validator" role="form" class="form-horizontal">
+      <form data-toggle="validator" role="form" class="form-horizontal" method="POST">
 
         <!-- Entrada de senha -->
           <div class="form-group">
               <label class="col-xs-2 control-label" style="margin-right:-16px;">Senha:</label>
               <div class="col-xs-2">
-                  <input type="password" data-minlength="8" class="form-control" id="inputPassword" required />
+                  <input type="password" data-minlength="8" name="senha" class="form-control" id="inputPassword" required />
                   <div class="help-block">Mínimo 8 caracteres</div>
               </div>
           </div>
@@ -47,11 +37,15 @@
           <div class="form-group">
               <label class="col-xs-2 control-label " style="margin-right:-16px;">Repetir a senha:</label>
               <div class="col-xs-2">
-                  <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Senhas não correspondem" required/>
+                  <input type="password" class="form-control" name="confirmarSenha" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Senhas não correspondem" required/>
                   <div class="help-block with-errors"></div>
-              </div>
+              </div><br>
+              <span><?php 
+                  if(isset($this->dados['exception'])){echo $this->dados['exception'];}
+                  if(isset($this->dados['redefinido'])){echo $this->dados['redefinido'];}
+                ?></span>
           </div>
-
+          
           <!-- Botão de enviar -->
           <div class="form-group">
             <div class="col-xs-offset-2 col-xs-1">

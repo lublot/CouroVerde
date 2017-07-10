@@ -1,4 +1,8 @@
-<?php session_start()?>
+<?php if(!isset($_SESSION)){
+        session_start();
+      } 
+?>
+
 <div class="container">
       <div class="row">
           <div class="col-md-1 col-sm-1"></div>

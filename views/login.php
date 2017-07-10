@@ -55,7 +55,7 @@
               </form>
 
               <a href=<?php echo ROOT_URL.'cadastro'?>> <h5 class="text-center">Cadastre-se <br/> </h5></a>
-              <a href= <?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'recuperar'?>> <h5 class="text-center" style="padding-bottom: 15px;"> Esqueci a minha senha</h5></a>
+              <a href= <?php echo ROOT_URL.'login/recuperar'?>> <h5 class="text-center" style="padding-bottom: 15px;"> Esqueci a minha senha</h5></a>
               <h6 class="text-center">Outras opções de Login</h6>
 
               <div class="center" style="margin: 0 auto; width:43%">

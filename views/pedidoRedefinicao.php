@@ -50,6 +50,16 @@
 								<div class="form-group">
 									<!--Text: Email-->
 									<input class="form-control" type="email" name="email" placeholder="E-mail">
+									<span>
+										<?php 
+											if(isset($this->dados['exception'])){
+												echo $this->dados['exception'];
+											}
+											if(isset($this->dados['redefinido'])){
+												echo $this->dados['redefinido'];
+											}
+										?>
+									</span>
 								</div>
 							</div>
 						</div>
@@ -65,7 +75,7 @@
 
 				<div class="modal-footer" style="border-top: 0; margin-right: 15px;">
 					<div class="form-group">
-						<button type="reset" class="btn btn-default" id="btn-cancelar">Cancelar</button>
+						<a href=<?php echo ROOT_URL.'login'?>><button class="btn btn-default" id="btn-cancelar">Cancelar</button></a>
 						<button type="submit" class="btn btn-success" id='btn-proximo'>Próximo</button>
 					</div>
 				</div>

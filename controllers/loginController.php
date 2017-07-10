@@ -8,7 +8,9 @@ use exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
 use exceptions\SenhaInvalidaException as SenhaInvalidaException;
 use exceptions\EmailInvalidoException as EmailInvalidoException;
 use exceptions\AcessoExternoNegadoException as AcessoExternoNegadoException;
-session_start();
+if(!isset($_SESSION)){
+    session_start();
+}
 
 class loginController extends mainController{
     protected $dados = array();
@@ -120,7 +122,10 @@ class loginController extends mainController{
         if(count($usuario) > 0){ //Verifica se existe usuario
         //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema
             if($usuario[0]->confirmouCadastro()){
-                session_start();
+                if(!isset($_SESSION)){
+                    session_start();
+                }
+                
                 $_SESSION['nome'] = $usuario[0]->getNome();
                 $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
                 $_SESSION['email'] = $usuario[0]->getEmail();
@@ -307,22 +312,25 @@ class loginController extends mainController{
     *Envia o email para a redefinição de senha.
     */
     public function recuperar() {
-        if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){
-            if (ValidacaoDados::validarForm($_POST,array("email"))) {
-                try{
+        try{
+            if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){
+                if (ValidacaoDados::validarForm($_POST,array("email"))) {
+                
                     $email = addslashes($_POST["email"]); //Recebe o endereço de e-mail digitado pelo usuário.
 
                     $usuarioDao = new UsuarioDAO();
-                    $usuario = $usuarioDao->buscar(array(), array("email"=>$email))[0]; //Busca o usuário desejado.
-                    $nome = $usuario->getNome();
+                    $usuario = $usuarioDao->buscar(array(), array("email"=>$email)); //Busca o usuário desejado.
 
                     if ($usuario == null) { //Verifica se o usuário existe.
                         throw new UsuarioInexistenteException(); //Caso não exista, lança uma exceção.
                     }
-
+                    if($usuario[0]->getSenha()==="" || empty($usuario[0]->getSenha())){
+                        throw new RecuperacaoInvalidaException();
+                    }
+                    $nome = $usuario[0]->getNome();
                     require(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
 
-                    $id = $usuario->getId(); //Recebe o ID do usuário encontrado.
+                    $id = $usuario[0]->getId(); //Recebe o ID do usuário encontrado.
                     
                     $linkRedefinir = ROOT_URL."login/redefinir/?e=".md5($email)."&i=".$id; //Gera um link composto pelas informações do usuário.
 
@@ -356,21 +364,24 @@ class loginController extends mainController{
 
                     if (!$mail->send()) {
                         throw new EmailNaoEnviadoException();
-                    }else{
-                        $this->dados['redefinido'] = true;
-                        $this->dados['email'] = $email;
-                        $this->carregarConteudo('pedidoRedefinicao',$this->dados);
                     }
-                }catch(EmailNaoEnviadoException $e){
-                    $this->dados['exception'] = $e->getMessage();
-                }catch(DadosCorrompidosException $e){
-                    $this->dados['exception'] = $e->getMessage();
-                }catch(UsuarioInexistentException $e){
-                    $this->dados['exception'] = $e->getMessage();
+
+                $this->dados['redefinido'] = "Um email de recuperação foi enviado para ".$email.' !';
+                
                 }
+            }else{
+                $this->redirecionarPagina('home');
             }
-            $this->carregarConteudo('pedidoRedefinicao',$this->dados);
+        }catch(EmailNaoEnviadoException $e){
+            $this->dados['exception'] = $e->getMessage();
+        }catch(DadosCorrompidosException $e){
+            $this->dados['exception'] = $e->getMessage();
+        }catch(UsuarioInexistenteException $e){
+            $this->dados['exception'] = "Não existe usuário cadastrado com esse email";
+        }catch(RecuperacaoInvalidaException $e){
+            $this->dados['exception'] = $e->getMessage();
         }
+        $this->carregarConteudo('pedidoRedefinicao',$this->dados);
     }
 
     /**
@@ -395,6 +406,7 @@ class loginController extends mainController{
 
                     $usuarioDao = new UsuarioDAO();
                     $usuarioDao->alterar(array("senha"=>$novaSenha), array("idUsuario"=>$id)); //Altera a senha do usuário desejado. 
+                    $this->dados['redefinido'] = "Sua senha foi redefinida, agora pode efetuar seu login";
                 }catch(SenhaInvalidaException $e){
                     $this->dados['exception'] = $e->getMessage();
                 }catch(SenhaInconsistenteException $e){
@@ -404,17 +416,6 @@ class loginController extends mainController{
 
             $this->carregarConteudo("redefinicaoSenha",$this->dados);
         }
-    }
-
-    public function emailEnviado(){
-        if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){
-            if(ValidacaoDados::validarForm($_POST,array("senha","confirmarSenha"))) {
-                
-                $this->carregarConteudo('emailEnviado',array());
-            
-            }
-        }
-    }
-   
+    }   
 }
 ?>
