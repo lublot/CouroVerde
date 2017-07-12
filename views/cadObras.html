@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="assets/css/bootstrap-social.css" />
 	<link rel="stylesheet" href="assets/css/site.css" />
 	<link rel="stylesheet" href="assets/css/site.min.css" />
-	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />-->
+	<script src="assets/js/jquery-3.2.1.min.js"></script>
 
 </head>
 
@@ -455,8 +455,8 @@
 
 					<div class="modal-footer" style="border-top: 0; margin-right: 15px;">
 						<div class="form-group">
-							<button type="button" class="btn btn-default">Cancelar</button>
-							<button type="button" class="btn btn-success" onclick="alterarPag()">Próximo</button>
+							<button type="button" class="btn btn-default" onclick="voltarPag()">Cancelar</button>
+							<button type="button" class="btn btn-success" onclick="avancarPag()">Próximo</button>
 						</div>
 					</div>
 
@@ -508,16 +508,29 @@
 	<!-- /Footer -->
 
 	<script>
-		var x = 1;
+		var pagAtual = 1;
+		var pagMax = 5;
 
-		function alterarPag() {
-			var pageOld = 'page_' + x;
-			document.getElementById(pageOld).style.display = 'none';
+		function avancarPag() {
+			if (pagAtual < pagMax) {
+				var pageOld = "#page_" + pagAtual;
+				$(pageOld).css("display", "none");
 
-			x++;
-			var pageNew = 'page_' + x
-			document.getElementById(pageNew).style.display = 'block';
+				pagAtual++;
+				var pageNew = "#page_" + pagAtual
+				$(pageNew).fadeIn(750);
+			}
+		}
 
+		function voltarPag() {
+			if (pagAtual > 1) {
+				var pageOld = "#page_" + pagAtual;
+				$(pageOld).css("display", "none");
+
+				pagAtual--;
+				var pageNew = "#page_" + pagAtual
+				$(pageNew).fadeIn(750);
+			}
 		}
 	</script>
 
