@@ -3,6 +3,8 @@ namespace DAO;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \DAO\Database as a;
+use \DAO\usuarioDAO as usuarioDAO;
+use \models\Usuario as Usuario;
 use \models\Funcionario as Funcionario;
 
 class FuncionarioDAO extends Database{
@@ -30,12 +32,18 @@ class FuncionarioDAO extends Database{
         $removeNoticia = $funcionario->isPodeRemoverNoticia();
         $backup = $funcionario->isPodeRealizarBackup();
 
-        $queryUsuario = "INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado, tipoUsuario) VALUES (null, '$nome', '$sobrenome', '$email', '$senha', $cadastroConfirmado,'$tipoUsuario')";
+        $usuarioDAO = new UsuarioDAO();
+        $novoUsuario = new Usuario(null, $email, $nome, $sobrenome, $senha, $cadastroConfirmado, $tipoUsuario);
+        $usuarioDAO->inserir($novoUsuario);
 
-        $queryFuncionario = "INSERT INTO funcionario(matricula, funcao, cadastraObra, gerenciaObra, removeObra, cadastraNoticia, gerenciaNoticia, removeNoticia, backup) VALUES ('$matricula', '$funcao', '$cadastraObra', '$gerenciaObra', '$removeObra', '$cadastraNoticia', '$gerenciaNoticia', '$removeNoticia', '$backup')";
+        $resultado = $usuarioDAO->buscar(array("email"), array("email" => $email));
+        $id = $resultado[0]->getId();
+
+        //$queryUsuario = "INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado, tipoUsuario) VALUES (null, '$nome', '$sobrenome', '$email', '$senha', $cadastroConfirmado,'$tipoUsuario')";
+
+        $queryFuncionario = "INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('$matricula', '$id', '$funcao', '$cadastraObra', '$gerenciaObra', '$removeObra', '$cadastraNoticia', '$gerenciaNoticia', '$removeNoticia', '$backup')";
 
         try{
-            $this->PDO->query($queryUsuario);
             $this->PDO->query($queryFuncionario);
         }catch(PDOException $e){
 
