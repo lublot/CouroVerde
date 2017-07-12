@@ -7,17 +7,7 @@
 
     <title>Sertour</title>
 
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-theme.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/estilo.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/topo.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-social.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.css')?>>
-    <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.min.css')?>>
-    <script type ="text/javascript" src=<?php $this->path('assets/js/jquery-3.2.1.min.js')?>></script>
-    <script type="text/javascript" src=<?php $this->path('assets/js/bootstrap.js');?>></script>
-    <script type="text/javascript" src=<?php $this->path('assets/js/login-script.js');?>></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <?php $this->carregarDependencias()?>
 </head>
 <body>
 

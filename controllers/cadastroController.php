@@ -94,10 +94,11 @@ class cadastroController extends mainController
 
                     $usuarioDAO->inserir(new Usuario(null, $email, $nome, $sobrenome, $senha, false,'USUARIO'));
                     $usuario = $usuarioDAO->buscar(array(), array("email"=>$email))[0]; //Busca o usuário récem cadastrado
-                    $this->confirmar(array("nome" => $usuario->getNome(),
-                                    "email" => $usuario->getEmail(),
-                                    "id" => $usuario->getId()));
+                    
+                    if($this->confirmar(array("nome" => $usuario->getNome(),"email" => $usuario->getEmail(),
+                                    "id" => $usuario->getId()))){
                     echo "<script>window.location.replace('".ROOT_URL."cadastro/confirmar"."');</script>"; // Redireciona a página
+                    }
                 }catch(EmailJaCadastradoException $e){
                     $this->dados['exception'] = $e->getMessage();
                 }catch(NomeInvalidoException $e){
@@ -124,51 +125,57 @@ class cadastroController extends mainController
     * @param unknown $dados - dados do usuário
     */
     public function confirmar($dados) {
-        if (ValidacaoDados::validarForm($dados, array("email","id","nome"))) { 
+        if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){  
+            if (ValidacaoDados::validarForm($dados, array("email","id","nome"))) { 
 
-            $id = addslashes($dados['id']);
-            $nome = addslashes($dados['nome']);
-            $email = addslashes($dados['email']);
-            $linkConfirmacao = ROOT_URL."cadastro/verificar/?e=".md5($email)."&i=".$id;
+                $id = addslashes($dados['id']);
+                $nome = addslashes($dados['nome']);
+                $email = addslashes($dados['email']);
+                $linkConfirmacao = ROOT_URL."cadastro/verificar/?e=".md5($email)."&i=".$id;
 
-            require_once(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
-            
-            $mail = new \PHPMailer();
-            
-            $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = 'websertour@gmail.com';                 // SMTP username
-            $mail->Password = 'sertourweb';                           // SMTP password
-            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = 587;                                    // TCP port to connect to
-            $mail->CharSet = 'UTF-8';
-            
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
+                require_once(ABSPATH.'/plugins/PHPMailer/PHPMailerAutoload.php');
+                
+                $mail = new \PHPMailer();
+                
+                $mail->isSMTP();                                      // Set mailer to use SMTP
+                $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+                $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                $mail->Username = 'websertour@gmail.com';                 // SMTP username
+                $mail->Password = 'sertourweb';                           // SMTP password
+                $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+                $mail->Port = 587;                                    // TCP port to connect to
+                $mail->CharSet = 'UTF-8';
+                
+                $mail->SMTPOptions = array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    )
+                );
 
-            $mail->setFrom('websertour@websertour.com', 'Sertour');
-            $mail->addAddress($email, $nome);     // Add a recipient
-            $mail->addReplyTo('noreply@gmail.com', 'Não responda');
-            
-            $mail->isHTML(true);                                  // Set email format to HTML
-            
-            $mail->Subject = 'Sertour - Confirmação de cadastro';
-            $mail->Body    = "Olá, ".$nome.". Seja bem-vindo(a) ao WebMuseu Casa do Sertão, ficamos felizes com a sua presença!<br/><br/>"
-                    ."Seu cadastro está quase pronto, por favor,"
-                            ." clique no link a seguir e a gente cuida do resto :)<br/><br/>".
-                            "Link de Confirmação: ".$linkConfirmacao;
-            
-            if (!$mail->send()) {
-                return false;
-            }else{
-                return true;
+                $mail->setFrom('websertour@websertour.com', 'Sertour');
+                $mail->addAddress($email, $nome);     // Add a recipient
+                $mail->addReplyTo('noreply@gmail.com', 'Não responda');
+                
+                $mail->isHTML(true);                                  // Set email format to HTML
+                
+                $mail->Subject = 'Sertour - Confirmação de cadastro';
+                $mail->Body    = "Olá, ".$nome.". Seja bem-vindo(a) ao WebMuseu Casa do Sertão, ficamos felizes com a sua presença!<br/><br/>"
+                        ."Seu cadastro está quase pronto, por favor,"
+                                ." clique no link a seguir e a gente cuida do resto :)<br/><br/>".
+                                "Link de Confirmação: ".$linkConfirmacao;
+                
+                if (!$mail->send()) {
+                    throw new EmailNaoEnviadoException();
+                }else{
+                    return true;
+                }
             }
+
+            $this->carregarConteudo('confirmacaoEmail',$this->dados);
+        }else{
+            $this->redirecionarPagina('home');
         }
     }
     
@@ -176,24 +183,30 @@ class cadastroController extends mainController
     * Confirma e ativa a conta do usuário
     */
     public function verificar() {
-        $id = $_GET['i'];
-        $email = $_GET['e'];
-
-        $usuarioDao = new UsuarioDAO();
-        $usuario = $usuarioDao->buscar(null, array("idUsuario"=>$id));
         
-        if (count($usuario)>0) {
-            $usuario = array_shift($usuario);
-            $id = $usuario->getId();
-            $emailMd5 = md5($usuario->getEmail());
+        try{
+            $id = $_GET['i'];
+            $email = $_GET['e'];
+
+            $usuarioDao = new UsuarioDAO();
+            $usuario = $usuarioDao->buscar(null, array("idUsuario"=>$id));
             
-            if (strcmp($email, $emailMd5)==0) {
-                $usuario->setCadastroConfirmado(true);
-                $usuarioDao->alterar(array('cadastroConfirmado'=>1), array('idUsuario'=>$usuario->getId()));
-            }
-        } else {
-            throw new UsuarioInexistenteException();
-        }        
+            if (count($usuario)>0) {
+                $usuario = array_shift($usuario);
+                $id = $usuario->getId();
+                $emailMd5 = md5($usuario->getEmail());
+                
+                if (strcmp($email, $emailMd5)==0) {
+                    $usuario->setCadastroConfirmado(true);
+                    $usuarioDao->alterar(array('cadastroConfirmado'=>1), array('idUsuario'=>$usuario->getId()));
+                }
+            }else {
+                throw new UsuarioInexistenteException();
+            } 
+        }catch(UsuarioInexistenteException $e){
+            $this->redirecionarPagina('home');
+        }
+        $this->carregarConteudo('emailConfirmado',array());         
     }
 	
     /**
