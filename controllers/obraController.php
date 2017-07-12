@@ -5,6 +5,7 @@ use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
 use \exceptions\CampoInvalidoException as CampoInvalidoException;
 use DAO\obraDAO as ObraDAO;
 use \util\ValidacaoDados as ValidacaoDados;
+use \util\GerenciarSenha as GerenciarSenha;
 use \models\Obra as Obra;
 
 class obraController extends mainController {
@@ -223,4 +224,34 @@ class obraController extends mainController {
             throw new DadosCorrompidosException();
         }
     }
+
+    /**
+    * Este método remove uma obra do sistema
+    */
+    public function removerObra(){
+        try{
+            if(isset($_POST['senha']) && isset($_POST['filtro']) && isset($_POST['valorFiltro'])){
+
+                $senhaReal = GerenciarSenha::criptografarSenha($_POST['senha']);
+                $usuarioDAO = new UsuarioDAO();
+                $usuarioDAO = $usuarioDAO->buscar(array(),array("idUsuario"=>$_SESSION['idUsuario']));
+
+                if(count($usuarioDAO)>0){
+                    $senhaArmazenada = $usuarioDAO[0]->getSenha();
+                    if(GerenciarSenha::checarSenha($senhaArmazenada,$senhaReal)){
+                        $obraDAO = new ObraDAO();
+                        $obraDAO = $obraDAO->remover(array($_POST['filtro']=>$_POST['valorFiltro']));
+                    }
+                }
+            }
+        }catch(Exception $e){
+
+        }
+        
+    }
 }
+
+
+    
+
+?>
