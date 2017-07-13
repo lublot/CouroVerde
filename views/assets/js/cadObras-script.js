@@ -3,8 +3,24 @@ var pagAtual = 1;
 // Inteiro para armazenar o número limite de páginas disponíveis
 var pagMax = 5;
 
+function atualizarTextoBotao() {
+    if(pagAtual == pagMax) {
+        $("#btn-confirmar").html('Confirmar');
+    } 
+    else {
+        $("#btn-confirmar").html('Próximo');        
+    }
+    if(pagAtual > 1) {
+        $("#btn-cancelar").html('Retroceder');
+    }
+    else {
+        $("#btn-cancelar").html('Cancelar');
+    }
+}
+
 // Função responsável para passar para a próxima página
 function avancarPag() {
+    console.log(pagAtual);
     // Verifica se a página atual do usuário excedeu o número limite máximo de páginas
     if (pagAtual < pagMax) {
         // String para concatenar o ID da página do HTML com a variável que armazena a página atual
@@ -22,6 +38,7 @@ function avancarPag() {
 }
 
 function voltarPag() {
+    console.log(pagAtual);
     // Verifica se a página atual do usuário excedeu o número limite mínimo de páginas
     if (pagAtual > 1) {
         // String para concatenar o ID da página do HTML com a variável que armazena a página atual
@@ -38,11 +55,3 @@ function voltarPag() {
     }
 }
 
-// function atualizarTextoBotao() {
-//     if(pagAtual = pagMax) {
-//         $("#btn-confirmar").value="Confirmar";
-//     }
-//     if(pagAtual = 1) {
-//         $("btn-cancelar").value="Cancelar";
-//     }
-// }
