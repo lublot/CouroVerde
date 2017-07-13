@@ -1,5 +1,7 @@
 <?php
 
+namespace models;
+
 class RelatorioSistema{
 
     private $autor;
@@ -8,12 +10,13 @@ class RelatorioSistema{
     private $tipoAlvo;
     private $horario;
 
-    public function __construct($autor,$acao,$idAlvo,$tipoAlvo,$horario){
+    public function __construct($autor,$acao,$idAlvo,$tipoAlvo){
         $this->autor = $autor;
         $this->acao = $acao;
         $this->idAlvo = $idAlvo;
         $this->tipoAlvo = $tipoAlvo;
-        $this->horario = $horario;
+        date_default_timezone_set("America/Bahia");
+        $this->horario = date('Y-m-d H:i:s');
     }
 
     /**

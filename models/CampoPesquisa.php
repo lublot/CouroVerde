@@ -26,7 +26,7 @@ class CampoPesquisa {
         $this->tipoResposta = $tipoResposta;
         if (sizeof($resposta)>1){
             $size = sizeof($resposta);
-            for ($value = 0; $value < $size; $valeu++){
+            for ($value = 0; $value < $size; $value++){
                 $this->resposta[$value] = $resposta[$value];
             }
         }
