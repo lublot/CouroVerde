@@ -3,7 +3,7 @@ namespace DAO;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \DAO\Database as a;
-use \models\Usuario as Usuario;
+use \models\RelatorioSistema as RelatorioSistema;
 
 class relatorioSistemaDAO extends Database{
 
@@ -20,7 +20,7 @@ class relatorioSistemaDAO extends Database{
         $horario = $relatorio->getHorario();
 
 
-        $query = "INSERT INTO relatorio(idRelatorio, autor, acao, idAlvo, tipoAlvo, horario) VALUES (null, '$autor', '$acao', '$alvo', '$idAlvo','$horario')";
+        $query = "INSERT INTO logalteracoes(idLogAlteracoes, idFuncionario, idItemAlterado, tipoItemAlterado, descricao, dataHora) VALUES (null, '$autor', '$idAlvo', '$tipoAlvo', '$acao','$horario')";
 
         try{
             $this->PDO->query($query);
@@ -81,8 +81,8 @@ class relatorioSistemaDAO extends Database{
     /**
     * Busca um ou vários relatórios no banco de dados;
     * @param unknown $campos - um array contendo os campos desejados
-    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idUsuario"=>5);
-    * @return unknown $usuarios - um array contendo os relatórios retornados na busca
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idLogAlteracao"=>5);
+    * @return unknown $relatorios - um array contendo os relatórios retornados na busca
     */
     public function buscar($campos,$filtros){
         $query = "SELECT ";
@@ -106,21 +106,18 @@ class relatorioSistemaDAO extends Database{
 
         $result = $this->PDO->query($query);
 
-        $usuarios = array();
+        $relatorios = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $relatorios[] = new RelatorioSistema(isset($item['idRelatorio'])?$item['idRelatorio']:null,
-                                          isset($item['email'])?$item['email']:null,
-                                          isset($item['nome'])?$item['nome']:null,
-                                          isset($item['sobrenome'])?$item['sobrenome']:null,
-                                          isset($item['senha'])?$item['senha']:null,
-                                          $cadastroConfirmado,
-                                          isset($item['tipoUsuario'])?$item['tipoUsuario']:null);
+                $relatorios[] = new RelatorioSistema(isset($item['idLogAlteracoes'])?$item['idLogAlteracoes']:null,
+                                          isset($item['idFuncionario'])?$item['idFuncionario']:null,
+                                          isset($item['idItemAlterado'])?$item['idItemAlterado']:null,
+                                          isset($item['tipoItemAlterado'])?$item['tipoItemAlterado']:null,
+                                          isset($item['descricao'])?$item['descricao']:null,
+                                          isset($item['dataHora'])?$item['dataHora']:null);
             }    
         }
-        
-        //FALTA ALTERAR OS NOMES DOS ATRIBUTOS, AGUARDANDO ATUALIZAÇÃO DO BD
-        //return $relatorios;
+        return $relatorios;
     }
 }
 ?>

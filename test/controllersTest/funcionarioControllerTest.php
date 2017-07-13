@@ -58,4 +58,50 @@ class fncionarioControllerTest extends TestCase {
     }
 }
 
+/**
+    * Testa a edição de um funcionario com sucesso;
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
+    */
+public function testEditarFuncionarioSucesso (){
+    $this->instanciaFuncionario->configurarAmbienteParaTeste('Aloisio', 'Junior', 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
+    $this->instanciaFuncionario->cadastrarFuncionario();
+
+    $funcionarioDAO = new FuncionarioDAO();
+    $usuarioDAO = new UsuarioDAO();
+
+    $usuario = $usuarioDAO->buscar(array(), array("nome"=>"Aloisio"));
+    $funcionario = $funcionarioDAO->buscar(array(), array("matricula"=>"14211151"));
+    $this->assertEquals($usuario[0]->getNome(), $funcionario[0]->getNome());
+
+    $novoNome = 'Iago';
+    $this->instanciaFuncionario->configurarAmbienteParaTeste($novoNome, 'Junior', 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
+    $this->instanciaFuncionario->gerenciarFuncionario();
+    $funcionario = $funcionarioDAO->buscar(array(), array("nome"=>$novoNome));
+    $this->assertEquals(1,count($funcionario));
+
+}
+
+/**
+    * Testa a edição de um funcionario com falha;
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
+    */
+public function testEditarFuncionarioFalha (){
+    $this->instanciaFuncionario->configurarAmbienteParaTeste('Aloisio', 'Junior', 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
+    $this->instanciaFuncionario->cadastrarFuncionario();
+
+    $funcionarioDAO = new FuncionarioDAO();
+    $usuarioDAO = new UsuarioDAO();
+
+    $usuario = $usuarioDAO->buscar(array(), array("nome"=>"Aloisio"));
+    $funcionario = $funcionarioDAO->buscar(array(), array("matricula"=>"14211151"));
+    $this->assertEquals($usuario[0]->getNome(), $funcionario[0]->getNome());
+
+    $novoSobrenome = 'Cajueiro';
+    $this->instanciaFuncionario->configurarAmbienteParaTeste('', $novoSobrenome, 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
+    /* Terminar a função */
+
+}
+
 ?>

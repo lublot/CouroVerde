@@ -18,7 +18,7 @@ use \models\Funcionario as Funcionario;
 
 class funcionarioController extends mainController {
 
-     /**
+    /**
     * Configura a classe para realização de testes.
     * @param String $email email do usuário
     * @param String $nome nome do usuário
