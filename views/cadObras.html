@@ -11,7 +11,7 @@
 
 	<title>Cadastro de obras</title>
 
-	<!--Importação do CSS do Bootstrap-->
+	<!--Importação do CSS do Bootstrap, Bootflat e o pessoal (Estilos)-->
 	<link rel="stylesheet" href="assets/css/bootstrap.css" />
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="assets/css/bootstrap-theme.css" />
@@ -19,7 +19,10 @@
 	<link rel="stylesheet" href="assets/css/bootstrap-social.css" />
 	<link rel="stylesheet" href="assets/css/site.css" />
 	<link rel="stylesheet" href="assets/css/site.min.css" />
+
+	<!--Importação do Javascript pessoal e jQuery  -->
 	<script src="assets/js/jquery-3.2.1.min.js"></script>
+	<script src="assets/js/cadObras-script.js"></script>
 
 </head>
 
@@ -455,8 +458,8 @@
 
 					<div class="modal-footer" style="border-top: 0; margin-right: 15px;">
 						<div class="form-group">
-							<button type="button" class="btn btn-default" onclick="voltarPag()">Cancelar</button>
-							<button type="button" class="btn btn-success" onclick="avancarPag()">Próximo</button>
+							<button type="button" class="btn btn-default" onclick="voltarPag()" id="btn-cancelar">Retroceder</button>
+							<button type="button" class="btn btn-success" onclick="avancarPag()" id="btn-confirmar">Próximo</button>
 						</div>
 					</div>
 
@@ -506,33 +509,6 @@
 
 	</footer>
 	<!-- /Footer -->
-
-	<script>
-		var pagAtual = 1;
-		var pagMax = 5;
-
-		function avancarPag() {
-			if (pagAtual < pagMax) {
-				var pageOld = "#page_" + pagAtual;
-				$(pageOld).css("display", "none");
-
-				pagAtual++;
-				var pageNew = "#page_" + pagAtual
-				$(pageNew).fadeIn(750);
-			}
-		}
-
-		function voltarPag() {
-			if (pagAtual > 1) {
-				var pageOld = "#page_" + pagAtual;
-				$(pageOld).css("display", "none");
-
-				pagAtual--;
-				var pageNew = "#page_" + pagAtual
-				$(pageNew).fadeIn(750);
-			}
-		}
-	</script>
 
 </body>
 
