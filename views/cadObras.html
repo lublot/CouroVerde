@@ -86,9 +86,10 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<!--Select: Coleção-->
-											<select class="form-control" name="colecao" required>
+											<select class="form-control" id="select-colecao" name="colecao" onchange="cadastroColecao()" required>
 										<!--A lista de opções tem que ser baixada diretamente das opções do banco de dados utilizando PHP-->
-									<option>Coleção (*)</option>
+									<option value>Coleção (*)</option>
+									<option value="add-col" >Adicionar nova opção...</option>
 								</select>
 										</div>
 									</div>
@@ -115,9 +116,10 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<!--Select: Classificação-->
-											<select class="form-control" name="classificacao" required>
+											<select class="form-control" id="select-classificacao" name="classificacao" onchange="cadastroClassificacao()" required>
 										<!--A lista de opções tem de ser baixada do banco de dados-->
 									<option>Classificação (*)</option>
+									<option value="add-cla">Adicionar nova opção...</option>
 									</select>
 										</div>
 									</div>
