@@ -36,13 +36,11 @@ class FuncionarioDAO extends Database{
         $novoUsuario = new Usuario(null, $email, $nome, $sobrenome, $senha, $cadastroConfirmado, $tipoUsuario);
         $usuarioDAO->inserir($novoUsuario);
 
-        $resultado = $usuarioDAO->buscar(array("email"), array("email" => $email));
+        $resultado = $usuarioDAO->buscar(array("idUsuario"), array("email" => $email));
         $id = $resultado[0]->getId();
 
-        //$queryUsuario = "INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado, tipoUsuario) VALUES (null, '$nome', '$sobrenome', '$email', '$senha', $cadastroConfirmado,'$tipoUsuario')";
-
         $queryFuncionario = "INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('$matricula', '$id', '$funcao', '$cadastraObra', '$gerenciaObra', '$removeObra', '$cadastraNoticia', '$gerenciaNoticia', '$removeNoticia', '$backup')";
-
+        
         try{
             $this->PDO->query($queryFuncionario);
         }catch(PDOException $e){
@@ -130,12 +128,18 @@ class FuncionarioDAO extends Database{
         $funcionarios = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $funcionarios[] = new funcionario(isset($item['matricula'])?$item['matricula']:null,
-                                          isset($item['email'])?$item['email']:null,
-                                          isset($item['nome'])?$item['nome']:null,
-                                          isset($item['sobrenome'])?$item['sobrenome']:null,
-                                          isset($item['senha'])?$item['senha']:null,
-                                          isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null);
+                $funcionarios[] = new funcionario(
+                    isset($item['matricula'])?$item['matricula']:null,
+                    isset($item['idUsuario'])?$item['idUsuario']:null,
+                    isset($item['funcao'])?$item['funcao']:null,
+                    isset($item['cadastroObra'])?$item['cadastroObra']:null,
+                    isset($item['gerenciaObra'])?$item['gerenciaObra']:null,
+                    isset($item['remocaoObra'])?$item['remocaoObra']:null,
+                    isset($item['cadastroNoticia'])?$item['cadastroNoticia']:null, 
+                    isset($item['gerenciaNoticia'])?$item['gerenciaNoticia']:null,
+                    isset($item['remocaoNoticia'])?$item['remocaoNoticia']:null,
+                    isset($item['backup'])?$item['backup']:null
+                );
             }    
         }
         
