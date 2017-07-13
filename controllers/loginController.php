@@ -3,6 +3,9 @@ namespace controllers;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use util\GerenciarSenha as GerenciarSenha;
 use \DAO\usuarioDAO as usuarioDAO;
+use \models\Usuario as Usuario;
+use \models\Funcionario as Funcionario;
+use \models\Administrador as Administrador;
 use \util\ValidacaoDados as ValidacaoDados;
 use exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
 use exceptions\SenhaInvalidaException as SenhaInvalidaException;
@@ -119,25 +122,23 @@ class loginController extends mainController{
         $usuarioDAO = new UsuarioDAO();
         $usuario = $usuarioDAO->buscar($campos, $filtro);//Recebe o objeto do usuario que vai logar
 
-        if(count($usuario) > 0){ //Verifica se existe usuario
-        //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema
+        if(count($usuario) == 0){ //Verifica se existe usuario
+        //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema            
             if($usuario[0]->confirmouCadastro()){
                 if(!isset($_SESSION)){
                     session_start();
                 }
                 
-                $_SESSION['nome'] = $usuario[0]->getNome();
-                $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
-                $_SESSION['email'] = $usuario[0]->getEmail();
-                $_SESSION['tipoUsuario'] = $usuario[0]->getTipo();
-                $_SESSION['confirmouCadastro'] = $usuario[0]->confirmouCadastro();
+                $this->setarSession($usuario[0]);
             }
-           return $usuario[0];
+
+           return $usuario;
 
         } else {
             throw new UsuarioInexistenteException();
         } 
     }
+
 
     /**
     * Realiza a autenticação via Google+
@@ -171,13 +172,8 @@ class loginController extends mainController{
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $_SESSION = array();//Limpa os dados de token
-            $_SESSION['id'] = $usuario[0]->getId();
-            $_SESSION['nome'] = $usuario[0]->getNome();
-            $_SESSION['sobrenome'] = $usuario[0]->getSobrenome();
-            $_SESSION['email'] = $usuario[0]->getEmail();
-            $_SESSION['tipoUsuario'] = $usuario[0]->getTipo();
-            $_SESSION['confirmouCadastro'] = $usuario[0]->confirmouCadastro();
-            
+            $this->setarSession($usuario[0]);
+
             //Redireciona para a home configurada como de usuário
         }else{
             $cadastro = new cadastroController();
@@ -259,12 +255,8 @@ class loginController extends mainController{
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $usuario = $usuario[0];
             $_SESSION = array();//Limpa os dados de token
-            $_SESSION['id'] = $usuario->getId();
-            $_SESSION['nome'] = $usuario->getNome();
-            $_SESSION['sobrenome'] = $usuario->getSobrenome();
-            $_SESSION['email'] = $usuario->getEmail();
-            $_SESSION['tipoUsuario'] = $usuario->getTipo();
-            $_SESSION['cadastroConfirmado'] = $usuario->getTipo();
+            $this->setarSession($usuario[0]);
+
             //Falta redirecionar usuário
         }else{
             $cadastro = new cadastroController();
@@ -416,6 +408,55 @@ class loginController extends mainController{
 
             $this->carregarConteudo("redefinicaoSenha",$this->dados);
         }
-    }   
+    }
+
+    /**
+    * Configura a variável $_SESSION com os valores adequados referentes ao usuário que logou.
+    * @param Usuario $usuario - objeto usuário que logou
+    * @param String $redeSocial - nome da rede social utilizada para cadastrado, caso tenha sido utilizada alguma
+    */
+    private function setarSession($usuario, $redeSocial = null) {
+        
+        if($redeSocial == null) { //verifica se o usuário está associado a alguma conta externa
+            $_SESSION['id'] = $usuario->getId();
+        } else if($redeSocial == 'facebook'){
+            $_SESSION['idFacebook'] = $usuario->getId();
+        }  else if($redeSocial == 'google') {
+            $_SESSION['idGoogle'] = $usuario->getId();
+        }
+
+        //define os valores básicos de SESSION
+        $_SESSION['nome'] = $usuario->getNome();
+        $_SESSION['sobrenome'] = $usuario->getSobrenome();
+        $_SESSION['email'] = $usuario->getEmail();
+        $_SESSION['tipoUsuario'] = $usuario->getTipo();
+        $_SESSION['confirmouCadastro'] = $usuario->confirmouCadastro();
+
+        if($usuario.getTipo() == "Funcionario") { //se o usuário for funcionário
+            $funcionarioDAO = new FuncionarioDAO();
+            $funcionario = $funcionarioDAO->buscar(array(), array('idUsuario'=>$usuario->getId()));
+
+            if(count($funcionario) > 0) {
+                $_SESSION['podeCadastrarObra'] = $funcionario->isPodeCadastrarObra();
+                $_SESSION['podeGerenciarObra'] = $funcionario->isPodeGerenciarObra();
+                $_SESSION['podeRemoverObra'] = $funcionario->isPodeRemoverObra();
+                $_SESSION['podeCadastrarNoticia'] = $funcionario->isPodeCadastrarNoticia();
+                $_SESSION['podeGerenciarNoticia'] = $funcionario->isPodeGerenciarNoticia();
+                $_SESSION['podeRemoverNoticia'] = $funcionario->isPodeRemoverNoticia();
+                $_SESSION['podeRealizarBackup'] = $funcionario->isPodeRealizarBackup(); 
+            } else {
+                throw new UsuarioInexistenteException();
+            }
+        } else if($usuario.getTipo() == "Administrador") { //se o usuário for o admininistrador
+                $_SESSION['podeCadastrarObra'] = true;
+                $_SESSION['podeGerenciarObra'] = true;
+                $_SESSION['podeRemoverObra'] = true;
+                $_SESSION['podeCadastrarNoticia'] = true;
+                $_SESSION['podeGerenciarNoticia'] = true;
+                $_SESSION['podeRemoverNoticia'] = true;
+                $_SESSION['podeRealizarBackup'] = true;
+                $_SESSION['administrador'] = true;
+        }
+    }       
 }
 ?>
