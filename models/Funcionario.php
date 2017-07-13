@@ -43,6 +43,7 @@ class Funcionario extends Usuario {
 		$this->podeRemoverObra = $podeRemoverObra;
 		$this->podeCadastrarNoticia = $podeCadastrarNoticia;
 		$this->podeGerenciarNoticia = $podeGerenciarNoticia;
+		$this->podeRemoverNoticia = $podeRemoverNoticia;
 		$this->podeRealizarBackup = $podeRealizarBackup;
 
 	}

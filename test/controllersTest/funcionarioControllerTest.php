@@ -28,21 +28,21 @@ class fncionarioControllerTest extends TestCase {
         $resultado1 = $usuarioDAO->buscar(
             array(),
             array(
-                "idUsuario" => "1",
+                "idUsuario" => "64",
                 "nome" => "Diego",
                 "sobrenome" => "Lourenço",
                 "email" => "diegossl94@gmail.com",
-                "senha" => "25d55ad283aa400af464c76d713c07ad"
+                "senha" => "25d55ad283aa400af464c76d713c07ad",
+                "cadastroConfirmado" => "1",
+                "tipoUsuario" => "Funcionario"
             )
         );
         $resultado2 = $funcionarioDAO->buscar(
             array(), 
             array(
                 "matricula" => "15111215",
-                "idUsuario" => "1",
+                "idUsuario" => "64",
                 "funcao" => "Qualquer coisa",
-                "matricula" => "0",
-                "funcao" => "0",
                 "cadastroObra" => "1",
                 "gerenciaObra" => "0",
                 "remocaoObra" => "0",
@@ -56,7 +56,7 @@ class fncionarioControllerTest extends TestCase {
 
         $this->assertEquals(1, count($resultado2));
     }
-}
+
 
 /**
     * Testa a edição de um funcionario com sucesso;
@@ -103,5 +103,5 @@ public function testEditarFuncionarioFalha (){
     /* Terminar a função */
 
 }
-
+}
 ?>

@@ -116,19 +116,6 @@ class funcionarioController extends mainController {
                     $podeRealizarBackup = 1;
                 }
 
-                /*$novoUsuario = new Usuario(null, $nome, $sobrenome, $senha, 1, "Funcionario");
-
-                $novoFuncionario = new Funcionario();
-                $novoFuncionario->setMatricula($matricula);
-                $novoFuncionario->setFuncao($funcao);
-                $novoFuncionario->setPodeCadastrarObra($podeCadastrarObra);
-                $novoFuncionario->setPodeGerenciarObra($podeGerenciarObra);
-                $novoFuncionario->setPodeRemoverObra($podeRemoverObra);
-                $novoFuncionario->setPodeCadastrarNoticia($podeCadastrarNoticia);
-                $novoFuncionario->setPodeGerenciarNoticia($podeGerenciarNoticia);
-                $novoFuncionario->setPodeRemoverNoticia($podeRemoverNoticia);
-                $novoFuncionario->setPodeRealizarBackup($podeRealizarBackup);*/
-
                 $novoFuncionario = new Funcionario(null, $email, $nome, $sobrenome, $senha, 1, "Funcionario",
                 $matricula, $funcao, $podeCadastrarObra, $podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia,
                 $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup);
