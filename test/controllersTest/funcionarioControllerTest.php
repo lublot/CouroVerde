@@ -56,7 +56,7 @@ class fncionarioControllerTest extends TestCase {
 
         $this->assertEquals(1, count($resultado2));
     }
-}
+
 
 /**
     * Testa a edição de um funcionario com sucesso;
@@ -103,5 +103,5 @@ public function testEditarFuncionarioFalha (){
     /* Terminar a função */
 
 }
-
+}
 ?>
