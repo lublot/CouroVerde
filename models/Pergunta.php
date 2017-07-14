@@ -54,7 +54,7 @@ class Pergunta {
      * Obtém se a pergunta é opcional ou nao.
      * @return titulo
      */
-    public function getOpcional(){
+    public function getIsOpcional(){
         return $this->opcional;
     }
 }

@@ -2,16 +2,17 @@
 namespace DAO;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
-use \models\Pesquisa as Pesquisa;
+use \models\Pergunta as Pergunta;
 use \DAO\Database as Database;
 
-class PesquisaDAO extends DataBase{
+class PerguntaDAO extends DataBase {
 
-    public function inserir($pesquisa){
-        $titulo = $pesquisa->getTitulo();
-        $estaAtiva = $pesquisa->getEstaAtiva();
+    public function inserir($pergunta){
+        $titulo = $pergunta->getTitulo();
+        $tipo = $pergunta->getTipo();
+        $opcional = $pergunta->getIsOpcional();
 
-        $query = "INSERT INTO pesquisa(idPesquisa, titulo, estaAtiva) VALUES (null, '$titulo', '$estaAtiva')";
+        $query = "INSERT INTO pergunta(idPergunta, titulo, tipo, opcional) VALUES (null, '$titulo', '$tipo', '$opcional')";
 
         try{
             $this->PDO->query($query);
@@ -31,6 +32,7 @@ class PesquisaDAO extends DataBase{
     public function buscar($campos, $filtros){
 
     }
+
 }
 
 ?>
