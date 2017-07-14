@@ -86,6 +86,8 @@ function cadastroColecao() {
             document.getElementById('select-colecao').add(opcao, ultimaPosicao);
             //Deixa selecionada automaticamente a nova opção que o usuário acabou de cadastrar
             document.getElementById('select-colecao').selectedIndex = ultimaPosicao;
+            //Informa ao usuário que a operação ocorreu com sucesso
+            alert("Cadastro efetuado com sucesso!");
         }
     }
 }
@@ -113,6 +115,8 @@ function cadastroClassificacao() {
             document.getElementById('select-classificacao').add(opcao, ultimaPosicao);
             //Deixa selecionada automaticamente a nova opção que o usuário acabou de cadastrar
             document.getElementById('select-classificacao').selectedIndex = ultimaPosicao;
+            //Informa ao usuário que a operação ocorreu com sucesso
+            alert("Cadastro efetuado com sucesso!");
         }
     }
 }
