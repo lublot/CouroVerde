@@ -215,6 +215,84 @@ class ObraDAO {
 
         }
     }
+
+    /**
+    * Realiza a busca de classificações no banco
+    * @param unknown $campos - Campos Desejados
+    * @param unknow $filtros - Filtros utilizados na busca
+    * */
+    public function buscarClassificacao($campos,$filtros){
+        
+        $query = "SELECT ";
+
+        if(count($campos) == 0){
+            $campos = array("*");
+        }
+
+        $query .= implode(',',$campos)."FROM Classificacao ORDER BY nome ASC";
+
+        if(count($filtros) > 0){
+            $query .= " WHERE ";
+            $aux = array();
+
+            foreach($filtros as $chave=>$valor){
+                $aux[] = $chave."="."'$valor'";
+            }
+            
+            $query .= implode(" AND ",$aux);
+        }
+
+        $result = $this->PDO->query($query);
+
+        $classificacoes = array();
+        if(!empty($result) && $result->rowCount() > 0){
+            foreach($result->fetchAll() as $item){
+                $classificacoes[] = new Classificacao(isset($item['idClassificacao'])?$item['idClassificacao']:null,
+                                                      isset($item['nome'])?$item['nome']:null);
+            }    
+        }
+        
+        return $classificacoes;
+    }
+
+    /**
+    * Realiza a busca de classificações no banco
+    * @param unknown $campos - Campos Desejados
+    * @param unknow $filtros - Filtros utilizados na busca
+    * */
+    public function buscarColecoes($campos,$filtros){
+        
+        $query = "SELECT ";
+
+        if(count($campos) == 0){
+            $campos = array("*");
+        }
+
+        $query .= implode(',',$campos)."FROM Colecoes ORDER BY nome ASC";
+
+        if(count($filtros) > 0){
+            $query .= " WHERE ";
+            $aux = array();
+
+            foreach($filtros as $chave=>$valor){
+                $aux[] = $chave."="."'$valor'";
+            }
+            
+            $query .= implode(" AND ",$aux);
+        }
+
+        $result = $this->PDO->query($query);
+
+        $colecoes = array();
+        if(!empty($result) && $result->rowCount() > 0){
+            foreach($result->fetchAll() as $item){
+                $colecoes[] = new Colecao(isset($item['idColecao'])?$item['idColecao']:null,
+                                                      isset($item['nome'])?$item['nome']:null);
+            }    
+        }
+        
+        return $colecoes;
+    }
 }
 
 

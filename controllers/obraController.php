@@ -249,6 +249,26 @@ class obraController extends mainController {
         }
         
     }
+
+    /**
+    * Este método retorna um JSON com as classificações cadastradas no sistema
+    */
+    public function listarClassificacoes(){
+        
+        $obraDAO = new ObraDAO();
+        $obraDAO = $obraDAO->buscarClassificacoes(array(),array());
+        echo json_encode($obraDAO);
+    }
+
+    /**
+    * Este método retorna um JSON com as coleções cadastradas no sistema
+    */
+    public function listarColecoes(){
+        
+        $obraDAO = new ObraDAO();
+        $obraDAO = $obraDAO->buscarColecoes(array(),array());
+        echo json_encode($obraDAO);
+    }
 }
 
 
