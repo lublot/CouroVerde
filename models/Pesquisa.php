@@ -1,27 +1,26 @@
 <?php
 namespace models;
-
 /**
  * Classe responsável por representar um formulario de pesquisa no contexto do sistema.
  * @author MItologhic Software
  *
  */
-
 class Pesquisa {
+    
     private $idPesquisa;
-    private $nome;
-    private $descricao;
+    private $titulo;
+    private $estaAtiva;
 
     /**
      * Construtor da classe
      * @param unknown $idPesquisa - Id da pesquisa     
-     * @param unknown $nome - Nome da pesquisa
-     * @param unknown $descricao - Descrição da pesquisa
+     * @param unknown $titulo - Título da pesquisa
+     * @param unknown $estaAtiva - Diz se a pesquisa tá ativa ou não
      */
-    public function __construct($idPesquisa, $nome, $descricao) {
+    public function __construct($idPesquisa, $titulo, $estaAtiva) {
         $this->idPesquisa = $idPesquisa;
-        $this->nome = $nome;
-        $this->descricao = $descricao;
+        $this->titulo = $titulo;
+        $this->estaAtiva = $estaAtiva;
     }
 
     /**
@@ -33,37 +32,35 @@ class Pesquisa {
     }
 
     /**
-     * Obtém o nome da pesquisa.
-     * @return nome
+     * Obtém o titulo da pesquisa.
+     * @return titulo
      */
-    public function getNome(){
-        return $this->nome;
+    public function getTitulo(){
+        return $this->titulo;
     }
 
     /**
-     * Configura o nome da pesquisa.
-     * @param unknown $nome - Nome da pesquisa
+     * Configura o titulo da pesquisa.
+     * @param unknown $titulo - titulo da pesquisa
      */
-    public function setNome($nome){
-        $this->nome = $nome;
+    public function setTitulo($titulo){
+        $this->titulo = $titulo;
     }
 
     /**
-     * Obtém o descrição da pesquisa.
-     * @return descricao
+     * Verfica se a pesquisa está ativa.
+     * @return estaAtiva
      */
-    public function getDescricao(){
-        return $this->descricao;
+    public function getEstaAtiva(){
+        return $this->estaAtiva;
     }
 
     /**
-     * Configura a descrição da pesquisa.
-     * @param unknown $descricao - Descrição da pesquisa
+     * Configura a validade da pesquisa.
+     * @param unknown $estaAtiva - Validade da pesquisa
      */
-    public function setDescricao($descricao){
-        $this->descricao = $descricao;
+    public function setEstaAtiva($estaAtiva){
+        $this->estaAtiva = $estaAtiva;
     }
-
-
 }
 ?>
