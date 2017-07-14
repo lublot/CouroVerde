@@ -12,6 +12,9 @@ use \exceptions\NomeInvalidoException as NomeInvalidoException;
 
 class Pesquisas extends mainController {
 
+    /**
+    * Realiza o cadastro de uma pesquisa.
+    */
     public function criarPesquisa(){
         if (ValidacaoDados::validarForm($_POST, array("tituloPesquisa","estaAtiva", "tituloPergunta", "tipo", "opcional"))) {
             
@@ -20,6 +23,15 @@ class Pesquisas extends mainController {
             }
             if (!ValidacaoDados::validarNome($_POST["titulopergunta"])) {
                     throw new NomeInvalidoException();
+            }
+            if (!ValidacaoDados::validarNome($_POST["tipo"])) {
+                    throw new NomeInvalidoException();
+            }
+            if(!isset($_POST["estaAtiva"])){
+                throw new CampoInvalidoException();
+            }
+            if(!isset($_POST["opcional"])){
+                throw new CampoInvalidoException();
             }
 
             $tituloPesquisa = addslashes($_POST['tituloPesquisa']);

@@ -5,19 +5,17 @@ use \PHPUnit\Framework\TestCase;
 use \DAO\usuarioDAO as usuarioDAO;
 use \DAO\funcionarioDAO as funcionarioDAO;
 use \controllers\funcionarioController as funcionarioController;
-use \exceptions\CampoNoticiaInvalidoException as CampoNoticiaInvalidoException;
-use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
-use \exceptions\NoticiaNaoEncontradaException as NoticiaNaoEncontradaException;
+use \exceptions\NivelDeAcessoInsuficienteException as NivelDeAcessoInsuficienteException;
 use \models\Funcionario as Funcionario;
 
-class fncionarioControllerTest extends TestCase {
+class funcionarioControllerTest extends TestCase {
     private $instanciaFuncionario;
 
     public function setup(){
         $this->instanciaFuncionario = new funcionarioController();
     }
 
-    public function testCadastrarFuncionario(){
+    public function testCadastrarFuncionarioComSucesso(){
         $this->instanciaFuncionario->configuraAmbienteParaTeste("Diego", "Lourenço", "diegossl94@gmail.com", "12345678", "15111215", "Qualquer coisa", "1");
         $this->instanciaFuncionario->cadastrarFuncionario();
 
@@ -40,8 +38,14 @@ class fncionarioControllerTest extends TestCase {
         $resultado2 = $funcionarioDAO->buscar(
             array(), 
             array(
-                "matricula" => "15111215",
                 "idUsuario" => "64",
+                "nome" => "Diego",
+                "sobrenome" => "Lourenço",
+                "email" => "diegossl94@gmail.com",
+                "senha" => "25d55ad283aa400af464c76d713c07ad",
+                "cadastroConfirmado" => "1",
+                "tipoUsuario" => "Funcionario",
+                "matricula" => "15111215",
                 "funcao" => "Qualquer coisa",
                 "cadastroObra" => "1",
                 "gerenciaObra" => "0",
