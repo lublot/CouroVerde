@@ -80,8 +80,12 @@ function cadastroColecao() {
             var opcao = document.createElement("option");
             //Atualiza o texto da opção para o nome da nova coleção informado pelo usuário
             opcao.text = novaColecao;
-            //Adiciona a nova opção no final da lista
-            document.getElementById('select-colecao').add(opcao);
+            //Salva a penúltima posição da lista numa variável
+            ultimaPosicao = document.getElementById('select-colecao').length - 1;
+            //Adiciona a nova opção na penúltima opção da lista
+            document.getElementById('select-colecao').add(opcao, ultimaPosicao);
+            //Deixa selecionada automaticamente a nova opção que o usuário acabou de cadastrar
+            document.getElementById('select-colecao').selectedIndex = ultimaPosicao;
         }
     }
 }
@@ -103,8 +107,12 @@ function cadastroClassificacao() {
             var opcao = document.createElement("option");
             //Atualiza o texto da opção para o nome da nova classificação informado pelo usuário
             opcao.text = novaClassificacao;
-            //Adiciona a nova opção no final da lista
-            document.getElementById('select-classificacao').add(opcao);
+            //Salva a penúltima posição da lista numa variável
+            ultimaPosicao = document.getElementById('select-classificacao').length - 1;
+            //Adiciona a nova opção na penúltima opção da lista
+            document.getElementById('select-classificacao').add(opcao, ultimaPosicao);
+            //Deixa selecionada automaticamente a nova opção que o usuário acabou de cadastrar
+            document.getElementById('select-classificacao').selectedIndex = ultimaPosicao;
         }
     }
 }
