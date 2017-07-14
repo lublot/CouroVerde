@@ -3,6 +3,9 @@ namespace controllers;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \models\Backup as Backup;
+use exceptions\BackupNaoEncontradoException as BackupNaoEncontradoException;
+use exceptions\FormatoHoraIncorretoException as FormatoHoraIncorretoException;
+use exceptions\FormatoDataIncorretoException as FormatoDataIncorretoException;
 
 
 class backupController extends mainController {
@@ -17,9 +20,10 @@ class backupController extends mainController {
         
         date_default_timezone_set('America/Sao_Paulo'); 
         $diaBackup =  date("Y-m-d");
-        $horaBackup = date("H-i-s");
+        $horaBackup = date("H-i-s"); //hora com formato aceito para nome de arquivo
+        $nomeArquivoBackup = "backup_" . $diaBackup . $horaBackup . ".zip";
 
-        $zip->open("backup_" . $diaBackup . $horaBackup . ".zip", ZipArchive::CREATE | ZipArchive::OVERWRITE); //define as configurações iniciais
+        $zip->open($nomeArquivoBackup, ZipArchive::CREATE | ZipArchive::OVERWRITE); //define as configurações iniciais
 
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($caminhoReal), RecursiveIteratorIterator::LEAVES_ONLY);
 
@@ -36,7 +40,12 @@ class backupController extends mainController {
         $zip->close();
         unlink(getcwd().'/'.$caminhoBackupBD); //remove o arquivo inicial do backup do banco, após dele ser inserido no zip completo do backup
         
-        $backup = new Backup();
+        $horaBackuBD = explode($horaBackup, '-');
+
+        $backup = new Backup(null, $data, "$horaBackupBD[0]:$horaBackuBD[1]:$horaBackuBD[2]", "media/$nomeArquivoBackup");
+
+        $backupDAO = new BackupDAO($backup);
+        $backupDAO->inserir($backup);
     }
 
     /**
@@ -161,4 +170,97 @@ class backupController extends mainController {
             $mysqli->close();
             return $caminhoArquivoBackup;
     }
+
+    /**
+    * Efetua a listagem de todos os backups
+    */
+    public function listarTodosBackups() {
+        $backupDAO = new backupDAO();
+        $backup = $backupDAO->buscar();
+       
+        if(count($backup) < 1) {
+            throw new BackupInexistenteException();
+        } 
+
+        echo json_encode($backup);
+    }
+
+    /**
+    * Efetua a listagem backups de acordo com parâmetros informados
+    */
+    public function listarBackups() {
+
+        if(isset($_POST['data']) && isset($_POST['hora'])) {
+            $data = $_POST['data'];
+            $hora = $_POST['hora'];
+
+            if(((count(explode($data, '/')) != 3))) { //verifica se a data está em formato correto
+                if(((count(explode($hora, ':')) != 3))) { //verifica se a hora está em formato correto
+                    
+                    if((!is_numeric($data))) { //verifica se a data está em formato correto
+                        throw new FormatoDataIncorretoException();
+                    } else {
+                        $arrayBusca = array(
+                            "data" => $data,
+                        );
+                    }
+
+                    if(!is_numeric($hora)) { //verifica se a hora está em formato correto
+                        throw new FormatoHoraIncorretoException();
+                    } else {
+                        if(!isset($arrayBusca)) {
+                            $arrayBusca = array();
+                        }
+
+                        $arrayBusca[] = array(
+                            "hora" => $hora,
+                        );
+                    }
+                } else {
+                    throw new FormatoHoraIncorretoException();
+                }
+            } else {
+                throw new FormatoDataIncorretoException();
+            }
+
+            $arrayBusca = array(
+                "data" => $data,
+                "hora" => $hora,
+            );
+
+        } else if(isset($_POST['data'])) {
+            $data = $_POST['data'];
+
+            if(((count(explode($data, '/'))) != 3) || !is_numeric($data)) { //verifica se a data está em formato correto
+                throw new FormatoDataIncorretoException();
+            }
+
+            $arrayBusca = array(
+                "data" => $data,
+            );
+
+        } else if(isset($_POST['hora'])) {
+            $hora = $_POST['hora'];
+
+            if(((count(explode($hora, ':'))) != 3) || !is_numeric($hora)) { //verifica se a hora e a data estão em formato correto
+                throw new FormatoHoraIncorretoException();
+            }
+
+            $arrayBusca = array(
+                "hora" => $hora,
+            );
+        } else {
+            throw new DadosCorrompidosException();
+        }
+
+        $backupDAO = new backupDAO();
+        $backup = $backupDAO->buscarMaisRecente($arrayBusca);
+
+        if(count($backup) < 1) {
+            throw new BackupInexistenteException();
+        } 
+
+        echo json_encode($backup);
+    }    
+
 }

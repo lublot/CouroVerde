@@ -9,28 +9,40 @@ namespace models;
 class Backup {
 
     //Atributos da classe
-    private $dia;
+    private $id; 
+    private $data;
     private $hora;
     private $caminho;
 
      /**
      * Construtor da classe
-     * @param unknown $dia - dia em que o backup foi realizado   
-     * @param unknown $hora - hora em que o backup foi realizado
-     * @param unknown $caminho - caminho em que o backup está armazenado
+     * @param int $id - id do backup      
+     * @param String $data - data em que o backup foi realizado   
+     * @param String $hora - hora em que o backup foi realizado
+     * @param String $caminho - caminho em que o backup está armazenado
      */
-    public function __construct($dia, $hora, $caminho) {
-        $this->dia = $dia;
+    public function __construct($id = null, $data, $hora, $caminho) {
+        $this->id = $id;
+        $this->data = $data;
         $this->hora = $hora;
         $this->caminho = $caminho;
     }
 
     /**
-     * Obtém o dia em que foi realizado o backup.
-     * @return $dia
+     * Obtém o id do backup;
+     * @return $id
      */
-    public function getDia() {
-        return $this->dia;
+    public function getCaminho() {
+        return $this->id;
+    }
+    
+
+    /**
+     * Obtém o data em que foi realizado o backup.
+     * @return $data
+     */
+    public function getdata() {
+        return $this->data;
     }
 
     /**

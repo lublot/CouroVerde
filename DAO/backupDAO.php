@@ -15,7 +15,7 @@ class backupDAO extends Database {
         $hora = $backup->getHora();
         $caminho = $backup->getCaminho();
 
-        $query = "INSERT INTO backup(data, hora, caminho) VALUES (null, '$titulo', '$subtitulo', '$descricao', '$caminhoImagem', '$data')";
+        $query = "INSERT INTO backup(data, dataHora, caminho) VALUES (null, '$data $hora', '$caminho')";
 
         try{
             $this->PDO->query($query);
@@ -24,41 +24,13 @@ class backupDAO extends Database {
         }
     }
 
-    /**
-    * Altera informações de uma notícia no banco de dados;
-    * @param unknown $dados - um array contendo as colunas e valores para a alteração. Ex: array("titulo"=>"Título");
-    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idNoticia"=>5);
-    * */
-    public function alterar($dados,$filtros){
-        $query = "UPDATE noticia SET ";
-
-        foreach($dados as $chave=>$valor){
-            $query .= $chave.'='."'$valor',";
-        }
-
-        $query = substr($query, 0, -1);
-        
-        if(count($filtros) > 0){
-            $query .= " WHERE ";
-            $aux = array();
-
-            foreach($filtros as $chave=>$valor){
-                $aux[] = $chave." = "."'$valor'";
-            }
-
-            $query .= implode(" AND ",$aux);
-        }
-
-        $this->PDO->query($query);
-
-    }
 
     /**
-    * Remove uma notícia do banco de dados;
-    * @param unknown $filtros - um array contendo os filtros usados na identificação da notícia. Ex: array("idNoticia"=>5);
+    * Remove um backup do banco de dados
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("caminho"=>'umCaminhoNovo');
     * */
     public function remover($filtros){
-        $query = "DELETE FROM noticia ";
+        $query = "DELETE FROM backup ";
 
         if(count($filtros) > 0){
             $query = $query . 'WHERE ';
@@ -75,19 +47,19 @@ class backupDAO extends Database {
     }
 
     /**
-    * Busca uma ou várias notícias no banco de dados;
+    * Busca uma ou vários backups no banco de dados
     * @param unknown $campos - um array contendo os campos desejados
-    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idNoticia"=>5);
-    * @return unknown $noticias - um array contendo os notícias retornados na busca
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("caminho"=>'umCaminhoNovo');
+    * @return unknown $backup - um array contendo os backups retornados na busca
     */
-    public function buscar($campos,$filtros){
+    public function buscar($campos = array(),$filtros = array()){
         $query = "SELECT ";
 
         if(count($campos) == 0){
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)."FROM noticia";
+        $query .= implode(',',$campos)."FROM backup";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -102,26 +74,29 @@ class backupDAO extends Database {
 
         $result = $this->PDO->query($query);
 
-        $noticias = array();
+        $backup = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $dataFormatada = explode('-', $item['data']);
-                $dataFormatada = $dataFormatada[2].'/'.$dataFormatada[1].'/'.$dataFormatada[0];                
-                $noticias[] = new Noticia($item['idNoticia'],$item['titulo'],$item['subtitulo'],$item['descricao'],$item['caminhoImagem'],$dataFormatada);
+                $dataHora = explode(' ', $item['dataHora']);
+                
+                $data = $dataHora[0];
+                $hora = $dataHora[1];
+
+                $backup[] = new Backup($item['idbackup'],$data,$hora,$item['caminho']);
             }    
         }
         
-        return $noticias;
+        return $backup;
     }
 
 
      /**
-    * Busca um ou várias notícias mais recentes no banco de dados;
+    * Busca um ou vários backups mais recentes no banco de dados;
     * @param unknown $campos - um array contendo os campos desejados, caso receba um valor vazio ou null considera que esteja solicitando todos os campos
-    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idNoticia"=>5);
-    * @return unknown $noticias - um array contendo as notícias retornados na busca
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("caminho"=>'umCaminhoNovo');
+    * @return unknown $backup - um array contendo os backups retornados na busca
     */
-    public function buscarMaisRecente($campos,$filtros,$limite=0){
+    public function buscarMaisRecente($campos = array(),$filtros = array(),$limite=0){
 
 
         $query = "SELECT ";
@@ -130,7 +105,7 @@ class backupDAO extends Database {
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)."FROM noticia";
+        $query .= implode(',',$campos)."FROM backup";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -151,19 +126,28 @@ class backupDAO extends Database {
 
         $result = $this->PDO->query($query);
 
-        $noticias = array();
+        $backup = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $noticias[] = new Noticia(isset($item['idNoticia']) ? $item['idNoticia']:null,
-                                          isset($item['titulo']) ? $item['titulo']:null,
-                                          isset($item['subtitulo']) ? $item['subtitulo']:null,
-                                          isset($item['descricao']) ? $item['descricao']:null,
-                                          isset($item['caminhoImagem']) ? $item['caminhoImagem']:null,
-                                          isset($item['data']) ? $item['data']:null);
+                
+                if(isset($item['dataHora'])) {
+                    $dataHora = explode(' ', $item['dataHora']);
+                    
+                    $data = $dataHora[0];
+                    $hora = $dataHora[1];                    
+                } else {
+                    $data = null;
+                    $hora = null;
+                }
+
+                $backup[] = new Backup(isset($item['idbackup']) ? $item['idbackup']:null,
+                                          isset($item['data']) ? $item['titulo']:null,
+                                          isset($item['hora']) ? $item['subtitulo']:null,
+                                          isset($item['caminho']) ? $item['caminho']:null);
             }    
         }
         
-        return $noticias;
+        return $backup;
     }
 }
 

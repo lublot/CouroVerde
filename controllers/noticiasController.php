@@ -199,7 +199,7 @@ class noticiasController extends mainController
     */
     public function listarTodasNoticias() {
         $noticiaDAO = new noticiaDAO();
-        $noticias = $noticiaDAO->buscar();
+        $noticias = $noticiaDAO->buscar(array(), array());
         echo json_encode($noticias);
     }
 
