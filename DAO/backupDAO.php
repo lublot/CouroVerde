@@ -82,7 +82,10 @@ class backupDAO extends Database {
                 $data = $dataHora[0];
                 $hora = $dataHora[1];
 
-                $backup[] = new Backup($item['idbackup'],$data,$hora,$item['caminho']);
+                $backup[] = new Backup(isset($item['idbackup']) ? $item['idbackup'] : null,
+                isset($item['data']) ? $item['data'] : null,
+                isset($item['hora']) ? $item['hora'] : null,
+                isset($item['caminho']) ? $item['caminho'] : null);
             }    
         }
         
@@ -141,8 +144,8 @@ class backupDAO extends Database {
                 }
 
                 $backup[] = new Backup(isset($item['idbackup']) ? $item['idbackup']:null,
-                                          isset($item['data']) ? $item['titulo']:null,
-                                          isset($item['hora']) ? $item['subtitulo']:null,
+                                          isset($item['data']) ? $item['data']:null,
+                                          isset($item['hora']) ? $item['hora']:null,
                                           isset($item['caminho']) ? $item['caminho']:null);
             }    
         }
