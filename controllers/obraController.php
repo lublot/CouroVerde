@@ -269,6 +269,37 @@ class obraController extends mainController {
         $obraDAO = $obraDAO->buscarColecoes(array(),array());
         echo json_encode($obraDAO);
     }
+
+    /**
+    *Este metodo realiza edições nos campos da obra, verificando se estão dentro do padrão
+    */
+    public function gerenciarObra(){
+        
+        //Array com o nome dos campos
+        $nomeCampos = array('nome', 'titulo', 'numInventario', 'idColecao', 'origem', 'procedencia',
+         'idClassificacao', 'funcao', 'palavrasChave', 'descricao', 'altura', 'largura',
+         'diametro', 'peso', 'comprimento', 'materiais', 'tecnicas', 'autoria', 'marcas',
+         'historico', 'modoAquisicao', 'dataAquisicao', 'autor', 'observacoes', 'estado');
+
+
+        if (isset($_POST["submit"]) && isset($_POST['numeroInventario'])){
+            $numeroInventario = addslashes($_POST['numeroInventario']);
+            $campos; //array para receber campos alterados
+
+            foreach($nomeCampos as $value){ //percorre o nome dos campos
+                if(isset($_POST[value])){ //verifica se o campo foi modificado
+                    if(!ValidacaoDados::validarCampo($_POST[value])) { //verifica se o campo está válido
+                        throw new CampoInvalidoException(value);
+                    }
+
+                    $campos [value] = addslashes($_POST[value]); //recebe o campo
+                }
+            }
+
+            $obraDAO = new obraDAO();
+            $obraDAO->alterar($campos, array('numeroInventario'=>$numeroInventario));
+        }
+    }
 }
 
 
