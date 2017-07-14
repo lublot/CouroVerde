@@ -93,21 +93,19 @@ class Obra {
      * @param unknown $caminhoImagem5 - Caminho da quinta imagem
      * @param unknown $caminhoModelo - Caminho do modelo 3D
      */
-    public function __construct($id, $nome, $titulo, $numInventario, $idColecao, $origem, $procedencia, $idClassificacao, $funcao, 
-                                $palavrasChave, $descricao, $altura, $largura, $diametro, $peso, $comprimento, $materiais, 
-                                $tecnicas, $autoria, $marcas, $historico, $modoAquisicao, $dataAquisicao, $autor, $observacoes,
-                                $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D) {
-        $this->id = $id;
+    public function __construct($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
+                                $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
+                                $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado) {
+        
+        $this->numInventario = $numInventario;
         $this->nome = $nome;
         $this->titulo = $titulo;
-        $this->numInventario = $numInventario;
-        $this->idColecao = $idColecao;
+        $this->funcao = $funcao;
         $this->origem = $origem;
         $this->procedencia = $procedencia;
-        $this->idClassificacao = $idClassificacao;
-        $this->funcao = $funcao;
-        $this->palavrasChave = $palavrasChave;
         $this->descricao = $descricao;
+        $this->idColecao = $idColecao;
+        $this->idClassificacao = $idClassificacao;
         $this->altura = $altura;
         $this->largura = $largura;
         $this->diametro = $diametro;
@@ -123,12 +121,12 @@ class Obra {
         $this->autor = $autor;
         $this->observacoes = $observacoes;
         $this->estado = $estado;
-        $this->caminhoImagem1 = $caminhoImagem1;
+    /*  $this->caminhoImagem1 = $caminhoImagem1;
         $this->caminhoImagem2 = $caminhoImagem2;
         $this->caminhoImagem3 = $caminhoImagem3;
         $this->caminhoImagem4 = $caminhoImagem4;
         $this->caminhoImagem5 = $caminhoImagem5;
-        $this->caminhoModelo3D = $caminhoModelo3D;
+        $this->caminhoModelo3D = $caminhoModelo3D; */
     }
     
 
@@ -276,13 +274,14 @@ class Obra {
         return $this->palavrasChave;
     }
 
-    /**
+    /*
      * Define as palavras-chave da obra.
      * @param unknown $palavrasChave - Palavras-chave da obra
-     */
+     
     public function setPalavrasChave($palavrasChave) {
         $this->palavrasChave = $palavrasChave;
     }
+    */
 
     /**
      * Obtém a descrição da obra.
@@ -540,10 +539,10 @@ class Obra {
         $this->estado = $estado;
     }
 
-    /**
+    /*
      * Obtém o caminho da primeira imagem da obra.
      * @return caminhoImagem1
-     */
+     *
     public function getCaminhoImagem1() {
         return $this->caminhoImagem1;
     }
@@ -551,23 +550,23 @@ class Obra {
     /**
      * Configura o caminho da primeira imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     */
+     *
     public function setCaminhoImagem1($caminhoImagem) {
         $this->caminhoImagem1 = $caminhoImagem;
     }
 
-    /**
+    /*
      * Obtém o caminho da segunda imagem da obra.
      * @return caminhoImagem2
-     */
+     *
     public function getCaminhoImagem2() {
         return $this->caminhoImagem2;
     }
 
-    /**
+    /*
      * Configura o caminho da segunda imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     */
+     *
     public function setCaminhoImagem2($caminhoImagem) {
         $this->caminhoImagem2 = $caminhoImagem;
     }
@@ -575,15 +574,15 @@ class Obra {
     /**
      * Obtém o caminho da terceira imagem da obra.
      * @return caminhoImagem3
-     */
+     
     public function getCaminhoImagem3() {
         return $this->caminhoImagem3;
     }
 
-    /**
+    /*
      * Configura o caminho da terceira imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     */
+     *
     public function setCaminhoImagem3($caminhoImagem) {
         $this->caminhoImagem3 = $caminhoImagem;
     }
@@ -591,7 +590,7 @@ class Obra {
     /**
      * Obtém o caminho da quarta imagem da obra.
      * @return caminhoImagem4
-     */
+     *
     public function getCaminhoImagem4() {
         return $this->caminhoImagem4;
     }
@@ -599,7 +598,7 @@ class Obra {
     /**
      * Configura o caminho da quarta imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     */
+     *
     public function setCaminhoImagem4($caminhoImagem) {
         $this->caminhoImagem4 = $caminhoImagem;
     }
@@ -607,7 +606,7 @@ class Obra {
     /**
      * Obtém o caminho da quinta imagem da obra.
      * @return caminhoImagem5
-     */
+     *
     public function getCaminhoImagem5() {
         return $this->caminhoImagem5;
     }
@@ -615,7 +614,7 @@ class Obra {
     /**
      * Configura o caminho da quinta imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     */
+     *
     public function setCaminhoImagem5($caminhoImagem) {
         $this->caminhoImagem5 = $caminhoImagem;
     }
@@ -623,7 +622,7 @@ class Obra {
     /**
      * Obtém o caminho do modelo 3D da obra.
      * @return caminhoModelo3D
-     */
+     *
     public function getCaminhoModelo3D() {
         return $this->caminhoModelo3D;
     }
@@ -631,10 +630,11 @@ class Obra {
     /**
      * Configura o caminho do modelo 3D da obra.
      * @param unknown $caminhoModelo - Caminho do modelo 3D
-     */
+     *
     public function setCaminhoModelo3D($caminhoModelo) {
         $this->caminhoModelo3D = $caminhoModelo;
     }
+    */
 }
 
 ?>

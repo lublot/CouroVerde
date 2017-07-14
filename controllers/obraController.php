@@ -10,11 +10,44 @@ use \models\Obra as Obra;
 
 class obraController extends mainController {
 
+    /**
+    * Configura a classe para realização de testes.
+    */
+    public function configurarAmbienteParaTeste($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
+                                                $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
+                                                $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado)
+    {
+        //seta valores necessários para o teste
+        $_POST['numInventario'] = $numInventario;
+        $_POST['nome'] = $nome;
+        $_POST['titulo'] = $titulo;
+        $_POST['funcao'] = $funcao;
+        $_POST['origem'] = $origem;
+        $_POST['procedencia'] = $procedencia;
+        $_POST['descricao'] = $descricao;
+        $_POST['idColecao'] = $idColecao;
+        $_POST['idClassificacao'] = $idClassificacao;
+        $_POST['altura'] = $altura;
+        $_POST['largura'] = $largura;
+        $_POST['diametro'] = $diametro;
+        $_POST['peso'] = $comprimento;
+        $_POST['materiais'] = $materiais;
+        $_POST['tecnicas'] = $autoria;
+        $_POST['marcas'] = $marcas;
+        $_POST['historico'] = $historico;
+        $_POST['modoAquisicao'] = $modoAquisicao;
+        $_POST['dataAquisicao'] = $dataAquisicao;
+        $_POST['autor'] = $autor;
+        $_POST['observacoes'] = $observacoes;
+        $_POST['estado'] = $estado;
+
+        $_POST['submit'] = $post;
+    }
+
     public function cadastrarObra() {
-        if (isset($_POST["submit"]) and ValidacaoDados::validarForm($_POST, array("nome", "titulo", "numInventario", "idColecao", "origem", "procedencia", "idClassificacao",
-                                                        "funcao", "palavrasChave", "descricao", "altura", "largura", "diametro", "peso", "comprimento", "materiais",
-                                                        "tecnicas", "autoria", "marcas", "historico", "modoAquisicao", "dataAquisicao", "autor", "observacoes",
-                                                        "estado", "caminhoImagem1", "caminhoImagem2", "caminhoImagem3", "caminhoImagem4", "caminhoImagem5", "caminhoModelo3D"))) {
+        if (isset($_POST["submit"]) and ValidacaoDados::validarForm($_POST, array("numInventario", "nome", "titulo", "funcao", "origem", "procedencia", "descricao", "idColecao", "idClassificacao",
+                                            "altura", "largura", "diametro", "peso", "comprimento", "materiais", "tecnicas", "autoria", "marcas", "historico", 
+                                            "modoAquisicao", "dataAquisicao", "autor", "observacoes", "estado"))) {
 
             try {
                 $caminhoImagem1 = uploadImagem();
@@ -51,9 +84,11 @@ class obraController extends mainController {
                 throw new CampoInvalidoException('funcao');
             }
 
+            /*
             if(!ValidacaoDados::validarCampo($_POST['palavrasChave'])) { //verifica se o campo está válido
                 throw new CampoInvalidoException('palavrasChave');
             }
+            */
 
             if(!ValidacaoDados::validarCampo($_POST['descricao'])) { //verifica se o campo está válido
                 throw new CampoInvalidoException('descricao');
@@ -127,7 +162,7 @@ class obraController extends mainController {
             $procedencia = addslashes($_POST["procedencia"]);
             $idClassificacao = $_POST["idClassificacao"];
             $funcao = addslashes($_POST["funcao"]);
-            $palavrasChave = addslashes($_POST["palavrasChave"]);
+            //$palavrasChave = addslashes($_POST["palavrasChave"]);
             $descricao = addslashes($_POST["descricao"]);
             $altura = addslashes($_POST["altura"]);
             $largura = addslashes($_POST["largura"]);
@@ -153,10 +188,9 @@ class obraController extends mainController {
 
             $obraDAO = new ObraDAO();
                 
-            $obraDAO->inserirObra(new Obra(null, $nome, $titulo, $numInventario, $idColecao, $origem, $procedencia, $idClassificacao, $funcao, 
-                                    $palavrasChave, $descricao, $altura, $largura, $diametro, $peso, $comprimento, $materiais, 
-                                    $tecnicas, $autoria, $marcas, $historico, $modoAquisicao, $dataAquisicao, $autor, $observacoes,
-                                    $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D));
+            $obraDAO->inserirObra(new Obra($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
+                                            $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
+                                            $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado));
             }
         else {
             throw new DadosCorrompidosException();
@@ -298,6 +332,25 @@ class obraController extends mainController {
 
             $obraDAO = new obraDAO();
             $obraDAO->alterar($campos, array('numeroInventario'=>$numeroInventario));
+        }
+    }
+
+    /**
+    *Este método cadastra palavras-chave.
+    */
+    public function cadastrarPalavraChave() {
+        if(isset($_POST["submit"]) and ValidacaoDados::validarForm($_POST, array('descricao'))) { //verifica se a variável superglobal foi setada
+            if(!ValidacaoDados::validarCampo($_POST['descricao'])) { //verifica se o campo está válido
+                throw new CampoInvalidoException('descricao');
+            }
+
+            $obraDAO = new obraDAO();
+
+            $descricao = addslashes($POST['descricao']);
+
+            $obraDAO->inserirPalavraChave(new PalavraChave(null, $descricao));
+        } else {
+            throw new DadosCorrompidosException();
         }
     }
 }
