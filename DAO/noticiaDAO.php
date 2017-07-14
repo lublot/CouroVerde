@@ -107,9 +107,12 @@ class noticiaDAO extends Database {
         $noticias = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $dataFormatada = explode('-', $item['data']);
-                $dataFormatada = $dataFormatada[2].'/'.$dataFormatada[1].'/'.$dataFormatada[0];                
-                $noticias[] = new Noticia($item['idNoticia'],$item['titulo'],$item['subtitulo'],$item['descricao'],$item['caminhoImagem'],$dataFormatada);
+                $noticias[] = new Noticia(isset($item['idNoticia']) ? $item['idNoticia']:null,
+                                          isset($item['titulo']) ? $item['titulo']:null,
+                                          isset($item['subtitulo']) ? $item['subtitulo']:null,
+                                          isset($item['descricao']) ? $item['descricao']:null,
+                                          isset($item['caminhoImagem']) ? $item['caminhoImagem']:null,
+                                          isset($item['data']) ? ValidacaoDados::formatarDataSQLparaPadrao($item['data']):null);
             }    
         }
         
@@ -161,7 +164,7 @@ class noticiaDAO extends Database {
                                           isset($item['subtitulo']) ? $item['subtitulo']:null,
                                           isset($item['descricao']) ? $item['descricao']:null,
                                           isset($item['caminhoImagem']) ? $item['caminhoImagem']:null,
-                                          isset($item['data']) ? $item['data']:null);
+                                          isset($item['data']) ? ValidacaoDados::formatarDataSQLparaPadrao($item['data']):null);
             }    
         }
         

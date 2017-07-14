@@ -138,14 +138,37 @@ class ObraDAO {
 
         $result = $this->PDO->query($query);
 
-        $usuarios = array();
+        $obras = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-               // $usuarios[] = new Usuario($item['idUsuario'],$item['email'],$item['nome'],$item['sobrenome'],$item['senha'],$item['cadastroConfirmado']);
+               $obras[] = new Obra(isset($item['numeroInventario'])?$item['numeroInventario']:null,
+                                    isset($item['nome'])?$item['nome']:null,
+                                    isset($item['titulo'])?$item['titulo']:null,
+                                    isset($item['funcao'])?$item['funcao']:null,
+                                    isset($item['origem'])?$item['origem']:null,
+                                    isset($item['procedencia'])?$item['procedencia']:null,
+                                    isset($item['descricao'])?$item['descricao']:null,
+                                    isset($item['idColecao'])?$item['idColecao']:null,
+                                    isset($item['idClassificacao'])?$item['idClassificacao']:null,
+                                    isset($item['altura'])?$item['altura']:null,
+                                    isset($item['largura'])?$item['largura']:null,
+                                    isset($item['diametro'])?$item['diametro']:null,
+                                    isset($item['peso'])?$item['peso']:null,
+                                    isset($item['comprimento'])?$item['comprimento']:null,
+                                    isset($item['materiaisConstruidos '])?$item['materiaisConstruidos']:null,
+                                    isset($item['tecnicaFabricacao'])?$item['tecnicaFabricacao']:null,
+                                    isset($item['autoria'])?$item['autoria']:null,
+                                    isset($item['marcasInscricoes'])?$item['marcasInscricoes']:null,
+                                    isset($item['historicoObjeto'])?$item['historicoObjeto']:null,
+                                    isset($item['modoAquisicao'])?$item['modoAquisicao']:null,
+                                    isset($item['dataAquisicao'])?$item['dataAquisicao']:null,
+                                    isset($item['autor'])?$item['autor']:null,
+                                    isset($item['observacoes'])?$item['observacoes']:null,
+                                    isset($item['estadoConservacao'])?$item['estadoConservacao']:null);
             }    
         }
         
-        return $usuarios;
+        return $obras;
     }
 
     /**
@@ -175,7 +198,30 @@ class ObraDAO {
         $obras = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
-                $obras[] = new Obra($item['idNoticia'],$item['email'],$item['nome'],$item['sobrenome'],$item['senha'],$item['cadastroConfirmado']);
+                $obras[] = new Obra(isset($item['numeroInventario'])?$item['numeroInventario']:null,
+                                    isset($item['nome'])?$item['nome']:null,
+                                    isset($item['titulo'])?$item['titulo']:null,
+                                    isset($item['funcao'])?$item['funcao']:null,
+                                    isset($item['origem'])?$item['origem']:null,
+                                    isset($item['procedencia'])?$item['procedencia']:null,
+                                    isset($item['descricao'])?$item['descricao']:null,
+                                    isset($item['idColecao'])?$item['idColecao']:null,
+                                    isset($item['idClassificacao'])?$item['idClassificacao']:null,
+                                    isset($item['altura'])?$item['altura']:null,
+                                    isset($item['largura'])?$item['largura']:null,
+                                    isset($item['diametro'])?$item['diametro']:null,
+                                    isset($item['peso'])?$item['peso']:null,
+                                    isset($item['comprimento'])?$item['comprimento']:null,
+                                    isset($item['materiaisConstruidos '])?$item['materiaisConstruidos']:null,
+                                    isset($item['tecnicaFabricacao'])?$item['tecnicaFabricacao']:null,
+                                    isset($item['autoria'])?$item['autoria']:null,
+                                    isset($item['marcasInscricoes'])?$item['marcasInscricoes']:null,
+                                    isset($item['historicoObjeto'])?$item['historicoObjeto']:null,
+                                    isset($item['modoAquisicao'])?$item['modoAquisicao']:null,
+                                    isset($item['dataAquisicao'])?$item['dataAquisicao']:null,
+                                    isset($item['autor'])?$item['autor']:null,
+                                    isset($item['observacoes'])?$item['observacoes']:null,
+                                    isset($item['estadoConservacao'])?$item['estadoConservacao']:null);
             }    
         }
         

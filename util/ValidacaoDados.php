@@ -128,4 +128,15 @@ class ValidacaoDados {
             return true;
         }
     }
+
+    /**
+    * Recebe uma data no formato SQL e transforma em um formato usual
+    * @param $data - A data a ser formatada
+    * @return $dataFormatada - A data formatada;
+    */
+    public static function formatarDataSQLparaPadrao($data){
+        $dataFormatada = explode('-', $data);
+        $dataFormatada = $dataFormatada[2].'/'.$dataFormatada[1].'/'.$dataFormatada[0];
+        return $dataFormatada;
+    }
 }
