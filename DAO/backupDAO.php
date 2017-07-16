@@ -11,11 +11,11 @@ class backupDAO extends Database {
     * @param Backup $backup - backup a ser inserido no banco;
     * */
     public function inserir($backup){
-        $data = $backup->getData();
+        $data = $backup->getDia();
         $hora = $backup->getHora();
         $caminho = $backup->getCaminho();
 
-        $query = "INSERT INTO backup(data, dataHora, caminho) VALUES (null, '$data $hora', '$caminho')";
+        $query = "INSERT INTO backup(idBackup, dataHora, caminho) VALUES (null, '$data $hora', '$caminho')";
 
         try{
             $this->PDO->query($query);
@@ -79,12 +79,12 @@ class backupDAO extends Database {
             foreach($result->fetchAll() as $item){
                 $dataHora = explode(' ', $item['dataHora']);
                 
-                $data = $dataHora[0];
+                $dia = $dataHora[0];
                 $hora = $dataHora[1];
 
-                $backup[] = new Backup(isset($item['idbackup']) ? $item['idbackup'] : null,
-                isset($item['data']) ? $item['data'] : null,
-                isset($item['hora']) ? $item['hora'] : null,
+                $backup[] = new Backup(isset($item['idBackup']) ? $item['idBackup'] : null,
+                isset($dia) ? $dia : null,
+                isset($hora) ? $hora : null,
                 isset($item['caminho']) ? $item['caminho'] : null);
             }    
         }
@@ -131,25 +131,22 @@ class backupDAO extends Database {
 
         $backup = array();
         if(!empty($result) && $result->rowCount() > 0){
-            foreach($result->fetchAll() as $item){
+                foreach($result->fetchAll() as $item){
                 
-                if(isset($item['dataHora'])) {
-                    $dataHora = explode(' ', $item['dataHora']);
-                    
-                    $data = $dataHora[0];
-                    $hora = $dataHora[1];                    
-                } else {
-                    $data = null;
-                    $hora = null;
-                }
+                    if(isset($item['dataHora'])) {
+                        $dataHora = explode(' ', $item['dataHora']);
+                        
+                        $dia = $dataHora[0];
+                        $hora = $dataHora[1];
 
-                $backup[] = new Backup(isset($item['idbackup']) ? $item['idbackup']:null,
-                                          isset($item['data']) ? $item['data']:null,
-                                          isset($item['hora']) ? $item['hora']:null,
-                                          isset($item['caminho']) ? $item['caminho']:null);
-            }    
+                        $backup[] = new Backup(isset($item['idBackup']) ? $item['idBackup'] : null,
+                        isset($dia) ? $dia : null,
+                        isset($hora) ? $hora : null,
+                        isset($item['caminho']) ? $item['caminho'] : null);
+                    }    
+                }        
         }
-        
+
         return $backup;
     }
 }

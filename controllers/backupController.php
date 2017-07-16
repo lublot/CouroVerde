@@ -3,10 +3,10 @@ namespace controllers;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \models\Backup as Backup;
+use \DAO\backupDAO as backupDAO;
 use exceptions\BackupNaoEncontradoException as BackupNaoEncontradoException;
 use exceptions\FormatoHoraIncorretoException as FormatoHoraIncorretoException;
 use exceptions\FormatoDataIncorretoException as FormatoDataIncorretoException;
-
 
 class backupController extends mainController {
 
@@ -14,37 +14,35 @@ class backupController extends mainController {
     * Realiza o backup completo do sistema.
     */
     public function realizarBackup() {
-        $caminhoReal = realpath('\media');
+        $caminhoReal = dirname(__DIR__).'\media';
 
-        $zip = new ZipArchive(); //obtém um objeto zip
+        $zip = new \ZipArchive(); //obtém um objeto zip
         
         date_default_timezone_set('America/Sao_Paulo'); 
         $diaBackup =  date("Y-m-d");
         $horaBackup = date("H-i-s"); //hora com formato aceito para nome de arquivo
         $nomeArquivoBackup = "backup_" . $diaBackup . $horaBackup . ".zip";
 
-        $zip->open($nomeArquivoBackup, ZipArchive::CREATE | ZipArchive::OVERWRITE); //define as configurações iniciais
+        $zip->open(dirname(__DIR__).'\backups/'.$nomeArquivoBackup, \ZipArchive::CREATE | \ZipArchive::OVERWRITE); //define as configurações iniciais
 
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($caminhoReal), RecursiveIteratorIterator::LEAVES_ONLY);
+        $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($caminhoReal), \RecursiveIteratorIterator::LEAVES_ONLY);
 
         foreach ($files as $name => $file) {
-            if (!$file->isDir() and substr_count($file->getRealPath(), 'PCD')) { //os diretórios vão ser adicionados automaticamente, logo eles podem ser pulados
+            if (!$file->isDir()) { //os diretórios vão ser adicionados automaticamente, logo eles podem ser pulados
                 $filePath = $file->getRealPath(); //obtém o caminho real do arquivo que vai ser zipado
                 $relativePath = substr($filePath, strlen($caminhoReal) + 1); //obtém o caminho relativo do arquivo que vai ser zipado
                 $zip->addFile($filePath, $relativePath); //adiciona o arquivo ao zip
             }
         }
     
-        $caminhoBackupBD = backupBanco();
+        $caminhoBackupBD = $this->backupBanco();
         $zip->addFile(getcwd().'/'.$caminhoBackupBD, $caminhoBackupBD);
         $zip->close();
         unlink(getcwd().'/'.$caminhoBackupBD); //remove o arquivo inicial do backup do banco, após dele ser inserido no zip completo do backup
-        
-        $horaBackuBD = explode($horaBackup, '-');
+        $horaBackupBD = explode('-', $horaBackup);
+        $backup = new Backup(null, addslashes($diaBackup), addslashes("$horaBackupBD[0]:$horaBackupBD[1]:$horaBackupBD[2]"), addslashes("backups/".$nomeArquivoBackup));
 
-        $backup = new Backup(null, $data, "$horaBackupBD[0]:$horaBackuBD[1]:$horaBackuBD[2]", "media/$nomeArquivoBackup");
-
-        $backupDAO = new BackupDAO($backup);
+        $backupDAO = new backupDAO($backup);
         $backupDAO->inserir($backup);
     }
 
@@ -52,10 +50,10 @@ class backupController extends mainController {
     * Realiza o backup do banco de dados.
     * @return String $caminhoArquivoBackup - caminho do local onde está armazenado o arquivo de backup.
     */
-    function backupBanco() {
+    private function backupBanco() {
         try {
             // open the connection to the database - "localhost", "root", $password, "webMuseu" should already be set
-            $mysqli = new mysqli("localhost", "root", "", "webMuseu");
+            $mysqli = new \mysqli("localhost", "root", "", "webMuseu");
 
             // did it work?
             if ($mysqli->connect_errno) {
@@ -182,7 +180,7 @@ class backupController extends mainController {
             throw new BackupInexistenteException();
         } 
 
-        echo json_encode($backup);
+        echo json_encode($backup, JSON_UNESCAPED_SLASHES);
     }
 
     /**
