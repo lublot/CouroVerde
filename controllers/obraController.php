@@ -321,12 +321,12 @@ class obraController extends mainController {
             $campos; //array para receber campos alterados
 
             foreach($nomeCampos as $value){ //percorre o nome dos campos
-                if(isset($_POST[value])){ //verifica se o campo foi modificado
-                    if(!ValidacaoDados::validarCampo($_POST[value])) { //verifica se o campo está válido
-                        throw new CampoInvalidoException(value);
+                if(isset($_POST[$value])){ //verifica se o campo foi modificado
+                    if(!ValidacaoDados::validarCampo($_POST[$value])) { //verifica se o campo está válido
+                        throw new CampoInvalidoException($value);
                     }
 
-                    $campos [value] = addslashes($_POST[value]); //recebe o campo
+                    $campos [$value] = addslashes($_POST[$value]); //recebe o campo
                 }
             }
 
