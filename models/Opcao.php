@@ -5,7 +5,7 @@ namespace models;
  * @author MItologhic Software
  *
  */
-class OpcaoPergunta {
+class Opcao {
     
     private $idOpcao;
     private $descricao;
