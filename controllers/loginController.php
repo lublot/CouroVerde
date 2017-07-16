@@ -172,7 +172,7 @@ class loginController extends mainController{
         
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $_SESSION = array();//Limpa os dados de token
-            $this->setarSession($usuario[0]);
+            $this->setarSession($usuario[0], 'google');
 
             //Redireciona para a home configurada como de usuário
         }else{
@@ -255,7 +255,7 @@ class loginController extends mainController{
         if(count($usuario)>0){//Se o usuário estiver cadastrado...
             $usuario = $usuario[0];
             $_SESSION = array();//Limpa os dados de token
-            $this->setarSession($usuario[0]);
+            $this->setarSession($usuario[0], 'facebook');
 
             //Falta redirecionar usuário
         }else{
@@ -380,7 +380,6 @@ class loginController extends mainController{
     *Redefine a senha.
     */
     public function redefinir() {
-
         if(!isset($_SESSION['nome']) || empty($_SESSION['nome'])){
             if(ValidacaoDados::validarForm($_POST,array("senha","confirmarSenha"))) {
                 try{

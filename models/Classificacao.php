@@ -25,7 +25,7 @@ class Classificacao {
      * Obtém o id da classificação.
      * @return id
      */
-    public function getid() {
+    public function getId() {
         return $this->id;
     }
 

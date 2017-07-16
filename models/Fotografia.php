@@ -18,11 +18,13 @@ class Fotografia extends Obra {
 	* @param unknown $autorFotografia - Autor da fotografia
 	* 
 	*/
-    public function __construct($fotografo, $dataFotografia, $autorFotografia) {
-        parent::__construct($id, $nome, $titulo, $numInventario, $idColecao, $origem, $procedencia, $idClassificacao, $funcao, 
-                                $palavrasChave, $descricao, $altura, $largura, $diametro, $peso, $comprimento, $materiais, 
-                                $tecnicas, $autoria, $marcas, $historico, $modoAquisicao, $dataAquisicao, $autor, $observacoes,
-                                $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D);
+    public function __construct($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
+                                $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
+                                $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $fotografo, $dataFotografia, $autorFotografia) {
+                                    
+        parent::__construct($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
+                                $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
+                                $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado);
 
         $this->fotografo = $fotografo;
         $this->dataFotografia = $dataFotografia;

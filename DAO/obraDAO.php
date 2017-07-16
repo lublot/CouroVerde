@@ -21,7 +21,7 @@ class ObraDAO {
         $procedencia = $obra->getProcedencia();
         $idClassificacao = $obra->getIdClassificacao();
         $funcao = $obra->getFuncao();
-        $palavrasChave = $obra->getPalavrasChave();
+        //$palavrasChave = $obra->getPalavrasChave();
         $descricao = $obra->getDescricao();
         $altura = $obra->getAltura();
         $largura = $obra->getLargura();
@@ -45,14 +45,12 @@ class ObraDAO {
         $caminhoImagem5 = $obra->getCaminhoImagem5();
         $caminhoModelo3D = $obra->getCaminhoModelo3D();
 
-        $query = "INSERT INTO obra(idObra, nome, titulo, numInventario, idColecao, origem, procedencia, idClassificacao,
-                                    funcao, palavrasChave, descricao, altura, largura, diametro, peso, comprimento, materiais,
-                                    tecnicas, autoria, marcas, historico, modoAquisicao, dataAquisicao, autor, observacoes,
-                                    estado, caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) 
-                  VALUES (null,'$nome','$titulo','$numInventario', '$idColecao', '$origem', '$procedencia', '$idClassificacao',
-                            '$funcao', '$palavrasChave', , '$descricao', '$altura', '$largura', '$diametro', '$peso', '$comprimento', '$materiais',
-                            '$tecnicas', '$autoria', '$marcas', '$historico', '$modoAquisicao', '$dataAquisicao', '$autor', '$observacoes', 
-                            '$estado', '$caminhoImagem1', '$caminhoImagem2', '$caminhoImagem3', '$caminhoImagem4', '$caminhoImagem5', '$caminhoModelo3D')";
+        $query = "INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,
+                                    altura, largura, diametro, peso, comprimento, materiaisConstruidos, tecnicasFabricacao, autoria, 
+                                    marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao) 
+                  VALUES ( '$numInventario', '$nome','$titulo', '$funcao', '$origem', '$procedencia', '$descricao', '$idColecao', '$idClassificacao',
+                            '$altura', '$largura', '$diametro', '$peso', '$comprimento', '$materiais', '$tecnicas', '$autoria', '$marcas', '$historico', 
+                            '$modoAquisicao', '$dataAquisicao', '$autor', '$observacoes', '$estado')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -246,8 +244,8 @@ class ObraDAO {
     }
 
     /**
-    * Insere uma coleção no banco de dados;
-    * @param unknown $colecao - A coleção a ser inserida no banco;
+    * Insere uma classificação no banco de dados;
+    * @param unknown $classificacao - A classificação a ser inserida no banco;
     * */
     public function inserirClassificacao($classificacao){
         
@@ -302,7 +300,7 @@ class ObraDAO {
     }
 
     /**
-    * Realiza a busca de classificações no banco
+    * Realiza a busca de coleções no banco
     * @param unknown $campos - Campos Desejados
     * @param unknow $filtros - Filtros utilizados na busca
     * */
@@ -338,6 +336,23 @@ class ObraDAO {
         }
         
         return $colecoes;
+    }
+
+    /**
+    * Insere uma palavra-chave no banco de dados;
+    * @param unknown $palavraChave - A palavra-chave a ser inserida no banco;
+    * */
+    public function inserirPalavraChave($palavraChave){
+        
+        $descricao = $palavraChave->getDescricao();
+
+        $query = "INSERT INTO Tag(idTag, descricao) 
+                  VALUES (null,'$descricao')";
+        try{
+            $this->PDO->query($query);
+        }catch(PDOException $e){
+
+        }
     }
 }
 
