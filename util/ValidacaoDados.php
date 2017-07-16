@@ -16,7 +16,7 @@ class ValidacaoDados {
     */
     public static function validarForm($array,$chaves){
         foreach($chaves as $chave){
-            if(!array_key_exists($chave,$array)){
+            if(!array_key_exists($chave,$array) || empty($array[$chave])){
                 return false;
             }
         }

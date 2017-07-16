@@ -1,6 +1,9 @@
 <?php
 namespace controllers;
 
+use DAO\UsuarioDAO as UsuarioDAO;
+use util\GerenciarSenha as GerenciarSenha;
+use util\ValidacaoDados as ValidacaoDados;
 
 class perfilController{
     
@@ -28,11 +31,19 @@ class perfilController{
     }
 
 
-    private function validarForm($dados){
-        if(array_key_exists("nome",$dados) || array_key_exists("sobrenome",$dados)){
-            return true;
+    public function verificarSenhaAtual(){
+        if(ValidacaoDados::validarForm($_POST,array("senhaAtual","email"))){
+            $usuarioDAO = new UsuarioDAO();
+            $usuarioDAO = $usuarioDAO->buscar(array("senha"),array("email"=>$_POST['email']));
+
+            $senhaRecebida = GerenciarSenha::criptografarSenha($_POST['senhaAtual']);
+            $senhaArmazenada = $usuarioDAO[0]->getSenha();
+            
+            if(GerenciarSenha::checarSenha($senhaRecebida,$senhaArmazenada)){
+                echo json_encode(array("success"=>true)); 
+            }
         }
-        return false;
+        echo json_encode(array("success"=>false));
     }
 
 }
