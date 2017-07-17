@@ -19,7 +19,6 @@ class relatorioSistemaDAO extends Database{
         $tipoAlvo = $relatorio->getTipoAlvo();
         $horario = $relatorio->getHorario();
 
-
         $query = "INSERT INTO logalteracoes(idLogAlteracoes, idFuncionario, idItemAlterado, tipoItemAlterado, descricao, dataHora) VALUES (null, '$autor', '$idAlvo', '$tipoAlvo', '$acao','$horario')";
 
         try{

@@ -3,6 +3,10 @@
 
 class relatorioSistemaController extends mainController{
 
+    public function configuraAmbienteParaTeste() {
+
+    }
+
     /**
     * Este método oferece todos os relatorios do sistema;
     */

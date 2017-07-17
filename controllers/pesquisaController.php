@@ -13,18 +13,40 @@ use \exceptions\CampoInvalidoException as CampoInvalidoException;
 
 class PesquisaController extends mainController {
 
+    private $listaPerguntas;
+    private $listaOpcoes;
+
+    public function __construct(){
+        $this->listaPerguntas = array();
+        $this->listaOpcoes = array();
+    }
+
     public function configuraAmbienteParaTeste($tituloPesquisa, $estaAtiva, $tituloPergunta, $isOpcional, $tipo) {
         $_POST["tituloPesquisa"] = $tituloPesquisa;
-        $_POST["tituloPergunta"] = $tituloPergunta;
-        $_POST["tipo"] = $tipo;
-        $_POST["opcional"] = $isOpcional;
         $_POST["estaAtiva"] = $estaAtiva;
+        $_POST["tituloPergunta"] = $tituloPergunta;
+        $_POST["opcional"] = $isOpcional;
+        $_POST["tipo"] = $tipo;
         //$_POST["descricao"] = $estaAtiva;
     }
 
     /**
     * Realiza o cadastro de uma pesquisa.
     */
+    public function cadastrarPesquisa(){
+        $pesquisa = $this->criarPesquisa();
+        $listaPerguntas = $this->criarPergunta();
+        $listaOpcoes = $this->criarOpcao();
+
+        $pesquisaDAO = new PesquisaDAO();
+        $perguntaDAO = new PerguntaDAO();
+        $opcaoDAO = new OpcaoDAO();
+
+        $pesquisaDAO->inserir($pesquisa);
+        $perguntaDAO->inserir($listaPerguntas);
+        $opcaoDAO->inserir($listaOpcoes);
+    }
+
     public function criarPesquisa(){
         if (ValidacaoDados::validarForm($_POST, array("tituloPesquisa","estaAtiva"))) {
             if (!ValidacaoDados::validarNome($_POST["tituloPesquisa"])) {
@@ -39,8 +61,7 @@ class PesquisaController extends mainController {
 
             $pesquisa = new Pesquisa(null, $tituloPesquisa, $estaAtiva);
 
-            $pesquisaDAO = new PesquisaDAO();
-            $pesquisaDAO->inserir($pesquisa);
+            return $pesquisa;
         }
         else{
             throw new DadosCorrompidosException();
@@ -72,10 +93,10 @@ class PesquisaController extends mainController {
                 $tipo = "UNICA ESCOLHA";
             }
 
-            $pergunta = new Pergunta(null, $tituloPergunta, $tipo, $opcional);
-        
-            $perguntaDAO = new PerguntaDAO();
-            $perguntaDAO->inserir($pergunta);
+            $i = 0;
+            $listaPerguntas[$i++] = new Pergunta(null, $tituloPergunta, $tipo, $opcional);
+
+            return $listaPerguntas;
         }
         else{
             throw new DadosCorrompidosException();
@@ -85,10 +106,11 @@ class PesquisaController extends mainController {
     public function criarOpcao(){
         if (ValidacaoDados::validarForm($_POST, array("descricao"))) {
             $descricao = addslashes($_POST['descricao']);
-            $opcaoPergunta = new Opcao(null, $descricao);
 
-            $opcaoDAO = new OpcaoDAO();
-            $opcaoDAO->inserir($opcaoPergunta);
+            $i = 0;
+            $listaOpcoes[$i++] = new Opcao(null, $descricao);
+
+            return $listaOpcoes;
         }
         else{
             throw new DadosCorrompidosException();
