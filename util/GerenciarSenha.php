@@ -26,7 +26,7 @@ class GerenciarSenha {
 	 * @return <code>true</code>, se as senhas forem iguais; <code>false</code>, caso contrário.
 	 */
 	public static function checarSenha($senha, $senhaArmazenada) {
-		return strcmp(criptografarSenha($senha), $senhaArmazenada) == 0;
+		return strcmp(GerenciarSenha::criptografarSenha($senha), $senhaArmazenada) == 0;
 	}
 	
 	

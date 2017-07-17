@@ -132,7 +132,7 @@ class loginController extends mainController{
                 $this->setarSession($usuario[0]);
             }
 
-           return $usuario;
+           return $usuario[0];
 
         } else {
             throw new UsuarioInexistenteException();

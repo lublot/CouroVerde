@@ -26,7 +26,7 @@ window.addEventListener('load',function(){
     });
 
     var campoSenhaAtual = document.getElementById('senhaAtual');
-    var valorSenhaCorreto;
+    var emailSenhaCorreto;
 
     campoSenhaAtual.addEventListener('blur',function(){
         var ajax = new XMLHttpRequest();
@@ -37,22 +37,21 @@ window.addEventListener('load',function(){
         ajax.open("POST",endereco,true);
         ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         if(document.getElementById('email').disabled){
-            ajax.send('senhaAtual='+senhaAtual+'&'+'filtro=email'+'&'+'valor='+email);
-        }else{
-            ajax.send('senhaAtual='+senhaAtual+'&'+'filtro=tipoUsuario'+'&'+'valor=ADMINISTRADOR');
+            ajax.send('senhaAtual='+senhaAtual+'&'+'email='+email);
         }
         
 
         ajax.onreadystatechange = function(){
             if (this.readyState == 4 && this.status == 200) {
-                if(!this.response.success){
+                if(!JSON.parse(this.response).success){ // Se a senha estiver incorreta
                     campoSenhaAtual.parentElement.classList.add('has-error'); //Executa alguma ação
+                    document.getElementById('botaoEnviar').classList.add('disabled');
                     if(campoVazio(campoSenhaAtual.value)){
                         campoSenhaAtual.parentElement.classList.remove('has-error');
                     }
                 }else{
                     campoSenhaAtual.parentElement.classList.remove('has-error');
-                    valorSenhaCorreto = senhaAtual;
+                    emailSenhaCorreto = senhaAtual;  
                 }
             }
         }
@@ -79,8 +78,8 @@ window.addEventListener('load',function(){
             campoSenhaAtual.parentElement.classList.remove('has-error');
         }
 
-        if(!campoVazio(campoNome.value) && !campoVazio(campoSobrenome.value)){
-            if((valorSenhaCorreto !== undefined && tamanhoCorretoSenha(campoSenhaNova.value)) || (campoVazio(campoSenhaAtual.value) && campoVazio(campoSenhaNova.value))){
+        if((!campoVazio(campoNome.value) && !campoVazio(campoSobrenome.value)) && (!contemNumero(campoNome.value) && !contemNumero(campoSobrenome.value))){
+            if((emailSenhaCorreto !== undefined && tamanhoCorretoSenha(campoSenhaNova.value)) || (campoVazio(campoSenhaAtual.value) && campoVazio(campoSenhaNova.value))){
                 botaoEnvio.classList.remove('disabled');
                 botaoEnvio.classList.add('btn-success');
             }else{
@@ -96,31 +95,11 @@ window.addEventListener('load',function(){
     var botaoEnvio = document.getElementById('botaoEnviar');
     botaoEnvio.addEventListener('click',function(){
         if(document.getElementById('email').disabled){ //Verifica se o usuário não é admin
-            var valor = document.createElement("input");
-            valor.setAttribute("type", "hidden");
-            valor.setAttribute("name", 'valor');
-            valor.setAttribute("value", document.getElementById('email').value);
-
-            var tipoFiltro = document.createElement("input");
-            tipoFiltro.setAttribute("type", "hidden");
-            tipoFiltro.setAttribute("name", 'filtro');
-            tipoFiltro.setAttribute("value", "email");
-
-            form.appendChild(valor);
-            form.appendChild(tipoFiltro);
-        }else{ // Se for admin
-            var valor = document.createElement("input");
-            valor.setAttribute("type", "hidden");
-            valor.setAttribute("name", 'valor');
-            valor.setAttribute("value", "ADMINISTRADOR");
-
-            var tipoFiltro = document.createElement("input");
-            tipoFiltro.setAttribute("type", "hidden");
-            tipoFiltro.setAttribute("name", 'filtro');
-            tipoFiltro.setAttribute("value", 'tipoUsuario');
-
-            form.appendChild(valor);
-            form.appendChild(tipoFiltro);
+            var email = document.createElement("input");
+            email.setAttribute("type", "hidden");
+            email.setAttribute("name", 'email');
+            email.setAttribute("value", document.getElementById('email').value);
+            form.appendChild(email);
         }
         
         form.submit();        

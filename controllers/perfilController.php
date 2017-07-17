@@ -35,39 +35,37 @@ class perfilController extends mainController{
     */
     private function alterar($novaInfo){
  
-        if(ValidacaoDados::validarForm($novaInfo,array('nome','sobrenome','filtro'))){ // Verifica se o array foi recebido corretamente
+        if(ValidacaoDados::validarForm($novaInfo,array('nome','sobrenome','email'))){ // Verifica se o array foi recebido corretamente
             
             $campos = array("nome"=>$novaInfo['nome'],
                             "sobrenome"=>$novaInfo['sobrenome']);
 
-            $filtro = $novaInfo['filtro'];
-            $valorFiltro = $novaInfo['valor'];
-
-            if(strcmp($filtro,'tipoUsuario')==0){
-                $campos['email'] = $novaInfor['email'];
-            }
+            $filtro = $novaInfo['email'];
             
             if(isset($novaInfo['senhaNova']) && !empty($novaInfo['senhaNova'])){ //Verifica se a senha nova foi escolhida            
-                if($this->checarUsuarioPorFiltro($novaInfo['filtro'],$novaInfo['valor'],GerenciarSenha::criptografarSenha($novaInfo['senhaAtual']))){
+                
+                if($this->checarSenha($filtro,$novaInfo['senhaAtual'])){
                     
                     $senhaNova = GerenciarSenha::criptografarSenha($novaInfo['senhaNova']); //Adiciona a senha nova aos dados a serem atualizados
-                    array_push($campos,$senhaNova);
+                    
+                    $campos["senha"] = $senhaNova; 
 
                     $usuarioDAO = new UsuarioDAO();
-                    $usuarioDAO->alterar($campos,array($filtro=>$valorFiltro)); //Atualiza os dados   
+                    $usuarioDAO->alterar($campos,array("email"=>$filtro)); //Atualiza os dados  
+                    
+                    $_SESSION['nome'] = $novaInfo['nome'];
+                    $_SESSION['sobrenome'] = $novaInfo['sobrenome']; 
                 }else{
                     throw new SenhaIncorretaException();
                 }
             }else{
                 $usuarioDAO = new UsuarioDAO();
-                $usuarioDAO->alterar($campos,array($filtro=>$valorFiltro)); //Atualiza os dados
+                $usuarioDAO->alterar($campos,array("email"=>$filtro)); //Atualiza os dados
+                
+                $_SESSION['nome'] = $novaInfo['nome'];
+                $_SESSION['sobrenome'] = $novaInfo['sobrenome'];
                 
             }
-
-
-            $_SESSION['nome'] = $novaInfo['nome'];
-            $_SESSION['sobrenome'] = $novaInfo['sobrenome'];
-            $_SESSION['email'] = $novaInfo['email'];
 
             $this->redirecionarPagina('home');
         }
@@ -78,9 +76,9 @@ class perfilController extends mainController{
     * Caso a senha esteja correta o método envia um JSON informando o sucesso, caso contrário o JSON informa erro
     */
     public function verificarSenhaAtual(){
-
-        if(isset($_POST['filtro']) && isset($_POST['valor']) && ValidacaoDados::validarForm($_POST,array("senhaAtual"))){
-            if($this->checarSenhaPorFiltro($_POST['filtro'],$_POST['valor'],GerenciarSenha::criptografarSenha($_POST['senhaAtual']))){
+        
+        if(isset($_POST['senhaAtual']) && isset($_POST['email']) && ValidacaoDados::validarForm($_POST,array("email","senhaAtual"))){
+            if($this->checarSenha($_POST['email'],$_POST['senhaAtual'])){
                 echo json_encode(array("success"=>true)); 
             }else{
                 echo json_encode(array("success"=>false));
@@ -93,30 +91,20 @@ class perfilController extends mainController{
     /**
     * Este método verifica se os filtros estão setados corretamente, e se as senhas são consistentes
     * @param $filtro - o tipo do filtro usado na busca do usuário
-    * @param $valorFiltro - o valor do filtro usado na busca
-    * @param $senhaRecebida - a senha recebida (deve estar criptografada)
+    * @param $email - o email do filtro usado na busca
+    * @param $senhaRecebida - a senha recebida 
     */
-    private function checarSenhaPorFiltro($filtro,$valorFiltro,$senhaRecebida){
-        if(strcmp($filtro,'email') == 0){ // Verifica se o filtro é "Email"
-                $usuarioDAO = new UsuarioDAO();
-                $usuarioDAO = $usuarioDAO->buscar(array("senha"),array("email"=>$valorFiltro));
+    private function checarSenha($email,$senhaRecebida){
+        
+        $usuarioDAO = new UsuarioDAO();
+        $usuarioDAO = $usuarioDAO->buscar(array("senha"),array("email"=>$email));
 
-                $senhaArmazenada = $usuarioDAO[0]->getSenha();
-            
-                if(GerenciarSenha::checarSenha($senhaRecebida,$senhaArmazenada)){
-                    return true; 
-                }
-
-        }else if(strcmp($filtro,'tipoUsuario') == 0){//Verifica se o filtro é "tipoUsuario"
-                $usuarioDAO = new UsuarioDAO();
-                $usuarioDAO = $usuarioDAO->buscar(array("senha"),array("tipoUsuario"=>$valorFiltro));
-
-                $senhaArmazenada = $usuarioDAO[0]->getSenha();
-            
-                if(GerenciarSenha::checarSenha($senhaRecebida,$senhaArmazenada)){
-                    return true;
-                }
-        }else{
+        $senhaArmazenada = $usuarioDAO[0]->getSenha();
+    
+        if(GerenciarSenha::checarSenha($senhaRecebida,$senhaArmazenada)){
+            return true; 
+        }
+        else{
             return false;
         }
     }
