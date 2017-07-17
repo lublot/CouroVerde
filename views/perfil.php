@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="email" id="email" class="form-control" <?php if(isset($_SESSION['tipoUsuario']) && strcmp($_SESSION['tipoUsuario'],'ADMINISTRADOR') !=0){echo 'disabled';}?> placeholder="Email" value=<?php if(isset($_SESSION['email'])){echo $_SESSION['email'];}?>>
+                        <input type="email" id="email" class="form-control disabled" disabled placeholder="Email" value=<?php if(isset($_SESSION['email'])){echo $_SESSION['email'];}?>>
                     </div>
 
                     <?php if(!isset($_SESSION['idUsuarioGoogle']) && !isset($_SESSION['idUsuarioFacebook'])){
