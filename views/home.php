@@ -8,15 +8,7 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 		<!-- CSS do materialize resposavel pela aparencia do painel de noticias-->
 		<link rel="stylesheet" type="text/css" href=<?php $this->path('assets/css/materialize.min.css');?>>
-		<link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap.css')?>>
-        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-theme.css')?>>
-        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/estilo.css')?>>
-        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/topo.css')?>>
-        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-social.css')?>>
-        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.css')?>>
-        <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/site.min.css')?>>
-        <script type ="text/javascript" src=<?php $this->path('assets/js/jquery-3.2.1.min.js')?>></script>
-        <script type="text/javascript" src=<?php $this->path('assets/js/bootstrap.js');?>></script>
+		<?php $this->carregarDependencias()?>
 		<!--Fonte do materialize para o painel de noticias-->
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
