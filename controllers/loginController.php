@@ -122,7 +122,7 @@ class loginController extends mainController{
         $usuarioDAO = new UsuarioDAO();
         $usuario = $usuarioDAO->buscar($campos, $filtro);//Recebe o objeto do usuario que vai logar
 
-        if(count($usuario) == 0){ //Verifica se existe usuario
+        if(count($usuario) == 1){ //Verifica se existe usuario
         //Inicia uma sessão e guarda os dados para persistirem ao longo da execução do sistema            
             if($usuario[0]->confirmouCadastro()){
                 if(!isset($_SESSION)){
@@ -132,7 +132,7 @@ class loginController extends mainController{
                 $this->setarSession($usuario[0]);
             }
 
-           return $usuario;
+           return $usuario[0];
 
         } else {
             throw new UsuarioInexistenteException();
@@ -431,7 +431,7 @@ class loginController extends mainController{
         $_SESSION['tipoUsuario'] = $usuario->getTipo();
         $_SESSION['confirmouCadastro'] = $usuario->confirmouCadastro();
 
-        if($usuario.getTipo() == "Funcionario") { //se o usuário for funcionário
+        if($usuario->getTipo() == "Funcionario") { //se o usuário for funcionário
             $funcionarioDAO = new FuncionarioDAO();
             $funcionario = $funcionarioDAO->buscar(array(), array('idUsuario'=>$usuario->getId()));
 
@@ -446,7 +446,7 @@ class loginController extends mainController{
             } else {
                 throw new UsuarioInexistenteException();
             }
-        } else if($usuario.getTipo() == "Administrador") { //se o usuário for o admininistrador
+        } else if($usuario->getTipo() == "Administrador") { //se o usuário for o admininistrador
                 $_SESSION['podeCadastrarObra'] = true;
                 $_SESSION['podeGerenciarObra'] = true;
                 $_SESSION['podeRemoverObra'] = true;

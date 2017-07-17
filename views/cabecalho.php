@@ -23,7 +23,7 @@
                                 <br>
                                 <br>';
                         echo '<ul class="dropdown-menu pull-right">
-                                <li><a href="#">Gerenciar Conta</a></li>
+                                <li><a href="'.ROOT_URL.'perfil">Gerenciar Conta</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="'.ROOT_URL.'login/logout">Sair</a></li>
                               </ul>';
@@ -109,7 +109,7 @@
                                 <br>
                                 <br>';
                         echo '<ul class="dropdown-menu pull-right">
-                                <li><a href="#">Gerenciar Conta</a></li>
+                                <li><a href="'.ROOT_URL.'perfil">Gerenciar Conta</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="'.ROOT_URL.'login/logout">Sair</a></li>
                               </ul>';
