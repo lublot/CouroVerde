@@ -17,7 +17,7 @@
   <body>
 
     <!-- Container principal -->
-    <div id="container">
+    <div id="container" class="container">
       
       <?php $this->carregarCabecalho()?>
           

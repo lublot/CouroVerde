@@ -22,7 +22,7 @@ class ValidacaoDados {
         }
         return true;
     }
-    
+
     
     /**
     * Verifica se determinado campo tem informação.

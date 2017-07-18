@@ -13,6 +13,23 @@ use \exceptions\CampoInvalidoException as CampoInvalidoException;
 
 class PesquisaController extends mainController{
 
+  public function index(){
+  
+  }
+  
+  public function criar(){
+  	$json = $_POST['json'];
+    $dadosRecebidos = json_decode($json,true);
+  
+    var_dump($dadosRecebidos);
+      
+    
+  }
+  
+  /*
+  	"{{"tituloPesquisa":Oi,\"descricaoPesquisa\":Tchau},{"tituloPergunta":Título 1,
+    "tipoPergunta":Aberta,\"obrigatorio\":true,"opcoes":},{\"tituloPergunta\":Título 2,"tipoPergunta":Aberta,\"obrigatorio\":true,"opcoes":}}"
+  */
 }
 
 ?>
