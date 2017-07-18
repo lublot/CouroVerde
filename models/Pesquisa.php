@@ -13,14 +13,16 @@ class Pesquisa {
 
     /**
      * Construtor da classe
-     * @param unknown $idPesquisa - Id da pesquisa     
-     * @param unknown $titulo - Título da pesquisa
-     * @param unknown $estaAtiva - Diz se a pesquisa tá ativa ou não
+     * @param int $idPesquisa - Id da pesquisa     
+     * @param String $titulo - Título da pesquisa
+     * @param boolean $estaAtiva - Diz se a pesquisa tá ativa ou não   
      */
     public function __construct($idPesquisa, $titulo, $estaAtiva) {
         $this->idPesquisa = $idPesquisa;
         $this->titulo = $titulo;
         $this->estaAtiva = $estaAtiva;
+        $this->$perguntas = $perguntas;
+        $this->idUsuariosQueResponderam = $idUsuariosQueResponderam;
     }
 
     /**
@@ -57,10 +59,11 @@ class Pesquisa {
 
     /**
      * Configura a validade da pesquisa.
-     * @param unknown $estaAtiva - Validade da pesquisa
+     * @param boolean $estaAtiva - Validade da pesquisa
      */
     public function setEstaAtiva($estaAtiva){
         $this->estaAtiva = $estaAtiva;
     }
+
 }
 ?>
