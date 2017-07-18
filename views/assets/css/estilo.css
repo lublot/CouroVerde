@@ -230,7 +230,9 @@ a {
     margin-bottom: 5px;
 }
 
-
+.modal-backdrop{
+    z-index:0;
+}
 /* If you don't want the footer to be responsive, remove these media queries */
 
 @media (max-width: 880px) {

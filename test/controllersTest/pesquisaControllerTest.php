@@ -13,6 +13,10 @@ class PesquisaControllerTest extends TestCase {
 
     public function setup(){
         $this->instanciaPesquisa = new pesquisaController();
+
+        //remove todas as pesquisas anteriormente cadastradas antes de realizar o teste
+        $pesquisaDAO = new PesquisaDAO();
+        $pesquisaDAO->remover(array());        
     }
 
     public function testCriarPesquisaComSucesso(){
