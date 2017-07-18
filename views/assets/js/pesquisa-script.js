@@ -191,10 +191,10 @@ window.addEventListener('load',function(){
         var ajax = new XMLHttpRequest();
         var endereco = '/'+window.location.pathname.split('/')[1]+'/pesquisa/criar'; // Varia, depende do objeto a ser removido
 
-
+        console.log(endereco);
         ajax.open("POST",endereco,true);
-        ajax.setRequestHeader('Content-Type', 'application/json');
-        ajax.send('json='+msg);
+        ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        ajax.send('&json='+msg);
 
         ajax.onreadystatechange = function(){
             if (this.readyState == 4 && this.status == 200) {
