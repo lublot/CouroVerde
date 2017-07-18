@@ -20,9 +20,7 @@ class relatorioSistemaController extends mainController{
         $resultado = $relatorioDAO->buscar(array(),array());
 
         return $resultado;
-        
         //echo json_encode($relatorioDAO);
-
     }
 
     /**
@@ -34,9 +32,12 @@ class relatorioSistemaController extends mainController{
                 $relatorioDAO = new RelatorioSistemaDAO();
                 $resultado = $relatorioDAO->buscar(array(),array($_POST['filtro'] => $_POST['valor']));
 
-                echo json_encode($resultado);
+                return $resultado;
+                //echo json_encode($resultado);
             }
-        }catch(Exception $e){}
+        }catch(RelatorioNaoEspecificadoException $e){
+            throw $e;
+        }
     }
 }
 ?>

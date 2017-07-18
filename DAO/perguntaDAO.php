@@ -21,10 +21,7 @@ class PerguntaDAO extends DataBase {
     * Insere uma ou mais perguntas no banco de dados;
     * @param unknown $listaPerguntas - a pergunta deve ser inserida no banco;
     * */
-    public function inserir($listaPerguntas){
-        foreach($listaPerguntas as $atual){
-            
-        }
+    public function inserir($pergunta){  
         $titulo = $pergunta->getTitulo();
         $tipo = $pergunta->getTipo();
         $opcional = $pergunta->getIsOpcional();

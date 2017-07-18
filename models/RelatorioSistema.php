@@ -4,19 +4,28 @@ namespace models;
 
 class RelatorioSistema{
 
+    private $idLogAlteracoes;
     private $autor;
     private $acao;
     private $idAlvo;
     private $tipoAlvo;
     private $horario;
 
-    public function __construct($autor,$acao,$idAlvo,$tipoAlvo){
+    public function __construct($idLogAlteracoes, $autor,$acao,$idAlvo,$tipoAlvo){
+        $this->idLogAlteracoes = $idLogAlteracoes;
         $this->autor = $autor;
         $this->acao = $acao;
         $this->idAlvo = $idAlvo;
         $this->tipoAlvo = $tipoAlvo;
         date_default_timezone_set("America/Bahia");
         $this->horario = date('Y-m-d H:i:s');
+    }
+
+   /**
+    * Obtém o id do relatorio
+    */
+    public function getIdLogAlteracoes(){
+        return $this->idLogAlteracoes;
     }
 
     /**
