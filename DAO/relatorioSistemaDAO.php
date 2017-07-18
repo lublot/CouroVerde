@@ -21,7 +21,7 @@ class relatorioSistemaDAO extends Database{
         $tipoAlvo = $relatorio->getTipoAlvo();
         $horario = $relatorio->getHorario();
 
-        $query = "INSERT INTO logalteracoes(idLogAlteracoes, idFuncionario, idItemAlterado, tipoItemAlterado, descricao, dataHora) VALUES (null, '$idAutor', '$idAlvo', '$tipoAlvo', '$acao', $horario)";
+        $query = "INSERT INTO logalteracoes(idLogAlteracoes, idFuncionario, idItemAlterado, tipoItemAlterado, descricao, dataHora) VALUES (null, '$idAutor', '$idAlvo', '$tipoAlvo', '$acao', '$horario')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -91,7 +91,7 @@ class relatorioSistemaDAO extends Database{
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)." FROM logaIteracoes";
+        $query .= implode(',',$campos)." FROM logalteracoes";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";

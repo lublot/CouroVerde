@@ -23,8 +23,8 @@ class relatorioSistemaControllerTest extends TestCase {
     public function testListarTodosRelatoriosComSucesso(){
         //$this->instancia->configurarAmbienteParaTeste();
     
-        $_SESSION['id'] = "1";
-        $idAutor = $_SESSION['id'];
+        $_SESSION['matricula'] = "1";
+        $idAutor = $_SESSION['matricula'];
 
         $pesquisa = new Pesquisa(null, "Couro Vermelho", "1");
         $pesquisaDAO = new PesquisaDAO();
@@ -33,15 +33,11 @@ class relatorioSistemaControllerTest extends TestCase {
         $idAlvo = $pesquisaEncontrada[0]->getIdPesquisa();
 
         $relatorioSistema = new RelatorioSistema($idAutor, "Cadastrar pesquisa", $idAlvo, "OBRA");
-        var_dump($relatorioSistema);
         $relatorioSistemaDAO = new RelatorioSistemaDAO();
         $relatorioSistemaDAO->inserir($relatorioSistema);
-        /*$relatorios = $this->instancia->listarTodosRelatorios();
+        $relatorios = $this->instancia->listarTodosRelatorios();
 
-        $this->assertEquals("Diego", $relatorios[0]->getAutor());
-        $this->assertEquals("Cadastrar pesquisa", $relatorios[0]->getAcao());
-        $this->assertEquals("21", $relatorios[0]->getIdAlvo());
-        $this->assertEquals("Pesquisa", $relatorios[0]->getTipoAlvo());*/
+        $this->assertEquals(1, count($relatorios));
     }
 }
 
