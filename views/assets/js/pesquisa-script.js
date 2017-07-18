@@ -189,12 +189,12 @@ window.addEventListener('load',function(){
         var msg = prepararJSON();
 
         var ajax = new XMLHttpRequest();
-        var endereco = '/'+window.location.pathname.split('/')[1]+'/perfil/verificarSenhaAtual'; // Varia, depende do objeto a ser removido
+        var endereco = '/'+window.location.pathname.split('/')[1]+'/pesquisa/criar'; // Varia, depende do objeto a ser removido
 
 
         ajax.open("POST",endereco,true);
         ajax.setRequestHeader('Content-Type', 'application/json');
-        ajax.send(msg);
+        ajax.send('json='+msg);
 
         ajax.onreadystatechange = function(){
             if (this.readyState == 4 && this.status == 200) {
@@ -211,14 +211,14 @@ window.addEventListener('load',function(){
         var tituloPesquisa = document.getElementsByName('tituloPesquisa')[0].value;
         var descricaoPesquisa = document.getElementsByName('descricaoPesquisa')[0].value;
         
-        JSONCompleto += '["tituloPesquisa":'+tituloPesquisa+',"descricaoPesquisa":'+descricaoPesquisa+']';
+        JSONCompleto += '"tituloPesquisa":"'+tituloPesquisa+'","descricaoPesquisa":"'+descricaoPesquisa+'"';
         
         var listaPerguntas = document.getElementsByName('Pergunta');
         for(var i=0;i<listaPerguntas.length;i++){
             var tipoPergunta = listaPerguntas[i].getAttribute('tipo');
             var pergunta;
             var obrigatorio = listaPerguntas[i].getAttribute('obrigatorio');
-            var tituloPergunta = listaPerguntas[i].childNodes[0].innerText;
+            var tituloPergunta = listaPerguntas[i].childNodes[0].value;
 
             if(obrigatorio == null){
                 obrigatorio = "false";
@@ -227,20 +227,19 @@ window.addEventListener('load',function(){
             let opcoes = listaPerguntas[i].querySelectorAll('.opcao');
             
             for(var j=0; j < opcoes.length;j++){
-                tituloOpcoes.push(opcoes[j].childNodes[0].value);
+                tituloOpcoes.push('"'+opcoes[j].childNodes[0].value+'"');
             }
-
+            var chave = "Pergunta"+i;
             if(tipoPergunta != 'Aberta'){
-                pergunta = ',["tituloPergunta":'+tituloPergunta+',"tipoPergunta":'+tipoPergunta+',"obrigatorio":'+obrigatorio+',"opcoes":'+tituloOpcoes+']';
+                pergunta = ',"'+chave+'":[{"tituloPergunta":"'+tituloPergunta+'","tipoPergunta":"'+tipoPergunta+'","obrigatorio":"'+obrigatorio+'","opcoes":['+tituloOpcoes+']}]';
             }else{
-                pergunta = ',["tituloPergunta":'+tituloPergunta+',"tipoPergunta":'+tipoPergunta+',"obrigatorio":'+obrigatorio+']';
-
+                pergunta = ',"'+chave+'":[{"tituloPergunta":"'+tituloPergunta+'","tipoPergunta":"'+tipoPergunta+'","obrigatorio":"'+obrigatorio+'"}]';
             }
             JSONCompleto += pergunta; 
         }
         JSONCompleto += '}';
-        console.log(JSON.stringify(JSONCompleto));
-        return JSON.stringify(JSONCompleto);
+        
+        return JSONCompleto;
     }
 
 
@@ -251,7 +250,6 @@ window.addEventListener('load',function(){
         var listaPerguntas = document.getElementsByName('Pergunta');
         var botaoEnvio = document.getElementById('botaoEnvio');
         let opcoes = document.querySelectorAll('.opcao');
-            console.log("ata");
         if(!campoVazio(tituloPesquisa) && !campoVazio(descricaoPesquisa)){
             if(listaPerguntas.length > 0){
                 botaoEnvio.removeAttribute('disabled');
