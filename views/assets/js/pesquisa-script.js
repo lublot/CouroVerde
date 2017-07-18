@@ -56,14 +56,18 @@ window.addEventListener('load',function(){
     }
 
     function configuraPergunta(){
-        var pergunta = document.createElement('span');
-        var titulo = document.createTextNode('Insira aqui o título da pergunta');
+        var pergunta = document.createElement('input');
+        
         var isEditable = document.createAttribute('contenteditable');
         isEditable.value = true;
 
-        pergunta.appendChild(titulo);
         pergunta.setAttributeNode(isEditable);
         pergunta.style.fontWeight = 'bold';
+        pergunta.style.borderRight = "none";
+        pergunta.style.borderTop = "none";
+        pergunta.style.borderLeft = "none";
+        pergunta.placeholder = "Insira a opção aqui";
+        pergunta.style.marginTop = "4px";
 
         return pergunta;
     }
@@ -247,10 +251,12 @@ window.addEventListener('load',function(){
         var listaPerguntas = document.getElementsByName('Pergunta');
         var botaoEnvio = document.getElementById('botaoEnvio');
         let opcoes = document.querySelectorAll('.opcao');
-        
+            console.log("ata");
         if(!campoVazio(tituloPesquisa) && !campoVazio(descricaoPesquisa)){
             if(listaPerguntas.length > 0){
                 botaoEnvio.removeAttribute('disabled');
+            }else{
+                botaoEnvio.setAttribute('disabled',true);
             }
         }
         
