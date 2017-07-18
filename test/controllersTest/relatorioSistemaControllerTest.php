@@ -73,6 +73,7 @@ class relatorioSistemaControllerTest extends TestCase {
         $relatorioSistema = new RelatorioSistema(null, $idAutor, "Cadastrar pesquisa", $idAlvo, "OBRA");
         $relatorioSistemaDAO = new RelatorioSistemaDAO();
         $relatorioSistemaDAO->inserir($relatorioSistema);
+        $this->instancia->configuraAmbienteParaTeste("", "");
         $relatorios = $this->instancia->listarRelatoriosEspecificos();
         
         $this->assertEquals(0, count($relatorios));
