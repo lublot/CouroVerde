@@ -186,8 +186,7 @@ window.addEventListener('load',function(){
 
         var ajax = new XMLHttpRequest();
         var endereco = '/'+window.location.pathname.split('/')[1]+'/perfil/verificarSenhaAtual'; // Varia, depende do objeto a ser removido
-        var senhaAtual = document.getElementById('senhaAtual').value;
-        var email = document.getElementById('email').value;
+
 
         ajax.open("POST",endereco,true);
         ajax.setRequestHeader('Content-Type', 'application/json');
@@ -208,7 +207,7 @@ window.addEventListener('load',function(){
         var tituloPesquisa = document.getElementsByName('tituloPesquisa')[0].value;
         var descricaoPesquisa = document.getElementsByName('descricaoPesquisa')[0].value;
         
-        JSONCompleto += '{"tituloPesquisa":'+tituloPesquisa+',"descricaoPesquisa":'+descricaoPesquisa+'}';
+        JSONCompleto += '["tituloPesquisa":'+tituloPesquisa+',"descricaoPesquisa":'+descricaoPesquisa+']';
         
         var listaPerguntas = document.getElementsByName('Pergunta');
         for(var i=0;i<listaPerguntas.length;i++){
@@ -227,10 +226,37 @@ window.addEventListener('load',function(){
                 tituloOpcoes.push(opcoes[j].childNodes[0].value);
             }
 
-            pergunta = ',{"tituloPergunta":'+tituloPergunta+',"tipoPergunta":'+tipoPergunta+',"obrigatorio":'+obrigatorio+',"opcoes":'+tituloOpcoes+'}';
+            if(tipoPergunta != 'Aberta'){
+                pergunta = ',["tituloPergunta":'+tituloPergunta+',"tipoPergunta":'+tipoPergunta+',"obrigatorio":'+obrigatorio+',"opcoes":'+tituloOpcoes+']';
+            }else{
+                pergunta = ',["tituloPergunta":'+tituloPergunta+',"tipoPergunta":'+tipoPergunta+',"obrigatorio":'+obrigatorio+']';
+
+            }
             JSONCompleto += pergunta; 
         }
         JSONCompleto += '}';
+        console.log(JSON.stringify(JSONCompleto));
         return JSON.stringify(JSONCompleto);
+    }
+
+
+    var form = document.getElementById('principal');
+    form.addEventListener('click',function(){
+        var tituloPesquisa = document.getElementsByName('tituloPesquisa')[0].value;
+        var descricaoPesquisa = document.getElementsByName('descricaoPesquisa')[0].value;
+        var listaPerguntas = document.getElementsByName('Pergunta');
+        var botaoEnvio = document.getElementById('botaoEnvio');
+        let opcoes = document.querySelectorAll('.opcao');
+        
+        if(!campoVazio(tituloPesquisa) && !campoVazio(descricaoPesquisa)){
+            if(listaPerguntas.length > 0){
+                botaoEnvio.removeAttribute('disabled');
+            }
+        }
+        
+    });
+
+    function campoVazio(texto){
+        return texto.replace(/\s/g, "").length == 0;
     }
 });
