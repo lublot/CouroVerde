@@ -1,20 +1,28 @@
 <?php
+namespace controllers;
 
+require_once dirname(__DIR__).'/vendor/autoload.php';
+
+use \DAO\RelatorioSistemaDAO as RelatorioSistemaDAO;
 
 class relatorioSistemaController extends mainController{
 
-    public function configuraAmbienteParaTeste() {
-
+    public function configuraAmbienteParaTeste($filtro, $valor) {
+        $_POST['filtro'] = $filtro;
+        $_POST['valor'] = $valor;
     }
 
     /**
     * Este método oferece todos os relatorios do sistema;
     */
     public function listarTodosRelatorios(){
-        $relatorioDAO = new RelatorioDAO();
-        $relatorioDAO = $relatorioDAO->buscar(array(),array());
+        $relatorioDAO = new RelatorioSistemaDAO();
+        $resultado = $relatorioDAO->buscar(array(),array());
+
+        return $resultado;
         
-        echo json_encode($relatorioDAO);
+        //echo json_encode($relatorioDAO);
+
     }
 
     /**
@@ -23,10 +31,10 @@ class relatorioSistemaController extends mainController{
     public function listarRelatoriosEspecificos(){
         try{
             if(isset($_POST['filtro']) && isset($_POST['valor'])){
-                $relatorioDAO = new RelatorioDAO();
-                $relatorioDAO = $relatorioDAO->buscar(array(),array($_POST['filtro'] => $_POST['valor']));
+                $relatorioDAO = new RelatorioSistemaDAO();
+                $resultado = $relatorioDAO->buscar(array(),array($_POST['filtro'] => $_POST['valor']));
 
-                echo json_encode($relatorioDAO);
+                echo json_encode($resultado);
             }
         }catch(Exception $e){}
     }

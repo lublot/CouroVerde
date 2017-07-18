@@ -40,7 +40,7 @@
                 <div class="flex">
                   <span class="item-cabecalho">
                       <i class="fa fa-home" aria-hidden="true"></i>
-                      <a href=<?php echo ROOT_URL.'home'?>> Home</a>
+                      <a href=<?php echo ROOT_URL?>> Home</a>
                   </span>
 
                   <span class="item-cabecalho">
@@ -73,7 +73,7 @@
               <div class="flex">
                   <span class="item-cabecalho">
                       <i class="fa fa-home" aria-hidden="true"></i>
-                      <a href="<?php echo ROOT_URL.'home'?>"> Home</a>
+                      <a href="<?php echo ROOT_URL ?>"> Home</a>
                   </span>
 
                   <span class="item-cabecalho">

@@ -51,7 +51,7 @@ class RelatorioSistema{
     * Obtém o id do objeto alvo da ação
     */
     public function getIdAlvo(){
-        return $this->alvo;
+        return $this->idAlvo;
     }
 
     /**

@@ -2,9 +2,12 @@
 namespace DAO;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
-use \DAO\Database as a;
 use \models\RelatorioSistema as RelatorioSistema;
+use \DAO\Database as Database;
 
+if(!isset($_SESSION)){
+    session_start();
+}
 class relatorioSistemaDAO extends Database{
 
     /**
@@ -12,15 +15,13 @@ class relatorioSistemaDAO extends Database{
     * @param unknown $relatorio - o relatorio a ser inserido no banco;
     * */
     public function inserir($relatorio){
-        
-        $autor = $relatorio->getAutor();
+        $idAutor = $relatorio->getAutor();
         $acao = $relatorio->getAcao();
         $idAlvo = $relatorio->getIdAlvo();
         $tipoAlvo = $relatorio->getTipoAlvo();
         $horario = $relatorio->getHorario();
 
-        $query = "INSERT INTO logalteracoes(idLogAlteracoes, idFuncionario, idItemAlterado, tipoItemAlterado, descricao, dataHora) VALUES (null, '$autor', '$idAlvo', '$tipoAlvo', '$acao','$horario')";
-
+        $query = "INSERT INTO logalteracoes(idLogAlteracoes, idFuncionario, idItemAlterado, tipoItemAlterado, descricao, dataHora) VALUES (null, '$idAutor', '$idAlvo', '$tipoAlvo', '$acao', '$horario')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -34,7 +35,7 @@ class relatorioSistemaDAO extends Database{
     * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idRelatorio"=>5);
     * */
     public function alterar($dados,$filtros){
-        $query = "UPDATE relatorio SET ";
+        $query = "UPDATE logaIteracoes SET ";
 
         foreach($dados as $chave=>$valor){
             $query .= $chave.'='."'$valor',";
@@ -62,7 +63,7 @@ class relatorioSistemaDAO extends Database{
     * @param unknown $filtros - um array contendo os filtros usados na identificação do relatório. Ex: array("idRelatorio"=>5);
     * */
     public function remover($filtros){
-        $query = "DELETE FROM relatorio WHERE ";
+        $query = "DELETE FROM logaIteracoes WHERE ";
 
         if(count($filtros) > 0){
             $aux = array();
@@ -90,7 +91,7 @@ class relatorioSistemaDAO extends Database{
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)." FROM relatorio";
+        $query .= implode(',',$campos)." FROM logalteracoes";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
