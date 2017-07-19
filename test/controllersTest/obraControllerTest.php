@@ -52,6 +52,9 @@ class obraControllerTest extends TestCase {
 
         $obraDAO = new obraDAO();
         $obra = $obraDAO->buscar(array(),array("nome"=> "Obra 1"));
+        $obra->getNome().strcmp('Obra 1');
+        
+
 
         $numInventario = $obra[0]->getNumInventario();
         $this->assertEquals(1,count($obra));
