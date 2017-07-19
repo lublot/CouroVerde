@@ -9,6 +9,8 @@ function atualizarTextoBotao() {
     if (pagAtual == pagMax) {
         //Atualiza o texto do botão direito para "Confirmar"
         $("#btn-confirmar").html('Confirmar');
+        //Altera o botão para o tipo submit, que serve para finalizar o form
+        document.getElementById('btn-confimar').setAttribute('type', 'submit');
     }
     //Caso contrário
     else {
@@ -24,6 +26,8 @@ function atualizarTextoBotao() {
     else {
         //Deixa o texto "Cancelar"
         $("#btn-cancelar").html('Cancelar');
+        //Altera o botão para o tipo reset, que serve para cancelar o form
+        document.getElementById('btn-cancelar').setAttribute('type', 'reset');
     }
 }
 
@@ -40,6 +44,11 @@ function avancarPag() {
         pagAtual++;
         // String para concatenar o ID da página do HTML com a variável que armazena a próxima página
         var pageNew = "#page_" + pagAtual;
+        //Caso esteja na última página e fotografia tenha sido selecionada como classificação
+        if (pagAtual == 5 && document.getElementById('select-classificacao').value == "FOTOGRAFIA") {
+            //Exibe a página especial de fotografias (Documentação Fotográfica)
+            $("#page_6").fadeIn(750);
+        }
         // Atualiza a visualização da próxima tela para exibir com um Fade In
         $(pageNew).fadeIn(750);
     }
@@ -119,4 +128,5 @@ function cadastroClassificacao() {
             alert("Cadastro efetuado com sucesso!");
         }
     }
+
 }
