@@ -61,7 +61,7 @@ class usuarioAcessoDAO extends Database {
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)."FROM usuarioacessoobra";
+        $query .= implode(',',$campos)." FROM usuarioacessoobra";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -73,7 +73,6 @@ class usuarioAcessoDAO extends Database {
             
             $query .= implode(" AND ",$aux);
         }
-
         
         $result = $this->PDO->query($query);
 
@@ -107,12 +106,17 @@ class usuarioAcessoDAO extends Database {
                 }
 
                 if($item["COUNT(numeroInventario)"] == $numMaxVisitas) {
-                    $resultados[] = new RegistroVisitasObra($item["numeroInvenatio"], $item["COUNT(numeroInventario)"]);
+                    $resultados[] = new RegistroVisitasObra($item["numeroInventario"], $item["COUNT(numeroInventario)"]);
                 }
             }   
         }
+
+        if(!isset($resultados)) {
+            $resultados = array();
+        }
         
-        return $resultado;
+        
+        return $resultados;
     }
     /**
     * Obtém os registros das obras menos visitadas.
@@ -133,12 +137,16 @@ class usuarioAcessoDAO extends Database {
                 }
 
                 if($item["COUNT(numeroInventario)"] == $numMaxVisitas) {
-                    $resultados[] = new RegistroVisitasObra($item["numeroInvenatio"], $item["COUNT(numeroInventario)"]);
+                    $resultados[] = new RegistroVisitasObra($item["numeroInventario"], $item["COUNT(numeroInventario)"]);
                 }
             }   
         }
+
+        if(!isset($resultados)) {
+            $resultados = array();
+        }        
         
-        return $resultado;
+        return $resultados;
     }
 
 }

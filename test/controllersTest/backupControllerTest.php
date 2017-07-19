@@ -5,6 +5,9 @@ use \PHPUnit\Framework\TestCase;
 use \DAO\backupDAO as backupDAO;
 use \controllers\backupController as backupController;
 use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
+use \exceptions\BackupInexistenteException as BackupInexistenteException;
+use \exceptions\FormatoDataIncorretoException as FormatoDataIncorretoException;
+use \exceptions\FormatoHoraIncorretoException as FormatoHoraIncorretoException;
 use \models\Backup as Backup;
 
 class backupControllerTest extends TestCase {
@@ -52,8 +55,68 @@ class backupControllerTest extends TestCase {
         $backup = $backupsObtidos[0];
 
         $this->instancia->listarTodosBackups();
+    }
+
+    /**
+     * Testa a listagem vazia de backups.      
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testListaBackupsVazio() {
+         $this->expectException(BackupInexistenteException::class); //exceção esperada    
+         $this->listarTodosBackups();
     }    
 
+    /**
+     * Testa a busca de backup com formato incorreto da data.      
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testBuscarBackupDataFormatoIncorreto() {
+        $_POST['data'] = "27062017";
+        $_POST['hora'] = "18:00:00";
 
+        $this->expectException(FormatoDataIncorretoException::class); //exceção esperada 
+        $this->listarBackups();
+    }
+
+    /**
+     * Testa a busca de backup com formato incorreto da hora.      
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testBuscarBackupHoraFormatoIncorreto() {
+        $_POST['data'] = "27/06/2017";
+        $_POST['hora'] = "180000";
+
+        $this->expectException(FormatoHoraIncorretoException::class); //exceção esperada 
+        $this->listarBackups();
+    }
+
+    /**
+     * Testa a busca de backup inexistente.      
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testBuscarBackupInexistente() {
+        $_POST['data'] = "27/06/2017";
+        $_POST['hora'] = "18:00:00";
+
+        $this->expectException(BackupInexistenteException::class); //exceção esperada 
+        $this->listarBackups();
+    }
+
+    /**
+     * Testa a busca de backup com informações corrompidas.      
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testBuscaComDadosCorrompidos() {
+        $_POST['data'] = null;
+        $_POST['hora'] = null;
+        
+        $this->expectException(DadosCorrompidosException::class); //exceção esperada 
+        $this->listarBackups();
+    }
 
 }
