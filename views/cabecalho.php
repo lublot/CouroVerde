@@ -7,7 +7,7 @@
       <div class="row">
           <div class="col-md-1 col-sm-1"></div>
           <div class="col-xs-12 col-md-11">
-              <h2><i class="fa fa-bars"></i> Sertour</h2> 
+                <img src=<?php $this->path('assets/images/header-logo.jpg')?>  class="img-responsive" id="header-logo" style="height: 61; margin-top:10;">
           </div>
 
       </div>
