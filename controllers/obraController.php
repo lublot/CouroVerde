@@ -335,6 +335,8 @@ class obraController extends mainController {
                     $obraDAO = new obraDAO();
                     $obraDAO->alterar($campos, array('numeroInventario'=>$numeroInventario)); //atualiza os dados no banco
                 }
+            }else{
+                throw new PermissaoNaoConcedidaException();
             }
         }
 
