@@ -315,24 +315,29 @@ class obraController extends mainController {
          'diametro', 'peso', 'comprimento', 'materiais', 'tecnicas', 'autoria', 'marcas',
          'historico', 'modoAquisicao', 'dataAquisicao', 'autor', 'observacoes', 'estado');
 
+        if(isset($_SESSION['podeGerenciarObra'])){ //verifica se a variavel sessão possui podeCadastrarObra setada
+            if($_SESSION['podeGerenciarObra']){ //verfica se o funcionario pode gerenciar obra
+                
+                if (isset($_POST["submit"]) && isset($_POST['numeroInventario'])){
+                    $numeroInventario = addslashes($_POST['numeroInventario']);
+                    $campos; //array para receber campos alterados
 
-        if (isset($_POST["submit"]) && isset($_POST['numeroInventario'])){
-            $numeroInventario = addslashes($_POST['numeroInventario']);
-            $campos; //array para receber campos alterados
+                    foreach($nomeCampos as $value){ //percorre o nome dos campos
+                        if(isset($_POST[$value])){ //verifica se o campo foi modificado
+                            if(!ValidacaoDados::validarCampo($_POST[$value])) { //verifica se o campo está válido
+                                throw new CampoInvalidoException($value);
+                            }
 
-            foreach($nomeCampos as $value){ //percorre o nome dos campos
-                if(isset($_POST[$value])){ //verifica se o campo foi modificado
-                    if(!ValidacaoDados::validarCampo($_POST[$value])) { //verifica se o campo está válido
-                        throw new CampoInvalidoException($value);
+                            $campos [$value] = addslashes($_POST[$value]); //recebe o campo
+                        }
                     }
 
-                    $campos [$value] = addslashes($_POST[$value]); //recebe o campo
+                    $obraDAO = new obraDAO();
+                    $obraDAO->alterar($campos, array('numeroInventario'=>$numeroInventario)); //atualiza os dados no banco
                 }
             }
-
-            $obraDAO = new obraDAO();
-            $obraDAO->alterar($campos, array('numeroInventario'=>$numeroInventario));
         }
+
     }
 
     /**
