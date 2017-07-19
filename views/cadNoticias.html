@@ -23,66 +23,92 @@
     <!--Importação do Javascript pessoal e jQuery  -->
     <script src="assets/js/jquery-3.2.1.min.js"></script>
     <script src="assets/js/cadObras-script.js"></script>
+    <script type="text/javascript" src="assets/js/validator.js"></script>
+
 
 </head>
 
 <body style="background-color: rgb(241, 242, 246);">
 
+    <!-- Container  -->
     <div class="container">
 
+        <!-- Div cadastro-noticias -->
         <div id='cadastro-noticias'>
+
             <!--Título da caixa-->
             <div id="titulo">
                 <h4 class="text-center">Registro de Notícias</h4>
             </div>
             <!--Fim do título da caixa-->
 
+            <!-- Contorno -->
             <div id="contorno">
 
+                <!-- Caixa interna -->
                 <section id="caixa">
 
-
+                    <!-- Formulário de cadastro de notícias -->
                     <form data-toggle="validator" role="form" class="form-horizontal">
+
+                        <!-- Subtítulo -->
                         <div class="form-group">
                             <h5 class="text-center">Informações</h5>
                         </div>
 
+                        <!-- Upload da imagem -->
                         <div class="form-group">
                             <div class="form-control " id="caixa-img">
                                 <button class="pull-right btn btn-default">UPLOAD</button>
                             </div>
                         </div>
 
+                        <!-- Linha com duas entradas -->
                         <div class="form-group row">
+
+                            <!-- Entrada do título -->
                             <div class="col-xs-6">
-                                <input class="form-control" type="text" placeholder="Título(*)">
+                                <input class="form-control" type="text" placeholder="Título(*)" id="inputName" data-error="Preencha este campo" required>
                             </div>
 
+                            <!-- Entrada do subtítulo -->
                             <div class="col-xs-6">
                                 <input class="form-control" type="text" placeholder="Subtitulo">
                             </div>
+
+                            <!-- Fim Linha com duas entradas -->
                         </div>
 
+                        <!-- TextArea com entrada da descrição -->
                         <div class="form-group ">
-                            <textarea class="form-control" placeholder="Descrição(*)" type="text" rows="5" id="comment"></textarea>
+                            <textarea class="form-control" placeholder="Descrição(*)" type="text" rows="5" id="comment" required></textarea>
                         </div>
 
+                        <h6>(*) Campos obrigatórios</h6>
 
+                        <!-- Linha com botões -->
                         <div class="form-group row modal-footer">
+
+                            <!-- Botão cancelar -->
                             <button class="pull-rigth btn btn-default">CANCELAR</button>
-                            <button class="pull-rigth btn btn-default">CADASTRAR</button>
+
+                            <!-- Botão cadastrar -->
+                            <button type="submit" class="pull-rigth btn btn-default">CADASTRAR</button>
                         </div>
 
-
+                        <!-- Fim do Formulário de cadastro de notícias  -->
                     </form>
-                    <!-- Fim da div contorno-->
 
+                    <!-- Fim da Caixa interna -->
                 </section>
+
+                <!-- Fim do contorno -->
             </div>
 
-
+            <!-- Fim Div cadastro-noticias -->
         </div>
 
+        <!-- Fim do container  -->
     </div>
 
     <!-- Footer -->
