@@ -41,4 +41,20 @@ class obraControllerTest extends TestCase {
         $this->assertEquals(1,count($obra));
     }
 
+    /**
+    *Testa o cadastro de uma obra com sucesso
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled 
+    */
+    public function testCadastrarObraSucesso(){
+        $this->instancia->configurarAmbienteParaTeste(0, 'Obra 1','Couro 1', 'Função', 'Origem', 'Procedência', 'Descrição', 0, 0, 'Altura', 'Largura', 'Diâmetro', '10 quilos', '1 metro', 'Materiais', 'Técnicas', 'Autoria', 'Marcas', 'Histórico', 'Modo de Aquisição', 'Data de Aquisição', 'Autor', 'Observações', 'Estado');
+        $this->instancia->cadastrarObra();
+
+        $obraDAO = new obraDAO();
+        $obra = $obraDAO->buscar(array(),array("nome"=> "Obra 1"));
+
+        $numInventario = $obra[0]->getNumInventario();
+        $this->assertEquals(1,count($obra));
+    }
+
 }
