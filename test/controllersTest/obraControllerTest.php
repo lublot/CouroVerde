@@ -60,4 +60,47 @@ class obraControllerTest extends TestCase {
         $this->assertEquals(1,count($obra));
     }
 
+     /**
+    * Testa a edição do id da coleção de uma obra com sucesso;
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
+    */
+    public function testEditarIdColecaoOraSucesso(){
+        $this->instancia->configurarAmbienteParaTeste(0, 'Obra 1','Couro 1', 'Função', 'Origem', 'Procedência', 'Descrição', 0, 0, 'Altura', 'Largura', 'Diâmetro', '10 quilos', '1 metro', 'Materiais', 'Técnicas', 'Autoria', 'Marcas', 'Histórico', 'Modo de Aquisição', 'Data de Aquisição', 'Autor', 'Observações', 'Estado');
+        $this->instancia->cadastrarObra();
+
+        $obraDAO = new obraDAO();
+        $obra = $obraDAO->buscar(array(),array("nome"=> "Obra 1"));
+        $numInventario = $obra[0]->getNumInventario();
+        $this->assertEquals(1,count($obra));
+
+        $novaColecao = 5;
+        $this->instancia->configurarAmbienteParaTeste($numInventario ,$novoNome,'Couro 1', 'Função', 'Origem', 'Procedência', 'Descrição', $novaColecao, 0, 'Altura', 'Largura', 'Diâmetro', '10 quilos', '1 metro', 'Materiais', 'Técnicas', 'Autoria', 'Marcas', 'Histórico', 'Modo de Aquisição', 'Data de Aquisição', 'Autor', 'Observações', 'Estado');
+        $this->instancia->gerenciarObra();
+        $obra = $obraDAO->buscar(array(),array("idColecao"=>$novaColecao));
+        $this->assertEquals(1,count($obra));
+    }
+
+    /**
+    * Testa a remoção de uma obra com sucesso
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled    
+    */
+    public function testRemocaoComSucesso(){
+        $this->instancia->configurarAmbienteParaTeste(0, 'Obra 1','Couro 1', 'Função', 'Origem', 'Procedência', 'Descrição', 0, 0, 'Altura', 'Largura', 'Diâmetro', '10 quilos', '1 metro', 'Materiais', 'Técnicas', 'Autoria', 'Marcas', 'Histórico', 'Modo de Aquisição', 'Data de Aquisição', 'Autor', 'Observações', 'Estado');
+        $this->instancia->cadastrarObra();
+
+        $obraDAO = new obraDAO();
+        $obra = $obraDAO->buscar(array(),array("nome"=> "Obra 1"));
+        $numInventario = $obra[0]->getNumInventario();
+        $this->assertEquals(1,count($obra));
+
+        $novoNome = 'Obra Nova';
+        $this->instancia->configurarAmbienteParaTeste($numInventario ,$novoNome,'Couro 1', 'Função', 'Origem', 'Procedência', 'Descrição', 0, 0, 'Altura', 'Largura', 'Diâmetro', '10 quilos', '1 metro', 'Materiais', 'Técnicas', 'Autoria', 'Marcas', 'Histórico', 'Modo de Aquisição', 'Data de Aquisição', 'Autor', 'Observações', 'Estado');
+        $this->instancia->removerObra();
+
+        $obra = $obraDAO->buscar(array(),array("nome"=> "Obra Nova"));
+        $this->assertEquals(0,count($obra));
+    }
+
 }
