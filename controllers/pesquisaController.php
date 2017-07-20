@@ -137,9 +137,15 @@ class pesquisaController extends mainController{
   }// Fim método
 
   public function listarTodasPesquisas(){
-    $pesquisaDAO = new PesquisaDAO();
-    $pesquisaDAO = $pesquisaDAO->buscar(array(),array());
 
+    $pesquisaDAO = new PesquisaDAO();
+
+    if(ValidacaoDados::validarForm($_POST,array("titulo"))){
+      $pesquisaDAO = $pesquisaDAO->buscarLike(array(),array("titulo"=>$_POST['titulo']));
+    }else{
+      $pesquisaDAO = $pesquisaDAO->buscar(array(),array());
+    }
+   
     $pesquisas = array();
     foreach($pesquisaDAO as $pesquisa){
       $pesquisaAtual;

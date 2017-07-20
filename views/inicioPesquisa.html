@@ -19,20 +19,27 @@
         <!--Importação do Javascript pessoal e jQuery  -->
         <script src="assets/js/jquery-3.2.1.min.js"></script>
         <script src="assets/js/bootstrap.js"></script>
-        <script src="assets/js/pesquisa-script.js"></script>
+        <script src="assets/js/inicioPesquisa-script.js"></script>
     </head>
 
     <body>
         
-        <div class="col-sm-4"></div>
-        <div class="col-sm-6">
-
-            <div class="col-sm-12">
+        <div class="container">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-6">
+                <div class="search-only form-search">
+                    <i class="search-icon fa fa-search"></i>
+                    <input type="text" id="campoBusca" class="form-control search-query" placeholder="Buscar Pesquisa de Satisfação">
+                </div>
+                <br>
+                <h3>Listando Resultados</h3>
+                <hr>
+                
+                <div id="resposta"></div>
+            </div>
                 
             </div>
-
+            <div class="col-sm-2"></div>
         </div>
-        <div class="col-sm-2"></div>
-
     </body>
 </html>
