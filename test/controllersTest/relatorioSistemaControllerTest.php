@@ -23,7 +23,7 @@ class relatorioSistemaControllerTest extends TestCase {
     public function testListarTodosRelatoriosComSucesso(){
         //$this->instancia->configurarAmbienteParaTeste();
     
-        $_SESSION['matricula'] = "1";
+        $_SESSION['matricula'] = "15111215";
         $idAutor = $_SESSION['matricula'];
 
         $pesquisa = new Pesquisa(null, "Couro Vermelho", "1");
@@ -32,12 +32,51 @@ class relatorioSistemaControllerTest extends TestCase {
         $pesquisaEncontrada = $pesquisaDAO->buscar(array("idPesquisa"), array("titulo" => "Couro Vermelho"));
         $idAlvo = $pesquisaEncontrada[0]->getIdPesquisa();
 
-        $relatorioSistema = new RelatorioSistema($idAutor, "Cadastrar pesquisa", $idAlvo, "OBRA");
+        $relatorioSistema = new RelatorioSistema(null, $idAutor, "Cadastrar pesquisa", $idAlvo, "OBRA");
         $relatorioSistemaDAO = new RelatorioSistemaDAO();
         $relatorioSistemaDAO->inserir($relatorioSistema);
         $relatorios = $this->instancia->listarTodosRelatorios();
 
         $this->assertEquals(1, count($relatorios));
+    }
+
+    public function testlistarRelatoriosEspecificosComSucesso(){    
+        $_SESSION['matricula'] = 15111215;
+        $idAutor = $_SESSION['matricula'];
+
+        $pesquisa = new Pesquisa(null, "Couro Vermelho", "1");
+        $pesquisaDAO = new PesquisaDAO();
+        $pesquisaDAO->inserir($pesquisa);
+        $pesquisaEncontrada = $pesquisaDAO->buscar(array("idPesquisa"), array("titulo" => "Couro Vermelho"));
+        $idAlvo = $pesquisaEncontrada[0]->getIdPesquisa();
+
+        $relatorioSistema = new RelatorioSistema(null, $idAutor, "Cadastrar pesquisa", $idAlvo, "OBRA");
+        $relatorioSistemaDAO = new RelatorioSistemaDAO();
+        $relatorioSistemaDAO->inserir($relatorioSistema);
+        $this->instancia->configuraAmbienteParaTeste("idFuncionario", "15111215");
+        $relatorios = $this->instancia->listarRelatoriosEspecificos();
+        
+        $this->assertEquals(2, count($relatorios));
+        $this->assertEquals($idAutor, $relatorios[0]->getAutor());
+    }
+
+    public function testlistarRelatoriosEspecificoSemFiltro(){    
+        $_SESSION['matricula'] = 15111215;
+        $idAutor = $_SESSION['matricula'];
+
+        $pesquisa = new Pesquisa(null, "Couro Vermelho", "1");
+        $pesquisaDAO = new PesquisaDAO();
+        $pesquisaDAO->inserir($pesquisa);
+        $pesquisaEncontrada = $pesquisaDAO->buscar(array("idPesquisa"), array("titulo" => "Couro Vermelho"));
+        $idAlvo = $pesquisaEncontrada[0]->getIdPesquisa();
+
+        $relatorioSistema = new RelatorioSistema(null, $idAutor, "Cadastrar pesquisa", $idAlvo, "OBRA");
+        $relatorioSistemaDAO = new RelatorioSistemaDAO();
+        $relatorioSistemaDAO->inserir($relatorioSistema);
+        $this->instancia->configuraAmbienteParaTeste("", "");
+        $relatorios = $this->instancia->listarRelatoriosEspecificos();
+        
+        $this->assertEquals(0, count($relatorios));
     }
 }
 

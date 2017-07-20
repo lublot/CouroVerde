@@ -21,8 +21,8 @@ class Pesquisa {
         $this->idPesquisa = $idPesquisa;
         $this->titulo = $titulo;
         $this->estaAtiva = $estaAtiva;
-        $this->$perguntas = $perguntas;
-        $this->idUsuariosQueResponderam = $idUsuariosQueResponderam;
+        /*$this->$perguntas = $perguntas;
+        $this->idUsuariosQueResponderam = $idUsuariosQueResponderam;*/
     }
 
     /**
