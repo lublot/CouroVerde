@@ -15,6 +15,6 @@ class PerguntaInconsistenteException extends \Exception
 	*/
     public function __construct()
     {
-        parent::__construct("Por favor, revise os campos da pergunta");
+        parent::__construct("Por favor, revise os campos das perguntas");
     }
 }

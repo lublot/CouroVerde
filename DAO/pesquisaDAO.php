@@ -4,7 +4,7 @@ namespace DAO;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \models\Pesquisa as Pesquisa;
 use \DAO\Database as Database;
-use \exceptions\PesquisaJaExistenteException as PesquisaJaExistente;
+use \exceptions\PesquisaJaExistenteException as PesquisaJaExistenteException;
 
 class PesquisaDAO extends Database{
 
@@ -19,12 +19,7 @@ class PesquisaDAO extends Database{
 
         $buscarPesquisa = $this->buscar(array("idPesquisa"),array("titulo"=>$titulo));
 
-        //Verifica se a pesquisa já existe no sistema
-        if(count($buscarPesquisa) == 0){
-            $query = "INSERT INTO pesquisa(idPesquisa, titulo, descricao, estaAtiva) VALUES (null, '$titulo', '$descricao', $estaAtiva)";
-        }else{
-            throw new PesquisaJaExistenteException();
-        }
+        $query = "INSERT INTO pesquisa(idPesquisa, titulo, descricao, estaAtiva) VALUES (null, '$titulo', '$descricao', $estaAtiva)";
         
         try{
             $this->PDO->query($query);
