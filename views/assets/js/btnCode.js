@@ -3,7 +3,7 @@ window.addEventListener("load",function(){
     var btnRemover = document.getElementById("btn-remover");
     btnRemover.addEventListener("click",function(){
         var ajax = new XMLHttpRequest();
-        var endereco = '/'.window.location.pathname.split()[1]+'/admin/removerFuncionario'; // Varia, depende do objeto a ser removido
+        var endereco = '/'+window.location.pathname.split('/')[1]+'/admin/removerFuncionario'; // Varia, depende do objeto a ser removido
         var senhaAdmin = document.getElementById('senhaAdmin').value;
         var idObjeto = document.getElementById('idObjeto').value;
         

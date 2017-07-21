@@ -4,18 +4,9 @@ namespace DAO;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \models\Pesquisa as Pesquisa;
 use \DAO\Database as Database;
+use \exceptions\PesquisaJaExistenteException as PesquisaJaExistenteException;
 
-class PesquisaDAO extends DataBase{
-
-    private static $idPesquisa;
-
-    /**
-    * Retorna o id da ultima pesquisa cadastrada
-    * @return unknown $idPesquisa - Retorna o id da pesquisa
-    */
-    public static function getIdPesquisa(){
-        return self::$idPesquisa;
-    }
+class PesquisaDAO extends Database{
 
     /**
     * Insere uma pesquisa no banco de dados;
@@ -23,18 +14,18 @@ class PesquisaDAO extends DataBase{
     * */
     public function inserir($pesquisa){
         $titulo = $pesquisa->getTitulo();
-        $estaAtiva = $pesquisa->getEstaAtiva();
+        $descricao = $pesquisa->getDescricao();
+        $estaAtiva = $pesquisa->getEstaAtiva()? 1:0;
 
-        $query = "INSERT INTO pesquisa(idPesquisa, titulo, estaAtiva) VALUES (null, '$titulo', '$estaAtiva')";
+        $buscarPesquisa = $this->buscar(array("idPesquisa"),array("titulo"=>$titulo));
 
+        $query = "INSERT INTO pesquisa(idPesquisa, titulo, descricao, estaAtiva) VALUES (null, '$titulo', '$descricao', $estaAtiva)";
+        
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
 
         }
-
-        $id = $this->buscar(array("idPesquisa"), array("titulo" => $titulo));
-        self::$idPesquisa = $id;
     }
 
     /**
@@ -110,19 +101,64 @@ class PesquisaDAO extends DataBase{
             
             $query .= implode(" AND ",$aux);
         }
-
+       
         $result = $this->PDO->query($query);
-
+        
         $pesquisas = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 $pesquisas[] = new Pesquisa(
                     isset($item['idPesquisa'])?$item['idPesquisa']:null,
                     isset($item['titulo'])?$item['titulo']:null,
+                    isset($item['descricao'])?$item['descricao']:null,
                     isset($item['estaAtiva'])?$item['estaAtiva']:null
                 );
             }    
         } 
+
+        return $pesquisas;
+    }
+
+     /**
+    * Busca uma ou várias pesquisas no banco de dados usando LIKE;
+    * @param unknown $campos - um array contendo os campos desejados
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idPesquisa"=>5);
+    * @return unknown $pesquisas - um array contendo as pesquisas retornados na busca
+    */
+    public function buscarLike($campos, $filtros){
+        $query = "SELECT ";
+
+        if(count($campos) == 0){
+            $campos = array("*");
+        }
+
+        $query .= implode(',',$campos)." FROM pesquisa";
+
+        if(count($filtros) > 0){
+            $query .= " WHERE ";
+            $aux = array();
+
+            foreach($filtros as $chave=>$valor){
+                $aux[] = $chave." LIKE "."'%$valor%'";
+            }
+            
+            $query .= implode(" AND ",$aux);
+        }
+
+        $result = $this->PDO->query($query);
+        
+        $pesquisas = array();
+        if(!empty($result) && $result->rowCount() > 0){
+            foreach($result->fetchAll() as $item){
+                $pesquisas[] = new Pesquisa(
+                    isset($item['idPesquisa'])?$item['idPesquisa']:null,
+                    isset($item['titulo'])?$item['titulo']:null,
+                    isset($item['descricao'])?$item['descricao']:null,
+                    isset($item['estaAtiva'])?$item['estaAtiva']:null
+                );
+            }    
+        } 
+
         return $pesquisas;
     }
 }

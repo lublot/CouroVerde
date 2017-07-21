@@ -49,16 +49,50 @@
 
 .caixa-funcionario {
     border: 1px solid black;
+    border-radius: 5px;
     margin-bottom: 2vh;
 }
 
+.caixa-funcionario:hover {
+    background-color: #b3b3b3;
+}
+
 .caixa-funcionario h5 {
-    font-size: 2.5vh;
+    transition: background-color 1s;
+    font-size: 2vh;
+}
+
+.botao-pesquisa {
+    border: none;
+    background-color: none;
+}
+
+
+/*.caixa-sec-funcionario {
+     min-height: 50vh;
+    overflow-y: scroll;
     position: relative
 }
 
-.caixa-sec-funcionario {
-    max-height: 50vh;
-    overflow-y: scroll;
-    position: relative
+*/
+
+
+/********************* Centraliza os placeholders **************************/
+
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    text-align: center;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    text-align: center;
+}
+
+:-ms-input-placeholder {
+    text-align: center;
 }

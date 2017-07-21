@@ -139,4 +139,13 @@ class ValidacaoDados {
         $dataFormatada = $dataFormatada[2].'/'.$dataFormatada[1].'/'.$dataFormatada[0];
         return $dataFormatada;
     }
+
+    /**
+    * Verifica se o texto é vazio
+    * @param $campo - O texto para ser testado
+    * */
+    public static function campoVazio($campo){
+        $string = preg_replace('/\s+/', '', $campo);
+        return strlen($string) == 0;
+    }
 }

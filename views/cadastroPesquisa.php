@@ -4,53 +4,40 @@
         <meta charset="utf-8">
         <meta name=viewport  content="width=device-width, initial-scale=1" />
 
-        <!--Importação do CSS do Bootstrap, Bootflat e o pessoal (Estilos)-->
-        <link rel="stylesheet" href="assets/css/bootstrap.css" />
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="assets/css/bootstrap-theme.css" />
-        <link rel="stylesheet" href="assets/css/estilo.css" />
-        <link rel="stylesheet" href="assets/css/bootstrap-social.css" />
-        <link rel="stylesheet" href="assets/css/site.css" />
-        <link rel="stylesheet" href="assets/css/site.min.css" />
-        
-
-        
-
-        <!--Importação do Javascript pessoal e jQuery  -->
-        <script src="assets/js/jquery-3.2.1.min.js"></script>
-        <script src="assets/js/bootstrap.js"></script>
-        <script src="assets/js/pesquisa-script.js"></script>
+        <?php $this->carregarDependencias()?>
+        <script src=<?php $this->path("assets/js/cadastroPesquisa-script.js")?>></script>
        
 
     </head>
 
     <body>
         <div class="container">
-        
+            <?php $this->carregarCabecalho()?>
             <div class="col-sm-3"></div>
             <div class="col-sm-9">
                 <form class="form-horizontal" id="principal">
                     <div class="form-group">
-                        <input type="text" name="tituloPesquisa" class="form-control" placeholder="Título da Pesquisa">
+                        <input type="text" id="tituloPesquisa" name="tituloPesquisa" class="form-control" placeholder="Título da Pesquisa">
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="descricaoPesquisa" class="form-control" placeholder="Descrição da Pesquisa">
+                        <input type="text" id="descricaoPesquisa" name="descricaoPesquisa" class="form-control" placeholder="Descrição da Pesquisa">
                     </div>
 
                     <div id='guia-pergunta' class="form-group">
-                        <span>Adicione uma pergunta 
-                            <span id="addPergunta" class="fa fa-plus-circle fa-lg" style="color:green;cursor:pointer;" aria-hidden="true" 
-                            data-toggle="modal" data-target="#myModal">  
-                            </span>
+                        
+                        <h5>
+                        <span aria-hidden="true" data-toggle="modal" data-target="#myModal" style="cursor:pointer;">Adicione uma pergunta 
+                            <span id="addPergunta" class="fa fa-plus-circle fa-lg" style="color:green;" > </span>
                         </span>
+                        </h5>
                     </div>
                     
                     <div class="form-group"> 
                         <button id="botaoEnvio" disabled='false' type="button" class="btn btn-success">Pronto</button>
                     </div>
                     
-                <!-- Modal -->
+                <!-- Modal Tipo-->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -71,8 +58,28 @@
                 </div>
                 </div>
 
+                <!-- Modal Erro-->
+                <div class="modal fade" id="modalError" tabindex="-1" role="dialog" aria-labelledby="modalError">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalErrorTitle"><i class="fa fa-times-circle" aria-hidden="true"></i> Ocorreu um erro</h4>
+                    </div>
+                    <div class="modal-body">
+                        <span id='descricaoErro'></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="confirmaAddPergunta" type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
                 </form>
             </div>
         </div>
+
+        <?php $this->carregarRodape()?>
     </body>
 </html>
