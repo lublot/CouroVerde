@@ -118,9 +118,9 @@ function configurarConteudo(status,descricao){
 
 function criarBotaoToggle(status){
     var btnToggle = document.createElement('button');
-    console.log(status);
+    
     status? btnToggle.setAttribute('class','btn btn-warning'):btnToggle.setAttribute('class','btn btn-success'); //Se for true aparece a opção de desabilitar
-    // btnToggle.setAttribute('class','btn btn-success');
+    
     btnToggle.setAttribute('type','button');
 
     var iconeToggle = document.createElement('i');
@@ -131,7 +131,9 @@ function criarBotaoToggle(status){
     status ? btnToggle.appendChild(document.createTextNode(' Desativar')):btnToggle.appendChild(document.createTextNode(' Ativar'));//Se for true aparece a opção de desabilitar
 
     btnToggle.addEventListener('click',function(){
-        toggle(this.parentNode.parentNode.value);
+        var valor = this.parentNode.parentElement.getAttribute('value');
+        console.log(valor);
+        toggle(valor,status);
     });
 
     return btnToggle;
@@ -149,9 +151,9 @@ function criarBotaoEditar(){
     btnEditar.appendChild(iconeEditar);
     btnEditar.appendChild(document.createTextNode(' Editar'));
 
-    btnEditar.addEventListener('click',function(){
-        editar(this.parentNode.parentNode.value);
-    });
+    btnEditar.onclick = function(){
+        editar(this.parentNode.parentElement.getAttribute('value'));
+    };
 
     return btnEditar;
 }
@@ -170,23 +172,111 @@ function criarBotaoRemover(){
     btnRemover.appendChild(iconeRemover);
     btnRemover.appendChild(document.createTextNode(' Remover'));
 
-    btnEditar.addEventListener('click',function(){
-        remover(this.parentNode.parentNode.value);
+    btnRemover.addEventListener('click',function(e){
+        $('#myModal').modal('show');
+        var botaoConfirmaRemocao = document.getElementById('confirmaRemover');
+        var senhaAdmin = document.getElementById('password');
+        var valor = this.parentNode.parentElement.getAttribute('value');
+
+        botaoConfirmaRemocao.onclick = function(){
+            remover(valor);
+        };    
     });
 
     return btnRemover;
 }
 
-function toggle(idPesquisa){
-
+function toggle(idPesquisa,estadoAtual){
+    var ajax = new XMLHttpRequest();
+    var endereco = '/'+window.location.pathname.split('/')[1]+'/pesquisa/toggle'; // Varia, depende do objeto a ser removido
+    
+    let string = 'idPesquisa='+idPesquisa+'&'+'estadoAtual='+estadoAtual;
+    
+    ajax.open("POST",endereco,true);
+    ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    ajax.send(string);
+    
+    ajax.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200) {
+            
+            if(JSON.parse(this.response).success == true){
+                listarPesquisas();
+            }else{
+                let mensagem = JSON.parse(this.response).erro;
+                configurarAlert(mensagem,'erro');
+            }
+        }
+    }
 }
 
 function editar(idPesquisa){
     
 }
 
-function remover(idPesquisa){
+function remover(valor){
+    
+        
+        var senhaAdmin = document.getElementById('password');
+        
+        
+        if(!campoVazio(senhaAdmin.value) && senhaAdmin.value.length >= 8 && senhaAdmin.value.length <= 32){
+            var ajax = new XMLHttpRequest();
+            var endereco = '/'+window.location.pathname.split('/')[1]+'/pesquisa/remover'; // Varia, depende do objeto a ser removido
+            
+            let string = 'senhaAdmin='+senhaAdmin.value+'&'+'idPesquisa='+valor;
+            
 
+            ajax.open("POST",endereco,true);
+            ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            ajax.send(string);
+            
+            ajax.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200) {
+                    
+                    if(JSON.parse(this.response).success == true){
+                        listarPesquisas();
+                    }else{
+                         let mensagem = JSON.parse(this.response).erro;
+                         configurarAlert(mensagem,'erro');
+                    }
+                }
+            }
+        }else{
+            configurarAlert('Por favor, digite uma senha válida','warning');
+        }
+
+        document.getElementById('password').value = ""; //Limpa o campo da senha do "cache"
+}
+
+function configurarAlert(mensagem,tipoErro){
+    
+    var alert = document.getElementById('alert');
+
+    var aviso = document.createElement('div');
+    aviso.setAttribute('role','alert');
+
+    if(tipoErro == "erro"){
+        aviso.setAttribute('class','alert alert-danger alert-dismissible')
+    }else if(tipoErro == 'warning'){
+        aviso.setAttribute('class','alert alert-warning alert-dismissible');
+    }
+    
+    var btnFechar = document.createElement('button');
+    btnFechar.setAttribute('type','button');
+    btnFechar.setAttribute('class','close');
+    btnFechar.setAttribute('data-dismiss','alert');
+    btnFechar.setAttribute('aria-label','close');
+
+    var iconeBtnFechar = document.createElement('span');
+    iconeBtnFechar.setAttribute('aria-hidden',true);
+    iconeBtnFechar.innerText = '×';
+    
+    btnFechar.appendChild(iconeBtnFechar);
+    
+    aviso.appendChild(btnFechar);
+    aviso.appendChild(document.createTextNode(mensagem));
+
+    alert.appendChild(aviso);
 }
 //Verifica se o cmapo é vazio
 function campoVazio(texto){

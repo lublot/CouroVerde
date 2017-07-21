@@ -72,7 +72,7 @@ class PesquisaDAO extends Database{
 
             $query .= implode(" AND ",$aux);
         }
-
+              
         $this->PDO->query($query);
     }
 

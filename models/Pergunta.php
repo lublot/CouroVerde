@@ -5,7 +5,7 @@ namespace models;
  * @author MItologhic Software
  *
  */
-class Pergunta {
+class Pergunta implements \JsonSerializable{
     
     private $idPergunta;
     private $titulo;
@@ -56,6 +56,15 @@ class Pergunta {
      */
     public function getIsOpcional(){
         return $this->opcional;
+    }
+
+    public function jsonSerialize(){
+        return [
+            "idPergunta"=> $this->getIdPergunta(),
+            "titulo"=> $this->getTitulo(),
+            "tipo"=>$this->getTipo(),
+            "opcional"=>$this->getIsOpcional()
+        ];
     }
 }
 

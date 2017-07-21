@@ -5,7 +5,7 @@ namespace models;
  * @author MItologhic Software
  *
  */
-class Pesquisa {
+class Pesquisa implements \JsonSerializable{
     
     private $idPesquisa;
     private $titulo;
@@ -85,8 +85,14 @@ class Pesquisa {
         $this->estaAtiva = $estaAtiva;
     }
 
-
-
+    public function jsonSerialize(){
+        return [
+            "idPesquisa"=> $this->getIdPesquisa(),
+            "titulo"=> $this->getTitulo(),
+            "descricao"=>$this->getDescricao(),
+            "estaAtiva"=>$this->getEstaAtiva()
+        ];
+    }
 
 }
 ?>

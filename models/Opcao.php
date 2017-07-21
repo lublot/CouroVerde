@@ -5,7 +5,7 @@ namespace models;
  * @author MItologhic Software
  *
  */
-class Opcao {
+class Opcao implements \JsonSerializable{
     
     private $idOpcao;
     private $descricao;
@@ -34,6 +34,13 @@ class Opcao {
      */
     public function getDescricao(){
         return $this->descricao;
+    }
+
+    public function jsonSerialize(){
+        return [
+            "idOpcao"=> $this->getIdOpcao(),
+            "descricao"=>$this->getDescricao()
+        ];
     }
 }
 

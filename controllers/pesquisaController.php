@@ -5,7 +5,11 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use DAO\PesquisaDAO as PesquisaDAO;
 use DAO\PerguntaDAO as PerguntaDAO;
 use DAO\OpcaoDAO as OpcaoDAO;
+use DAO\PerguntaPesquisaDAO as PerguntaPesquisaDAO;
+use DAO\PerguntaOpcaoDAO as PerguntaOpcaoDAO;
+use DAO\UsuarioDAO as UsuarioDAO;
 use \util\ValidacaoDados as ValidacaoDados;
+use \util\GerenciarSenha as GerenciarSenha;
 use \models\Pesquisa as Pesquisa;
 use \models\Pergunta as Pergunta;
 use \models\Opcao as Opcao;
@@ -15,6 +19,8 @@ use \exceptions\NomeInvalidoException as NomeInvalidoException;
 use \exceptions\CampoInvalidoException as CampoInvalidoException;
 use \exceptions\PerguntaInconsistenteException as PerguntaInconsistenteException;
 use \exceptions\PesquisaJaExistenteException as PesquisaJaExistenteException;
+use \exceptions\PesquisaInexistenteException as PesquisaInexistenteException;
+use \exceptions\SenhaIncorretaException as SenhaIncorretaException;
 
 class pesquisaController extends mainController{
 
@@ -23,7 +29,7 @@ class pesquisaController extends mainController{
 
   public function index(){
   
-    
+    $this->carregarConteudo('homePesquisa',$this->dados);
   }
   
   /**
@@ -46,9 +52,6 @@ class pesquisaController extends mainController{
       if(ValidacaoDados::validarForm($dadosRecebidos,array("tituloPesquisa"))){// Verifica se os campos existem
           $tituloPesquisa = array_shift($dadosRecebidos);//Recebe o titulo da pesquisa
           $descricaoPesquisa = array_shift($dadosRecebidos);//Recebe a descrição da pesquisa
-          
-          
-          
 
           $perguntas = array(); //Este array vai conter todas as perguntas a serem adicionadas;
 
@@ -159,6 +162,148 @@ class pesquisaController extends mainController{
     echo json_encode($pesquisas);
   }
   
+  public function buscarPesquisa($parametros){
+     
+
+     try{
+      if(isset($parametros) && !empty($parametros)){
+        $idPesquisa = array_shift($parametros);
+        $pesquisaDAO = new PesquisaDAO();
+        $pesquisa = $pesquisaDAO->buscar(array(),array('idPesquisa'=>$idPesquisa));
+          if(count($pesquisa)>0){
+              $tituloPesquisa = $pesquisa[0]->getTitulo();//Recebe o titulo da pesquisa
+              $descricaoPesquisa = $pesquisa[0]->getDescricao();//Recebe a descrição da pesquisa
+              
+              $perguntaPesquisaDAO = new PerguntaPesquisaDAO();
+              $perguntasPesquisa = $perguntaPesquisaDAO->buscarPergunta(array(),array('idPesquisa'=>$idPesquisa));
+
+              $perguntaDAO = new PerguntaDAO();
+              $perguntas = array();
+              
+              foreach($perguntasPesquisa as $perguntaPesquisa){
+                $pergunta = $perguntaDAO->buscar(array(),array('idPergunta'=>$perguntaPesquisa->getIdPergunta())); //Este array vai conter todas as perguntas a serem adicionadas;
+                array_push($perguntas,$pergunta[0]);
+              }
+              
+              $perguntaOpcaoDAO = new PerguntaOpcaoDAO();
+            
+              $perguntasOpcao = array();
+
+
+              foreach($perguntas as $pergunta){
+                $opcoes = $perguntaOpcaoDAO->buscarOpcao(array(),array('idPergunta'=>$pergunta->getIdPergunta()));
+                $opcoesRecuperadas = array();
+                foreach($opcoes as $opcaoAtual){
+                  $opcaoDAO = new OpcaoDAO();
+                  $opcao = $opcaoDAO->buscar(array(),array('idOpcao'=>$opcaoAtual->getIdOpcao()));
+                  $opcoesRecuperadas[] = $opcao[0];
+                }
+                $perguntaOpcao['Pergunta'] = $pergunta;
+                $perguntaOpcao['Opcao'] = $opcoesRecuperadas;
+                array_push($perguntasOpcao,$perguntaOpcao);
+              }
+              
+
+              $pesquisaFinal = array();
+              $pesquisaFinal['tituloPesquisa'] = $tituloPesquisa;
+              $pesquisaFinal['descricaoPesquisa'] = $descricaoPesquisa;
+              
+              foreach($perguntasOpcao as $perguntaOpcao){
+                array_push($pesquisaFinal,$perguntaOpcao);
+              }
+              echo json_encode($pesquisaFinal);
+            }else{
+              throw new PesquisaInexistenteException();
+            }
+      }
+      
+        
+    }catch(DadosCorrompidosException $e){
+      echo json_encode(array("erro"=>"Por favor, escolha o tipo da pergunta.","success"=>"false"));
+    }catch(PerguntaInconsistenteException $e){
+      echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
+    }catch(PesquisaJaExistenteException $e){
+      echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
+    }catch(PesquisaInexistenteException $e){
+      echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
+    }
+  }
+
+  public function remover(){
+    try{
+      if(ValidacaoDados::validarForm($_POST,array("senhaAdmin","idPesquisa"))){
+
+        $usuarioDAO = new UsuarioDAO();
+        $senhaArmazenada = $usuarioDAO->buscar(array("senha"),array("tipoUsuario"=>"ADMINISTRADOR"));
+        $senhaArmazenada = $senhaArmazenada[0]->getSenha();
+        
+        if(GerenciarSenha::checarSenha($_POST['senhaAdmin'],$senhaArmazenada)){
+          
+          $pesquisaDAO = new PesquisaDAO();  
+          $perguntaPesquisaDAO = new PerguntaPesquisaDAO();
+          
+          $perguntas = $perguntaPesquisaDAO->buscarPergunta(array(),array());
+
+
+          $opcoes;
+          $perguntaOpcaoDAO = new PerguntaOpcaoDAO();
+         
+          foreach($perguntas as $pergunta){
+             if(strcmp($pergunta->getTipo(),"ABERTA") !=0){
+                $id = $pergunta->getIdPergunta();
+                $opcoes = $perguntaOpcaoDAO->buscarOpcao(array(),array("idPergunta"=>$id));
+             }
+          }
+          
+          $perguntaDAO = new PerguntaDAO();
+          
+          $opcaoDAO = new OpcaoDAO();
+          if(isset($opcoes) && !empty($opcoes)){
+            foreach($opcoes as $opcao){
+              $opcaoDAO->remover(array("idOpcao"=>$opcao->getIdOpcao())); 
+            }
+          }
+          
+
+          foreach($perguntas as $pergunta){
+            $perguntaDAO->remover(array("idPergunta"=>$pergunta->getIdPergunta()));
+          }
+
+          $pesquisaDAO->remover(array("idPesquisa"=>$_POST['idPesquisa']));
+          echo json_encode(array("success"=>true));
+        }else{
+          throw new SenhaIncorretaException();
+        }
+
+      }else{
+        throw new DadosCorrompidosException();
+      }
+    }catch(DadosCorrompidosException $e){
+      echo json_encode(array("erro"=>"Por favor, tente novamente.","success"=>"false"));
+    }catch(SenhaIncorretaException $e){
+      echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
+    }
+  }
+
+  public function toggle(){
+
+    try{
+      if(ValidacaoDados::validarForm($_POST,array('idPesquisa','estadoAtual'))){
+        $pesquisaDAO = new PesquisaDAO();
+        $pesquisaDAO->alterar(array("estaAtiva"=>"0"),array()); //Seta false em todas as pesquisas;
+
+        
+        if(strcmp($_POST['estadoAtual'],'false')==0){
+          $pesquisaDAO->alterar(array("estaAtiva"=>1),array("idPesquisa"=>$_POST["idPesquisa"]));
+        }
+
+        echo json_encode(array("success"=>true));
+      }
+    }catch(Exception $e){
+      echo json_encode(array("erro"=>"Ocorreu um erro,tente novamente","success"=>false));
+    }
+
+  }
 }
 
 ?>
