@@ -9,20 +9,23 @@ class Pesquisa {
     
     private $idPesquisa;
     private $titulo;
+    private $descricao;
     private $estaAtiva;
 
     /**
      * Construtor da classe
      * @param int $idPesquisa - Id da pesquisa     
      * @param String $titulo - Título da pesquisa
-     * @param boolean $estaAtiva - Diz se a pesquisa tá ativa ou não   
+     * @param String $titulo - Descrição da pesquisa
+     * @param boolean $estaAtiva - Diz se a pesquisa está ativa ou não   
      */
-    public function __construct($idPesquisa, $titulo, $estaAtiva) {
+    public function __construct($idPesquisa, $titulo, $descricao ,$estaAtiva) {
         $this->idPesquisa = $idPesquisa;
         $this->titulo = $titulo;
+        $this->descricao = $descricao;
         $this->estaAtiva = $estaAtiva;
-        /*$this->$perguntas = $perguntas;
-        $this->idUsuariosQueResponderam = $idUsuariosQueResponderam;*/
+        // $this->$perguntas = $perguntas;
+        // $this->idUsuariosQueResponderam = $idUsuariosQueResponderam;
     }
 
     /**
@@ -49,6 +52,23 @@ class Pesquisa {
         $this->titulo = $titulo;
     }
 
+
+    /**
+     * Obtém a descricao da pesquisa.
+     * @return titulo
+     */
+    public function getDescricao(){
+        return $this->descricao;
+    }
+
+    /**
+     * Configura o titulo da descrição.
+     * @param unknown $titulo - descrição da pesquisa
+     */
+    public function setDescricao($descricao){
+        $this->descricao = $descricao;
+    }
+
     /**
      * Verfica se a pesquisa está ativa.
      * @return estaAtiva
@@ -64,6 +84,9 @@ class Pesquisa {
     public function setEstaAtiva($estaAtiva){
         $this->estaAtiva = $estaAtiva;
     }
+
+
+
 
 }
 ?>

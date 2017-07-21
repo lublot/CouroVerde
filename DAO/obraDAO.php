@@ -5,7 +5,7 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use \DAO\Database as Database;
 use \models\Obra as Obra;
 
-class ObraDAO {
+class ObraDAO extends Database {
 
     /**
     * Insere uma obra no banco de dados;
@@ -121,7 +121,7 @@ class ObraDAO {
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)."FROM obra";
+        $query .= implode(',',$campos)." FROM obra";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";

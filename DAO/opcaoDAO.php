@@ -4,27 +4,25 @@ namespace DAO;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \models\Opcao as Opcao;
 use \DAO\Database as Database;
+use \DAO\OpcaoDAO as OpcaoDAO;
 
 class OpcaoDAO extends DataBase {
 
    /**
     * Insere uma opção de pergunta no banco de dados;
     * @param unknown $opcaoPergunta - a opção de pergunta deve ser inserida no banco;
+    * @param unknown $idPergunta - o id da Pergunta que contém as opções;
     * */
-    public function inserir($opcaoPergunta){
+    public function inserir($opcaoPergunta,$idPergunta){
         $descricao = $opcaoPergunta->getDescricao();
-
+ 
         $query = "INSERT INTO opcao(idOpcao, descricao) VALUES (null, '$descricao')";
+        $this->PDO->query($query);
 
-        $id = PerguntaDAO::getIdPergunta();
-        $query2 = "INSERT INTO perguntaopcao(idPergunta, idOpcao) VALUES (null, '$id')";        
+        $idOpcao = $this->PDO->lastInsertId("idOpcao"); 
 
-        try{
-            $this->PDO->query($query);
-            $this->PDO->query($query2);            
-        }catch(PDOException $e){
-
-        }
+        $query2 = "INSERT INTO perguntaopcao(idPergunta, idOpcao) VALUES ($idPergunta, $idOpcao)";
+        $this->PDO->query($query2);
     }
 
     /**

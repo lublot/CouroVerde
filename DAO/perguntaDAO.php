@@ -5,38 +5,38 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use \models\Pergunta as Pergunta;
 use \DAO\Database as Database;
 
-class PerguntaDAO extends DataBase {
+class PerguntaDAO extends Database {
 
-    private static $idPergunta;
-
-   /**
-    * Retorna o id da ultima pesquisa cadastrada
-    * @return unknown $idPesquisa - Retorna o id da pesquisa
-    */
-    public static function getIdPergunta(){
-        return $this->idPergunta;
-    }
-
+    private $idUltimaPergunta;
    /**
     * Insere uma ou mais perguntas no banco de dados;
-    * @param unknown $listaPerguntas - a pergunta deve ser inserida no banco;
+    * @param unknown $perguntas - a lista de perguntas que devem ser inseridas no banco;
     * */
-    public function inserir($pergunta){  
-        $titulo = $pergunta->getTitulo();
-        $tipo = $pergunta->getTipo();
-        $opcional = $pergunta->getIsOpcional();
+    public function inserir($pergunta,$idPesquisa){
 
-        $query = "INSERT INTO pergunta(idPergunta, titulo, tipo, opcional) VALUES (null, '$titulo', '$tipo', '$opcional')";
+            $titulo = $pergunta->getTitulo();
+            $tipo = $pergunta->getTipo();
+            $opcional = $pergunta->getIsOpcional()? 1:0;
 
-        $id = PesquisaDAO::getIdPesquisa();
-        $query2 = "INSERT INTO perguntapesquisa(idPergunta, idPesquisa) VALUES (null, '$id')";
-
-        try{
+            if(strcmp($tipo,"Múltipla Escolha")==0){
+                $tipo = "MULTIPLA ESCOLHA";
+            }else if(strcmp($tipo,"Única Escolha")==0){
+                $tipo = "UNICA ESCOLHA";
+            }else{
+                $tipo = "ABERTA"; 
+            }
+            $query = "INSERT INTO pergunta(idPergunta, titulo, tipo, opcional) VALUES (null, '$titulo', '$tipo', $opcional)";
+            
             $this->PDO->query($query);
-            $this->PDO->query($query2);
-        }catch(PDOException $e){
 
-        }
+            // $idPergunta = $this->buscar(array("idPergunta"),array("titulo"=>$titulo,"tipo"=>$tipo,"opcional"=>$opcional));
+            
+            // $idPergunta = $idPergunta[0]->getIdPergunta();
+            $idPergunta = $this->PDO->lastInsertId("idPergunta");
+            $this->idUltimaPergunta = $idPergunta;
+
+            $query2 = "INSERT INTO perguntapesquisa(idPergunta, idPesquisa) VALUES ($idPergunta, $idPesquisa)";
+            $this->PDO->query($query2); 
     }
 
     /**
@@ -114,7 +114,7 @@ class PerguntaDAO extends DataBase {
         }
 
         $result = $this->PDO->query($query);
-
+        
         $perguntas = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
@@ -126,7 +126,12 @@ class PerguntaDAO extends DataBase {
                 );
             }    
         } 
+        
         return $perguntas;
+    }
+
+    public function getIdUltimaPergunta(){
+        return $this->idUltimaPergunta;
     }
 }
 
