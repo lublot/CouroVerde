@@ -19,10 +19,19 @@
 	<link rel="stylesheet" href="assets/css/bootstrap-social.css" />
 	<link rel="stylesheet" href="assets/css/site.css" />
 	<link rel="stylesheet" href="assets/css/site.min.css" />
+	<link rel="stylesheet" href="assets/css/datepicker.css" />
 
 	<!--Importação do Javascript pessoal e jQuery  -->
 	<script src="assets/js/jquery-3.2.1.min.js"></script>
 	<script src="assets/js/cadObras-script.js"></script>
+	<script src="assets/js/bootstrap-datepicker.js"></script>
+	<script>
+		$(function() {
+			$('.datepicker').datepicker({
+				format: 'dd/mm/yyy',
+			});
+		}); 
+	</script>
 
 </head>
 
@@ -172,21 +181,21 @@
 									<div class="col-lg-4">
 										<div class="form-group">
 											<!--Text: Altura  -->
-											<input class="form-control" type="text" name="altura" placeholder="Altura">
+											<input class="form-control" type="number" name="altura" placeholder="Altura">
 										</div>
 									</div>
 
 									<div class="col-lg-4">
 										<div class="form-group">
 											<!--Text: Largura  -->
-											<input class="form-control" type="text" name="largura" placeholder="Largura">
+											<input class="form-control" type="number" name="largura" placeholder="Largura">
 										</div>
 									</div>
 
 									<div class="col-lg-4">
 										<div class="form-group">
 											<!--Text: Diâmetro  -->
-											<input class="form-control" type="text" name="diametro" placeholder="Diâmetro">
+											<input class="form-control" type="number" name="diametro" placeholder="Diâmetro">
 										</div>
 									</div>
 
@@ -201,14 +210,14 @@
 									<div class="col-lg-4">
 										<div class="form-group">
 											<!--Text: Peso -->
-											<input class="form-control" type="text" name="peso" placeholder="Peso">
+											<input class="form-control" type="number" name="peso" placeholder="Peso">
 										</div>
 									</div>
 
 									<div class="col-lg-4">
 										<div class="form-group">
 											<!--Text: Comprimento  -->
-											<input class="form-control" type="text" name="comprimento" placeholder="Comprimento">
+											<input class="form-control" type="number" name="comprimento" placeholder="Comprimento">
 										</div>
 									</div>
 									<div class="col-lg-2"></div>
@@ -350,7 +359,7 @@
 									<div class="col-lg-4">
 										<div class="form-group">
 											<!--Text: Data de Aquisição"-->
-											<input class="form-control" type="text" name="data-de-aquisicao" placeholder="Data de Aquisição">
+											<input class="form-control datepicker" id="date" type="text" name="data-de-aquisicao" placeholder="Data de Aquisição">
 										</div>
 									</div>
 
@@ -415,15 +424,15 @@
 
 					<!--Página 5: Imagens e Modelos 3D  -->
 					<div class="page" id="page_5">
-						
+
 						<h3 class="text-center"> Imagens e Modelos 3D</h3>
 						<br>
-						
+
 						<section id="caixa">
 							<fieldset>
 								<div class="row">
 									<div>
-										
+
 									</div>
 								</div>
 							</fieldset>
