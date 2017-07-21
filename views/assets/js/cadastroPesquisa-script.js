@@ -313,7 +313,7 @@ function prepararJSON(){
     return JSONCompleto;
 }
 
-//Verifica se o cmapo é vazio
+//Verifica se o campo é vazio
 function campoVazio(texto){
     return texto.replace(/\s/g, "").length == 0;
 }

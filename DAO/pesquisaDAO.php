@@ -118,6 +118,49 @@ class PesquisaDAO extends Database{
 
         return $pesquisas;
     }
+
+     /**
+    * Busca uma ou várias pesquisas no banco de dados usando LIKE;
+    * @param unknown $campos - um array contendo os campos desejados
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idPesquisa"=>5);
+    * @return unknown $pesquisas - um array contendo as pesquisas retornados na busca
+    */
+    public function buscarLike($campos, $filtros){
+        $query = "SELECT ";
+
+        if(count($campos) == 0){
+            $campos = array("*");
+        }
+
+        $query .= implode(',',$campos)." FROM pesquisa";
+
+        if(count($filtros) > 0){
+            $query .= " WHERE ";
+            $aux = array();
+
+            foreach($filtros as $chave=>$valor){
+                $aux[] = $chave." LIKE "."'%$valor%'";
+            }
+            
+            $query .= implode(" AND ",$aux);
+        }
+
+        $result = $this->PDO->query($query);
+        
+        $pesquisas = array();
+        if(!empty($result) && $result->rowCount() > 0){
+            foreach($result->fetchAll() as $item){
+                $pesquisas[] = new Pesquisa(
+                    isset($item['idPesquisa'])?$item['idPesquisa']:null,
+                    isset($item['titulo'])?$item['titulo']:null,
+                    isset($item['descricao'])?$item['descricao']:null,
+                    isset($item['estaAtiva'])?$item['estaAtiva']:null
+                );
+            }    
+        } 
+
+        return $pesquisas;
+    }
 }
 
 ?>
