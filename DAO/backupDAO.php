@@ -105,7 +105,7 @@ class backupDAO extends Database {
         $query = "SELECT ";
 
         if(count($campos) == 0){
-            $campos = array("*");
+            $campos = array("* ");
         }
 
         $query .= implode(',',$campos)."FROM backup";
@@ -121,7 +121,7 @@ class backupDAO extends Database {
             $query .= implode(" AND ",$aux);
         }
 
-        $query .= "ORDER BY data DESC";
+        $query .= " ORDER BY dataHora DESC";
 
         if($limite > 0 ){
             $query .= "LIMIT ".$limite;
