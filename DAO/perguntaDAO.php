@@ -121,8 +121,9 @@ class PerguntaDAO extends Database {
                 $perguntas[] = new Pergunta(
                     isset($item['idPergunta'])?$item['idPergunta']:null,
                     isset($item['titulo'])?$item['titulo']:null,
-                    isset($item['opcional'])?$item['opcional']:null,
-                    isset($item['tipo'])?$item['tipo']:null
+                    isset($item['tipo'])?$item['tipo']:null,
+                    isset($item['opcional'])?$item['opcional']:null
+                    
                 );
             }    
         } 

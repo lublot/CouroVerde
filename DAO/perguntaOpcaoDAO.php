@@ -47,7 +47,7 @@ class perguntaOpcaoDAO extends Database{
                 if(isset($item['obrigatorio'])){
                     $obrigatorio = $item['obrigatorio'] ? true:false;
                 }
-                $perguntas[] = new Pesquisa(
+                $perguntas[] = new Pergunta(
                     isset($item['idPergunta'])?$item['idPergunta']:null,
                     isset($item['titulo'])?$item['titulo']:null,
                     isset($item['tipo'])?$item['tipo']:null,
@@ -84,7 +84,7 @@ class perguntaOpcaoDAO extends Database{
             
             $query .= implode(" AND ",$aux);
         }
-       
+
         $result = $this->PDO->query($query);
         
         $opcoes = array();

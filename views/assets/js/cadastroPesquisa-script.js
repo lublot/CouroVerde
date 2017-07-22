@@ -40,7 +40,7 @@ botaoEnvio.addEventListener('click',function(){
         ajax.onreadystatechange = function(){
             if (this.readyState == 4 && this.status == 200) {
                 if(JSON.parse(this.response).success == true){
-                window.location.href = '/'+window.location.pathname.split('/')[1]+'/pesquisa/';
+                    window.location.href = '/'+window.location.pathname.split('/')[1]+'/pesquisa/';
                 }else{
                     document.getElementById('descricaoErro').innerHTML = JSON.parse(this.response).erro;
                     $('#modalError').modal('show');
