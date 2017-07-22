@@ -12,9 +12,11 @@ class relatorioAcessoController extends mainController
 {
     private $numInventarioJaRegistrados;
 
-    public function gerarRelatorioAcesso()
-    {
-        $this->numInventarioJaRegistrados = array();
+    /**
+    * Gera o relatório de acesso das obras do sistema.
+    */
+    public function gerarRelatorioAcesso() {
+        $this->numInventarioJaRegistrados = array(); //reinicia os numeros de inventário já registrados 
 
         $usuarioAcessoDAO = new usuarioAcessoDAO();
 
@@ -36,23 +38,28 @@ class relatorioAcessoController extends mainController
         $pdf->Ln();
         $pdf->Ln();
         $pdf->SetFont('Times', 'B', 12);
-        
+
+        $todosRegistros = $this->montarTodosRegistros(); //monta todos os registros de todas obras     
+
         $registrosMaisVisitadas = $usuarioAcessoDAO->buscarObraMaisVisitada(); //busca registros das obras mais visitadas
         $linhasObrasMaisVisitadas = $this->construirLinhas($registrosMaisVisitadas); //obtém as linhas correspondentes as obras mais visitadas
+        $linhasObrasMaisVisitadas = count($linhasObrasMaisVisitadas) > 0 ? $linhasObrasMaisVisitadas : array();
 
-        if (count($linhasObrasMaisVisitadas) > 0) {
+        if (count($linhasObrasMaisVisitadas) > 0) { //caso a existam linhas para as obras mais visitadas
+            //configura o subtitulo
             $pdf->Ln();
             $pdf->Cell(20, 10, "I. OBRA(S) MAIS ACESSADA(S)");
             $pdf->SetFont('Times', 'B', 13);
             $pdf->Ln();
-            $header = array(utf8_decode("Nº de Inventário"), utf8_decode("Nome"), utf8_decode("Nº de Visitas"));
+            $cabecalhoSessao = array(utf8_decode("Nº de Inventário"), utf8_decode("Nome"), utf8_decode("Nº de Visitas"));
             
-            foreach ($header as $col) {
+            foreach ($cabecalhoSessao as $col) { //para cada coluna
                 $pdf->Cell(65, 7, $col, 1);
             }
 
             $pdf->Ln();
 
+            //adiciona as linhas das obras mais visitadas
             foreach ($linhasObrasMaisVisitadas as $row) {
                 foreach ($row as $col) {
                     $pdf->Cell(65, 6, $col, 1);
@@ -61,22 +68,28 @@ class relatorioAcessoController extends mainController
             }
         }
 
-        $registrosMenosVisitadas = $usuarioAcessoDAO->buscarObraMenosVisitada(); //busca registros das obras menos visitadas
-        $linhasObrasMenosVisitadas = $this->construirLinhas($registrosMenosVisitadas); //obtém as linhas correspondentes as obras menos visitadas
-
-        if(count($linhasObrasMenosVisitadas) > 0) {
+        if($todosRegistros[0] != null) { //se houver registros de obras sem visita
+            $linhasObrasMenosVisitadas = $this->construirLinhas($todosRegistros[0]); //as obras menos visitadas são as obras sem visita
+        } else {
+            $registrosMenosVisitadas = $usuarioAcessoDAO->buscarObraMenosVisitada(); //busca registros das obras menos visitadas            
+            $linhasObrasMenosVisitadas = $this->construirLinhas($registrosMenosVisitadas);            
+        }        
+        
+        if(count($linhasObrasMenosVisitadas) > 0) { //caso a existam linhas para as obras menos visitadas
+            //configura o subtitulo        
             $pdf->Ln();                               
             $pdf->Cell(20,10,"II. OBRA(S) MENOS ACESSADA(S)");
             $pdf->SetFont('Times','B',13);                
             $pdf->Ln();                                                         
-            $header = array(utf8_decode("Nº de Inventário"), utf8_decode("Nome"), utf8_decode("Nº de Visitas")); 
+            $cabecalhoSessao = array(utf8_decode("Nº de Inventário"), utf8_decode("Nome"), utf8_decode("Nº de Visitas")); 
             
-            foreach($header as $col) {
+            foreach($cabecalhoSessao as $col) { //para cada coluna
                 $pdf->Cell(65,7,$col,1);
             }        
 
             $pdf->Ln();       
 
+            //adiciona as linhas das obras mais visitadas
             foreach($linhasObrasMenosVisitadas as $row) {
                 foreach($row as $col) {
                     $pdf->Cell(65,6,$col,1);
@@ -85,22 +98,28 @@ class relatorioAcessoController extends mainController
             }  
         }  
 
-        $registros = $this->montarRegistros(); //busca todos os registros
-        $linhasOutrasObras = $this->construirLinhas($registros); //obtém a todos os outros registros
+        if($todosRegistros[1] != null) { //caso existam registros que não sejam de obras mais ou menos visitadas e não nulos
+            $todosRegistrosNaoNulos = $todosRegistros[1]; 
+            $linhasOutrasObras = $this->construirLinhas($todosRegistrosNaoNulos); //obtém as linhas dos registros não nulos           
+        } else {
+            $linhasOutrasObras = array();
+        }        
 
-        if(count($linhasOutrasObras) > 0) {
+        if(count($linhasOutrasObras) > 0) { //caso a existam linhas para o restante das obras
+            //configura o subtitulo                    
             $pdf->Ln();                                                         
             $pdf->Cell(20,10,"III. OUTRA(S) OBRA(S)");
             $pdf->SetFont('Times','B',13);      
             $pdf->Ln();                                                                   
-            $header = array(utf8_decode("Nº de Inventário"), utf8_decode("Nome"), utf8_decode("Nº de Visitas")); 
+            $cabecalhoSessao = array(utf8_decode("Nº de Inventário"), utf8_decode("Nome"), utf8_decode("Nº de Visitas")); 
             
-            foreach($header as $col) {
+            foreach($cabecalhoSessao as $col) { //para cada coluna
                 $pdf->Cell(65,7,$col,1);
             }        
 
             $pdf->Ln();       
 
+            //adiciona as linhas das obras mais visitadas
             foreach($linhasOutrasObras as $row) {
                 foreach($row as $col) {
                     $pdf->Cell(65,6,$col,1);
@@ -112,26 +131,37 @@ class relatorioAcessoController extends mainController
         $pdf->Output();
     }
 
-    private function montarRegistros()
-    {
+    /**
+    * Monta os registros referentes a todas obras do sistema.
+    * @return array contendo os registros de obras visitadas e não visitadas
+    */
+    private function montarTodosRegistros() {
         $obraDAO = new obraDAO();
         $todasObras = $obraDAO->buscar(array("numeroInventario"), array()); //obtém o número de inventário de todas as obras
 
         $usuarioAcessoDAO = new usuarioAcessoDAO();
 
-        foreach ($todasObras as $obra) {
+        foreach ($todasObras as $obra) { //para cada obra
             $numeroInventario = $obra->getNumInventario();
             $qtdVisitas = ($usuarioAcessoDAO->buscar(array(), array("numeroInventario" => $obra->getNumInventario())) != null) ? count($usuarioAcessoDAO->buscar(array(), array("numeroInventario" => $obra->getNumInventario()))) : 0;
             
-            $registrosVisitasObras[] = new RegistroVisitasObra($numeroInventario, $qtdVisitas);
+            if($qtdVisitas == 0) { //se a obra não possuir visitas
+                $registrosVisitasZerado[] = new RegistroVisitasObra($numeroInventario, $qtdVisitas);
+            } else {
+                $registrosVisitasObras[] = new RegistroVisitasObra($numeroInventario, $qtdVisitas);
+            }
+
         }
 
-
-        return $registrosVisitasObras;
+        return array(isset($registrosVisitasZerado) ? $registrosVisitasZerado : null, isset($registrosVisitasObras) ? $registrosVisitasObras : null);
     }
 
-    private function construirLinhas($registros)
-    {
+    /**
+    * Constroi as linhas das tabelas que serão exibidas no relatório.
+    * @param $registros - registros que deseja-se transformar em linhas
+    * @return array contendo as linhas da tabela
+    */
+    private function construirLinhas($registros) {
         $obraDAO = new obraDAO();
 
         foreach ($registros as $registro) {
@@ -142,7 +172,7 @@ class relatorioAcessoController extends mainController
                 $nomeObra = $obra[0]->getNome();
                 $quantidadeVisitas = $registro->getQuantidadeVisitas();
                 $linhas[] = array($numeroInventario, $nomeObra, $quantidadeVisitas);
-                $this->numInventarioJaRegistrados[] = $numeroInventario;
+                $this->numInventarioJaRegistrados[] = $numeroInventario; //armazena o numero de inventario da obra na lista dos numeros de inventario que ja foram armazenados
             }
         }
 
@@ -151,5 +181,19 @@ class relatorioAcessoController extends mainController
         }
 
         return $linhas;
+    }
+
+    /**
+    * Armazena uma visita.
+    */
+    public function adicionarVisita() {
+        if(isset($_POST['idUsuario']) && isset($_POST['numeroInventario'])) {
+            $usuarioAcessoDAO = new usuarioAcessoDAO();
+
+            if(count($usuarioAcessoDAO->buscar(array(), array('numeroInventario' => $_POST['numeroInventario'], 'idUsuario' => $_POST['idUsuario']))) == 0) { //caso a vista do usuario a essa obra não tenha sido armazenada ainda
+                $usuarioAcessoDAO->inserir(new Visita($_POST['idUsuario'], $_POST['numeroInventario']));
+            }
+
+        }
     }
 }

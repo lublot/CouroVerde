@@ -7,8 +7,15 @@ use \DAO\backupDAO as backupDAO;
 use exceptions\BackupNaoEncontradoException as BackupNaoEncontradoException;
 use exceptions\FormatoHoraIncorretoException as FormatoHoraIncorretoException;
 use exceptions\FormatoDataIncorretoException as FormatoDataIncorretoException;
+use exceptions\DadosCorrompidosException as DadosCorrompidosException;
+use util\ValidacaoDados as ValidacaoDados;
 
 class backupController extends mainController {
+
+    public function configurarAmbienteParaTeste($data = null, $hora = null) {
+        $_POST['data'] = $data;
+        $_POST['hora'] = $hora;
+    }
 
     /**
     * Realiza o backup completo do sistema.
@@ -41,7 +48,7 @@ class backupController extends mainController {
         unlink(getcwd().'/'.$caminhoBackupBD); //remove o arquivo inicial do backup do banco, após dele ser inserido no zip completo do backup
         $horaBackupBD = explode('-', $horaBackup);
         $backup = new Backup(null, addslashes($diaBackup), addslashes("$horaBackupBD[0]:$horaBackupBD[1]:$horaBackupBD[2]"), addslashes("backups/".$nomeArquivoBackup));
-
+        $this->gerenciarQuantidadeBackups(); //verifica e remove, se necessário, algum backup mais antigo        
         $backupDAO = new backupDAO($backup);
         $backupDAO->inserir($backup);
     }
@@ -177,7 +184,7 @@ class backupController extends mainController {
         $backup = $backupDAO->buscar();
        
         if(count($backup) < 1) {
-            throw new BackupInexistenteException();
+            throw new BackupNaoEncontradoException();
         } 
 
         echo json_encode($backup, JSON_UNESCAPED_SLASHES);
@@ -187,66 +194,39 @@ class backupController extends mainController {
     * Efetua a listagem backups de acordo com parâmetros informados
     */
     public function listarBackups() {
-
+        $arrayBusca = array();
         if(isset($_POST['data']) && isset($_POST['hora'])) {
             $data = $_POST['data'];
             $hora = $_POST['hora'];
 
-            if(((count(explode($data, '/')) != 3))) { //verifica se a data está em formato correto
-                if(((count(explode($hora, ':')) != 3))) { //verifica se a hora está em formato correto
-                    
-                    if((!is_numeric($data))) { //verifica se a data está em formato correto
-                        throw new FormatoDataIncorretoException();
-                    } else {
-                        $arrayBusca = array(
-                            "data" => $data,
-                        );
-                    }
-
-                    if(!is_numeric($hora)) { //verifica se a hora está em formato correto
-                        throw new FormatoHoraIncorretoException();
-                    } else {
-                        if(!isset($arrayBusca)) {
-                            $arrayBusca = array();
-                        }
-
-                        $arrayBusca[] = array(
-                            "hora" => $hora,
-                        );
-                    }
-                } else {
-                    throw new FormatoHoraIncorretoException();
-                }
+            if(!ValidacaoDados::validarData($data)) {
+                throw new FormatoDataIncorretoException();                
             } else {
-                throw new FormatoDataIncorretoException();
+                $arrayBusca['data'] = $data;
             }
 
-            $arrayBusca = array(
-                "data" => $data,
-                "hora" => $hora,
-            );
-
+            if(!ValidacaoDados::validarHora($hora)) {
+                throw new FormatoHoraIncorretoException();
+            } else {
+                $arrayBusca['hora'] = $hora;
+            }            
+       
         } else if(isset($_POST['data'])) {
             $data = $_POST['data'];
 
-            if(((count(explode($data, '/'))) != 3) || !is_numeric($data)) { //verifica se a data está em formato correto
+            if(!ValidacaoDados::validarData($data)) { //verifica se a data está em formato correto
                 throw new FormatoDataIncorretoException();
             }
 
-            $arrayBusca = array(
-                "data" => $data,
-            );
-
+            $arrayBusca['data'] = $data;
         } else if(isset($_POST['hora'])) {
             $hora = $_POST['hora'];
 
-            if(((count(explode($hora, ':'))) != 3) || !is_numeric($hora)) { //verifica se a hora e a data estão em formato correto
+            if(!ValidacaoDados::validarHora($hora)) { //verifica se a hora e a data estão em formato correto
                 throw new FormatoHoraIncorretoException();
             }
 
-            $arrayBusca = array(
-                "hora" => $hora,
-            );
+            $arrayBusca['hora'] = $hora;
         } else {
             throw new DadosCorrompidosException();
         }
@@ -255,10 +235,24 @@ class backupController extends mainController {
         $backup = $backupDAO->buscarMaisRecente($arrayBusca);
 
         if(count($backup) < 1) {
-            throw new BackupInexistenteException();
+            throw new BackupNaoEncontradoException();
         } 
 
         echo json_encode($backup);
+    }
+
+    /**
+    * Gerencia a quantidade de backups e remove, se necessário, o backup mais antigo.
+    */
+    public function gerenciarQuantidadeBackups() {
+        $backupDAO = new backupDAO();
+        $backups = $backupDAO->buscarMaisRecente(array(), array());
+
+        if(count($backups) == 5) { //se existirem 5 backups
+            $backupMaisAntigo = $backups[5]; //obtém o backup mais antigo
+            $backupDAO->remover(array("idBackup" => $backupMaisAntigo->getId())); //remove o backup do banco de dados
+            unlink(dirname(__DIR__).'/'.$backupMaisAntigo->getCaminho()); //remove o arquivo de backup
+        }
     }    
 
 }
