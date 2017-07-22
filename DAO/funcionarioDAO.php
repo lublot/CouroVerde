@@ -129,8 +129,14 @@ class FuncionarioDAO extends Database{
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 $funcionarios[] = new funcionario(
-                    isset($item['matricula'])?$item['matricula']:null,
                     isset($item['idUsuario'])?$item['idUsuario']:null,
+                    isset($item['nome'])?$item['nome']:null,
+                    isset($item['sobrenome'])?$item['sobrenome']:null,
+                    isset($item['email'])?$item['email']:null,
+                    isset($item['senha'])?$item['senha']:null,
+                    isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null,
+                    isset($item['tipoUsuario'])?$item['tipoUsuario']:null,
+                    isset($item['matricula'])?$item['matricula']:null,
                     isset($item['funcao'])?$item['funcao']:null,
                     isset($item['cadastroObra'])?$item['cadastroObra']:null,
                     isset($item['gerenciaObra'])?$item['gerenciaObra']:null,

@@ -15,13 +15,13 @@ class relatorioSistemaDAO extends Database{
     * @param unknown $relatorio - o relatorio a ser inserido no banco;
     * */
     public function inserir($relatorio){
-        $idAutor = $relatorio->getAutor();
+        $matriculaAutor = $relatorio->getAutor();
         $acao = $relatorio->getAcao();
         $idAlvo = $relatorio->getIdAlvo();
         $tipoAlvo = $relatorio->getTipoAlvo();
         $horario = $relatorio->getHorario();
 
-        $query = "INSERT INTO logalteracoes(idLogAlteracoes, idFuncionario, idItemAlterado, tipoItemAlterado, descricao, dataHora) VALUES (null, '$idAutor', '$idAlvo', '$tipoAlvo', '$acao', '$horario')";
+        $query = "INSERT INTO logalteracoes(idLogAlteracoes, matriculaFuncionario, idItemAlterado, tipoItemAlterado, descricao, dataHora) VALUES (null, '$matriculaAutor', '$idAlvo', '$tipoAlvo', '$acao', '$horario')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -110,7 +110,7 @@ class relatorioSistemaDAO extends Database{
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 $relatorios[] = new RelatorioSistema(isset($item['idLogAlteracoes'])?$item['idLogAlteracoes']:null,
-                                          isset($item['idFuncionario'])?$item['idFuncionario']:null,
+                                          isset($item['matriculaFuncionario'])?$item['matriculaFuncionario']:null,
                                           isset($item['idItemAlterado'])?$item['idItemAlterado']:null,
                                           isset($item['tipoItemAlterado'])?$item['tipoItemAlterado']:null,
                                           isset($item['descricao'])?$item['descricao']:null,

@@ -148,4 +148,44 @@ class ValidacaoDados {
         $string = preg_replace('/\s+/', '', $campo);
         return strlen($string) == 0;
     }
+
+    /**
+    * Verifica se uma data informada é válida.
+    * @param $data - A data que será testada
+    * @return <code>true</code>, se a data informada for válida; <code>false</code>, caso contrário.
+    */
+    public static function validarData($data){
+        $data = explode("/","$data"); // fatia a string $data em pedaços, usando / como referência
+
+        if(isset($data[0]) && isset($data[1]) && $data[2]) {
+            $d = $data[0];
+            $m = $data[1];
+            $y = $data[2];
+        
+            $res = checkdate($m,$d,$y);
+            if ($res == 1){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+    * Verifica se uma hora informada é válida.
+    * @param $hora - A hora que será testada
+    * @return <code>true</code>, se a hora informada for válida; <code>false</code>, caso contrário.
+    */
+    public static function validarHora($hora){
+        $hora = explode(":", $hora);
+
+        if(count($hora) == 3) {
+            return (isset($hora[0]) && is_numeric($hora[0]) && isset($hora[1]) && is_numeric($hora[1]) && isset($hora[2]) && is_numeric($hora[2]));
+        } else {
+            return false;
+        }
+    }        
 }

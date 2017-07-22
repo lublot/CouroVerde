@@ -39,9 +39,11 @@ function avancarPag() {
         var pageOld = "#page_" + pagAtual;
         // Atualiza a visualização da tela atual para "nenhum"
         $(pageOld).css("display", "none");
+        console.log("Página atual antes:" + pagAtual);
 
         // Incrementa a variável para avançar a página
         pagAtual++;
+        console.log("Página atual depois:" + pageNew);
         // String para concatenar o ID da página do HTML com a variável que armazena a próxima página
         var pageNew = "#page_" + pagAtual;
         //Caso esteja na última página e fotografia tenha sido selecionada como classificação

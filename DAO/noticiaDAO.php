@@ -127,8 +127,6 @@ class noticiaDAO extends Database {
     * @return unknown $noticias - um array contendo as notícias retornados na busca
     */
     public function buscarMaisRecente($campos,$filtros,$limite=0){
-
-
         $query = "SELECT ";
 
         if(count($campos) == 0){
