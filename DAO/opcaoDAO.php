@@ -8,6 +8,7 @@ use \DAO\OpcaoDAO as OpcaoDAO;
 
 class OpcaoDAO extends DataBase {
 
+
    /**
     * Insere uma opção de pergunta no banco de dados;
     * @param unknown $opcaoPergunta - a opção de pergunta deve ser inserida no banco;

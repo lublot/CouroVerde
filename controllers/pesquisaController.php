@@ -27,6 +27,10 @@ class pesquisaController extends mainController{
 
   protected $dados = array();
 
+  public function configurarAmbienteParaTeste($json) {
+    $_POST['json'] = $json;
+  }
+
   public function index(){
   
     $this->carregarConteudo('homePesquisa',$this->dados);
@@ -76,12 +80,12 @@ class pesquisaController extends mainController{
               }else{
                 $tituloPergunta = $pergunta['tituloPergunta'];
                 $tipoPergunta = $pergunta['tipoPergunta'];
-                $isObrigatorio = $pergunta['obrigatorio'];
+                $isOpcional = (strcmp($pergunta['obrigatorio'],"false")==0)? 1:0;
               }
 
               $opcoes;
               
-              $perguntaFinal['pergunta']  = new Pergunta(null,$tituloPergunta,$tipoPergunta,$isObrigatorio); //Cria um objeto pergunta
+              $perguntaFinal['pergunta']  = new Pergunta(null,$tituloPergunta,$tipoPergunta,$isOpcional); //Cria um objeto pergunta
 
               if(strcmp($tipoPergunta,"Aberta")!=0){// Guarda as opções no array, caso existam
                 if(ValidacaoDados::validarForm($pergunta,array("opcoes"))){
