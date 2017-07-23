@@ -132,7 +132,6 @@ function criarBotaoToggle(status){
 
     btnToggle.addEventListener('click',function(){
         var valor = this.parentNode.parentElement.getAttribute('value');
-        console.log(valor);
         toggle(valor,status);
     });
 
@@ -210,12 +209,10 @@ function toggle(idPesquisa,estadoAtual){
 }
 
 function editar(idPesquisa){
-    
+    window.location.href = '/'+window.location.pathname.split('/')[1]+'/pesquisa/gerenciar/'+idPesquisa;
 }
 
 function remover(valor){
-    
-        
         var senhaAdmin = document.getElementById('password');
         
         

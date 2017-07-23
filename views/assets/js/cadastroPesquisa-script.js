@@ -14,7 +14,7 @@ btnConfirmaAddPergunta.addEventListener('click',function(){
     var campos = document.getElementsByName('tipoPergunta');
     for(var i=0;i<campos.length;i++){ // Procura a opção selecionada
         if(campos[i].checked){
-            tipoSelecionado = campos[i].value;
+            tipoSelecionado = campos[i].getAttribute('tipo');
             addPergunta(tipoSelecionado);
         }
     }
@@ -88,7 +88,7 @@ function addPergunta(tipo){
     divPergunta.appendChild(titulo);
     
     //Verifica se a pergunta é fechada
-    if(tipo != 'Aberta'){
+    if(tipo != 'ABERTA'){
         divPergunta.appendChild(configuraBotaoCriarOpcao());
     }
 
@@ -301,7 +301,7 @@ function prepararJSON(){
             tituloOpcoes.push('"'+opcoes[j].childNodes[0].value+'"');
         }
         var chave = "Pergunta"+i;
-        if(tipoPergunta != 'Aberta'){
+        if(tipoPergunta != 'ABERTA'){
             pergunta = ',"'+chave+'":[{"tituloPergunta":"'+tituloPergunta+'","tipoPergunta":"'+tipoPergunta+'","obrigatorio":"'+obrigatorio+'","opcoes":['+tituloOpcoes+']}]';
         }else{
             pergunta = ',"'+chave+'":[{"tituloPergunta":"'+tituloPergunta+'","tipoPergunta":"'+tipoPergunta+'","obrigatorio":"'+obrigatorio+'"}]';

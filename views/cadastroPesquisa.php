@@ -46,9 +46,9 @@
                         <h4 class="modal-title" id="myModalLabel">Qual é o tipo de resposta esperado para esta pergunta?</h4>
                     </div>
                     <div class="modal-body">
-                        <input type="radio" class="iradio_flat" name="tipoPergunta" value="Aberta"> Aberta <br>
-                        <input type="radio" class="iradio_flat" name="tipoPergunta" value="Múltipla Escolha"> Múltipla Escolha <br>
-                        <input type="radio" class="iradio_flat" name="tipoPergunta" value="Única Escolha"> Única Escolha <br>
+                        <input type="radio" class="iradio_flat" tipo='ABERTA' name="tipoPergunta" value="Aberta"> Aberta <br>
+                        <input type="radio" class="iradio_flat" tipo='MULTIPLA ESCOLHA' name="tipoPergunta" value="Múltipla Escolha"> Múltipla Escolha <br>
+                        <input type="radio" class="iradio_flat" tipo='UNICA ESCOLHA' name="tipoPergunta" value="Única Escolha"> Única Escolha <br>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
