@@ -59,10 +59,11 @@ class OpcaoDAO extends DataBase {
     * @param unknown $filtros - um array contendo os filtros usados na identificação da opção da pergunta. Ex: array("idOpcao"=>5);
     * */
     public function remover($filtros){
-        $query = "DELETE FROM opcao WHERE ";
+        $query = "DELETE FROM opcao ";
 
         if(count($filtros) > 0){
             $aux = array();
+            $query .= "WHERE ";
 
             foreach($filtros as $chave=>$valor){
                 $aux[] = $chave." = "."'$valor'";

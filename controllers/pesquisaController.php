@@ -27,8 +27,10 @@ class pesquisaController extends mainController{
 
   protected $dados = array();
 
-  public function configurarAmbienteParaTeste($json) {
+  public function configurarAmbienteParaTeste($json = null, $senhaAdmin = null, $idPesquisa = null) {
     $_POST['json'] = $json;
+    $_POST['senhaAdmin'] = $senhaAdmin;
+    $_POST['idPesquisa'] = $idPesquisa;
   }
 
   public function index(){
@@ -166,7 +168,6 @@ class pesquisaController extends mainController{
     echo json_encode($pesquisas);
   }
   
-
   /**
   * Este método carrega a página responsável pelo cadastro da pesquisa
   */
@@ -258,25 +259,28 @@ class pesquisaController extends mainController{
           $perguntas = $perguntaPesquisaDAO->buscarPergunta(array(),array());
 
 
-          $opcoes;
+          $opcoesTodasPerguntas;
           $perguntaOpcaoDAO = new PerguntaOpcaoDAO();
          
           foreach($perguntas as $pergunta){
              if(strcmp($pergunta->getTipo(),"ABERTA") !=0){
                 $id = $pergunta->getIdPergunta();
-                $opcoes = $perguntaOpcaoDAO->buscarOpcao(array(),array("idPergunta"=>$id));
+                $opcoesTodasPerguntas[] = $perguntaOpcaoDAO->buscarOpcao(array(),array("idPergunta"=>$id));
              }
           }
           
           $perguntaDAO = new PerguntaDAO();
           
           $opcaoDAO = new OpcaoDAO();
-          if(isset($opcoes) && !empty($opcoes)){
-            foreach($opcoes as $opcao){
-              $opcaoDAO->remover(array("idOpcao"=>$opcao->getIdOpcao())); 
+          if(isset($opcoesTodasPerguntas) && !empty($opcoesTodasPerguntas)){          
+            foreach($opcoesTodasPerguntas as $opcoes) {
+              if(isset($opcoes) && !empty($opcoes)){
+                foreach($opcoes as $opcao){
+                  $opcaoDAO->remover(array("idOpcao"=>$opcao->getIdOpcao())); 
+                }              
+              }
             }
           }
-          
 
           foreach($perguntas as $pergunta){
             $perguntaDAO->remover(array("idPergunta"=>$pergunta->getIdPergunta()));

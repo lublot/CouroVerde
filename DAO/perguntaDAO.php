@@ -65,10 +65,11 @@ class PerguntaDAO extends Database {
     * @param unknown $filtros - um array contendo os filtros usados na identificação da pergunta. Ex: array("idPergunta"=>5);
     * */
     public function remover($filtros){
-        $query = "DELETE FROM pergunta WHERE ";
+        $query = "DELETE FROM pergunta ";
 
         if(count($filtros) > 0){
             $aux = array();
+            $query .= "WHERE ";
 
             foreach($filtros as $chave=>$valor){
                 $aux[] = $chave." = "."'$valor'";
