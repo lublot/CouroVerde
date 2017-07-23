@@ -83,7 +83,7 @@ class pesquisaController extends mainController{
               
               $perguntaFinal['pergunta']  = new Pergunta(null,$tituloPergunta,$tipoPergunta,$isObrigatorio); //Cria um objeto pergunta
 
-              if(strcmp($tipoPergunta,"Aberta")!=0){// Guarda as opções no array, caso existam
+              if(strcmp($tipoPergunta,"ABERTA")!=0){// Guarda as opções no array, caso existam
                 if(ValidacaoDados::validarForm($pergunta,array("opcoes"))){
                   $opcoes = $pergunta['opcoes'];
                   $perguntaFinal['opcoes'] = !empty($opcoes)?$opcoes:null;
@@ -162,6 +162,14 @@ class pesquisaController extends mainController{
     echo json_encode($pesquisas);
   }
   
+
+  /**
+  * Este método carrega a página responsável pelo cadastro da pesquisa
+  */
+  public function gerenciar(){
+    $this->carregarConteudo('gerenciarPesquisa',$this->dados); 
+  }
+
   public function buscar($parametros){
      
 
@@ -306,95 +314,119 @@ class pesquisaController extends mainController{
 
   }
 
-  public function alterar(){
-    $idPesquisa = $_POST['idPesquisa'];
-    $json = $_POST['json'];
+public function alterar(){
+    try{
+      if(ValidacaoDados::validarForm($_POST,array('idPesquisa','json'))){
+        $idPesquisa = $_POST['idPesquisa'];
+        $json = $_POST['json'];
 
-    $dadosRecebidos = json_decode($json,true);
+        $dadosRecebidos = json_decode($json,true);
 
-    $tituloPesquisa = array_shift($dadosRecebidos);
-    $descricaoPesquisa = array_shift($dadosRecebidos);
+        $tituloPesquisa = array_shift($dadosRecebidos);
+        $descricaoPesquisa = array_shift($dadosRecebidos);
 
-    $idPerguntasExistentes = $this->perguntasPesquisa($idPesquisa); //Recupera as perguntas existentes de uma pesquisa
-    
-    $perguntaDAO = new PerguntaDAO();
-    while(count($dadosRecebidos)>0){
-      $pergunta = array_shift($dadosRecebidos)[0];
-      $idPergunta = $pergunta['idPergunta'];
-      $tituloPergunta = $pergunta['tituloPergunta'];
-      $tituloPergunta = (ValidacaoDados::campoVazio($tituloPergunta))? 'Sem título':$tituloPergunta;
-      $tipoPergunta = $pergunta['tipoPergunta'];
-      $opcional = (strcmp($pergunta['obrigatorio'],'false')==0)? 1:0;
-      $opcoes = $pergunta['opcoes'];
+        $pesquisaDAO = new PesquisaDAO();
+        $pesquisaEncontrada = $pesquisaDAO->buscar(array(),array('titulo'=>$tituloPesquisa));
+        
+        if(count($pesquisaEncontrada)>0 ){
+          foreach($pesquisaEncontrada as $pesquisaConflitante){
+            if($pesquisaConflitante->getIdPesquisa() != $idPesquisa){
+              throw new PesquisaJaExistenteException();
+            }
+          }
+        }else{
+          $pesquisaDAO->alterar(array('titulo','descricao'),array('idPesquisa'=>$idPesquisa));
+        }
+
+        $idPerguntasExistentes = $this->perguntasPesquisa($idPesquisa); //Recupera as perguntas existentes de uma pesquisa
+        
+        $perguntaDAO = new PerguntaDAO();
+        while(count($dadosRecebidos)>0){
+          $pergunta = array_shift($dadosRecebidos)[0];
+          $idPergunta = $pergunta['idPergunta'];
+          $tituloPergunta = $pergunta['tituloPergunta'];
+          $tituloPergunta = (ValidacaoDados::campoVazio($tituloPergunta))? 'Sem título':$tituloPergunta;
+          $tipoPergunta = $pergunta['tipoPergunta'];
+          $opcional = (strcmp($pergunta['obrigatorio'],'false')==0)? 1:0;
+          $opcoes = isset($pergunta['opcoes'])?$pergunta['opcoes']:null;
 
 
-      if(in_array($idPergunta,$idPerguntasExistentes)){ //Caso a pergunta já exista
-        $key = array_search($idPergunta, $idPerguntasExistentes);
-        unset($idPerguntasExistentes[$key]); // Remove o id do array para futura verificação
+          if(in_array($idPergunta,$idPerguntasExistentes)){ //Caso a pergunta já exista
+            $key = array_search($idPergunta, $idPerguntasExistentes);
+            unset($idPerguntasExistentes[$key]); // Remove o id do array para futura verificação
 
-        $perguntaDAO->alterar(array("titulo"=>$tituloPergunta,"opcional"=>$opcional),array("idPergunta"=>$idPergunta));
-        if(strcmp($tipoPergunta,"Aberta")!=0 || strcmp($tipoPergunta,"ABERTA")!=0){
-          $idOpcoesPerguntaExistentes = $this->getOpcoesPergunta($idPergunta);
-          $opcaoDAO = new OpcaoDAO();
-          foreach($opcoes as $opcao){
+            $perguntaDAO->alterar(array("titulo"=>$tituloPergunta,"opcional"=>$opcional),array("idPergunta"=>$idPergunta));
+            if(strcmp($tipoPergunta,"ABERTA")!=0){
+              $idOpcoesPerguntaExistentes = $this->getOpcoesPergunta($idPergunta);
+              $opcaoDAO = new OpcaoDAO();
+              foreach($opcoes as $opcao){
 
-            if(in_array($opcao['idOpcao'],$idOpcoesPerguntaExistentes)){//Caso a opção já exista
-              
-              $key = array_search($opcao['idOpcao'], $idOpcoesPerguntaExistentes);
-              unset($idOpcoesPerguntaExistentes[$key]); // Remove o id do array para futura verificação
-              
-              if(!ValidacaoDados::campoVazio($opcao['titulo'])){ //Se a descrição for vazia não altera a opção
-                $opcaoDAO->alterar(array('descricao'=>$opcao['titulo']),array('idOpcao'=>$opcao['idOpcao']));
+                if(in_array($opcao['idOpcao'],$idOpcoesPerguntaExistentes)){//Caso a opção já exista
+                  
+                  $key = array_search($opcao['idOpcao'], $idOpcoesPerguntaExistentes);
+                  unset($idOpcoesPerguntaExistentes[$key]); // Remove o id do array para futura verificação
+                  
+                  if(!ValidacaoDados::campoVazio($opcao['titulo'])){ //Se a descrição for vazia não altera a opção
+                    $opcaoDAO->alterar(array('descricao'=>$opcao['titulo']),array('idOpcao'=>$opcao['idOpcao']));
+                  }
+                }else{
+                  if(!ValidacaoDados::campoVazio($opcao['titulo'])){ //Se a descrição for vazia não cadastra a opção
+                    $opcaoDAO->inserir(new Opcao(null,$opcao['titulo']),$idPergunta);
+                  }
+                }
+              } 
+              //Se existiam opções que não foram verificadas, significa que as opções não foram recebidas no JSON, logo foram excluídas
+              if(count($idOpcoesPerguntaExistentes)>0){
+                foreach($idOpcoesPerguntaExistentes as $idOpcao){
+                  $opcaoDAO->remover(array('idOpcao'=>$idOpcao));
+                }
               }
-            }else{
+            }
+
+          }else if(strcmp($idPergunta,'nulo')==0){//Caso a pergunta não exista, ela é criada
+            $perguntaDAO->inserir(new Pergunta(null,$tituloPergunta,$tipoPergunta,$opcional),$idPesquisa);//Insere a pergunta
+            $idPergunta = $perguntaDAO->getIdUltimaPergunta(); //Recupera o último id inserido;
+            $opcaoDAO = new OpcaoDAO();
+            foreach($opcoes as $opcao){
               if(!ValidacaoDados::campoVazio($opcao['titulo'])){ //Se a descrição for vazia não cadastra a opção
                 $opcaoDAO->inserir(new Opcao(null,$opcao['titulo']),$idPergunta);
               }
             }
-          } 
-          //Se existiam opções que não foram verificadas, significa que as opções não foram recebidas no JSON, logo foram excluídas
-          if(count($idOpcoesPerguntaExistentes)>0){
-            foreach($idOpcoesPerguntaExistentes as $idOpcao){
-              $opcaoDAO->remover(array('idOpcao'=>$idOpcao));
-            }
           }
         }
+        //Se existiam perguntas que não foram verificadas, significa que as opções não foram recebidas no JSON, logo foram excluídas
+        if(count($idPerguntasExistentes)>0){
+          foreach($idPerguntasExistentes as $idPergunta){
+              $opcoes;
+              $perguntaOpcaoDAO = new PerguntaOpcaoDAO();
+              
+              $perguntaDAO = new PerguntaDAO();
+              $pergunta = $perguntaDAO->buscar(array(),array('idPergunta'=>$idPergunta))[0];//Recupera as informações da pergunta atual
 
-      }else if(strcmp($idPergunta,'nulo')==0){//Caso a pergunta não exista, ela é criada
-        $perguntaDAO->inserir(new Pergunta(null,$tituloPergunta,$tipoPergunta,$opcional),$idPesquisa);//Insere a pergunta
-        $idPergunta = $perguntaDAO->getIdUltimaPergunta(); //Recupera o último id inserido;
-        $opcaoDAO = new OpcaoDAO();
-        foreach($opcoes as $opcao){
-          if(!ValidacaoDados::campoVazio($opcao['titulo'])){ //Se a descrição for vazia não cadastra a opção
-            $opcaoDAO->inserir(new Opcao(null,$opcao['titulo']),$idPergunta);
+              if(strcmp($pergunta->getTipo(),"ABERTA") !=0){//Recupera as opções associadas à pergunta
+                $id = $pergunta->getIdPergunta();
+                $opcoes = $perguntaOpcaoDAO->buscarOpcao(array(),array("idPergunta"=>$idPergunta));
+              }
+              
+              $opcaoDAO = new OpcaoDAO();//Remove as opções da pergunta atual, caso exista
+              if(isset($opcoes) && !empty($opcoes)){
+                foreach($opcoes as $opcao){
+                  $opcaoDAO->remover(array("idOpcao"=>$opcao->getIdOpcao())); 
+                }
+              }
+              $perguntaDAO->remover(array("idPergunta"=>$idPergunta));   
           }
         }
+        echo json_encode(array("success"=>true));
+      }else{
+        throw new DadosCorrompidosException();
       }
+    }catch(DadosCorrompidosException $e){
+      echo json_encode(array("erro"=>"Ocorreu um erro,atualize a página e tente novamente","success"=>false));
+    }catch(PesquisaJaExistenteException $e){
+      echo json_encode(array("erro"=>"Já existe uma pesquisa com este título. Tente outro","success"=>false));
     }
-    //Se existiam perguntas que não foram verificadas, significa que as opções não foram recebidas no JSON, logo foram excluídas
-    if(count($idPerguntasExistentes)>0){
-      foreach($idPerguntasExistentes as $idPergunta){
-          $opcoes;
-          $perguntaOpcaoDAO = new PerguntaOpcaoDAO();
-          
-          $perguntaDAO = new PerguntaDAO();
-          $pergunta = $perguntaDAO->buscar(array(),array('idPergunta'=>$idPergunta))[0];//Recupera as informações da pergunta atual
 
-          if(strcmp($pergunta->getTipo(),"ABERTA") !=0){//Recupera as opções associadas à pergunta
-            $id = $pergunta->getIdPergunta();
-            $opcoes = $perguntaOpcaoDAO->buscarOpcao(array(),array("idPergunta"=>$idPergunta));
-          }
-          
-          $opcaoDAO = new OpcaoDAO();//Remove as opções da pergunta atual, caso exista
-          if(isset($opcoes) && !empty($opcoes)){
-            foreach($opcoes as $opcao){
-              $opcaoDAO->remover(array("idOpcao"=>$opcao->getIdOpcao())); 
-            }
-          }
-          
-          $perguntaDAO->remover(array("idPergunta"=>$idPergunta));   
-      }
-    }
   }
 
   private function perguntasPesquisa($idPesquisa){

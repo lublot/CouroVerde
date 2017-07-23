@@ -18,13 +18,6 @@ class PerguntaDAO extends Database {
             $tipo = $pergunta->getTipo();
             $opcional = $pergunta->getIsOpcional()? 1:0;
 
-            if(strcmp($tipo,"Múltipla Escolha")==0){
-                $tipo = "MULTIPLA ESCOLHA";
-            }else if(strcmp($tipo,"Única Escolha")==0){
-                $tipo = "UNICA ESCOLHA";
-            }else{
-                $tipo = "ABERTA"; 
-            }
             $query = "INSERT INTO pergunta(idPergunta, titulo, tipo, opcional) VALUES (null, '$titulo', '$tipo', $opcional)";
             
             $this->PDO->query($query);

@@ -1,5 +1,6 @@
 window.addEventListener('load',function(){
-
+var body = document.getElementsByTagName('body')[0];
+body.style.visibility = 'visible';
 var botaoEnvio = document.getElementById('botaoEnvio');
 botaoEnvio.addEventListener('click',function(){
     enviar();
@@ -9,19 +10,21 @@ function carregar(){
     var ajax = new XMLHttpRequest();
     var idPesquisa = window.location.href.split('/').pop();
     // var endereco = '/'+window.location.pathname.split('/')[1]+'/pesquisa/buscar/'+idPesquisa; // Varia, depende do objeto a ser removido
-    var endereco = '/'+window.location.pathname.split('/')[1]+'/pesquisa/buscar/8';
+    var endereco = '/'+window.location.pathname.split('/')[1]+'/pesquisa/buscar/'+idPesquisa;
+
     ajax.open("POST",endereco,true);
     ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     ajax.send();
 
     ajax.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
-            if(JSON.parse(this.response)){
+            if(Object.keys(JSON.parse(this.response)).length > 3){
                 var mensagem = JSON.parse(this.responseText);
-                console.log(mensagem);
                 configurarTela(separarInformacoes(mensagem));
             }else{
-                alert("Erro ao remover"); //Executa outra ação
+                document.getElementById('principal').style.visibility='hidden';//Executa outra ação
+                document.getElementById('aviso').innerText = JSON.parse(this.response).erro;
+                document.getElementById('alerta').style.display ='block';
             }
         }
     }
@@ -255,7 +258,6 @@ function configuraIconeRemover(){
     icone.style.cursor = 'pointer';
     
     icone.addEventListener('click',function(){
-        console.log(this.parentNode.parentNode);
         this.parentNode.parentNode.removeChild(this.parentNode);
         var listaPerguntas = document.getElementsByName('Pergunta');
         
@@ -364,7 +366,7 @@ function addPergunta(tipo){
     divPergunta.appendChild(titulo);
     
     //Verifica se a pergunta é fechada
-    if(tipo != 'Aberta'){
+    if(tipo != 'ABERTA'){
         divPergunta.appendChild(configuraBotaoCriarOpcao());
     }
 
@@ -501,11 +503,12 @@ function enviar(){
 
     ajax.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
-            // if(JSON.parse(this.response)){
-                
-            // }else{
-            //      //Executa outra ação
-            // }
+            if(JSON.parse(this.response).success == true){
+               window.location.href = '/'+window.location.pathname.split('/')[1]+'/pesquisa/';
+            }else{
+                document.getElementById('descricaoErro').innerHTML = JSON.parse(this.response).erro;
+                $('#modalError').modal('show'); //Executa outra ação
+            }
         }
     }
 
@@ -544,7 +547,7 @@ function prepararJSON(){
 
         var pergunta;
         var chave = "Pergunta"+i;
-        if(tipoPergunta != 'Aberta'){
+        if(tipoPergunta != 'ABERTA'){
             pergunta = ',"'+chave+'":[{"idPergunta":"'+idPergunta+'","tituloPergunta":"'+tituloPergunta+'","tipoPergunta":"'+tipoPergunta+'","obrigatorio":"'+obrigatorio+'","opcoes":['+tituloOpcoes+']}]';
         }else{
             pergunta = ',"'+chave+'":[{"idPergunta":"'+idPergunta+'","tituloPergunta":"'+tituloPergunta+'","tipoPergunta":"'+tipoPergunta+'","obrigatorio":"'+obrigatorio+'"}]';
@@ -552,7 +555,6 @@ function prepararJSON(){
         JSONCompleto += pergunta; 
     }
     JSONCompleto += '}';
-    console.log(JSONCompleto);
     return JSONCompleto;
 }
 
