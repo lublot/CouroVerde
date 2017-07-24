@@ -9,7 +9,7 @@
     <!--Regulando a visão da tela para a largura relativa à tela utilizada-->
     <meta name=viewport content="width=device-width, initial-scale=1" />
 
-    <title>Cadastro de obras</title>
+    <title>gerenciamento de Funcionário</title>
 
     <!--Importação do CSS do Bootstrap, Bootflat e o pessoal (Estilos)-->
     <link rel="stylesheet" href="assets/css/bootstrap.css" />
@@ -48,30 +48,13 @@
                 <div class="row" style="margin-bottom:2vh;">
 
                     <!-- Tamanho e posição do input de busca -->
-                    <div class="col-md-6 col-lg-offset-3">
+                    <div class="col-lg-6 col-lg-offset-3">
 
-                        <!-- Agrupamento de input com botão de pesquisa -->
-                        <div class="input-group">
+                        <!-- Input de busca -->
 
-                            <!-- Input de busca -->
-                            <input type="text" class="form-control input-sm" placeholder="Busca" id="busca" style="border-radius: 30px;" />
-
-                            <!-- Grupo de botões -->
-                            <div class="input-group-btn">
-                                <div class="btn-group" role="group">
-
-                                    <!-- Botão de busca e icone -->
-                                    <button type="button" class="btn botao-pesquisa " style="border:none; background-color: white;">
-                                        <span class="glyphicon glyphicon-search " aria-hidden="true" style="color:grey"></span>
-                                                                        
-                                    <!-- FIM Botão de busca e icone -->
-                                    </button>
-
-                                    <!-- FIM Grupo de botões -->
-                                </div>
-                            </div>
-
-                            <!-- Fim Agrupamento de input com botão de pesquisa -->
+                        <div class="search-only form-search">
+                            <i class="search-icon fa fa-search"></i>
+                            <input type="text" class="form-control search-query input-sm" placeholder="Busca" id="busca" style="border-radius: 30px;" />
                         </div>
 
                         <!-- FIM Tamanho e posição do input de busca -->
