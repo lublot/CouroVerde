@@ -64,10 +64,11 @@ class UsuarioDAO extends Database{
     * @param unknown $filtros - um array contendo os filtros usados na identificação do usuário. Ex: array("idUsuario"=>5);
     * */
     public function remover($filtros){
-        $query = "DELETE FROM usuario WHERE ";
+        $query = "DELETE FROM usuario ";
 
         if(count($filtros) > 0){
             $aux = array();
+            $query .= "WHERE ";
 
             foreach($filtros as $chave=>$valor){
                 $aux[] = $chave." = "."'$valor'";

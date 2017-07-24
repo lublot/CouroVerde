@@ -13,10 +13,10 @@ class perguntaOpcaoDAO extends Database{
 
 
     /**
-    * Busca uma ou várias pesquisas no banco de dados;
+    * Busca uma ou várias perguntaopcao no banco de dados;
     * @param unknown $campos - um array contendo os campos desejados
-    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idPesquisa"=>5);
-    * @return unknown $pesquisas - um array contendo as pesquisas retornados na busca
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idPergunta"=>5);
+    * @return unknown $pesquisas - um array contendo as perguntaopcoes retornados na busca
     */
     public function buscarPergunta($campos, $filtros){
         $query = "SELECT ";
