@@ -18,7 +18,8 @@ function carregar(){
 
     ajax.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
-            if(Object.keys(JSON.parse(this.response)).length > 3){
+            
+            if(Object.keys(JSON.parse(this.response)).length >= 3){
                 var mensagem = JSON.parse(this.responseText);
                 configurarTela(separarInformacoes(mensagem));
             }else{
@@ -356,7 +357,7 @@ function addPergunta(tipo){
     var icone = configuraIconeRemover();
     var obrigatorio = configuraObrigacao();
     var titulo = document.createTextNode(' Resposta Obrigatória');
-
+    console.log(tipo);
     //Adiciona os elementos ao DOM
     divPergunta.appendChild(pergunta);
     divPergunta.appendChild(espaco);
@@ -366,7 +367,7 @@ function addPergunta(tipo){
     divPergunta.appendChild(titulo);
     
     //Verifica se a pergunta é fechada
-    if(tipo != 'ABERTA'){
+    if(tipo != 'ABERTA' && tipo !='Aberta'){
         divPergunta.appendChild(configuraBotaoCriarOpcao());
     }
 
