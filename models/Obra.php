@@ -10,7 +10,6 @@ class Obra implements \JsonSerializable {
 
     /* Atributos da obra */
     /* Identificação da obra */
-    private $id;
     private $nome;
     private $titulo;
     private $numInventario;
@@ -129,14 +128,6 @@ class Obra implements \JsonSerializable {
         $this->caminhoModelo3D = $caminhoModelo3D; */
     }
     
-
-    /**
-     * Obtém o id da obra.
-     * @return id
-     */
-    public function getId() {
-        return $this->id;
-    }
 
     /**
      * Obtém o nome da obra.
