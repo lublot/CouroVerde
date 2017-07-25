@@ -93,7 +93,7 @@ class ObraDAO extends Database {
     * @param unknown $filtros - um array contendo os filtros usados na identificação do usuário. Ex: array("idObra"=>5);
     * */
     public function remover($filtros){
-        $query = "DELETE FROM usuario WHERE ";
+        $query = "DELETE FROM obra WHERE ";
 
         if(count($filtros) > 0){
             $aux = array();
@@ -111,8 +111,8 @@ class ObraDAO extends Database {
     /**
     * Busca uma ou várias obras no banco de dados;
     * @param unknown $campos - um array contendo os campos desejados
-    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idUsuario"=>5);
-    * @return unknown $usuarios - um array contendo os usuários retornados na busca
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idObra"=>5);
+    * @return unknown $obras - um array contendo os usuários retornados na busca
     */
     public function buscar($campos,$filtros){
         $query = "SELECT ";
@@ -354,6 +354,117 @@ class ObraDAO extends Database {
 
         }
     }
+
+    /**
+    * Busca uma ou várias obras que possuem uma determinada string no titulo
+    * @param unknown $campos - um array contendo os campos desejados
+    * @param unknown $filtros - a string que se deseja verificar se o titulo da obra contém
+    * @return unknown $obras - um array contendo as obras retornados na busca
+    */
+    public function buscarTituloLike($campos, $titulo){
+        $query = "SELECT ";
+
+        if(count($campos) == 0){
+            $campos = array("*");
+        }
+
+        $query .= implode(',',$campos)." FROM obra";
+
+        if($titulo != null) {
+            $query .= " WHERE titulo LIKE '%$titulo%'";
+        }
+
+        $result = $this->PDO->query($query);
+
+        echo $query;
+
+        $obras = array();
+        if(!empty($result) && $result->rowCount() > 0){
+            foreach($result->fetchAll() as $item){
+               $obras[] = new Obra(isset($item['numeroInventario'])?$item['numeroInventario']:null,
+                                    isset($item['nome'])?$item['nome']:null,
+                                    isset($item['titulo'])?$item['titulo']:null,
+                                    isset($item['funcao'])?$item['funcao']:null,
+                                    isset($item['origem'])?$item['origem']:null,
+                                    isset($item['procedencia'])?$item['procedencia']:null,
+                                    isset($item['descricao'])?$item['descricao']:null,
+                                    isset($item['idColecao'])?$item['idColecao']:null,
+                                    isset($item['idClassificacao'])?$item['idClassificacao']:null,
+                                    isset($item['altura'])?$item['altura']:null,
+                                    isset($item['largura'])?$item['largura']:null,
+                                    isset($item['diametro'])?$item['diametro']:null,
+                                    isset($item['peso'])?$item['peso']:null,
+                                    isset($item['comprimento'])?$item['comprimento']:null,
+                                    isset($item['materiaisConstruidos '])?$item['materiaisConstruidos']:null,
+                                    isset($item['tecnicaFabricacao'])?$item['tecnicaFabricacao']:null,
+                                    isset($item['autoria'])?$item['autoria']:null,
+                                    isset($item['marcasInscricoes'])?$item['marcasInscricoes']:null,
+                                    isset($item['historicoObjeto'])?$item['historicoObjeto']:null,
+                                    isset($item['modoAquisicao'])?$item['modoAquisicao']:null,
+                                    isset($item['dataAquisicao'])?$item['dataAquisicao']:null,
+                                    isset($item['autor'])?$item['autor']:null,
+                                    isset($item['observacoes'])?$item['observacoes']:null,
+                                    isset($item['estadoConservacao'])?$item['estadoConservacao']:null);
+            }    
+        }
+        
+        return $obras;
+    }
+
+    /**
+    * Busca uma ou várias obras que possuem as tags informadas
+    * @param unknown $campos - um array contendo os campos desejados
+    * @param unknown $tags - um array contendo as tags informadas
+    * @return unknown $obras - um array contendo as obras retornados na busca
+    */
+    public function buscarPorTag($campos, $tags){
+        $query = "SELECT obra.* ";
+
+        if(count($campos) == 0){
+            $campos = array("*");
+        }
+
+        $result = array();
+
+        foreach($tags as $tag) {
+            $query .= implode(',',$campos)." FROM obra INNER JOIN tagobra ON obra.numeroInventario = tagobra.idObra INNER JOIN tag ON tagobra.idTag = tag.idTag AND tag.descricao LIKE '%$tag$'";
+            array_merge($result, $this->PDO->query($query));
+        }
+
+        $obras = array();
+        if(!empty($result) && $result->rowCount() > 0){
+            foreach($result->fetchAll() as $item){
+               $obras[] = new Obra(isset($item['numeroInventario'])?$item['numeroInventario']:null,
+                                    isset($item['nome'])?$item['nome']:null,
+                                    isset($item['titulo'])?$item['titulo']:null,
+                                    isset($item['funcao'])?$item['funcao']:null,
+                                    isset($item['origem'])?$item['origem']:null,
+                                    isset($item['procedencia'])?$item['procedencia']:null,
+                                    isset($item['descricao'])?$item['descricao']:null,
+                                    isset($item['idColecao'])?$item['idColecao']:null,
+                                    isset($item['idClassificacao'])?$item['idClassificacao']:null,
+                                    isset($item['altura'])?$item['altura']:null,
+                                    isset($item['largura'])?$item['largura']:null,
+                                    isset($item['diametro'])?$item['diametro']:null,
+                                    isset($item['peso'])?$item['peso']:null,
+                                    isset($item['comprimento'])?$item['comprimento']:null,
+                                    isset($item['materiaisConstruidos '])?$item['materiaisConstruidos']:null,
+                                    isset($item['tecnicaFabricacao'])?$item['tecnicaFabricacao']:null,
+                                    isset($item['autoria'])?$item['autoria']:null,
+                                    isset($item['marcasInscricoes'])?$item['marcasInscricoes']:null,
+                                    isset($item['historicoObjeto'])?$item['historicoObjeto']:null,
+                                    isset($item['modoAquisicao'])?$item['modoAquisicao']:null,
+                                    isset($item['dataAquisicao'])?$item['dataAquisicao']:null,
+                                    isset($item['autor'])?$item['autor']:null,
+                                    isset($item['observacoes'])?$item['observacoes']:null,
+                                    isset($item['estadoConservacao'])?$item['estadoConservacao']:null);
+            }    
+        }
+        
+        return $obras;
+    }    
+
+    
 }
 
 

@@ -6,7 +6,7 @@ namespace models;
  * @author MItologhic Software
  *
  */
-class Obra {
+class Obra implements \JsonSerializable {
 
     /* Atributos da obra */
     /* Identificação da obra */
@@ -538,6 +538,46 @@ class Obra {
     public function setEstado($estado) {
         $this->estado = $estado;
     }
+
+    /**
+     * Define como os dados da classe serão utilizados na conversão para um json.
+     * @return dados da classe em formato .json
+     */
+    public function jsonSerialize() {
+        return [
+            'idObra' => $this->id,
+            'nome' => $this->nome,
+            'titulo' => $this->titulo,
+            'numInventario' => $this->numInventario,      
+            'idColecao' => $this->idColecao,
+            'origem' => $this->origem,
+            'procedencia' => $this->procedencia,
+            'idClassificacao' => $this->idClassificacao,      
+            'palavrasChave' => $this->palavrasChave,
+            'descricao' => $this->descricao,
+            'altura' => $this->altura,
+            'largura' => $this->largura,      
+            'diametro' => $this->diametro,
+            'peso' => $this->peso,
+            'comprimento' => $this->comprimento,
+            'materiais' => $this->materiais,      
+            'tecnicas' => $this->tecnicas,
+            'autoria' => $this->autoria,
+            'marcas' => $this->marcas,
+            'historico' => $this->historico,    
+            'modoAquisicao' => $this->modoAquisicao,      
+            'dataAquisicao' => $this->dataAquisicao,
+            'autor' => $this->autor,
+            'observacoes' => $this->observacoes,
+            'caminhoImagem1' => $this->caminhoImagem1,      
+            'caminhoImagem2' => $this->caminhoImagem2,
+            'caminhoImagem3' => $this->caminhoImagem3,
+            'caminhoImagem4' => $this->caminhoImagem4,
+            'caminhoImagem5' => $this->caminhoImagem5,
+            'caminhoModelo3D' => $this->caminhoModelo3D,                                                                                               
+        ];
+    }     
+
 
     /*
      * Obtém o caminho da primeira imagem da obra.
