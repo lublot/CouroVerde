@@ -322,3 +322,9 @@ input#busca {
     border-radius: 10px;
     box-shadow: 0px 0px 15px -5px black;
 }
+
+h6 .caixa-backup-titulo {
+    background-color: #b3b3b3;
+    color: pink;
+    box-shadow: 0px 0px 15px -5px black;
+}

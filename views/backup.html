@@ -19,12 +19,16 @@
     <link rel="stylesheet" href="assets/css/bootstrap-social.css" />
     <link rel="stylesheet" href="assets/css/site.css" />
     <link rel="stylesheet" href="assets/css/site.min.css" />
-    <link rel="stylesheet" href="assets/css/adm.css" />
-
 
     <!--Importação do Javascript pessoal e jQuery  -->
     <script src="assets/js/jquery-3.2.1.min.js"></script>
     <script src="assets/js/cadObras-script.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+
+
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 
 </head>
 
@@ -53,13 +57,70 @@
                 <div class="row" style="margin-top: 5vh">
 
                     <div class="col-sm-7 caixa-backup">
-                        <h6>Backup Automático</h6>
+                        <h6 class="caixa-backup-titulo">
+                            Backup Automático
+                        </h6>
+
+                        <div class="row" style="padding-bottom: 2vh;">
+                            <div class="col-sm-5">
+                                <p>Ativar/Desativar: </p>
+                            </div>
+
+                            <div class="col-sm-5">
+                                <input type="checkbox" checked data-toggle="toggle" data-size="small">
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <p>Frequência do backup: </p>
+                            </div>
+
+                            <div class="col-sm-5">
+                                <select class="selectpicker">
+                                <option>Diariamente</option>
+                                <option class="special">Semanalmente</option>
+                                <option>Mensalmente</option>
+                            </select>
+
+                                <select class="selectpicker" data-style="btn-primary" style="display: none;">
+                                <option data-icon="glyphicon glyphicon-music">Diariamente</option>
+                                <option data-icon="glyphicon glyphicon-star">Semanalmente</option>
+                                <option data-icon="glyphicon glyphicon-heart">Mensalmente</option>
+                            </select>
+
+                                <select class="selectpicker" data-style="btn-primary" data-width="auto" style="display: none;">
+                                <option data-icon="glyphicon glyphicon-music">Diariamente</option>
+                                <option data-icon="glyphicon glyphicon-star">Semanalmente</option>
+                                <option data-icon="glyphicon glyphicon-heart">Mensalmente</option>
+                             </select><br>
+                            </div>
+
+                        </div>
+
+
+
+
 
                     </div>
 
 
                     <div class="col-sm-4 caixa-backup">
-                        <h6>Histórico de Backup</h6>
+                        <h6 class="caixa-backup-titulo">
+                            Histórico de Backup
+                        </h6>
+
+                        <div class="row">
+                            <div class="col-sm-2">Data</div>
+                            <div class="col-sm-2">Tamanho</div>
+                            <div class="col-sm-2" style="margin-left: 5vh">
+                                <img src="assets/images/if_backup_383184.png">
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -114,5 +175,37 @@
     <!-- /Footer -->
 
 </body>
+
+<script type="text/javascript">
+    window.onload = function() {
+        $('.selectpicker').selectpicker();
+        $('.rm-Diariamente').click(function() {
+            $('.remove-example').find('[value=Diariamente]').remove();
+            $('.remove-example').selectpicker('refresh');
+        });
+        $('.rm-Semanalmente').click(function() {
+            $('.remove-example').find('[value=Semanalmente]').remove();
+            $('.remove-example').selectpicker('refresh');
+        });
+        $('.rm-Mensalmente').click(function() {
+            $('.remove-example').find('[value=Mensalmente]').remove();
+            $('.remove-example').selectpicker('refresh');
+        });
+        $('.ex-disable').click(function() {
+            $('.disable-example').prop('disabled', true);
+            $('.disable-example').selectpicker('refresh');
+        });
+        $('.ex-enable').click(function() {
+            $('.disable-example').prop('disabled', false);
+            $('.disable-example').selectpicker('refresh');
+        });
+
+        // scrollYou
+        $('.scrollMe .dropdown-menu').scrollyou();
+
+        prettyPrint();
+    };
+</script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.5.4/bootstrap-select.js" />
 
 </html>
