@@ -197,19 +197,12 @@ function carregarObrigacao(opcional){
 //Este método carrega as opções cadastradas
 function carregarOpcoes(opcoes){
     var divOpcao = document.createElement('div');
-    
-    // var arrayOpcoes = [];
-    // for(var i=0;i<opcoes.length;i++){
-        var opcao = carregarOpcao(opcoes);
-        var icone = configuraIconeRemover();
-        // divOpcao.setAttribute('idOpcao',opcoes[i].idOpcao);
-        divOpcao.appendChild(opcao);
-        divOpcao.appendChild(document.createTextNode(' '));
-        divOpcao.appendChild(icone);
-        divOpcao.appendChild(document.createElement('br'));
-        //arrayOpcoes.push(divOpcao);
-    // }
-    
+    var opcao = carregarOpcao(opcoes);
+    var icone = configuraIconeRemover();
+    divOpcao.appendChild(opcao);
+    divOpcao.appendChild(document.createTextNode(' '));
+    divOpcao.appendChild(icone);
+    divOpcao.appendChild(document.createElement('br'));
     return divOpcao;
 }
 

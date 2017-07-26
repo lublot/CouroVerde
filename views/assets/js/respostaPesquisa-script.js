@@ -20,9 +20,8 @@ function carregar(){
                 var mensagem = JSON.parse(this.responseText);
                 carregarPesquisa(mensagem);
             }else{
-                document.getElementById('principal').style.visibility='hidden';//Executa outra ação
-                document.getElementById('aviso').innerText = JSON.parse(this.response).erro;
-                document.getElementById('alerta').style.display ='block';
+                document.getElementById('#descricaoErro').innerText = JSON.parse(this.response).erro;
+                $('#modalWarning').modal('show');
             }
         }
     }
@@ -64,7 +63,27 @@ function carregarPesquisa(pesquisa){
     botaoEnvio.addEventListener('click',function(){
 
         if(verificarCamposPreenchidos()){
+            var ajax = new XMLHttpRequest();
+            var envio = prepararJson();
+            var endereco = '/'+window.location.pathname.split('/')[1]+'/pesquisa/guardarResposta/';
+            
 
+            ajax.open("POST",endereco,true);
+            ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            ajax.send('json='+envio+'&idPesquisa='+idPesquisa);
+
+            ajax.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200) {
+                    
+                    if(JSON.parse(this.response).success == true){
+                        window.location.href = '/'+window.location.pathname.split('/')[1]+'/';
+                    }else{
+                        document.getElementById('#descricaoErro').innerText = JSON.parse(this.response).erro;
+                        $('#modalWarning').modal('show');
+                    }
+                }
+            }
+            
         }else{
             document.getElementById('descricaoErro').innerText = "Por favor, responda à todas as perguntas obrigatórias.";
             $('#modalWarning').modal('show');
@@ -197,6 +216,50 @@ function configuraPerguntaUnicaEscolha(pergunta,opcoes){
 function campoVazio(texto){
     return texto.replace(/\s/g, "").length == 0;
 }
+
+function prepararJson(){
+
+    var jsonCompleto ='[';
+    var perguntasAbertas = document.getElementsByClassName('perguntaAberta');
+    for(let i=0;i<perguntasAbertas.length;i++){
+        let tituloPergunta = perguntasAbertas[i].querySelector('h4').innerText;
+        let respostaPergunta = perguntasAbertas[i].querySelector('input').value;
+        jsonCompleto +='[{"tituloPergunta":'+'"'+tituloPergunta+'","respostaPergunta":'+'"'+respostaPergunta+'","tipoPergunta":"ABERTA"}],';
+    }
+
+    var perguntasMultiplaEscolha = document.getElementsByClassName('perguntaMultiplaEscolha');
+    for(let i=0;i<perguntasMultiplaEscolha.length;i++){
+        let tituloPergunta = perguntasMultiplaEscolha[i].querySelector('h4').innerText;
+        let perguntas = perguntasMultiplaEscolha[i].querySelectorAll('.icheckbox_flat');
+        var opcoesSelecionadas = [];
+        for(let j=0;j<perguntas.length;j++){
+                if(perguntas[j].checked){
+                    opcoesSelecionadas.push('"'+perguntas[j].value+'"');
+                }
+            
+        }
+        jsonCompleto +='[{"tituloPergunta":'+'"'+tituloPergunta+'","opcoesSelecionadas":['+opcoesSelecionadas+'],"tipoPergunta":"MULTIPLA ESCOLHA"}],';
+    }
+
+    var perguntasUnicaEscolha = document.getElementsByClassName('perguntaUnicaEscolha');
+    for(let i=0;i<perguntasUnicaEscolha.length;i++){
+        let tituloPergunta = perguntasUnicaEscolha[i].querySelector('h4').innerText;
+        let perguntas = perguntasUnicaEscolha[i].querySelectorAll('.iradio_flat');
+        var opcaoSelecionada;
+        for(let j=0;j<perguntas.length;j++){
+                if(perguntas[j].checked){
+                    opcaoSelecionada = perguntas[j].value;
+                }
+            
+        }
+        jsonCompleto +='[{"tituloPergunta":'+'"'+tituloPergunta+'","opcaoSelecionada":"'+opcaoSelecionada+'","tipoPergunta":"UNICA ESCOLHA"}],';
+    }
+
+    jsonCompleto = jsonCompleto.substring(0,jsonCompleto.length-1)+']';//Retira a vírgula do fim e concatena a chave do fim do json.
+    console.log(jsonCompleto);
+    return jsonCompleto;
+}
+
 
 //Este método verifica se os dados obrigatórios da pesquisa foram respondidas.
 function verificarCamposPreenchidos(){

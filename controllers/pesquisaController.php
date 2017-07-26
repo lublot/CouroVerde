@@ -475,6 +475,54 @@ public function alterar(){
         $pesquisa = $this->buscar(array($pesquisaDAO[0]->getIdPesquisa()));
       }
   }
+
+  public function guardarResposta(){
+    try{
+      $json = $_POST['json'];
+      $idPesquisa = $_POST['idPesquisa'];
+      $dadosRecebidos = json_decode($json,true);
+    
+      $arrayAux = array();
+      while(count($dadosRecebidos)>0){//Coloca todas as informações relevantes em um array só
+        array_push($arrayAux,array_shift($dadosRecebidos)[0]);
+      }
+
+      $path = ABSPATH.'/media/pesquisas/';
+
+      if(file_exists($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml')){// Verifica se o XML já existe,caso exista adiciona as respostas ao arquivo
+        $file = simplexml_load_file($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml');
+        $this->respostasParaXML($arrayAux,$file);
+        $result = $file->asXML();
+        file_put_contents($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml',$result);
+      }else{//Caso não exista, cria o arquivo
+        $xml_data = new \SimpleXMLElement('<Pesquisa/>');
+        $this->respostasParaXML($arrayAux,$xml_data);
+        $result = $xml_data->asXML();
+        file_put_contents($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml',$result);
+      }
+
+      echo json_encode(array("success"=>true));
+    }catch(Exception $e){
+      echo json_encode(array("erro"=>"Ocorreu um erro,atualize a página e tente novamente","success"=>false));
+    }
+    
+  }
+
+  private function respostasParaXML($data,&$xml_data){
+    foreach ($data as $key => $value) {
+      if(is_numeric($key)){ 
+          $key= 'pergunta'; 
+      }
+      if(is_array($value)){
+        $subnode= $xml_data->addChild($key);
+        $this->respostasParaXML($value, $subnode);
+      }else{
+          $xml_data->addChild($key, htmlspecialchars($value));
+      }
+    }
+  }
+
+
 }
 
 ?>
