@@ -226,6 +226,7 @@ class pesquisaController extends mainController{
                 array_push($pesquisaFinal,$perguntaOpcao);
               }
               echo json_encode($pesquisaFinal);
+              return $pesquisaFinal;
             }else{
               throw new PesquisaInexistenteException();
             }
@@ -335,7 +336,7 @@ public function alterar(){
 
         $pesquisaDAO = new PesquisaDAO();
         $pesquisaEncontrada = $pesquisaDAO->buscar(array(),array('titulo'=>$tituloPesquisa));
-        echo $descricaoPesquisa;
+        
         if(count($pesquisaEncontrada)>0 ){
           foreach($pesquisaEncontrada as $pesquisaConflitante){
             if($pesquisaConflitante->getIdPesquisa() != $idPesquisa){
@@ -463,6 +464,16 @@ public function alterar(){
       $ids[] = $opcao->getIdOpcao();
     }
     return $ids;
+  }
+
+
+  public function buscarAtiva(){
+      $pesquisaDAO = new PesquisaDAO();
+      $pesquisaDAO = $pesquisaDAO->buscar(array(),array("estaAtiva"=>1));//Busca uma pesquisa ativa
+      $pesquisa;
+      if(count($pesquisaDAO)>0){
+        $pesquisa = $this->buscar(array($pesquisaDAO[0]->getIdPesquisa()));
+      }
   }
 }
 
