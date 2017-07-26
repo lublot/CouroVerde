@@ -195,7 +195,7 @@ class noticiasController extends mainController
     }
 
     /**
-    * Efetua a listagem de todas as notícias.
+    * Efetua a listagem de todas as notícias no banco de dados.
     */
     public function listarTodasNoticias() {
         $noticiaDAO = new noticiaDAO();
