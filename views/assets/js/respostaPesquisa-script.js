@@ -131,6 +131,7 @@ function configuraPerguntaAberta(pergunta){
     var input = document.createElement('input');//Cria um input
 
     divPergunta.setAttribute('class','perguntaAberta');//Define a classe da div
+    divPergunta.setAttribute('idpergunta',pergunta.idPergunta);
     input.setAttribute('type','text');//Define o tipo do input
     input.setAttribute('class','form-control');//Define a classe do input
     
@@ -149,7 +150,8 @@ function configuraPerguntaMultiplaEscolha(pergunta,opcoes){
     
     var divPergunta = document.createElement('div');//Cria uma div
     var h4 = configuraTituloPergunta(pergunta)//Cria um h4
-   
+
+    divPergunta.setAttribute('idpergunta',pergunta.idPergunta);
     divPergunta.appendChild(h4);
 
     if(pergunta.opcional == 1){
@@ -184,7 +186,7 @@ function configuraPerguntaUnicaEscolha(pergunta,opcoes){
     var h4 = configuraTituloPergunta(pergunta)//Cria um h4
     var input = document.createElement('input');//Cria um input
 
-    
+    divPergunta.setAttribute('idpergunta',pergunta.idPergunta);
     divPergunta.appendChild(h4);
     
     if(pergunta.opcional == 1){
@@ -222,13 +224,15 @@ function prepararJson(){
     var jsonCompleto ='[';
     var perguntasAbertas = document.getElementsByClassName('perguntaAberta');
     for(let i=0;i<perguntasAbertas.length;i++){
+        let idPergunta = perguntasAbertas[i].getAttribute('idpergunta');
         let tituloPergunta = perguntasAbertas[i].querySelector('h4').innerText;
         let respostaPergunta = perguntasAbertas[i].querySelector('input').value;
-        jsonCompleto +='[{"tituloPergunta":'+'"'+tituloPergunta+'","respostaPergunta":'+'"'+respostaPergunta+'","tipoPergunta":"ABERTA"}],';
+        jsonCompleto +='[{"tituloPergunta":'+'"'+tituloPergunta+'","respostaPergunta":'+'"'+respostaPergunta+'","idPergunta":'+'"'+idPergunta+'","tipoPergunta":"ABERTA"}],';
     }
 
     var perguntasMultiplaEscolha = document.getElementsByClassName('perguntaMultiplaEscolha');
     for(let i=0;i<perguntasMultiplaEscolha.length;i++){
+        let idPergunta = perguntasMultiplaEscolha[i].getAttribute('idpergunta');
         let tituloPergunta = perguntasMultiplaEscolha[i].querySelector('h4').innerText;
         let perguntas = perguntasMultiplaEscolha[i].querySelectorAll('.icheckbox_flat');
         var opcoesSelecionadas = [];
@@ -238,11 +242,12 @@ function prepararJson(){
                 }
             
         }
-        jsonCompleto +='[{"tituloPergunta":'+'"'+tituloPergunta+'","opcoesSelecionadas":['+opcoesSelecionadas+'],"tipoPergunta":"MULTIPLA ESCOLHA"}],';
+        jsonCompleto +='[{"tituloPergunta":'+'"'+tituloPergunta+'"'+',"idPergunta":'+'"'+idPergunta+'","opcoesSelecionadas":['+opcoesSelecionadas+'],"tipoPergunta":"MULTIPLA ESCOLHA"}],';
     }
 
     var perguntasUnicaEscolha = document.getElementsByClassName('perguntaUnicaEscolha');
     for(let i=0;i<perguntasUnicaEscolha.length;i++){
+        let idPergunta = perguntasUnicaEscolha[i].getAttribute('idpergunta');
         let tituloPergunta = perguntasUnicaEscolha[i].querySelector('h4').innerText;
         let perguntas = perguntasUnicaEscolha[i].querySelectorAll('.iradio_flat');
         var opcaoSelecionada;
@@ -252,11 +257,10 @@ function prepararJson(){
                 }
             
         }
-        jsonCompleto +='[{"tituloPergunta":'+'"'+tituloPergunta+'","opcaoSelecionada":"'+opcaoSelecionada+'","tipoPergunta":"UNICA ESCOLHA"}],';
+        jsonCompleto +='[{"tituloPergunta":'+'"'+tituloPergunta+'"'+',"idPergunta":'+'"'+idPergunta+'","opcaoSelecionada":"'+opcaoSelecionada+'","tipoPergunta":"UNICA ESCOLHA"}],';
     }
 
     jsonCompleto = jsonCompleto.substring(0,jsonCompleto.length-1)+']';//Retira a vírgula do fim e concatena a chave do fim do json.
-    console.log(jsonCompleto);
     return jsonCompleto;
 }
 
