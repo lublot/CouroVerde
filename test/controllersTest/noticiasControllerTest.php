@@ -56,7 +56,7 @@ class noticiasControllerTest extends TestCase {
      * @preserveGlobalState disabled
      */
     public function testCadastrarNoticiaCampoTituloInvalido() {
-        $this->instancia->configurarAmbienteParaTeste(null, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST');
+        $this->instancia->configurarAmbienteParaTeste("", 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique beatae et reprehenderit cumque quisquam in fuga blanditiis. Tenetur assumenda porro, quidem ut, totam earum. Quos cupiditate commodi eveniet dolorem, incidunt.', 'Subtitulo 1', dirname(dirname(dirname(__FILE__))).'/test/imgTest/img1.gif', 'img1.gif', 'POST');
         $this->expectException(CampoNoticiaInvalidoException::class); //exceção esperada
         $this->instancia->cadastrarNoticia();
     }    

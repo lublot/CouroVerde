@@ -41,7 +41,7 @@ class loginController extends mainController{
         }
 
         if(!defined('ROOT_URL')) {
-            define('ROOT_URL',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/");
+            define('ROOT_URL',"http://".'localhost'."/".$pasta."/");
         }
 
         if(!isset($_SERVER["SERVER_NAME"])) {
