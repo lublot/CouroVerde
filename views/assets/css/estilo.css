@@ -25,6 +25,28 @@ section#caixa-registro {
 
 
 
+.uploads {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    display: none;
+}
+
+.dropzone {
+    border: 2px dashed #bbb;
+    padding: 25px;
+    color: #bbb;
+    text-align: center;
+    line-height: 40vh;
+    min-height: 40vh;
+}
+
+.dropzone.dragover {
+    border-color: #4286f4;
+    color: #4286f4;
+}
+
+
 div#container-reg {
     background: white;
     margin: 20px 0;
@@ -313,8 +335,21 @@ input#busca {
     box-shadow: 0px 0px 15px -5px black;
 }
 
-h6 .caixa-backup-titulo {
+.caixa-backup-titulo h6 {
     background-color: #b3b3b3;
     color: pink;
     box-shadow: 0px 0px 15px -5px black;
+}
+
+.historico-backup {
+    box-shadow: 0px 0px 15px -5px black;
+}
+
+.historico-backup td {
+    padding: 2vh;
+    margin: 2vh;
+}
+
+.historico-backup tr {
+    padding: 3vh;
 }

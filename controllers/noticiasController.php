@@ -34,12 +34,12 @@ class noticiasController extends mainController
     */
     public function cadastrarNoticia()
     {
-        if (isset($_POST["submit"]) and ValidacaoDados::validarForm($_POST, array('titulo', 'descricao'))) { //verifica se a variável superglobal foi setada
-            if (!ValidacaoDados::validarCampo($_POST['titulo'])) { //verifica se o campo está válido
+        if (isset($_POST["submit"])) { //verifica se a variável superglobal foi setada
+            if (ValidacaoDados::validarCampo($_POST, array('titulo')) && !ValidacaoDados::validarCampo($_POST['titulo'])) { //verifica se o campo está válido
                 throw new CampoNoticiaInvalidoException('titulo');
             }
 
-            if (!ValidacaoDados::validarCampo($_POST['descricao'])) { //verifica se o campo está válido
+            if (ValidacaoDados::validarCampo($_POST, array('descricao')) && !ValidacaoDados::validarCampo($_POST['descricao'])) { //verifica se o campo está válido
                 throw new CampoNoticiaInvalidoException('descricao');
             }
 

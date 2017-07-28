@@ -4,6 +4,7 @@ namespace DAO;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \models\Noticia as Noticia;
 use \DAO\Database as Database;
+use \util\ValidacaoDados as ValidacaoDados;
 
 class noticiaDAO extends Database {
     /**
