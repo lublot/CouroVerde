@@ -220,6 +220,53 @@ class funcionarioController extends mainController {
         }
     }
 
+    /**
+    * Busca funcionarios pelo nome
+    */
+    public function buscarFuncionarioPorNome(){
+        if(isset($_POST['nome'])){
+            $funcionarioDAO = new funcionarioDAO();
+            $resultados = $funcionarioDAO->buscarFuncionarioPorCampo('nome', $_POST['nome']);
+
+            return $resultados;
+        }
+    }
+
+    /**
+    * Buscar funcionarios pelo sobrenome
+    */
+    public function buscarFuncionarioPorSobrenome(){
+        if(isset($_POST['sobrenome'])){
+            $funcionarioDAO = new funcionarioDAO();
+            $resultados = $funcionarioDAO->buscarFuncionarioPorCampo('sobrenome', $_POST['sobrenome']);
+
+            return $resultados;
+        }
+    }
+
+    /**
+    * Busca funcionarios pelo email
+    */
+    public function buscarFuncionarioPorEmail(){
+        if(isset($_POST['email'])){
+            $funcionarioDAO = new funcionarioDAO();
+            $resultados = $funcionarioDAO->buscarFuncionarioPorCampo('email', $_POST['email']);
+
+            return $resultados;
+        }
+    }
+
+    /**
+    * Busca funcionarios pela matricula
+    */
+    public function buscarFuncionarioPorMatricula(){
+        if(isset($_POST['matricula'])){
+            $funcionarioDAO = new funcionarioDAO();
+            $resultados = $funcionarioDAO->buscarFuncionarioPorCampo('matricula', $_POST['matricula']);
+
+            return $resultados;
+        }
+    }
 
 }
 
