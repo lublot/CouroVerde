@@ -28,7 +28,7 @@
           <div class="form-group">
               <label class="col-xs-2 control-label" style="margin-right:-16px;">Senha:</label>
               <div class="col-xs-2">
-                  <input type="password" data-minlength="8" name="senha" class="form-control" id="inputPassword" required />
+                  <input type="password" data-minlength="8" data-maxlength="32" name="senha" class="form-control" id="inputPassword" required />
                   <div class="help-block">Mínimo 8 caracteres</div>
               </div>
           </div>
