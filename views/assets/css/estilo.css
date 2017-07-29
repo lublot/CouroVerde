@@ -46,7 +46,6 @@ section#caixa-registro {
     color: #4286f4;
 }
 
-
 div#container-reg {
     background: white;
     margin: 20px 0;
@@ -330,19 +329,32 @@ input#busca {
 /*************************************** Backup *****************************************/
 
 .caixa-backup {
-    margin-left: 15px;
-    border-radius: 10px;
+    margin-left: 23px;
+    /* border: .05px solid black;
+    border-radius: 10px; */
     box-shadow: 0px 0px 15px -5px black;
+    /* REVER ESSE BUG ESCROTO
+    height: 40vh;*/
+}
+
+.caixa-backup-titulo {
+    background-color: #b3b3b3;
+    border-color: #333333;
+    padding-top: .02px;
+    margin-left: -15px;
+    margin-right: -15px;
+    box-shadow: 0px 0px 2px -3px black;
 }
 
 .caixa-backup-titulo h6 {
-    background-color: #b3b3b3;
-    color: pink;
-    box-shadow: 0px 0px 15px -5px black;
+    text-transform: capitalize;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    font-weight: bold;
 }
 
 .historico-backup {
-    box-shadow: 0px 0px 15px -5px black;
+    /* box-shadow: 0px 0px 15px -5px black; */
 }
 
 .historico-backup td {
