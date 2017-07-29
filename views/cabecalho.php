@@ -3,11 +3,11 @@
       } 
 ?>
 
-<div class="container-fluid" style="background: rgb(249,161,31)"> <!-- rgb(249,161,31) -->
+<div class="container-fluid" style="background: #ffcc80"> <!-- rgb(249,161,31) -->
       <div class="row">
           <div class="col-md-1 col-sm-1"></div>
           <div class="col-xs-12 col-md-11">
-                <img src=<?php $this->path('assets/images/header-logo.jpg')?>  class="img-responsive" id="header-logo" style="height: 61; margin-top:10;">
+                <img src=<?php $this->path('assets/images/logo-header.png')?>  class="img-responsive" id="header-logo" style="height: 61; margin-top:10;">
           </div>
 
       </div>
@@ -39,7 +39,7 @@
           <div class="col-xs-12 visible-xs-block">
                 <div class="flex">
                   <span class="item-cabecalho">
-                      <i class="fa fa-home" aria-hidden="true"></i>
+                      <i class="fa fa-sign-in" aria-hidden="true"></i>
                       <a href=<?php echo ROOT_URL?>> Home</a>
                   </span>
 
@@ -72,8 +72,8 @@
           <div class="col-md-6 col-sm-8 hidden-xs">
               <div class="flex">
                   <span class="item-cabecalho">
-                      <i class="fa fa-home" aria-hidden="true"></i>
-                      <a href="<?php echo ROOT_URL ?>"> Home</a>
+                     <div class="icone-home"></div>
+                     <a href="<?php echo ROOT_URL ?>"> Home</a>
                   </span>
 
                   <span class="item-cabecalho">
