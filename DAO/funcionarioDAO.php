@@ -161,13 +161,17 @@ class FuncionarioDAO extends Database{
         $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
         ON Usuario.idUsuario = Funcionario.idUsuario"; //criação da query base
 
-        if(strcmp($campo, nome) || strcmp($campo, sobrenome) || strcmp($campo, email)){ //verifica se o campo corresponde a nome, sobrenome ou email
-            $query .= " WHERE Usuario.nome LIKE '%'.'.$campo.'.'%'"; //adicionar filtro de nome, sobrenome ou email à query
-        }else if(strcmp($campo, matricula)){ //verifica se o campo corresponde a matricula
-            $query .= " WHERE Funcionario.matricula = $campo"; //adiciona filtro de matricula à query
-        }else{
-            return array(); //retorna um array vazio caso o campo não seja encontrado
+        if(isset($campo) && isset($filtro)){ //verifica se os filtros foram especificados
+            if(strcmp($campo, nome) || strcmp($campo, sobrenome) || strcmp($campo, email)){ //verifica se o campo corresponde a nome, sobrenome ou email
+                $query .= " WHERE Usuario.nome LIKE '%'.'.$campo.'.'%'"; //adicionar filtro de nome, sobrenome ou email à query
+            }else if(strcmp($campo, matricula)){ //verifica se o campo corresponde a matricula
+                $query .= " WHERE Funcionario.matricula = $campo"; //adiciona filtro de matricula à query
+            }else{
+                return array(); //retorna um array vazio caso o campo não seja encontrado
+            }
         }
+
+        /*Caso não seja especificados filtros retorna todos os funcionarios*/
 
         $result = $this->PDO->query($query); //executa a query
 
