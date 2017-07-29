@@ -50,9 +50,12 @@ class cadastroController extends mainController
 	    $pasta = end($pasta);
 
         if(!defined('ROOT_URL')) {
-            define('ROOT_URL',"http://".$_SERVER['SERVER_NAME']."/".$pasta."/");
+            define('ROOT_URL',"http://".'sertour'."/".$pasta."/");
         }
-        
+
+        if(!defined('VIEW_BASE')) {
+            define('VIEW_BASE',"http://".'sertour'."/");
+        }       
     }
 
     protected $dados = array();

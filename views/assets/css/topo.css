@@ -7,7 +7,7 @@ header{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-content: center;
 }
 
@@ -17,6 +17,7 @@ header{
 .item-cabecalho{
     float:left;
     font-size:medium;
+    margin-right: 25px;
     
 }
 .item-cabecalho a{

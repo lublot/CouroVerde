@@ -99,6 +99,11 @@ function carregarPerguntas(perguntaRecebida){
     var obrigatorio = carregarObrigacao(perguntaRecebida['opcional']);
     var titulo = document.createTextNode(' Resposta Obrigatória');
 
+    if(perguntaRecebida.opcional==1){
+        divPergunta.setAttribute('obrigatorio',false);
+    }else{ 
+        divPergunta.setAttribute('obrigatorio',true);
+    }
     //Adiciona os elementos ao DOM
     divPergunta.appendChild(pergunta);
     divPergunta.appendChild(document.createTextNode(' '));//Adiciona um espaço
@@ -130,6 +135,9 @@ function configuraPerguntaRecebida(titulo){
     
     botaoEnvio.setAttribute('disabled',true);//Desabilita o botão
 
+    if((pergunta.value.length + 1) * 8 > 200){
+        pergunta.style.width = ((pergunta.value.length + 1) * 8) + 'px';
+    }
     pergunta.addEventListener('blur',function(){
         if(campoVazio(this.value)){ // Se o campo for vazio, torna o botão de envio inacessível
             this.style.borderBottomColor = 'rgb(244,3,3)';
@@ -189,19 +197,12 @@ function carregarObrigacao(opcional){
 //Este método carrega as opções cadastradas
 function carregarOpcoes(opcoes){
     var divOpcao = document.createElement('div');
-    
-    // var arrayOpcoes = [];
-    // for(var i=0;i<opcoes.length;i++){
-        var opcao = carregarOpcao(opcoes);
-        var icone = configuraIconeRemover();
-        // divOpcao.setAttribute('idOpcao',opcoes[i].idOpcao);
-        divOpcao.appendChild(opcao);
-        divOpcao.appendChild(document.createTextNode(' '));
-        divOpcao.appendChild(icone);
-        divOpcao.appendChild(document.createElement('br'));
-        //arrayOpcoes.push(divOpcao);
-    // }
-    
+    var opcao = carregarOpcao(opcoes);
+    var icone = configuraIconeRemover();
+    divOpcao.appendChild(opcao);
+    divOpcao.appendChild(document.createTextNode(' '));
+    divOpcao.appendChild(icone);
+    divOpcao.appendChild(document.createElement('br'));
     return divOpcao;
 }
 
@@ -556,6 +557,7 @@ function prepararJSON(){
         JSONCompleto += pergunta; 
     }
     JSONCompleto += '}';
+    console.log(JSONCompleto);
     return JSONCompleto;
 }
 
