@@ -3,6 +3,63 @@ var pagAtual = 1;
 // Inteiro para armazenar o número limite de páginas disponíveis
 var pagMax = 5;
 
+function init() {
+    var dropzone = document.getElementById("dropzone")
+
+    var displayUploads = function () {
+        var uploads = document.getElementById('uploads'),
+            anchor,
+            x;
+
+        for (x = 0; x < data.length; x++) {
+            anchor = document.createElement('a');
+            anchor.href = data[x].file;
+            anchor.innerText = data[x].name;
+
+            uploads.appendChild(anchor);
+        }
+    };
+
+    var upload = function (files) {
+        var formData = new FormData(),
+            xhr = new XMLHttpRequest(),
+            x;
+
+        for (x = 0; x < files.length; x++) {
+            formData.append('file[]', files[x]);
+        }
+
+        xhr.onload = function () {
+            var data = JSON.parse(this.responseText);
+
+            displayUploads(data);
+        };
+
+        xhr.open('post', 'upload.php');
+        xhr.send(formData);
+    };
+
+    dropzone.ondrop = function (e) {
+        e.preventDefault();
+        this.className = 'dropzone';
+        upload(e.dataTransfer.files);
+    };
+
+    dropzone.ondragover = function () {
+        this.className = 'dropzone dragover';
+        dropzone.innerHTML = "Solte seus arquivos aqui para carregá-los"
+        return false;
+    };
+
+    dropzone.ondragleave = function () {
+        this.className = 'dropzone';
+        dropzone.innerHTML = "Arraste seus arquivos aqui para carregá-los"
+        return false;
+    };
+}
+
+window.addEventListener("load", init, false);
+
 // Função responsável por atualizar a mensagem contida nos botões "Próximo" e "Retroceder" para "Confirmar" e "Cancelar" na ocasião adequada
 function atualizarTextoBotao() {
     // Caso o usuário esteja na última página do cadastro

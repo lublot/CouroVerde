@@ -26,11 +26,11 @@
 	<script src="assets/js/cadObras-script.js"></script>
 	<script src="assets/js/bootstrap-datepicker.js"></script>
 	<script>
-		$(function() {
+		$(function () {
 			$('.datepicker').datepicker({
 				format: 'dd/mm/yyy',
 			});
-		}); 
+		});
 	</script>
 
 </head>
@@ -431,8 +431,12 @@
 						<section id="caixa">
 							<fieldset>
 								<div class="row">
-									<div>
-
+									<div class="dnd1">
+										<!--<input type="file" multiple="multiple" accept="image/*" style="visibility: hidden">-->
+										<div id="dropzone" class="dropzone">
+											Arraste seus arquivos aqui para carregá-los
+										</div>
+										<div id="uploads" class="uploads"></div>
 									</div>
 								</div>
 							</fieldset>
