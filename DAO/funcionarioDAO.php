@@ -152,15 +152,21 @@ class FuncionarioDAO extends Database{
         return $funcionarios;
     }
 
-    public function buscarFuncionarioPorCampo($campo, $filtro){ //busca por nome, sobrenome, email, matricula
+    /**
+    * Busca um funcionario por nome, sobrenome, email ou matricula
+    */
+
+    public function buscarFuncionarioPorCampo($campo, $filtro){
+        
+        $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
+        ON Usuario.idUsuario = Funcionario.idUsuario"; //criação da query base
+
         if(strcmp($campo, nome) || strcmp($campo, sobrenome) || strcmp($campo, email)){ //verifica se o campo corresponde a nome, sobrenome ou email
-            $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
-                        ON Usuario.idUsuario = Funcionario.idUsuario 
-                        WHERE Usuario.nome LIKE '%'.'.$campo.'.'%'"; //query procura usuario pelo nome, sobrenome ou email no banco de dados
-        }else if(strcmp($campo, matricula)){
-            $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
-                        ON Usuario.idUsuario = Funcionario.idUsuario 
-                        WHERE Funcionario.matricula = $campo"; //query procura o funcionario pela matricula
+            $query .= " WHERE Usuario.nome LIKE '%'.'.$campo.'.'%'"; //adicionar filtro de nome, sobrenome ou email à query
+        }else if(strcmp($campo, matricula)){ //verifica se o campo corresponde a matricula
+            $query .= " WHERE Funcionario.matricula = $campo"; //adiciona filtro de matricula à query
+        }else{
+            return array(); //retorna um array vazio caso o campo não seja encontrado
         }
 
         $result = $this->PDO->query($query); //executa a query
