@@ -72,9 +72,8 @@
           <div class="col-md-6 col-sm-8 hidden-xs">
               <div class="flex">
                   <span class="item-cabecalho">
-                     <div class="icone-home" aria-hidden="true"> 
-                          <a href="<?php echo ROOT_URL ?>"> Home</a>
-                     </div>  
+                     <div class="icone-home"></div>
+                     <a href="<?php echo ROOT_URL ?>"> Home</a>
                   </span>
 
                   <span class="item-cabecalho">
