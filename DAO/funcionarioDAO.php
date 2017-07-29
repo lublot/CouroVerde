@@ -150,7 +150,49 @@ class FuncionarioDAO extends Database{
         }
         
         return $funcionarios;
-    }   
+    }
+
+    public function buscarFuncionarioPorCampo($campo, $filtro){ //busca por nome, sobrenome, email, matricula
+        if(strcmp($campo, nome) || strcmp($campo, sobrenome) || strcmp($campo, email)){ //verifica se o campo corresponde a nome, sobrenome ou email
+            $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
+                        ON Usuario.idUsuario = Funcionario.idUsuario 
+                        WHERE Usuario.nome LIKE '%'.'.$campo.'.'%'"; //query procura usuario pelo nome, sobrenome ou email no banco de dados
+        }else if(strcmp($campo, matricula)){
+            $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
+                        ON Usuario.idUsuario = Funcionario.idUsuario 
+                        WHERE Funcionario.matricula = $campo"; //query procura o funcionario pela matricula
+        }
+
+        $result = $this->PDO->query($query); //executa a query
+
+        $funcionarios = array(); //cria array para armazenar os resultados da consulta
+
+        if(!empty($result) && $result->rowCount() > 0){ //verifica se existem resultados para consulta
+            foreach($result->fetchAll() as $item){ //percorre as tuplas retornadas pela consulta
+                $funcionarios[] = new funcionario( //cria um novo funcionario e add uma array, apartir dos dados obtidos
+                    isset($item['idUsuario'])?$item['idUsuario']:null,
+                    isset($item['nome'])?$item['nome']:null,
+                    isset($item['sobrenome'])?$item['sobrenome']:null,
+                    isset($item['email'])?$item['email']:null,
+                    isset($item['senha'])?$item['senha']:null,
+                    isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null,
+                    isset($item['tipoUsuario'])?$item['tipoUsuario']:null,
+                    isset($item['matricula'])?$item['matricula']:null,
+                    isset($item['funcao'])?$item['funcao']:null,
+                    isset($item['cadastroObra'])?$item['cadastroObra']:null,
+                    isset($item['gerenciaObra'])?$item['gerenciaObra']:null,
+                    isset($item['remocaoObra'])?$item['remocaoObra']:null,
+                    isset($item['cadastroNoticia'])?$item['cadastroNoticia']:null, 
+                    isset($item['gerenciaNoticia'])?$item['gerenciaNoticia']:null,
+                    isset($item['remocaoNoticia'])?$item['remocaoNoticia']:null,
+                    isset($item['backup'])?$item['backup']:null
+                );
+            }
+        }
+
+        return $funcionarios;  //retorna os resultados
+    }
+
 }
 
 ?>
