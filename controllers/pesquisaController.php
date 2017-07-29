@@ -10,6 +10,7 @@ use DAO\PerguntaOpcaoDAO as PerguntaOpcaoDAO;
 use DAO\UsuarioDAO as UsuarioDAO;
 use \util\ValidacaoDados as ValidacaoDados;
 use \util\GerenciarSenha as GerenciarSenha;
+use \util\PercentualOpcoes as PercentualOpcoes;
 use \models\Pesquisa as Pesquisa;
 use \models\Pergunta as Pergunta;
 use \models\Opcao as Opcao;
@@ -522,7 +523,60 @@ public function alterar(){
     }
   }
 
+  public function respostaPesquisa(){
+    // $idPesquisa = $_POST['idPesquisa'];
+    $idPesquisa = 2;
+    $path = ABSPATH.'/media/pesquisas/';
+    $nomeArquivo = $path.'Respostas-IdPesquisa['.$idPesquisa.'].xml';
+    if(file_exists($nomeArquivo)){
+      $file = simplexml_load_file($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml');
+      $c = $file->pergunta;
+      
+      $perguntasAbertas = array();
+      $perguntasMultiplaEscolha = array();
+      $perguntasUnicaEscolha = array();
+      
+      for($i=0;$i<count($c);$i++){ // Converte o XML para arrays
+        if(strcmp($c[$i]->tipoPergunta,"ABERTA")==0){
+          $perguntasAbertas[] = get_object_vars($c[$i]);
+        }else if(strcmp($c[$i]->tipoPergunta ,"MULTIPLA ESCOLHA")==0){
+          $opcoes = get_object_vars($c[$i]->opcoesSelecionadas)['pergunta']; //Guarda as opções do xml em forma de array
+          $pergunta = get_object_vars($c[$i]);// Guarda os dados do xml
+          unset($pergunta['opcoesSelecionadas']); //Remove as opções no formato xml
+          $pergunta['opcoesSelecionadas'] = $opcoes; //Adiciona ao array as informações das opções
+          $perguntasMultiplaEscolha[]=$pergunta;//Adiciona ao array com todas as perguntas de múltipla escolha
+        }else if(strcmp($c[$i]->tipoPergunta,"UNICA ESCOLHA")==0){
+          $perguntasUnicaEscolha[] = get_object_vars($c[$i]);
+        }
+      }
 
+      
+      $UnicaEscolhaPorId = array();
+      while(count($perguntasUnicaEscolha)>0){
+        $atual = array_shift($perguntasUnicaEscolha);
+        $chave = 'idPergunta='.$atual['idPergunta'];
+        if(array_key_exists($chave,$UnicaEscolhaPorId)){
+          array_push($UnicaEscolhaPorId[$chave],$atual);
+        }else{
+          $UnicaEscolhaPorId[$chave][0] = $atual;
+        }
+      }
+
+      $UnicaEscolhaPercentual = array();
+      foreach($UnicaEscolhaPorId as $pergunta){
+        foreach($pergunta as $resposta){
+          $chave = 'idPergunta='.$resposta['idPergunta'].'&opcao='.$resposta['opcaoSelecionada'];
+          if(array_key_exists($chave,$UnicaEscolhaPercentual)){
+            $UnicaEscolhaPercentual[$chave]->addOcorrencias();
+          }else{
+            $UnicaEscolhaPercentual[$chave] = new PercentualOpcoes($resposta['idPergunta'],$resposta['tituloPergunta'],
+                                                                   $resposta['tipoPergunta'],$resposta['opcaoSelecionada']);
+          }
+        }
+      }
+      var_dump($UnicaEscolhaPercentual);
+    }
+  }
 }
 
 ?>
