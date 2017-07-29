@@ -22,7 +22,14 @@ header{
 }
 .item-cabecalho a{
     font-size:medium;
-    color: black;
+    color: #4F2F00;
     text-decoration-style: none;  
     font-weight: bold;  
+}
+
+.icone-home{
+    background: url('../images/home.png');
+    height: 16px;
+    width: 16px;
+    /* display: block; */
 }

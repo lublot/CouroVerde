@@ -8012,9 +8012,9 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .slider .slides {
-  background-color: #9e9e9e;
+  background-color: #9e9e9e; 
   margin: 0;
-  height: 400px;
+  height: 600px;
 }
 
 .slider .slides li {

@@ -21,7 +21,9 @@
     	<!--<div class="slider fullscreen">-->
     		<!--ul responsvel por receber a lista de imagens do painel-->
     		<ul class="slides">
-      			
+				<li>
+					<img src=<?php $this->path('assets/images/teste.jpg')?>>
+				</li>	
     		</ul>
   		</div>
 
