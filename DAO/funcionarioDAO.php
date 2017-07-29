@@ -152,10 +152,16 @@ class FuncionarioDAO extends Database{
         return $funcionarios;
     }
 
-    public function buscarFuncionarioNome($nome){
-        $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
-                    ON Usuario.idUsuario = Funcionario.idUsuario 
-                    WHERE Usuario.nome LIKE '%'.'.$nome.'.'%'"; //query procura usuario pelo nome no banco de dados
+    public function buscarFuncionarioPorCampo($campo, $filtro){ //busca por nome, sobrenome, email, matricula
+        if(strcmp($campo, nome) || strcmp($campo, sobrenome) || strcmp($campo, email)){ //verifica se o campo corresponde a nome, sobrenome ou email
+            $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
+                        ON Usuario.idUsuario = Funcionario.idUsuario 
+                        WHERE Usuario.nome LIKE '%'.'.$campo.'.'%'"; //query procura usuario pelo nome, sobrenome ou email no banco de dados
+        }else if(strcmp($campo, matricula)){
+            $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
+                        ON Usuario.idUsuario = Funcionario.idUsuario 
+                        WHERE Funcionario.matricula = $campo"; //query procura o funcionario pela matricula
+        }
 
         $result = $this->PDO->query($query); //executa a query
 
