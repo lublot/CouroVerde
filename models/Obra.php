@@ -246,7 +246,7 @@ class Obra implements \JsonSerializable {
      * @return funcao
      */
     public function getFuncao() {
-        return $this->idFuncao;
+        return $this->funcao;
     }
 
     /**
@@ -573,7 +573,7 @@ class Obra implements \JsonSerializable {
     /*
      * Obtém o caminho da primeira imagem da obra.
      * @return caminhoImagem1
-     *
+     */
     public function getCaminhoImagem1() {
         return $this->caminhoImagem1;
     }
@@ -581,7 +581,7 @@ class Obra implements \JsonSerializable {
     /**
      * Configura o caminho da primeira imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     *
+     */
     public function setCaminhoImagem1($caminhoImagem) {
         $this->caminhoImagem1 = $caminhoImagem;
     }
@@ -589,7 +589,7 @@ class Obra implements \JsonSerializable {
     /*
      * Obtém o caminho da segunda imagem da obra.
      * @return caminhoImagem2
-     *
+     */
     public function getCaminhoImagem2() {
         return $this->caminhoImagem2;
     }
@@ -597,7 +597,7 @@ class Obra implements \JsonSerializable {
     /*
      * Configura o caminho da segunda imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     *
+     */
     public function setCaminhoImagem2($caminhoImagem) {
         $this->caminhoImagem2 = $caminhoImagem;
     }
@@ -605,6 +605,7 @@ class Obra implements \JsonSerializable {
     /**
      * Obtém o caminho da terceira imagem da obra.
      * @return caminhoImagem3
+     */
      
     public function getCaminhoImagem3() {
         return $this->caminhoImagem3;
@@ -613,7 +614,7 @@ class Obra implements \JsonSerializable {
     /*
      * Configura o caminho da terceira imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     *
+     */
     public function setCaminhoImagem3($caminhoImagem) {
         $this->caminhoImagem3 = $caminhoImagem;
     }
@@ -621,7 +622,7 @@ class Obra implements \JsonSerializable {
     /**
      * Obtém o caminho da quarta imagem da obra.
      * @return caminhoImagem4
-     *
+     */
     public function getCaminhoImagem4() {
         return $this->caminhoImagem4;
     }
@@ -629,7 +630,7 @@ class Obra implements \JsonSerializable {
     /**
      * Configura o caminho da quarta imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     *
+     */
     public function setCaminhoImagem4($caminhoImagem) {
         $this->caminhoImagem4 = $caminhoImagem;
     }
@@ -637,7 +638,7 @@ class Obra implements \JsonSerializable {
     /**
      * Obtém o caminho da quinta imagem da obra.
      * @return caminhoImagem5
-     *
+     */
     public function getCaminhoImagem5() {
         return $this->caminhoImagem5;
     }
@@ -645,7 +646,7 @@ class Obra implements \JsonSerializable {
     /**
      * Configura o caminho da quinta imagem da obra.
      * @param unknown $caminhoImagem - Caminho da imagem
-     *
+     */
     public function setCaminhoImagem5($caminhoImagem) {
         $this->caminhoImagem5 = $caminhoImagem;
     }
@@ -653,7 +654,7 @@ class Obra implements \JsonSerializable {
     /**
      * Obtém o caminho do modelo 3D da obra.
      * @return caminhoModelo3D
-     *
+     */
     public function getCaminhoModelo3D() {
         return $this->caminhoModelo3D;
     }
@@ -661,11 +662,10 @@ class Obra implements \JsonSerializable {
     /**
      * Configura o caminho do modelo 3D da obra.
      * @param unknown $caminhoModelo - Caminho do modelo 3D
-     *
+     */
     public function setCaminhoModelo3D($caminhoModelo) {
         $this->caminhoModelo3D = $caminhoModelo;
     }
-    */
 }
 
 ?>

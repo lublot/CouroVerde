@@ -12,6 +12,11 @@ class relatorioAcessoController extends mainController
 {
     private $numInventarioJaRegistrados;
 
+    public function configuraAmbienteParaTeste($idUsuario, $numInventario){
+        $_POST['idUsuario'] = $idUsuario;
+        $_POST['numeroInventario'] = $numeroInventario;
+    }
+
     /**
     * Gera o relatório de acesso das obras do sistema.
     */

@@ -17,10 +17,9 @@ class relatorioSistemaController extends mainController{
     */
     public function listarTodosRelatorios(){
         $relatorioDAO = new RelatorioSistemaDAO();
-        $resultado = $relatorioDAO->buscar(array(),array());
+        $resultados = $relatorioDAO->buscar(array(),array());
 
-        return $resultado;
-        //echo json_encode($relatorioDAO);
+        echo json_encode($resultados);
     }
 
     /**
@@ -32,12 +31,13 @@ class relatorioSistemaController extends mainController{
                 $relatorioDAO = new RelatorioSistemaDAO();
                 $resultado = $relatorioDAO->buscar(array(),array($_POST['filtro'] => $_POST['valor']));
 
-                return $resultado;
-                //echo json_encode($resultado);
+                echo json_encode($resultado);
             }
         }catch(RelatorioNaoEspecificadoException $e){
             throw $e;
         }
     }
+
+    
 }
 ?>

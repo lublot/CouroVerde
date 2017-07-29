@@ -110,7 +110,7 @@ class FuncionarioDAO extends Database{
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)." FROM funcionario";
+        $query .= implode(',',$campos)." FROM funcionario INNER JOIN usuario ON funcionario.idFuncionario = usuario.idUsuario";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
