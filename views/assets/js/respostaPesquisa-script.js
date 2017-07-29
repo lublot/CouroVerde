@@ -130,8 +130,8 @@ function configuraPerguntaAberta(pergunta){
     var h4 = configuraTituloPergunta(pergunta);//Cria um h4
     var input = document.createElement('input');//Cria um input
 
-    divPergunta.setAttribute('class','perguntaAberta');//Define a classe da div
     divPergunta.setAttribute('idpergunta',pergunta.idPergunta);
+    divPergunta.setAttribute('class','perguntaAberta');//Define a classe da div
     input.setAttribute('type','text');//Define o tipo do input
     input.setAttribute('class','form-control');//Define a classe do input
     
@@ -167,6 +167,7 @@ function configuraPerguntaMultiplaEscolha(pergunta,opcoes){
         input.setAttribute('class','icheckbox_flat');//Define a classe do input
         input.setAttribute('name',pergunta.titulo+'[]');
         input.setAttribute('value',opcoes[i].descricao);
+        input.setAttribute('idopcao',opcoes[i].idOpcao);
         divPergunta.appendChild(input);
         let texto = opcoes[i].descricao;
         let span = document.createElement('span');
@@ -201,6 +202,7 @@ function configuraPerguntaUnicaEscolha(pergunta,opcoes){
         input.setAttribute('class','iradio_flat');//Define a classe do input
         input.setAttribute('name',pergunta.titulo);
         input.setAttribute('value',opcoes[i].descricao);
+        input.setAttribute('idopcao',opcoes[i].idOpcao);
         divPergunta.appendChild(input);
         let texto = opcoes[i].descricao;
         let span = document.createElement('span');
@@ -238,7 +240,7 @@ function prepararJson(){
         var opcoesSelecionadas = [];
         for(let j=0;j<perguntas.length;j++){
                 if(perguntas[j].checked){
-                    opcoesSelecionadas.push('"'+perguntas[j].value+'"');
+                    opcoesSelecionadas.push('"'+perguntas[j].getAttribute('idOpcao')+'"');
                 }
             
         }
@@ -253,7 +255,7 @@ function prepararJson(){
         var opcaoSelecionada;
         for(let j=0;j<perguntas.length;j++){
                 if(perguntas[j].checked){
-                    opcaoSelecionada = perguntas[j].value;
+                    opcaoSelecionada = perguntas[j].getAttribute('idopcao');
                 }
             
         }
@@ -271,6 +273,9 @@ function verificarCamposPreenchidos(){
     //Este bloco verifica se as perguntas de múltipla escolha obrigatórias foram respondidas
     var perguntasMultiplaEscolhaObrigatorias = document.getElementsByClassName('perguntaMultiplaEscolha obrigatorio');
     var qtdMarcados = 0;
+    if(perguntasMultiplaEscolhaObrigatorias.length == 0){
+        qtdMarcados++;
+    }
     for(let i=0;i<perguntasMultiplaEscolhaObrigatorias.length;i++){
         let perguntas = perguntasMultiplaEscolhaObrigatorias[i].querySelectorAll('.icheckbox_flat');
         for(let j=0;j<perguntas.length;j++){
@@ -280,7 +285,7 @@ function verificarCamposPreenchidos(){
             
         }
     }
-    
+    console.log(qtdMarcados);
     if(qtdMarcados == 0){
         return false;
     }
@@ -288,6 +293,9 @@ function verificarCamposPreenchidos(){
     //Este bloco verifica se as perguntas de única escolha obrigatórias foram respondidas
     qtdMarcados = 0;
     var perguntasUnicaEscolhaObrigatorias = document.getElementsByClassName('perguntaUnicaEscolha obrigatorio');
+    if(perguntasUnicaEscolhaObrigatorias.length == 0){
+        qtdMarcados++;
+    }
     for(let i=0;i<perguntasUnicaEscolhaObrigatorias.length;i++){
         let perguntas = perguntasUnicaEscolhaObrigatorias[i].querySelectorAll('.iradio_flat');
         for(let j=0;j<perguntas.length;j++){
@@ -304,6 +312,9 @@ function verificarCamposPreenchidos(){
     //Este bloco verifica se as perguntas abertas obrigatórias foram respondidas
     qtdMarcados = 0;
     var perguntasAbertasObrigatorias = document.getElementsByClassName('perguntaAberta obrigatorio');
+    if(perguntasAbertasObrigatorias.length == 0){
+        qtdMarcados++;
+    }
     for(let i=0;i<perguntasAbertasObrigatorias.length;i++){
         let perguntas = perguntasAbertasObrigatorias[i].querySelector('input');
             if(!campoVazio(perguntas.value)){
