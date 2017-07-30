@@ -485,7 +485,7 @@ public function alterar(){
       // }
 
       // if(!isset($_SESSION['id']) || !isset($_SESSION['idFacebook']) || !isset($_SESSION['idGoogle'])){return; }
-      $_SESSION['id'] = 1;
+      $_SESSION['id'] = 3;
       $json = $_POST['json'];
       $idPesquisa = $_POST['idPesquisa'];
       $dadosRecebidos = json_decode($json,true);
@@ -498,11 +498,11 @@ public function alterar(){
       $respostaDAO = new RespostaDAO();
       foreach($respostas as $resposta){
         if(strcmp($resposta['tipoPergunta'],"ABERTA")==0){
-            $respostaDAO->inserir($_SESSION['id'],$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['respostaPergunta']);
+            $respostaDAO->inserir($_SESSION['id'],$idPesquisa,$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['respostaPergunta']);
         }else if(strcmp($resposta['tipoPergunta'],"MULTIPLA ESCOLHA")==0){
-            $respostaDAO->inserir($_SESSION['id'],$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcoesSelecionadas']);
+            $respostaDAO->inserir($_SESSION['id'],$idPesquisa,$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcoesSelecionadas']);
         }else if(strcmp($resposta['tipoPergunta'],"UNICA ESCOLHA")==0){
-            $respostaDAO->inserir($_SESSION['id'],$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcaoSelecionada']);
+            $respostaDAO->inserir($_SESSION['id'],$idPesquisa,$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcaoSelecionada']);
         }
 
       }
@@ -512,8 +512,30 @@ public function alterar(){
     }
     
   }
-
   
+  public function resgatarRespostas(){
+    //$idPesquisa = $_POST['idPesquisa'];
+    $idPesquisa = 1;
+    $pesquisaDAO = new PesquisaDAO();
+    $infoPesquisa = $pesquisaDAO->buscar(array('titulo'),array('idPesquisa'=>$idPesquisa));
+  
+    $respostaDAO = new RespostaDAO();
+    $infoRespostaAberta = $respostaDAO->buscarRespostaAberta(array(),array('idPesquisa'=>$idPesquisa));
+
+    $infoRespostaFechada = $respostaDAO->buscarRespostaFechada($idPesquisa);
+  
+    $respostas = array();
+
+    while(count($infoRespostaAberta)>0){
+       array_push($respostas,array_shift($infoRespostaAberta));
+    }
+
+    while(count($infoRespostaFechada)>0){
+       array_push($respostas,array_shift($infoRespostaFechada));
+    }
+    
+    echo json_encode($respostas);
+  }
 }
 
 ?>
