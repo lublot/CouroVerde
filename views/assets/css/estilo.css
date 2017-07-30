@@ -81,7 +81,7 @@ div#container {
 }
 
 div#titulo {
-    background-color: #b3b3b3;
+    background-color: #bcd1ec;
     border-color: #e5e5e5 #333333 #eee;
     border-style: solid;
     border-width: 1px 0;
@@ -338,7 +338,7 @@ input#busca {
 }
 
 .caixa-backup-titulo {
-    background-color: #b3b3b3;
+    background-color: #bcd1ec;
     border-color: #333333;
     padding-top: .02px;
     margin-left: -15px;

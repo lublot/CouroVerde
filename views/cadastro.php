@@ -53,9 +53,11 @@
 					</div>
 				
 					<div class="form-group">
-                   		<div class="col-sm-offset-4 col-sm-5">
-                        	<button type="submit" class="btn btn-default btn-md center">Entrar</button>
-                    	</div>
+						<div class="col-md-3"></div>
+                   		<div class="col-md-6">
+                        	<button type="submit" class="btn btn-primary btn-md center">Cadastrar</button>
+						</div>
+						<div class="col-md-3"></div>
 					</div> 
 					   
 					<h6 class="text-center" style="margin-top: 16%;">Ou entre com:</h6>

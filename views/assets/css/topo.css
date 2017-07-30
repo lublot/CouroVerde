@@ -35,5 +35,21 @@ header{
     height: 16px;
     width: 16px;
     float:left;
-    margin-right: 2px;
+    margin-right: 5px;
+}
+
+.icone-galeria{
+    background: url('../images/gallery.png');
+    height: 16px;
+    width: 16px;
+    float:left;
+    margin-right: 5px;
+}
+
+.icone-sobre{
+    background: url('../images/info.png');
+    height: 16px;
+    width: 16px;
+    float:left;
+    margin-right: 5px;
 }
