@@ -114,7 +114,7 @@
                                 <li><a href="'.ROOT_URL.'login/logout">Sair</a></li>
                               </ul>';
                     }else{
-                       echo '<center><span><a href="'.ROOT_URL.'login"><strong>Fazer Login</strong></a></span> ou <span><a href="'.ROOT_URL.'cadastro"><strong> Cadastre-se!</strong></a></span></center><br>';     
+                       echo '<center><span><a href="'.ROOT_URL.'login"><strong style="color: #0277f0;">Fazer Login</strong></a></span> ou <span><a href="'.ROOT_URL.'cadastro"><strong style="color: #0277f0;"> Cadastre-se!</strong></a></span></center><br>';     
                     }
                 ?> 
                 
