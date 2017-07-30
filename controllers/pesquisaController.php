@@ -4,6 +4,7 @@ namespace controllers;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use DAO\PesquisaDAO as PesquisaDAO;
 use DAO\PerguntaDAO as PerguntaDAO;
+use DAO\RespostaDAO as RespostaDAO;
 use DAO\OpcaoDAO as OpcaoDAO;
 use DAO\PerguntaPesquisaDAO as PerguntaPesquisaDAO;
 use DAO\PerguntaOpcaoDAO as PerguntaOpcaoDAO;
@@ -479,29 +480,32 @@ public function alterar(){
 
   public function guardarResposta(){
     try{
+      // if(!isset($_SESSION)){
+      //   session_start();      
+      // }
+
+      // if(!isset($_SESSION['id']) || !isset($_SESSION['idFacebook']) || !isset($_SESSION['idGoogle'])){return; }
+      $_SESSION['id'] = 1;
       $json = $_POST['json'];
       $idPesquisa = $_POST['idPesquisa'];
       $dadosRecebidos = json_decode($json,true);
-    
-      $arrayAux = array();
-      while(count($dadosRecebidos)>0){//Coloca todas as informações relevantes em um array só
-        array_push($arrayAux,array_shift($dadosRecebidos)[0]);
+      
+      $respostas = array();
+      while(count($dadosRecebidos)>0){
+        $respostas[] = array_shift($dadosRecebidos)[0];
       }
 
-      $path = ABSPATH.'/media/pesquisas/';
+      $respostaDAO = new RespostaDAO();
+      foreach($respostas as $resposta){
+        if(strcmp($resposta['tipoPergunta'],"ABERTA")==0){
+            $respostaDAO->inserir($_SESSION['id'],$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['respostaPergunta']);
+        }else if(strcmp($resposta['tipoPergunta'],"MULTIPLA ESCOLHA")==0){
+            $respostaDAO->inserir($_SESSION['id'],$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcoesSelecionadas']);
+        }else if(strcmp($resposta['tipoPergunta'],"UNICA ESCOLHA")==0){
+            $respostaDAO->inserir($_SESSION['id'],$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcaoSelecionada']);
+        }
 
-      if(file_exists($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml')){// Verifica se o XML já existe,caso exista adiciona as respostas ao arquivo
-        $file = simplexml_load_file($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml');
-        $this->respostasParaXML($arrayAux,$file);
-        $result = $file->asXML();
-        file_put_contents($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml',$result);
-      }else{//Caso não exista, cria o arquivo
-        $xml_data = new \SimpleXMLElement('<Pesquisa/>');
-        $this->respostasParaXML($arrayAux,$xml_data);
-        $result = $xml_data->asXML();
-        file_put_contents($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml',$result);
       }
-
       echo json_encode(array("success"=>true));
     }catch(Exception $e){
       echo json_encode(array("erro"=>"Ocorreu um erro,atualize a página e tente novamente","success"=>false));
@@ -509,74 +513,7 @@ public function alterar(){
     
   }
 
-  private function respostasParaXML($data,&$xml_data){
-    foreach ($data as $key => $value) {
-      if(is_numeric($key)){ 
-          $key= 'pergunta'; 
-      }
-      if(is_array($value)){
-        $subnode= $xml_data->addChild($key);
-        $this->respostasParaXML($value, $subnode);
-      }else{
-          $xml_data->addChild($key, htmlspecialchars($value));
-      }
-    }
-  }
-
-  public function respostaPesquisa(){
-    // $idPesquisa = $_POST['idPesquisa'];
-    $idPesquisa = 2;
-    $path = ABSPATH.'/media/pesquisas/';
-    $nomeArquivo = $path.'Respostas-IdPesquisa['.$idPesquisa.'].xml';
-    if(file_exists($nomeArquivo)){
-      $file = simplexml_load_file($path.'Respostas-IdPesquisa['.$idPesquisa.'].xml');
-      $c = $file->pergunta;
-      
-      $perguntasAbertas = array();
-      $perguntasMultiplaEscolha = array();
-      $perguntasUnicaEscolha = array();
-      
-      for($i=0;$i<count($c);$i++){ // Converte o XML para arrays
-        if(strcmp($c[$i]->tipoPergunta,"ABERTA")==0){
-          $perguntasAbertas[] = get_object_vars($c[$i]);
-        }else if(strcmp($c[$i]->tipoPergunta ,"MULTIPLA ESCOLHA")==0){
-          $opcoes = get_object_vars($c[$i]->opcoesSelecionadas)['pergunta']; //Guarda as opções do xml em forma de array
-          $pergunta = get_object_vars($c[$i]);// Guarda os dados do xml
-          unset($pergunta['opcoesSelecionadas']); //Remove as opções no formato xml
-          $pergunta['opcoesSelecionadas'] = $opcoes; //Adiciona ao array as informações das opções
-          $perguntasMultiplaEscolha[]=$pergunta;//Adiciona ao array com todas as perguntas de múltipla escolha
-        }else if(strcmp($c[$i]->tipoPergunta,"UNICA ESCOLHA")==0){
-          $perguntasUnicaEscolha[] = get_object_vars($c[$i]);
-        }
-      }
-
-      
-      $UnicaEscolhaPorId = array();
-      while(count($perguntasUnicaEscolha)>0){
-        $atual = array_shift($perguntasUnicaEscolha);
-        $chave = 'idPergunta='.$atual['idPergunta'];
-        if(array_key_exists($chave,$UnicaEscolhaPorId)){
-          array_push($UnicaEscolhaPorId[$chave],$atual);
-        }else{
-          $UnicaEscolhaPorId[$chave][0] = $atual;
-        }
-      }
-
-      $UnicaEscolhaPercentual = array();
-      foreach($UnicaEscolhaPorId as $pergunta){
-        foreach($pergunta as $resposta){
-          $chave = 'idPergunta='.$resposta['idPergunta'].'&opcao='.$resposta['opcaoSelecionada'];
-          if(array_key_exists($chave,$UnicaEscolhaPercentual)){
-            $UnicaEscolhaPercentual[$chave]->addOcorrencias();
-          }else{
-            $UnicaEscolhaPercentual[$chave] = new PercentualOpcoes($resposta['idPergunta'],$resposta['tituloPergunta'],
-                                                                   $resposta['tipoPergunta'],$resposta['opcaoSelecionada']);
-          }
-        }
-      }
-      var_dump($UnicaEscolhaPercentual);
-    }
-  }
+  
 }
 
 ?>

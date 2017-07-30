@@ -221,6 +221,16 @@ class funcionarioController extends mainController {
     }
 
     /**
+    * Busca todos os funcionarios sem filtro
+    */
+    public function buscarTodosFuncionarios(){
+        $funcionarioDAO = new funcionarioDAO();
+        $resultados = $funcionarioDAO->buscarFuncionarioPorCampo(null, null);
+
+        return $resultados;
+    }
+
+    /**
     * Busca funcionarios pelo nome
     */
     public function buscarFuncionarioPorNome(){
