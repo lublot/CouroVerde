@@ -22,7 +22,6 @@
 
     <!--Importação do Javascript pessoal e jQuery  -->
     <script src="assets/js/jquery-3.2.1.min.js"></script>
-    <script src="assets/js/cadObras-script.js"></script>
     <script src="assets/js/bootstrap.js"></script>
 
 
@@ -174,7 +173,25 @@
                                 <td>
                                     <p>Tamanho</p>
                                 </td>
-                                <td><img src="assets/images/if_backup_383184.png"></td>
+                                <td>
+                                    <button class="btn btn-default" style="border:none" data-toggle="modal" data-target="#myModal">
+                                        <img src="assets/images/if_backup_383184.png"> 
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <p>Data</p>
+                                </td>
+                                <td>
+                                    <p>Tamanho</p>
+                                    <td>
+                                        <button class="btn btn-default" style="border:none" data-toggle="modal" data-target="#myModal">
+                                        <img src="assets/images/if_backup_383184.png"> 
+                                    </button>
+                                    </td>
 
                             </tr>
 
@@ -185,116 +202,94 @@
                                 <td>
                                     <p>Tamanho</p>
                                 </td>
-                                <td><img src="assets/images/if_backup_383184.png"></td>
+                                <td>
+                                    <button class="btn btn-default" style="border:none" data-toggle="modal" data-target="#confSenha">
+                                        <img src="assets/images/if_backup_383184.png"> 
+                                    </button>
+                                </td>
 
                             </tr>
-
-                            <tr>
-                                <td>
-                                    <p>Data</p>
-                                </td>
-                                <td>
-                                    <p>Tamanho</p>
-                                </td>
-                                <td><img src="assets/images/if_backup_383184.png"></td>
-
-                            </tr>
-
-
-
                         </table>
 
                     </div>
 
+                    <!-- / Div onde fica localizada as caixas inferiores de histórico e backup automático -->
                 </div>
 
-                <!-- / Div onde fica localizada as caixas inferiores de histórico e backup automático -->
+
+
+                <!-- /FIM da Caixa interna -->
+            </section>
+
+            <!-- FIM do Contorno -->
         </div>
 
 
 
-        <!-- /FIM da Caixa interna -->
-        </section>
-
-        <!-- FIM do Contorno -->
     </div>
 
 
 
-    </div>
+    <!-- pop up -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog" style="width:60vh;">
 
-    <!-- Footer -->
-    <footer class=" footer-distributed ">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" style="padding:40px 50px;" align="center">
+                    <p class="text-center">Você tem certeza que deseja restaurar os dados para o backup de "DATA"?</p>
+                    <p class="text-center">Todos os dados obtidos em datas posteriores serão perdidos.</p>
+                    <button class="btn btn-default" data-toggle="modal" data-target="#confSenha" data-dismiss="modal" aria-hidden="true">Sim</button>
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Não</button>
 
-        <div class="footer-left ">
-
-            <h3>Sertour</h3>
-
-            <p class="footer-company-name ">MItologic Software® &copy; 2017</p>
-        </div>
-
-        <div class="footer-center ">
-
-            <p class="footer-links ">
-                <a href="# ">Home</a>
-                <a href="# ">Galeria</a>
-                <a href="# ">Sobre</a>
-            </p>
-
-        </div>
-
-        <div class="footer-right ">
-
-            <div class="footer-icons ">
-                <p style="text-align: center; ">
-                    <a href="# "><i class="fa fa-twitter "></i></a>
-                    <a href="# "><i class="fa fa-facebook "></i></a>
-                    <a href="# "><i class="fa fa-google-plus "></i></a>
-                </p>
-
+                </div>
             </div>
 
-
         </div>
+    </div>
 
-    </footer>
-    <!-- /Footer -->
+    <!-- Modal -->
+    <div class="modal fade" id="confSenha" role="dialog">
+        <div class="modal-dialog modal-sm">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" style="padding:40px 50px;">
+                    <form role="form" data-toggle="validator">
+                        <div class="form-group">
+                            <div>
+                                <label for="psw"> Senha:</label>
+                                <input type="password" class="form-control" id="psw" for="inputsm" placeholder="Digite a senha" required>
+                            </div>
+                            <button type="submit" class="btn btn-success " style="margin-top: 2vh;" onclick="Nova(event)"> Fazer restauração</button>
+                    </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
 </body>
 
 <script type="text/javascript">
-    window.onload = function() {
-        $('.selectpicker').selectpicker();
-        $('.rm-Diariamente').click(function() {
-            $('.remove-example').find('[value=Diariamente]').remove();
-            $('.remove-example').selectpicker('refresh');
-        });
-        $('.rm-Semanalmente').click(function() {
-            $('.remove-example').find('[value=Semanalmente]').remove();
-            $('.remove-example').selectpicker('refresh');
-        });
-        $('.rm-Mensalmente').click(function() {
-            $('.remove-example').find('[value=Mensalmente]').remove();
-            $('.remove-example').selectpicker('refresh');
-        });
-        $('.ex-disable').click(function() {
-            $('.disable-example').prop('disabled', true);
-            $('.disable-example').selectpicker('refresh');
-        });
-        $('.ex-enable').click(function() {
-            $('.disable-example').prop('disabled', false);
-            $('.disable-example').selectpicker('refresh');
-        });
+    function Nova(event) {
+        event.preventDefault();
+        console.log("entrou");
+        window.location.replace("backupAndamento.html");
+    }
 
-        // scrollYou
-        $('.scrollMe .dropdown-menu').scrollyou();
 
-        prettyPrint();
-    };
+    /*
+        function Nova(event) {
+            event.preventDefault();
+            console.log("entrou");
+            return "backupAndamento.html";
+            
+        }*/
 </script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.5.4/bootstrap-select.js" />
 
-</html>t>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.5.4/bootstrap-select.js" />
+</html>
 
 </html>
