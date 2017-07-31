@@ -23,7 +23,6 @@
 
 	<!--Importação do Javascript pessoal e jQuery  -->
 	<script src="assets/js/jquery-3.2.1.min.js"></script>
-	<script src="assets/js/cadObras-script.js"></script>
 	<script src="assets/js/bootstrap-datepicker.js"></script>
 	<script>
 		$(function () {
@@ -32,6 +31,7 @@
 			});
 		});
 	</script>
+	<script src="assets/js/cadObras-script.js"></script>
 
 </head>
 
@@ -51,7 +51,7 @@
 			<div>
 
 				<!--Formulário de cadastro-->
-				<form method="post">
+				<form method="POST" id="form-obra">
 
 					<!--Página 1: Informações da Obra-->
 					<div id="page_1">
@@ -88,7 +88,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<!--Text: Número do Inventário-->
-											<input class="form-control" type="number" name="inventario" placeholder="Número do Inventário (*)">
+											<input class="form-control" type="number" id="inventario" name="inventario" placeholder="Número do Inventário (*)">
 										</div>
 									</div>
 									<div class="col-lg-6">

@@ -41,7 +41,7 @@
 
                     <div class="form-group">
                       <div class="col-sm-offset-4 col-sm-5">
-                        <button type="submit" class="btn btn-default btn-md center">Entrar</button>
+                        <button type="submit" class="btn btn-primary btn-md center" >Entrar</button>
                       </div>
                     </div>
                     <h6 class="text-center text-danger">
@@ -61,13 +61,13 @@
               <div class="center" style="margin: 0 auto; width:43%">
 
                 <a class="btn btn-social-icon btn-lg btn-facebook " id='btn-facebook'>
-                  <span class = "fa fa-facebook"> </span>
+                  <span class = "fa fa-facebook" style="background-color:#3b5998;"> </span>
                 </a>
 
                 <img src=<?php $this->path('assets/images/divisor.jpg')?>>
 
                 <a class="btn btn-social-icon btn-lg btn-google-plus " href=<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'/acessoGoogle';?>>
-                  <span class = "fa fa-google-plus"> </span>
+                  <span class = "fa fa-google-plus"  style="background-color:rgb(223,75,55);"> </span>
                 </a>
 
               </div>
