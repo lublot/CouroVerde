@@ -19,6 +19,7 @@ class backupController extends mainController {
 
     /**
     * Realiza o backup completo do sistema.
+    * @return String $caminhoBackup - caminho do local onde está armazenado o arquivo de backup.    
     */
     public function realizarBackup() {
         $caminhoReal = dirname(__DIR__).'\media';
@@ -51,6 +52,7 @@ class backupController extends mainController {
         $this->gerenciarQuantidadeBackups(); //verifica e remove, se necessário, algum backup mais antigo        
         $backupDAO = new backupDAO($backup);
         $backupDAO->inserir($backup);
+        header("Refresh:0; url=../views/backup.php");
     }
 
     /**
@@ -181,13 +183,9 @@ class backupController extends mainController {
     */
     public function listarTodosBackups() {
         $backupDAO = new backupDAO();
-        $backup = $backupDAO->buscar();
+        $backup = $backupDAO->buscarMaisRecente();
        
-        if(count($backup) < 1) {
-            throw new BackupNaoEncontradoException();
-        } 
-
-        echo json_encode($backup, JSON_UNESCAPED_SLASHES);
+        return json_encode($backup, JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -244,12 +242,12 @@ class backupController extends mainController {
     /**
     * Gerencia a quantidade de backups e remove, se necessário, o backup mais antigo.
     */
-    public function gerenciarQuantidadeBackups() {
+    private function gerenciarQuantidadeBackups() {
         $backupDAO = new backupDAO();
-        $backups = $backupDAO->buscarMaisRecente(array(), array());
+        $backups = $backupDAO->buscarMaisRecente();
 
         if(count($backups) == 5) { //se existirem 5 backups
-            $backupMaisAntigo = $backups[5]; //obtém o backup mais antigo
+            $backupMaisAntigo = $backups[4]; //obtém o backup mais antigo
             $backupDAO->remover(array("idBackup" => $backupMaisAntigo->getId())); //remove o backup do banco de dados
             unlink(dirname(__DIR__).'/'.$backupMaisAntigo->getCaminho()); //remove o arquivo de backup
         }

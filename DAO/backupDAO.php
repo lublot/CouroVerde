@@ -100,8 +100,6 @@ class backupDAO extends Database {
     * @return unknown $backup - um array contendo os backups retornados na busca
     */
     public function buscarMaisRecente($campos = array(),$filtros = array(),$limite=0){
-
-
         $query = "SELECT ";
 
         if(count($campos) == 0){

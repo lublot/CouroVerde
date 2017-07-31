@@ -23,8 +23,8 @@
     <!--Importação do Javascript pessoal e jQuery  -->
     <script src="assets/js/jquery-3.2.1.min.js"></script>
     <script src="assets/js/bootstrap.js"></script>
-
-
+    <script src="assets/js/backup-script.js"></script>
+    
 
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -51,10 +51,10 @@
 
                 <!-- Backup manual -->
                 <p> Deseja fazer backup agora?
-
                     <!-- Botão de backup manual -->
-                    <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-cloud-download " style="font-size: 25px"  ></span>
+                    <button type="button" target="_new" id="btn-backup" class="btn btn-default btn-sm">
+                        <img src="assets/images/if_backup_383184.png"> 
+                    </button>
 
                 <!-- /FIM de botão de backup manual -->
                  </button>
@@ -82,7 +82,7 @@
                         <!-- Ligar ou desligar backup automatico -->
                         <div class="row" style="padding-bottom: 2vh;margin-top:6vh;">
 
-                            <!-- Nome da opção -->
+                             Nome da opção 
                             <div class="col-sm-5">
                                 <p>Ativar/Desativar: </p>
                             </div>
@@ -166,49 +166,27 @@
                         <!-- Lista de históicos -->
 
                         <table class="historico-backup">
-                            <tr>
-                                <td>
-                                    <p>Data</p>
-                                </td>
-                                <td>
-                                    <p>Tamanho</p>
-                                </td>
-                                <td>
-                                    <button class="btn btn-default" style="border:none" data-toggle="modal" data-target="#myModal">
-                                        <img src="assets/images/if_backup_383184.png"> 
-                                    </button>
-                                </td>
+                            <?php
+                                require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
+                                use \controllers\backupController as BackupController;
+                                
+                                $backupController = new BackupController();
+                                $backups = json_decode($backupController->listarTodosBackups());
 
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <p>Data</p>
-                                </td>
-                                <td>
-                                    <p>Tamanho</p>
-                                    <td>
-                                        <button class="btn btn-default" style="border:none" data-toggle="modal" data-target="#myModal">
-                                        <img src="assets/images/if_backup_383184.png"> 
-                                    </button>
-                                    </td>
-
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <p>Data</p>
-                                </td>
-                                <td>
-                                    <p>Tamanho</p>
-                                </td>
-                                <td>
-                                    <button class="btn btn-default" style="border:none" data-toggle="modal" data-target="#confSenha">
-                                        <img src="assets/images/if_backup_383184.png"> 
-                                    </button>
-                                </td>
-
-                            </tr>
+                                foreach($backups as $backup) {
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo '<p>' . $backup->dia . '</p>';
+                                    echo '</td>';    
+                                    echo '<td>';
+                                    echo '<p>' . $backup->hora . '</p>';
+                                    echo '</td>';     
+                                    echo '<td>
+                                        <button class="glyphicon glyphicon-cloud-download" onclick=window.location.href="../'.$backup->caminho.'" class="btn btn-default"></button>
+                                            </td>';    
+                                    echo '</tr>';                                                                                                            
+                                }
+                            ?>
                         </table>
 
                     </div>
