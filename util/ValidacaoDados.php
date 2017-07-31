@@ -16,20 +16,20 @@ class ValidacaoDados {
     */
     public static function validarForm($array,$chaves){
         foreach($chaves as $chave){
-            if(!array_key_exists($chave,$array)){
+            if(!array_key_exists($chave,$array) || empty($array[$chave])){
                 return false;
             }
         }
         return true;
     }
-    
+
     
     /**
     * Verifica se determinado campo tem informação.
     * @return <code>true</code>, se houver informação; <code>false</code>, caso contrário
     */
     public static function validarCampo($campo) {
-        if (isset($campo) && !empty($campo)) {
+        if ($campo != null && isset($campo) && !empty($campo)) {
             return true;
         }
         return false;
@@ -128,4 +128,64 @@ class ValidacaoDados {
             return true;
         }
     }
+
+    /**
+    * Recebe uma data no formato SQL e transforma em um formato usual
+    * @param $data - A data a ser formatada
+    * @return $dataFormatada - A data formatada;
+    */
+    public static function formatarDataSQLparaPadrao($data){
+        $dataFormatada = explode('-', $data);
+        $dataFormatada = $dataFormatada[2].'/'.$dataFormatada[1].'/'.$dataFormatada[0];
+        return $dataFormatada;
+    }
+
+    /**
+    * Verifica se o texto é vazio
+    * @param $campo - O texto para ser testado
+    * */
+    public static function campoVazio($campo){
+        $string = preg_replace('/\s+/', '', $campo);
+        return strlen($string) == 0;
+    }
+
+    /**
+    * Verifica se uma data informada é válida.
+    * @param $data - A data que será testada
+    * @return <code>true</code>, se a data informada for válida; <code>false</code>, caso contrário.
+    */
+    public static function validarData($data){
+        $data = explode("/","$data"); // fatia a string $data em pedaços, usando / como referência
+
+        if(isset($data[0]) && isset($data[1]) && $data[2]) {
+            $d = $data[0];
+            $m = $data[1];
+            $y = $data[2];
+        
+            $res = checkdate($m,$d,$y);
+            if ($res == 1){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+    * Verifica se uma hora informada é válida.
+    * @param $hora - A hora que será testada
+    * @return <code>true</code>, se a hora informada for válida; <code>false</code>, caso contrário.
+    */
+    public static function validarHora($hora){
+        $hora = explode(":", $hora);
+
+        if(count($hora) == 3) {
+            return (isset($hora[0]) && is_numeric($hora[0]) && isset($hora[1]) && is_numeric($hora[1]) && isset($hora[2]) && is_numeric($hora[2]));
+        } else {
+            return false;
+        }
+    }        
 }

@@ -7,81 +7,79 @@
 	<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=no" />
 	<title>Cadastro</title>
 
-	<link rel="stylesheet" href=<?php $this->path('assets/css/bootstrap-theme.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/estilo.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/bootstrap-social.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/datepicker.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/bootstrap.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/site.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/site.min.css');?>>
+	<?php $this->carregarDependencias()?>
 
-	<script src=<?php $this->path('assets/js/jquery-3.2.1.min.js');?>></script>
-	<script src=<?php $this->path('assets/js/bootstrap-datepicker.js');?>></script>
-	<script src=<?php $this->path('assets/js/moment.js');?>></script>
-	<script src=<?php $this->path('assets/js/cadastro-script.js');?>></script>
-	<!--<script>
-		$(function () {
-			$('.datepicker').datepicker({
-				format: 'dd/mm/yyyy',
-			});
-		});
-	</script>-->
+	<script type="text/javascript" src=<?php $this->path("assets/js/validator.js");?>></script>
+	<script type="text/javascript" src=<?php $this->path('assets/js/login-script.js');?>></script>
+
 </head>
 
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-12">
-				<h2>Inscreva-se. É simples! </h2>
-				<form method="POST">
+	<img src=<?php $this->path('assets/images/logo-maior1.png')?>  class="img-rounded" id="logo">
+	<div id="container-reg">
+		<section id="caixa-registro">
+			<h4 class="text-center" style="margin-bottom:16%;">Inscreva-se. É grátis!</h4>
+			<!-- Form do cadastro -->
+			<form method="POST" data-toggle="validator">
 					<div class="row">
 						<div class="form-group col-xs-6">
-							<label for="nome">Nome</label>
-							<input type="text" class="form-control" id="nome" name="nome"required />
+							<input type="text" class="form-control" id="nome" name="nome"required placeholder="Nome"/>
 						</div>
-
 						<div class="form-group col-xs-6">
-							<label for="sobrenome">Sobrenome</label>
-							<input type="text" class="form-control" id="sobrenome" name="sobrenome"required />
+							<input type="text" class="form-control" id="sobrenome" name="sobrenome"required placeholder="Sobrenome"/>
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="form-group col-xs-12">
-							<label for="email">Email</label>
-							<input type="email" class="form-control" id="email" name="email" required/>
+							<input type="email" class="form-control" id="email" name="email" required placeholder="Email"/>
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="form-group col-xs-12">
-							<label for="senha">Senha</label>
-							<input type="password" class="form-control" id="senha" name="senha" required/>
+							<!-- <input type="password" class="form-control" id="senha" name="senha" required placeholder="Senha"/> -->
+							<input id="senha" type="password" name="senha" class="form-control" pattern=".{8,32}" placeholder="Senha" required title="Insira uma senha de 8 a 32 caracteres.">	
 						</div>
 					</div>
-
-					<!--<div class="row">
-						<div class="form-group">
-							<label for="date">Aniversário</label>
-							<input class="datepicker" type="text" id="date" name="dataNascimento" required>
+				
+					<div class="form-group">
+						<div class="col-md-3"></div>
+                   		<div class="col-md-6">
+                        	<button type="submit" class="btn btn-primary btn-md center">Cadastrar</button>
+							<!--ESSE TRECHO AQUI VAI MOSTRAR UMA EXCEPTION DO BACK-END TU VÊ ONDE COLOCA AÍ-->
+							<?php if(isset($this->dados['exception']) && !empty($this->dados['exception'])){
+									echo $this->dados['exception'];
+								}
+							?>
 						</div>
-					</div>-->
+						<div class="col-md-3"></div>
+					</div> 
+					   
+					<h6 class="text-center" style="margin-top: 16%;">Ou entre com:</h6>
+
+					<!-- Botões sociais -->
+					<div class="center" style="margin: 0 auto; width:43%">
+
+						<a class="btn btn-social-icon btn-lg btn-facebook " id='btn-facebook'>
+							<span class = "fa fa-facebook" style="background-color:#3b5998;"> </span>
+						</a>
+
+						<img src=<?php $this->path('assets/images/divisor.jpg')?>>
+
+						<a class="btn btn-social-icon btn-lg btn-google-plus " href=<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'/acessoGoogle';?>>
+							<span class = "fa fa-google-plus"  style="background-color:rgb(223,75,55);"> </span>
+						</a>
+
+              		</div>
+
+
 					
-					<!--ESSE TRECHO AQUI VAI MOSTRAR UMA EXCEPTION DO BACK-END TU VÊ ONDE COLOCA AÍ-->
-					<?php if(isset($this->dados['exception']) && !empty($this->dados['exception'])){
-							echo $this->dados['exception'];
-						  }
-					?>
-					<div class="row">
-						<div class="form-group">
-							<button type="submit" class="btn btn-default btn-md center">Cadastrar</button>
-						</div>
-					</div>	
+					
 				</form>
-			</div>
-		</div>
+		</section>
 	</div>
-
+	<?php $this->carregarRodape()?>
 </body>
 
 </html>

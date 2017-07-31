@@ -27,6 +27,23 @@ class mainController{
         include ABSPATH.'/views/rodape.php';
     }
 
+    protected function carregarDependencias(){
+        
+        echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/bootstrap.css".'>';
+        echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/bootstrap-theme.css".'>';
+        echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/bootstrap.min.css".'>';
+        echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/bootstrap-social.css".'>';
+
+        echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/estilo.css".'>'; 
+        echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/site.css".'>';
+        echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/site.min.css".'>';
+        echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/topo.css".'>';
+
+        echo  '<script type ="text/javascript" src='.VIEW_BASE."assets/js/jquery-3.2.1.min.js".'></script>';
+        echo  '<script type="text/javascript" src='.VIEW_BASE."assets/js/bootstrap.js".'></script>';
+        echo  '<script type ="text/javascript" src='.VIEW_BASE."assets/js/validator.js".'></script>';
+        echo  '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">';
+    }
     /**
     * Este método indica a url atual, funciona como um refresh interno
     */

@@ -15,6 +15,6 @@ class NomeInvalidoException extends \Exception
 	*/
     public function __construct()
     {
-        parent::__construct("O nome não foi informado.");
+        parent::__construct("O campo nome é inválido.");
     }
 }

@@ -7,7 +7,7 @@ header{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-content: center;
 }
 
@@ -17,11 +17,49 @@ header{
 .item-cabecalho{
     float:left;
     font-size:medium;
+    margin-right: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
     
 }
 .item-cabecalho a{
-    font-size:medium;
-    color: black;
+    font-size:16px;
+    color: #4F2F00;
     text-decoration-style: none;  
     font-weight: bold;  
+}
+
+.icone-home{
+    background: url('../images/home.png');
+    height: 16px;
+    width: 16px;
+    float:left;
+    margin-right: 5px;
+}
+
+.icone-galeria{
+    background: url('../images/gallery.png');
+    height: 16px;
+    width: 16px;
+    float:left;
+    margin-right: 5px;
+}
+
+.icone-sobre{
+    background: url('../images/info.png');
+    height: 16px;
+    width: 16px;
+    float:left;
+    margin-right: 5px;
+}
+
+@media (max-width: 880px){
+.flex{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-content: center;
+}
 }

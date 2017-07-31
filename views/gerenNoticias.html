@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!--Codificação dos caracteres: UTF-8-->
+    <meta charset="utf-8" />
+    <!--Descrição da página: Sertour-->
+    <meta name="description" content="Setour" />
+    <!--Regulando a visão da tela para a largura relativa à tela utilizada-->
+    <meta name=viewport content="width=device-width, initial-scale=1" />
+
+    <title>Gerenciamento de Notícias</title>
+
+    <!--Importação do CSS do Bootstrap, Bootflat e o pessoal (Estilos)-->
+    <link rel="stylesheet" href="assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="assets/css/estilo.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-social.css" />
+    <link rel="stylesheet" href="assets/css/site.css" />
+    <link rel="stylesheet" href="assets/css/site.min.css" />
+    <link rel="stylesheet" href="assets/css/adm.css" />
+
+
+    <!--Importação do Javascript pessoal e jQuery  -->
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/cadObras-script.js"></script>
+
+</head>
+
+<body style="background-color: rgb(241, 242, 246);">
+
+    <div class="container">
+
+        <!--Título da caixa-->
+        <div id="titulo">
+            <h4 class="text-center">Gerenciamento de Notícias</h4>
+        </div>
+        <!--Fim do título da caixa-->
+
+        <!-- Contorno -->
+        <div id="contorno">
+
+            <!-- Caixa interna -->
+            <section id="caixa">
+
+                <!-- Inicio da caixa de busca LEMBRAR DE CONCERTA O CSS INLINE-->
+                <div class="row" style="margin-bottom:2vh;">
+
+                    <!-- Tamanho e posição do input de busca -->
+                    <div class="col-lg-6 col-lg-offset-3">
+
+                        <!-- Input de busca -->
+
+                        <div class="search-only form-search">
+                            <i class="search-icon fa fa-search"></i>
+                            <input type="text" class="form-control search-query input-sm" placeholder="Busca" id="busca" />
+                        </div>
+
+                        <!-- FIM Tamanho e posição do input de busca -->
+                    </div>
+
+                    <!-- FIM da caixa de busca LEMBRAR DE CONCERTA O CSS INLINE-->
+                </div>
+
+
+                <!-- Inicio da galeria -->
+                <div class="row" align="center">
+
+
+                    <!-- Posição e tamanho do item da galeria. Isto que deve ser replicado com o PHP puxando
+                    os funcinários do banco de dados-->
+                    <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter spray ">
+
+                        <!-- Caixa do item -->
+                        <div class="caixa-funcionario" id="caixa-funcionario">
+
+                            <!--LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DO FUNCIONÁRIO-->
+                            <a href="cadNoticias.html" class="text-center">
+
+                                <!-- Icone funcionário 
+                                <img src="assets/images/use (3).png " class="img-responsive" align="center"> -->
+
+                                <!-- Nome funcionário -->
+                                <h5><dt>Título da notícia </dt></h5>
+
+                                <!-- FIM LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DO FUNCIONÁRIO-->
+                            </a>
+
+                            <!-- FIM da Caixa do item -->
+                        </div>
+
+                        <!-- /Posição e tamanho do item da galeria. Isto que deve ser replicado com o PHP puxando
+                    os funcinários do banco de dados-->
+                    </div>
+
+
+                    <!-- Posição e tamanho do item da galeria. Isto que deve ser replicado com o PHP puxando
+                    os funcinários do banco de dados-->
+                    <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter spray ">
+
+                        <!-- Caixa do item -->
+                        <div class="caixa-funcionario" id="caixa-funcionario">
+
+                            <!--LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DO FUNCIONÁRIO-->
+                            <a href="cadNoticias.html" class="text-center">
+
+                                <!-- Icone funcionário 
+                                <img src="assets/images/use (3).png " class="img-responsive" align="center"> -->
+
+                                <!-- Nome funcionário -->
+                                <h5><dt>Título da notícia </dt></h5>
+
+                                <!-- FIM LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DO FUNCIONÁRIO-->
+                            </a>
+
+                            <!-- FIM da Caixa do item -->
+                        </div>
+
+                        <!-- /Posição e tamanho do item da galeria. Isto que deve ser replicado com o PHP puxando
+                    os funcinários do banco de dados-->
+                    </div>
+
+
+                    <!-- Posição e tamanho do item da galeria. Isto que deve ser replicado com o PHP puxando
+                    os funcinários do banco de dados-->
+                    <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter spray ">
+
+                        <!-- Caixa do item -->
+                        <div class="caixa-funcionario" id="caixa-funcionario">
+
+                            <!--LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DO FUNCIONÁRIO-->
+                            <a href="cadNoticias.html" class="text-center">
+
+                                <!-- Icone funcionário 
+                                <img src="assets/images/use (3).png " class="img-responsive" align="center"> -->
+
+                                <!-- Nome funcionário -->
+                                <h5><dt>Título da notícia </dt></h5>
+
+                                <!-- FIM LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DO FUNCIONÁRIO-->
+                            </a>
+
+                            <!-- FIM da Caixa do item -->
+                        </div>
+
+                        <!-- /Posição e tamanho do item da galeria. Isto que deve ser replicado com o PHP puxando
+                    os funcinários do banco de dados-->
+                    </div>
+
+
+
+
+                    <!-- /FIM da galeria -->
+                </div>
+
+                <!-- /FIM da Caixa interna -->
+            </section>
+
+            <!-- FIM do Contorno -->
+        </div>
+
+
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-distributed ">
+
+        <div class="footer-left ">
+
+            <h3>Sertour</h3>
+
+            <p class="footer-company-name ">MItologic Software® &copy; 2017</p>
+        </div>
+
+        <div class="footer-center ">
+
+            <p class="footer-links ">
+                <a href="# ">Home</a>
+                <a href="# ">Galeria</a>
+                <a href="# ">Sobre</a>
+            </p>
+
+        </div>
+
+        <div class="footer-right ">
+
+            <div class="footer-icons ">
+                <p style="text-align: center; ">
+                    <a href="# "><i class="fa fa-twitter "></i></a>
+                    <a href="# "><i class="fa fa-facebook "></i></a>
+                    <a href="# "><i class="fa fa-google-plus "></i></a>
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </footer>
+    <!-- /Footer -->
+
+</body>
+
+</html>

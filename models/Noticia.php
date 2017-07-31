@@ -6,8 +6,8 @@ namespace models;
  * @author MItologhic Software
  *
  */
-class Noticia {
-    /* atributos do usuário */
+class Noticia implements \JsonSerializable{
+    
     private $idNoticia;
     private $titulo;
     private $subtitulo;
@@ -119,8 +119,22 @@ class Noticia {
      */
     public function setDescricao($descricao) {
         $this->descricao = $descricao;
+    }
+    
+    /**
+     * Define como os dados da classe Noticia serão utilizados na conversão para um json.
+     * @return dados da classe em formato .json
+     */
+    public function jsonSerialize() {
+        return [
+            'idNoticia' => $this->idNoticia,
+            'titulo' => $this->titulo,
+            'subtitulo' => $this->subtitulo,
+            'descricao' => $this->descricao,
+            'caminhoImagem' => $this->caminhoImagem,
+            'data' => $this->data,                                                                                                        
+        ];
     }     
-
 }
 
 ?>

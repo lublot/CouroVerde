@@ -1,0 +1,98 @@
+/***************** Menu do Administrador ******************/
+
+.div-caixa {
+    display: block;
+    margin: 3% auto 3% auto;
+}
+
+.div-caixa .section-esqueda {
+    border: 1px solid black;
+    margin: 0 1% 0 1%;
+    height: 500px;
+    /* ver jeito melhor de responsividade*/
+    position: relative;
+}
+
+.menu-button {}
+
+
+/***************** Div de apresentação ******************/
+
+.div-caixa .section-direita {
+    border: 1px solid black;
+    margin: 0 1% 0 1%;
+    height: 500px;
+    /* ver jeito melhor de responsividade*/
+    position: relative;
+    display: table;
+}
+
+.div-caixa .section-direita div#welcome {
+    display: table-cell;
+    vertical-align: middle;
+    margin: auto;
+    width: 100%;
+}
+
+.div-caixa .section-direita div#cadastro-noticias {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.div-caixa .section-direita label#lab {
+    border: 1px solid black;
+    width: 100%;
+}
+
+
+/**************************** Funcionário **************************/
+
+.caixa-funcionario {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 2vh;
+}
+
+.caixa-funcionario:hover {
+    background-color: #b3b3b3;
+}
+
+.caixa-funcionario h5 {
+    transition: background-color 1s;
+    font-size: 2vh;
+}
+
+.botao-pesquisa {
+    border: none;
+    background-color: none;
+}
+
+
+/*.caixa-sec-funcionario {
+     min-height: 50vh;
+    overflow-y: scroll;
+    position: relative
+}
+
+*/
+
+
+/********************* Centraliza os placeholders **************************/
+
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    text-align: center;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    text-align: center;
+}
+
+:-ms-input-placeholder {
+    text-align: center;
+}
