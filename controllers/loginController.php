@@ -416,15 +416,14 @@ class loginController extends mainController{
     */
     private function setarSession($usuario, $redeSocial = null) {
         
-        if($redeSocial == null) { //verifica se o usuário está associado a alguma conta externa
-            $_SESSION['id'] = $usuario->getId();
-        } else if($redeSocial == 'facebook'){
-            $_SESSION['idFacebook'] = $usuario->getId();
-        }  else if($redeSocial == 'google') {
-            $_SESSION['idGoogle'] = $usuario->getId();
+        if($redeSocial == 'facebook'){ //verifica se o usuário está associado a alguma conta externa
+            $_SESSION['redeSocial'] = $redeSocial;
+        }else if($redeSocial == 'google') {
+            $_SESSION['redeSocial'] = $redeSocial;
         }
 
         //define os valores básicos de SESSION
+        $_SESSION['id'] = $usuario->getId();
         $_SESSION['nome'] = $usuario->getNome();
         $_SESSION['sobrenome'] = $usuario->getSobrenome();
         $_SESSION['email'] = $usuario->getEmail();

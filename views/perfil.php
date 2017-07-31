@@ -9,8 +9,9 @@
     </head>
 
     <body>
+        <?php $this->carregarCabecalho()?>
         <div class="container">
-           <?php $this->carregarCabecalho()?>
+           
            <div class="col-xs-12 col-sm-6 col-md-6">
                 <div class="row">
                     <h3>Gerenciar Perfil</h3>
