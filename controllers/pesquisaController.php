@@ -10,6 +10,7 @@ use DAO\PerguntaPesquisaDAO as PerguntaPesquisaDAO;
 use DAO\PerguntaOpcaoDAO as PerguntaOpcaoDAO;
 use DAO\UsuarioDAO as UsuarioDAO;
 use \util\ValidacaoDados as ValidacaoDados;
+use \util\VerificarPermissao as VerificarPermissao;
 use \util\GerenciarSenha as GerenciarSenha;
 use \util\PercentualOpcoes as PercentualOpcoes;
 use \models\Pesquisa as Pesquisa;
@@ -22,6 +23,8 @@ use \exceptions\CampoInvalidoException as CampoInvalidoException;
 use \exceptions\PerguntaInconsistenteException as PerguntaInconsistenteException;
 use \exceptions\PesquisaJaExistenteException as PesquisaJaExistenteException;
 use \exceptions\PesquisaInexistenteException as PesquisaInexistenteException;
+use \exceptions\RespostaInexistenteException as RespostaInexistenteException;
+use \exceptions\UsuarioJaRespondeuException as UsuarioJaRespondeuException;
 use \exceptions\SenhaIncorretaException as SenhaIncorretaException;
 
 class pesquisaController extends mainController{
@@ -445,6 +448,11 @@ public function alterar(){
 
   }
 
+  /**
+  * Retorna as perguntas de uma pesquisa
+  * @param $idPesquisa - O id da pesquisa desejada
+  * @return ids - Os ids das perguntas encontradas
+  */
   private function perguntasPesquisa($idPesquisa){
     $perguntaPesquisaDAO = new PerguntaPesquisaDAO();
     $perguntaPesquisa = $perguntaPesquisaDAO->buscarPergunta(array("pergunta.idPergunta"),array("idPesquisa"=>$idPesquisa));
@@ -456,6 +464,11 @@ public function alterar(){
     return $ids;
   }
 
+  /**
+  * Retorna as opções de uma pergunta
+  * @param $idPergunta - O id da pergunta desejada
+  * @return ids - Os ids das opções encontradas
+  */
   private function getOpcoesPergunta($idPergunta){
     $perguntaOpcaoDAO = new PerguntaOpcaoDAO();
     $perguntaOpcao = $perguntaOpcaoDAO->buscarOpcao(array("opcao.idOpcao"),array("idPergunta"=>$idPergunta));
@@ -468,7 +481,46 @@ public function alterar(){
     return $ids;
   }
 
+  /*##################### Parte responsável pelo armazenamento das respostas   #############################*/
+  
+  /**
+  * Carrega a tela onde o usuário responde a uma pesquisa
+  */
+  public function responder(){
 
+    if(!isset($_SESSION)){
+        session_start();
+    }
+    if(isset($_SESSION['id'])){
+      try{
+
+        $idPesquisa;
+        $pesquisaDAO = new PesquisaDAO();
+        $pesquisaDAO = $pesquisaDAO->buscar(array(),array("estaAtiva"=>1));
+        if(count($pesquisaDAO)>0){
+          $idPesquisa = $pesquisaDAO[0]->getIdPesquisa();
+        }
+        
+        $respostaDAO = new RespostaDAO();
+        if($respostaDAO->usuarioRespondeu($_SESSION['id'],$idPesquisa)){
+            throw new UsuarioJaRespondeuException();
+        }
+
+      }catch(UsuarioJaRespondeuException $e){
+        $this->dados['exception'] = $e->getMessage();
+      }
+      $this->carregarConteudo('respostaPesquisa',$this->dados);
+    }else{
+
+    }
+    
+  }
+
+  /**
+  *Busca a pesquisa ativa no sistema e retorna para a view
+  */
+  
+  //Evitar usar esse método para operações que não envolvam a view, ele foi projetado para o uso com AJAX
   public function buscarAtiva(){
       $pesquisaDAO = new PesquisaDAO();
       $pesquisaDAO = $pesquisaDAO->buscar(array(),array("estaAtiva"=>1));//Busca uma pesquisa ativa
@@ -476,65 +528,131 @@ public function alterar(){
       if(count($pesquisaDAO)>0){
         $pesquisa = $this->buscar(array($pesquisaDAO[0]->getIdPesquisa()));
       }
-  }
-
-  public function guardarResposta(){
-    try{
-      // if(!isset($_SESSION)){
-      //   session_start();      
-      // }
-
-      // if(!isset($_SESSION['id']) || !isset($_SESSION['idFacebook']) || !isset($_SESSION['idGoogle'])){return; }
-      $_SESSION['id'] = 3;
-      $json = $_POST['json'];
-      $idPesquisa = $_POST['idPesquisa'];
-      $dadosRecebidos = json_decode($json,true);
       
-      $respostas = array();
-      while(count($dadosRecebidos)>0){
-        $respostas[] = array_shift($dadosRecebidos)[0];
-      }
+  }
 
-      $respostaDAO = new RespostaDAO();
-      foreach($respostas as $resposta){
-        if(strcmp($resposta['tipoPergunta'],"ABERTA")==0){
-            $respostaDAO->inserir($_SESSION['id'],$idPesquisa,$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['respostaPergunta']);
-        }else if(strcmp($resposta['tipoPergunta'],"MULTIPLA ESCOLHA")==0){
-            $respostaDAO->inserir($_SESSION['id'],$idPesquisa,$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcoesSelecionadas']);
-        }else if(strcmp($resposta['tipoPergunta'],"UNICA ESCOLHA")==0){
-            $respostaDAO->inserir($_SESSION['id'],$idPesquisa,$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcaoSelecionada']);
-        }
+  /**
+  * Guarda as respostas no banco de dados
+  */
+  public function guardarResposta(){
+    
+    if(!isset($_SESSION)){
+        session_start();      
+    }
 
+    if(isset($_SESSION['id'])){
+      try{
+
+          $json = $_POST['json'];
+          $idPesquisa = $_POST['idPesquisa'];
+          $dadosRecebidos = json_decode($json,true);
+          
+          $respostas = array();
+          while(count($dadosRecebidos)>0){
+            $respostas[] = array_shift($dadosRecebidos)[0];
+          }
+
+          $respostaDAO = new RespostaDAO();
+
+          if($respostaDAO->usuarioRespondeu($_SESSION['id'],$idPesquisa)){
+            throw new UsuarioJaRespondeuException();
+          }
+          foreach($respostas as $resposta){
+            if(strcmp($resposta['tipoPergunta'],"ABERTA")==0){
+                $respostaDAO->inserir($_SESSION['id'],$idPesquisa,$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['respostaPergunta']);
+            }else if(strcmp($resposta['tipoPergunta'],"MULTIPLA ESCOLHA")==0){
+                $respostaDAO->inserir($_SESSION['id'],$idPesquisa,$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcoesSelecionadas']);
+            }else if(strcmp($resposta['tipoPergunta'],"UNICA ESCOLHA")==0){
+                $respostaDAO->inserir($_SESSION['id'],$idPesquisa,$resposta['idPergunta'],$resposta['tipoPergunta'],$resposta['opcaoSelecionada']);
+            }
+
+          }
+          echo json_encode(array("success"=>true));
+      
+      }catch(UsuarioJaRespondeuException $e){
+        echo json_encode(array("erro"=>"Você já respondeu esta pesquisa","success"=>false));
+      }catch(Exception $e){
+        echo json_encode(array("erro"=>"Ocorreu um erro,atualize a página e tente novamente","success"=>false));
       }
-      echo json_encode(array("success"=>true));
-    }catch(Exception $e){
-      echo json_encode(array("erro"=>"Ocorreu um erro,atualize a página e tente novamente","success"=>false));
+    }else{
+
     }
     
   }
   
-  public function resgatarRespostas(){
-    //$idPesquisa = $_POST['idPesquisa'];
-    $idPesquisa = 1;
-    $pesquisaDAO = new PesquisaDAO();
-    $infoPesquisa = $pesquisaDAO->buscar(array('titulo'),array('idPesquisa'=>$idPesquisa));
-  
-    $respostaDAO = new RespostaDAO();
-    $infoRespostaAberta = $respostaDAO->buscarRespostaAberta(array(),array('idPesquisa'=>$idPesquisa));
 
-    $infoRespostaFechada = $respostaDAO->buscarRespostaFechada($idPesquisa);
-  
-    $respostas = array();
+  /*##################### Parte responsável pela visualização de respostas   #############################*/
 
-    while(count($infoRespostaAberta)>0){
-       array_push($respostas,array_shift($infoRespostaAberta));
+  /**
+  * Carrega a página de visualização de respostas de uma pesquisa
+  */
+  public function respostas(){
+    if(!isset($_SESSION)){
+      session_start();
     }
 
-    while(count($infoRespostaFechada)>0){
-       array_push($respostas,array_shift($infoRespostaFechada));
+   if(VerificarPermissao::isAdministrador()){
+      $this->carregarConteudo('visualizacaoRespostas',array());
+   }else{
+
+   }
+  }
+
+  /**
+  * Resgata as respostas de uma pesquisa
+  */
+  public function resgatarRespostas(){
+    try{
+      $idPesquisa = $_POST['idPesquisa'];
+      $pesquisaDAO = new PesquisaDAO();
+      $infoPesquisa = $pesquisaDAO->buscar(array('titulo'),array('idPesquisa'=>$idPesquisa));//Procura a pesquisa no banco
+      
+      if(count($infoPesquisa)==0){ //Caso a pesquisa não exista lança uma exceção
+        throw new PesquisaInexistenteException();
+      }
+      
+      $respostaDAO = new RespostaDAO();
+      $infoRespostaAberta = $respostaDAO->buscarRespostaAberta(array(),array('idPesquisa'=>$idPesquisa));//Procura as respostas abertas
+      $infoRespostaFechada = $respostaDAO->buscarRespostaFechada($idPesquisa);//Procura as respostas fechadas
+      
+      if(count($infoRespostaAberta) == 0  && count($infoRespostaFechada) == 0){
+        throw new RespostaInexistenteException();
+      }
+
+      $respostas = array();
+      $respostas['tituloPesquisa'] = $infoPesquisa[0]->getTitulo();  //Obtém o titulo da pesquisa
+      
+      $respostaAbertaAgrupada = $this->agruparRespostas($infoRespostaAberta); //Agrupa as respostas por ID
+      $respostaFechadaAgrupada = $this->agruparRespostas($infoRespostaFechada); //Agrupa as respostas por ID
+
+      while(count($respostaAbertaAgrupada)>0){
+        array_push($respostas,array_shift($respostaAbertaAgrupada)); // Guarda as respostas em um array único
+      }
+      
+      while(count($respostaFechadaAgrupada)>0){
+        array_push($respostas,array_shift($respostaFechadaAgrupada)); // Guarda as respostas em um array único
+      }
+      
+      echo json_encode($respostas); //Envia as respostas para a tela
+    }catch(PesquisaInexistenteException $e){
+      echo json_encode(array("erro"=>"Nenhuma pesquisa foi encontrada","success"=>false));
+    }catch(RespostaInexistenteException $e){
+      echo json_encode(array("alerta"=>"Esta pesquisa ainda não possui respostas","success"=>false));
     }
     
-    echo json_encode($respostas);
+  }
+
+  private function agruparRespostas($respostaRecebida){
+      $resposta = array();
+
+      foreach($respostaRecebida as $key => $item)
+      {
+        $resposta[$item['idPergunta']][] = $item;
+      }
+
+      ksort($resposta, SORT_NUMERIC);
+
+      return $resposta;
   }
 }
 

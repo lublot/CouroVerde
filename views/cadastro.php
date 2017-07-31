@@ -7,18 +7,9 @@
 	<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=no" />
 	<title>Cadastro</title>
 
-	<link rel="stylesheet" href=<?php $this->path('assets/css/bootstrap-theme.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/estilo.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/bootstrap-social.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/datepicker.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/bootstrap.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/site.css');?>>
-	<link rel="stylesheet" href=<?php $this->path('assets/css/site.min.css');?>>
+	<?php $this->carregarDependencias()?>
 
-	
-	<script src=<?php $this->path('assets/js/cadastro-script.js');?>></script>
-
-	<script type="text/javascript" src="assets/js/validator.js"></script>
+	<script type="text/javascript" src=<?php $this->path("assets/js/validator.js");?>></script>
 	<script type="text/javascript" src=<?php $this->path('assets/js/login-script.js');?>></script>
 
 </head>
@@ -56,6 +47,11 @@
 						<div class="col-md-3"></div>
                    		<div class="col-md-6">
                         	<button type="submit" class="btn btn-primary btn-md center">Cadastrar</button>
+							<!--ESSE TRECHO AQUI VAI MOSTRAR UMA EXCEPTION DO BACK-END TU VÊ ONDE COLOCA AÍ-->
+							<?php if(isset($this->dados['exception']) && !empty($this->dados['exception'])){
+									echo $this->dados['exception'];
+								}
+							?>
 						</div>
 						<div class="col-md-3"></div>
 					</div> 
@@ -78,11 +74,7 @@
               		</div>
 
 
-					<!--ESSE TRECHO AQUI VAI MOSTRAR UMA EXCEPTION DO BACK-END TU VÊ ONDE COLOCA AÍ-->
-					<?php if(isset($this->dados['exception']) && !empty($this->dados['exception'])){
-							echo $this->dados['exception'];
-						  }
-					?>
+					
 					
 				</form>
 		</section>
