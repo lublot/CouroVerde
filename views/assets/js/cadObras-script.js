@@ -3,60 +3,87 @@ var pagAtual = 1;
 // Inteiro para armazenar o número limite de páginas disponíveis
 var pagMax = 5;
 
-function init() {
-    var dropzone = document.getElementById("dropzone")
+var uploadFeito = false;
 
-    var displayUploads = function () {
+$(document).ready(function () {
+    var dropzone = document.getElementById('dropzone');
+
+    var displayUploads = function(data){
         var uploads = document.getElementById('uploads'),
             anchor,
             x;
-
-        for (x = 0; x < data.length; x++) {
+        
+        for(x = 0; x < data.length; x = x + 1){
             anchor = document.createElement('a');
             anchor.href = data[x].file;
             anchor.innerText = data[x].name;
 
             uploads.appendChild(anchor);
         }
-    };
+    }
 
-    var upload = function (files) {
+    var upload = function(files){
         var formData = new FormData(),
             xhr = new XMLHttpRequest(),
             x;
 
-        for (x = 0; x < files.length; x++) {
-            formData.append('file[]', files[x]);
-        }
+            if(files.length > 5) {
+                alert('Apenas 5 imagens podem ser carregadas!');	
+                return;
+            }			
 
-        xhr.onload = function () {
-            var data = JSON.parse(this.responseText);
+            for(x = 0; x < files.length; x = x + 1) {
+                var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+                if(!re.exec(files[x].name)) {
+                    alert("Apenas imagens podem ser carregadas!");
+                    return;
+                }
+            }
+            
+            for(x = 0; x < files.length; x = x + 1){
+                formData.append('file[]', files[x]);
+            }
 
-            displayUploads(data);
-        };
+            xhr.onload = function(){
+                var data = JSON.parse(this.responseText);
+                
+                displayUploads(data);
+            }
 
-        xhr.open('post', 'upload.php');
-        xhr.send(formData);
-    };
+            uploadFeito = true;
 
-    dropzone.ondrop = function (e) {
+            //Altera o botão para o tipo submit, que serve para finalizar o form
+            $("#btn-confirmar").attr('type', 'submit');              
+
+            $("#btn-confirmar").click(function(){
+                if(pagAtual == 5) { //what the fuck
+                    $("#form-obra").submit(function(event) {
+                        $(this).attr('action', '../obra/cadastrarObra');
+                    });
+                    
+                    xhr.open('post', 'upload.php?inv='+document.getElementById("inventario").value);
+                    xhr.send(formData);   
+                    uploadFeito = false;
+                }                 
+            }); 
+    }
+
+    dropzone.ondrop = function(e){
         e.preventDefault();
         this.className = 'dropzone';
         upload(e.dataTransfer.files);
     };
 
-    dropzone.ondragover = function () {
+    dropzone.ondragover = function(){
         this.className = 'dropzone dragover';
-        dropzone.innerHTML = "Solte seus arquivos aqui para carregá-los"
         return false;
     };
 
-    dropzone.ondragleave = function () {
+    dropzone.ondragleave = function(){
         this.className = 'dropzone';
-        dropzone.innerHTML = "Arraste seus arquivos aqui para carregá-los"
         return false;
-    };
-}
+    };    
+})
 
 window.addEventListener("load", init, false);
 
@@ -65,9 +92,7 @@ function atualizarTextoBotao() {
     // Caso o usuário esteja na última página do cadastro
     if (pagAtual == pagMax) {
         //Atualiza o texto do botão direito para "Confirmar"
-        $("#btn-confirmar").html('Confirmar');
-        //Altera o botão para o tipo submit, que serve para finalizar o form
-        document.getElementById('btn-confimar').setAttribute('type', 'submit');
+        $("#btn-confirmar").html('Confirmar');  
     }
     //Caso contrário
     else {
@@ -90,6 +115,10 @@ function atualizarTextoBotao() {
 
 // Função responsável para passar para a próxima página
 function avancarPag() {
+    // Caso o usuário esteja na última página do cadastro
+    if (pagAtual == pagMax && !uploadFeito) {
+        alert("Você deve carregar ao menos uma imagem!");
+    }        
     // Verifica se a página atual do usuário excedeu o número limite máximo de páginas
     if (pagAtual < pagMax) {
         // String para concatenar o ID da página do HTML com a variável que armazena a página atual
