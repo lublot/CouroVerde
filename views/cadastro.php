@@ -39,7 +39,7 @@
 					<div class="row">
 						<div class="form-group col-xs-12">
 							<!-- <input type="password" class="form-control" id="senha" name="senha" required placeholder="Senha"/> -->
-							<input id="senha" type="password" class="form-control" pattern=".{8,32}" placeholder="Senha" required title="Insira uma senha de 8 a 32 caracteres.">	
+							<input id="senha" type="password" name="senha" class="form-control" pattern=".{8,32}" placeholder="Senha" required title="Insira uma senha de 8 a 32 caracteres.">	
 						</div>
 					</div>
 				

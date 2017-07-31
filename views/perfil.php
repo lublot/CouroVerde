@@ -9,8 +9,9 @@
     </head>
 
     <body>
+        <?php $this->carregarCabecalho()?>
         <div class="container">
-           <?php $this->carregarCabecalho()?>
+           
            <div class="col-xs-12 col-sm-6 col-md-6">
                 <div class="row">
                     <h3>Gerenciar Perfil</h3>
@@ -30,7 +31,7 @@
                         <input type="email" id="email" class="form-control disabled" disabled placeholder="Email" value=<?php if(isset($_SESSION['email'])){echo $_SESSION['email'];}?>>
                     </div>
 
-                    <?php if(!isset($_SESSION['idUsuarioGoogle']) && !isset($_SESSION['idUsuarioFacebook'])){
+                    <?php if(!isset($_SESSION['redeSocial'])){
                     
                         echo '<div class="form-group">
                                 <span id="expandir" class="text-info" style="cursor:pointer"><a>Deseja alterar a senha? Clique aqui!</a></span>

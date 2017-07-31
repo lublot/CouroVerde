@@ -52,7 +52,7 @@ function criarBox(pesquisa){
     var btnToggle = criarBotaoToggle(pesquisa.estaAtiva);
     var btnEditar = criarBotaoEditar();
     var btnRemover = criarBotaoRemover();
-
+    var btnVerResposta = criarBotaoVerRespostas();
     
     var divSeparadora = document.createElement('div');
     divSeparadora.setAttribute('class','col-sm-6');
@@ -60,6 +60,8 @@ function criarBox(pesquisa){
     var containerBotoes = document.createElement('div');
     containerBotoes.setAttribute('class','pull-right');
     containerBotoes.appendChild(btnToggle);
+    containerBotoes.appendChild(document.createTextNode(' '));
+    containerBotoes.appendChild(btnVerResposta);
     containerBotoes.appendChild(document.createTextNode(' '));
     containerBotoes.appendChild(btnEditar);
     containerBotoes.appendChild(document.createTextNode(' '));
@@ -138,6 +140,25 @@ function criarBotaoToggle(status){
     return btnToggle;
 }
 
+function criarBotaoVerRespostas(){
+    var btnVerRespostas = document.createElement('button');
+    btnVerRespostas.setAttribute('class','btn btn-info');
+    btnVerRespostas.setAttribute('type','button');
+
+    var iconeVerRespostas = document.createElement('i');
+    iconeVerRespostas.setAttribute('class','fa fa-comments');
+    iconeVerRespostas.setAttribute('aria-hidden',true);
+
+    btnVerRespostas.appendChild(iconeVerRespostas);
+    btnVerRespostas.appendChild(document.createTextNode(' Ver Respostas'));
+
+    btnVerRespostas.onclick = function(){
+        verRespostas(this.parentNode.parentElement.getAttribute('value'));
+    };
+
+    return btnVerRespostas;
+}
+
 function criarBotaoEditar(){
     var btnEditar = document.createElement('button');
     btnEditar.setAttribute('class','btn btn-primary');
@@ -209,7 +230,11 @@ function toggle(idPesquisa,estadoAtual){
 }
 
 function editar(idPesquisa){
-    window.location.href = '/'+window.location.pathname.split('/')[1]+'/pesquisa/gerenciar/'+idPesquisa;
+    window.location.href = '/'+window.location.pathname.split('/')[1]+'/pesquisa/respostas/'+idPesquisa;
+}
+
+function verRespostas(idPesquisa){
+    window.location.href = '/'+window.location.pathname.split('/')[1]+'/pesquisa/respostas/'+idPesquisa;
 }
 
 function remover(valor){

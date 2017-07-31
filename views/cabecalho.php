@@ -17,7 +17,7 @@
 
                 <?php
                     if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
-                        echo '<span style="float:right" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        echo '<span style="float:right;cursor:pointer" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <b>Olá, '.$_SESSION['nome'].'! <span class="caret"></span></b>
                               </span>
                                 <br>
@@ -39,17 +39,17 @@
           <div class="col-xs-12 visible-xs-block">
                 <div class="flex">
                   <span class="item-cabecalho">
-                      <i class="fa fa-sign-in" aria-hidden="true"></i>
+                      <div class="icone-home"></div>
                       <a href=<?php echo ROOT_URL?>> Home</a>
                   </span>
 
                   <span class="item-cabecalho">
-                      <i class="fa fa-sign-in" aria-hidden="true"></i>
-                      <a href="#"> Explorar </a>
+                      <div class="icone-galeria"></div>
+                      <a href="#"> Galeria </a>
                   </span>
                   
                   <span class="item-cabecalho">
-                      <i class="fa fa-info-circle" aria-hidden="true"></i>
+                      <div class="icone-sobre"></div>
                       <a href="<?php echo ROOT_URL.'sobre'?>"> Sobre </a>
                   </span>
                     
