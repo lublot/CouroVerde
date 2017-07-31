@@ -30,7 +30,7 @@ class relatorioAcessoControllerTest extends TestCase {
         $usuarioRecuperado = $usuarioDAO->buscar(array("idUsuario"), array("email" => "diegossl94@gmail.com"));
         $idUsuario = $usuarioRecuperado[0]->getId();
 
-        $obra = new Obra(null, 'Obra 1','Couro 1', 'Função', 'Origem', 'Procedência', 'Descrição', 1, 1, 'Altura', 'Largura', 'Diâmetro', '10 quilos', '1 metro', 'Materiais', 'Técnicas', 'Autoria', 'Marcas', 'Histórico', 'Modo de Aquisição', 'Data de Aquisição', 'Autor', 'Observações', 'Estado');        
+        $obra = new Obra(null, 'Obra 1','Couro 1', 'Função', 'Origem', 'Procedência', 'Descrição', 1, 1, '5', '5', '5', '10', '1', 'Materiais', 'Técnicas', 'Autoria', 'Marcas', 'Histórico', 'Modo de Aquisição', '2017/07/29', 'Autor', 'Observações', 'Estado');        
         $obraDAO = new ObraDAO();
         $obraDAO->inserirObra($obra);
         $obraRecuperada = $obraDAO->buscar(array("numeroInventario"), array("nome" => "Obra 1"));
