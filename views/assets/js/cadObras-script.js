@@ -6,14 +6,15 @@ var pagMax = 5;
 var uploadFeito = false;
 
 $(document).ready(function () {
-    var dropzone = document.getElementById('dropzone');
+    var dropzone_img = document.getElementById('dropzone_img');
+    var dropzone_3d = document.getElementById('dropzone_3d');
 
-    var displayUploads = function(data){
+    var displayUploads = function (data) {
         var uploads = document.getElementById('uploads'),
             anchor,
             x;
-        
-        for(x = 0; x < data.length; x = x + 1){
+
+        for (x = 0; x < data.length; x = x + 1) {
             anchor = document.createElement('a');
             anchor.href = data[x].file;
             anchor.innerText = data[x].name;
@@ -22,67 +23,95 @@ $(document).ready(function () {
         }
     }
 
-    var upload = function(files){
+    var upload = function (files) {
         var formData = new FormData(),
             xhr = new XMLHttpRequest(),
             x;
 
-            if(files.length > 5) {
-                alert('Apenas 5 imagens podem ser carregadas!');	
+        if (files.length > 5) {
+            alert('Apenas 5 imagens podem ser carregadas!');
+            return;
+        }
+
+        for (x = 0; x < files.length; x = x + 1) {
+            var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+            if (!re.exec(files[x].name)) {
+                alert("Apenas imagens dos formatos jpg, jpeg, bmp, gif e png podem ser carregadas!");
                 return;
-            }			
-
-            for(x = 0; x < files.length; x = x + 1) {
-                var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
-                if(!re.exec(files[x].name)) {
-                    alert("Apenas imagens podem ser carregadas!");
-                    return;
-                }
             }
-            
-            for(x = 0; x < files.length; x = x + 1){
-                formData.append('file[]', files[x]);
+        }
+
+        for (x = 0; x < files.length; x = x + 1) {
+            formData.append('file[]', files[x]);
+        }
+
+        xhr.onload = function () {
+            var data = JSON.parse(this.responseText);
+
+            displayUploads(data);
+        }
+
+        uploadFeito = true;
+
+        //Altera o botão para o tipo submit, que serve para finalizar o form
+        $("#btn-confirmar").attr('type', 'submit');
+
+        $("#btn-confirmar").click(function () {
+            if (pagAtual == 5) { //what the fuck
+                $("#form-obra").submit(function (event) {
+                    $(this).attr('action', '../obra/cadastrarObra');
+                });
+
+                xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
+                xhr.send(formData);
+                uploadFeito = false;
             }
-
-            xhr.onload = function(){
-                var data = JSON.parse(this.responseText);
-                
-                displayUploads(data);
-            }
-
-            uploadFeito = true;
-
-            //Altera o botão para o tipo submit, que serve para finalizar o form
-            $("#btn-confirmar").attr('type', 'submit');              
-
-            $("#btn-confirmar").click(function(){
-                if(pagAtual == 5) { //what the fuck
-                    $("#form-obra").submit(function(event) {
-                        $(this).attr('action', '../obra/cadastrarObra');
-                    });
-                    
-                    xhr.open('post', 'upload.php?inv='+document.getElementById("inventario").value);
-                    xhr.send(formData);   
-                    uploadFeito = false;
-                }                 
-            }); 
+        });
     }
 
-    dropzone.ondrop = function(e){
+    // Dropzone Imagem
+
+    dropzone_img.ondrop = function (e) {
         e.preventDefault();
         this.className = 'dropzone';
         upload(e.dataTransfer.files);
     };
 
-    dropzone.ondragover = function(){
+    dropzone_img.ondragover = function () {
         this.className = 'dropzone dragover';
+        dropzone_img.innerHTML = 'Solte suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las';
         return false;
     };
 
-    dropzone.ondragleave = function(){
+    dropzone_img.ondragleave = function () {
         this.className = 'dropzone';
+        dropzone_img.innerHTML = 'Arraste suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las';
         return false;
-    };    
+    };
+
+    //
+
+    //Dropzone 3D
+
+        dropzone_3d.ondrop = function (e) {
+        e.preventDefault();
+        this.className = 'dropzone';
+        upload(e.dataTransfer.files);
+    };
+
+    dropzone_3d.ondragover = function () {
+        this.className = 'dropzone dragover';
+        dropzone_3d.innerHTML = 'Solte seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também';
+        return false;
+    };
+
+    dropzone_3d.ondragleave = function () {
+        this.className = 'dropzone';
+        dropzone_3d.innerHTML = 'Arraste seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também';
+        return false;
+    };
+
+    //
 })
 
 window.addEventListener("load", init, false);
@@ -92,7 +121,7 @@ function atualizarTextoBotao() {
     // Caso o usuário esteja na última página do cadastro
     if (pagAtual == pagMax) {
         //Atualiza o texto do botão direito para "Confirmar"
-        $("#btn-confirmar").html('Confirmar');  
+        $("#btn-confirmar").html('Confirmar');
     }
     //Caso contrário
     else {
@@ -118,7 +147,7 @@ function avancarPag() {
     // Caso o usuário esteja na última página do cadastro
     if (pagAtual == pagMax && !uploadFeito) {
         alert("Você deve carregar ao menos uma imagem!");
-    }        
+    }
     // Verifica se a página atual do usuário excedeu o número limite máximo de páginas
     if (pagAtual < pagMax) {
         // String para concatenar o ID da página do HTML com a variável que armazena a página atual
