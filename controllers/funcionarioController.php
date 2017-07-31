@@ -52,9 +52,9 @@ class funcionarioController extends mainController {
                 $email = addslashes($_POST["email"]);
                 $funcionario = $funcionarioDAO->buscar(array(), array("email"=>$email));
 
-                if(count($funcionario) > 0) { //verifica se já existe usuário cadastrado
+                /*if(count($funcionario) > 0) { //verifica se já existe usuário cadastrado
                     throw new EmailJaCadastradoException();
-                }
+                }*/
 
                 if (!ValidacaoDados::validarNome($_POST["nome"])) {
                     throw new NomeInvalidoException();
@@ -116,7 +116,7 @@ class funcionarioController extends mainController {
                     $podeRealizarBackup = 1;
                 }
 
-                $novoFuncionario = new Funcionario(null, $email, $nome, $sobrenome, $senha, 1, "Funcionario",
+                $novoFuncionario = new Funcionario(null, $email, $nome, $sobrenome, $senha, 1, "FUNCIONARIO",
                 $matricula, $funcao, $podeCadastrarObra, $podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia,
                 $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup);
 

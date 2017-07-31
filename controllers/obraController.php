@@ -49,16 +49,16 @@ class obraController extends mainController {
                                             "altura", "largura", "diametro", "peso", "comprimento", "materiais", "tecnicas", "autoria", "marcas", "historico", 
                                             "modoAquisicao", "dataAquisicao", "autor", "observacoes", "estado"))) {
 
-            try {
-                $caminhoImagem1 = uploadImagem();
-                $caminhoImagem2 = uploadImagem();
-                $caminhoImagem3 = uploadImagem();
-                $caminhoImagem4 = uploadImagem();
-                $caminhoImagem5 = uploadImagem();
-                $caminhoModelo3D = uploadImagem(); //Ainda não concluído
-            } catch (ErroUploadImagemException $e) {
-                throw $e;
-            }
+            // try {
+            //     $caminhoImagem1 = uploadImagem();
+            //     $caminhoImagem2 = uploadImagem();
+            //     $caminhoImagem3 = uploadImagem();
+            //     $caminhoImagem4 = uploadImagem();
+            //     $caminhoImagem5 = uploadImagem();
+            //     $caminhoModelo3D = uploadImagem(); //Ainda não concluído
+            // } catch (ErroUploadImagemException $e) {
+            //     throw $e;
+            // }
 
             if(!ValidacaoDados::validarCampo($_POST['nome'])) { //verifica se o campo está válido
                 throw new CampoInvalidoException('nome');
@@ -154,6 +154,13 @@ class obraController extends mainController {
                 throw new CampoInvalidoException('estado');
             }
 
+            $caminhosImagens = $this->obterArquivos($_POST['numInventario']);
+            $caminhoImagem1 = isset($caminhosImagens[0]) ? addslashes($caminhosImagens[0]) : null;
+            $caminhoImagem2 = isset($caminhosImagens[1]) ? addslashes($caminhosImagens[1]) : null;
+            $caminhoImagem3 = isset($caminhosImagens[2]) ? addslashes($caminhosImagens[2]) : null;
+            $caminhoImagem4 = isset($caminhosImagens[3]) ? addslashes($caminhosImagens[3]) : null;
+            $caminhoImagem5 = isset($caminhosImagens[4]) ? addslashes($caminhosImagens[4]) : null;            
+
             $nome = addslashes($_POST["nome"]);
             $titulo = addslashes($_POST["titulo"]);
             $numInventario = addslashes($_POST["numInventario"]);
@@ -196,6 +203,24 @@ class obraController extends mainController {
             throw new DadosCorrompidosException();
         }
     }
+
+    private function obterArquivos($numInventario) {
+        $caminhoImagens = '../media/obras/imagens/';
+        $caminhoPastaImages .= $numeroInventario;
+
+        $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
+
+        unset($imagens[0]);
+        unset($imagens[1]);        
+        
+        $caminhosImagens = array();
+
+        foreach($imagens as $imagem) {
+            $caminhosImagens[] = $caminhoPastaImages . '/' . $imagem;
+        }
+        
+        return $caminhosImagens;
+    }    
 
     private function uploadImagem() {
         $arqCaminho = "media/obras/imagens/" . date("Ymd") . date("His") . basename($_FILES["user_file"]["name"]);
