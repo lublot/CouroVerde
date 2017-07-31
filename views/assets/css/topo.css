@@ -53,3 +53,13 @@ header{
     float:left;
     margin-right: 5px;
 }
+
+@media (max-width: 880px){
+.flex{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-content: center;
+}
+}

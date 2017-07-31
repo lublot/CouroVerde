@@ -184,6 +184,7 @@ class loginController extends mainController{
             $_SESSION['nome'] = $me['modelData']['name']['givenName'];
             $_SESSION['sobrenome'] = $me['modelData']['name']['familyName'];
             $_SESSION['email'] = $me['modelData']['emails'][0]['value'];
+            $_SESSION['redeSocial'] = 'google';
         }
         $this->redirecionarPagina('home');
     }
@@ -272,6 +273,7 @@ class loginController extends mainController{
             $_SESSION['nome'] = $graph->getFirstName();
             $_SESSION['sobrenome'] = $graph->getLastName();
             $_SESSION['email'] = $graph->getEmail();
+            $_SESSION['redeSocial'] = 'facebook';
         }
         $this->redirecionarPagina('home');
     }
