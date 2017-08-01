@@ -9,10 +9,9 @@
     </head>
 
     <body>
-        
+        <?php $this->carregarCabecalho();?>
         <div class="container">
-            <?php $this->carregarCabecalho();?>
-
+            
             <div class="col-sm-4"></div>
             <div class="col-sm-6">
                 <div class="search-only form-search">

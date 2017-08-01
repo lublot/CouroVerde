@@ -9,8 +9,9 @@
     </head>
 
     <body style="visibility:hidden">
+        <?php $this->carregarCabecalho();?>
         <div class='container'>
-            <?php $this->carregarCabecalho();?>
+            
             <div class="col-sm-3"></div>
             <div id="pesquisa" class="col-sm-9">
                 <div id='alerta' class="alert alert-warning alert-dismissible" role="alert" style="display:none;">

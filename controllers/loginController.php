@@ -432,7 +432,7 @@ class loginController extends mainController{
         $_SESSION['tipoUsuario'] = $usuario->getTipo();
         $_SESSION['confirmouCadastro'] = $usuario->confirmouCadastro();
 
-        if($usuario->getTipo() == "Funcionario") { //se o usuário for funcionário
+        if($usuario->getTipo() == "FUNCIONARIO") { //se o usuário for funcionário
             $funcionarioDAO = new FuncionarioDAO();
             $funcionario = $funcionarioDAO->buscar(array(), array('idUsuario'=>$usuario->getId()));
 
@@ -447,7 +447,7 @@ class loginController extends mainController{
             } else {
                 throw new UsuarioInexistenteException();
             }
-        } else if($usuario->getTipo() == "Administrador") { //se o usuário for o admininistrador
+        } else if($usuario->getTipo() == "ADMINISTRADOR") { //se o usuário for o admininistrador
                 $_SESSION['podeCadastrarObra'] = true;
                 $_SESSION['podeGerenciarObra'] = true;
                 $_SESSION['podeRemoverObra'] = true;

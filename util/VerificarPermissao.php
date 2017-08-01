@@ -1,6 +1,8 @@
 <?php
 namespace util;
 
+if(!isset($_SESSION)){session_start();}
+
 /**
  * Classe responsável por disponibilizar métodos para verificar permissionamento.
  * @author MItologhic Software
@@ -14,7 +16,7 @@ class VerificarPermissao {
 	 * @return <code>true</code>, se o usuário atual for administrador; <code>false</code>, caso contrário.
 	 */
 	public static function isAdministrador() {
-	    return isset($_SESSION['administrador']) && $_SESSION['administrador'];
+	    return isset($_SESSION['administrador']) && (strcmp($_SESSION['tipoUsuario'],"ADMINISTRADOR")==0);
 	}
 
 	/**
@@ -22,7 +24,7 @@ class VerificarPermissao {
 	 * @return <code>true</code>, se o usuário atual for funcionario; <code>false</code>, caso contrário.
 	 */
 	public static function isFuncionario() {
-	    return isset($_SESSION['administrador']) && ($_SESSION['tipoUsuario'] == "Funcionario");            
+	    return isset($_SESSION['administrador']) && ($_SESSION['tipoUsuario'] == "FUNCIONARIO");            
     }
 
 	/**

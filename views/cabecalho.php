@@ -103,7 +103,7 @@
           <div class="col-sm-4 col-md-3 hidden-xs">
                 <?php
                     if(isset($_SESSION['nome']) && !empty($_SESSION['nome'])){
-                        echo '<span style="float:right" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        echo '<span style="float:right;cursor:pointer" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <b>Olá, '.$_SESSION['nome'].'! <span class="caret"></span></b>
                               </span>
                                 <br>

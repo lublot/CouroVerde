@@ -11,9 +11,9 @@
     </head>
 
     <body>
-
+        <?php $this->carregarCabecalho()?>
         <div class="container">
-            <?php $this->carregarCabecalho()?>
+            
             <div class="col-xs-3"></div>
             <div class="col-xs-9">
                 <div class="panel">

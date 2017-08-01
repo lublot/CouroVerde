@@ -26,6 +26,8 @@ use \exceptions\RespostaInexistenteException as RespostaInexistenteException;
 use \exceptions\UsuarioJaRespondeuException as UsuarioJaRespondeuException;
 use \exceptions\SenhaIncorretaException as SenhaIncorretaException;
 
+if(!isset($_SESSION)){session_start();}
+
 class pesquisaController extends mainController{
 
 
@@ -38,15 +40,20 @@ class pesquisaController extends mainController{
   }
 
   public function index(){
-  
-    $this->carregarConteudo('homePesquisa',$this->dados);
+    if(VerificarPermissao::isAdministrador()){
+      $this->carregarConteudo('homePesquisa',$this->dados);
+    }else{
+
+    }
   }
   
   /**
   * Este método carrega a página responsável pelo cadastro da pesquisa
   */
   public function cadastrar(){
-    $this->carregarConteudo('cadastroPesquisa',$this->dados); 
+    if(VerificarPermissao::isAdministrador()){
+      $this->carregarConteudo('cadastroPesquisa',$this->dados);
+    }
   }
 
 
@@ -176,12 +183,15 @@ class pesquisaController extends mainController{
   * Este método carrega a página responsável pelo cadastro da pesquisa
   */
   public function gerenciar(){
-    $this->carregarConteudo('gerenciarPesquisa',$this->dados); 
+    if(VerificarPermissao::isAdministrador()){
+      $this->carregarConteudo('gerenciarPesquisa',$this->dados);
+    }else{
+
+    }
   }
 
   public function buscar($parametros){
-     
-
+    if(VerificarPermissao::isAdministrador()){
      try{
       if(isset($parametros) && !empty($parametros)){
         $idPesquisa = array_shift($parametros);
@@ -237,97 +247,103 @@ class pesquisaController extends mainController{
       }
       
         
-    }catch(DadosCorrompidosException $e){
-      echo json_encode(array("erro"=>"Por favor, escolha o tipo da pergunta.","success"=>"false"));
-    }catch(PerguntaInconsistenteException $e){
-      echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
-    }catch(PesquisaJaExistenteException $e){
-      echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
-    }catch(PesquisaInexistenteException $e){
-      echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
+      }catch(DadosCorrompidosException $e){
+        echo json_encode(array("erro"=>"Por favor, escolha o tipo da pergunta.","success"=>"false"));
+      }catch(PerguntaInconsistenteException $e){
+        echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
+      }catch(PesquisaJaExistenteException $e){
+        echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
+      }catch(PesquisaInexistenteException $e){
+        echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
+      }
+    }else{
+
     }
   }
 
   public function remover(){
-    try{
-      if(ValidacaoDados::validarForm($_POST,array("senhaAdmin","idPesquisa"))){
+    if(VerificarPermissao::isAdministrador()){
+      try{
+        if(ValidacaoDados::validarForm($_POST,array("senhaAdmin","idPesquisa"))){
 
-        $usuarioDAO = new UsuarioDAO();
-        $senhaArmazenada = $usuarioDAO->buscar(array("senha"),array("tipoUsuario"=>"ADMINISTRADOR"));
-        $senhaArmazenada = $senhaArmazenada[0]->getSenha();
-        
-        if(GerenciarSenha::checarSenha($_POST['senhaAdmin'],$senhaArmazenada)){
+          $usuarioDAO = new UsuarioDAO();
+          $senhaArmazenada = $usuarioDAO->buscar(array("senha"),array("tipoUsuario"=>"ADMINISTRADOR"));
+          $senhaArmazenada = $senhaArmazenada[0]->getSenha();
           
-          $pesquisaDAO = new PesquisaDAO();  
-          $perguntaPesquisaDAO = new PerguntaPesquisaDAO();
-          
-          $perguntas = $perguntaPesquisaDAO->buscarPergunta(array(),array());
+          if(GerenciarSenha::checarSenha($_POST['senhaAdmin'],$senhaArmazenada)){
+            
+            $pesquisaDAO = new PesquisaDAO();  
+            $perguntaPesquisaDAO = new PerguntaPesquisaDAO();
+            
+            $perguntas = $perguntaPesquisaDAO->buscarPergunta(array(),array());
 
 
-          $opcoesTodasPerguntas;
-          $perguntaOpcaoDAO = new PerguntaOpcaoDAO();
-         
-          foreach($perguntas as $pergunta){
-             if(strcmp($pergunta->getTipo(),"ABERTA") !=0){
-                $id = $pergunta->getIdPergunta();
-                $opcoesTodasPerguntas[] = $perguntaOpcaoDAO->buscarOpcao(array(),array("idPergunta"=>$id));
-             }
-          }
+            $opcoesTodasPerguntas;
+            $perguntaOpcaoDAO = new PerguntaOpcaoDAO();
           
-          $perguntaDAO = new PerguntaDAO();
-          
-          $opcaoDAO = new OpcaoDAO();
-          if(isset($opcoesTodasPerguntas) && !empty($opcoesTodasPerguntas)){          
-            foreach($opcoesTodasPerguntas as $opcoes) {
-              if(isset($opcoes) && !empty($opcoes)){
-                foreach($opcoes as $opcao){
-                  $opcaoDAO->remover(array("idOpcao"=>$opcao->getIdOpcao())); 
-                }              
+            foreach($perguntas as $pergunta){
+              if(strcmp($pergunta->getTipo(),"ABERTA") !=0){
+                  $id = $pergunta->getIdPergunta();
+                  $opcoesTodasPerguntas[] = $perguntaOpcaoDAO->buscarOpcao(array(),array("idPergunta"=>$id));
               }
             }
+            
+            $perguntaDAO = new PerguntaDAO();
+            
+            $opcaoDAO = new OpcaoDAO();
+            if(isset($opcoesTodasPerguntas) && !empty($opcoesTodasPerguntas)){          
+              foreach($opcoesTodasPerguntas as $opcoes) {
+                if(isset($opcoes) && !empty($opcoes)){
+                  foreach($opcoes as $opcao){
+                    $opcaoDAO->remover(array("idOpcao"=>$opcao->getIdOpcao())); 
+                  }              
+                }
+              }
+            }
+
+            foreach($perguntas as $pergunta){
+              $perguntaDAO->remover(array("idPergunta"=>$pergunta->getIdPergunta()));
+            }
+
+            $pesquisaDAO->remover(array("idPesquisa"=>$_POST['idPesquisa']));
+            echo json_encode(array("success"=>true));
+          }else{
+            throw new SenhaIncorretaException();
           }
 
-          foreach($perguntas as $pergunta){
-            $perguntaDAO->remover(array("idPergunta"=>$pergunta->getIdPergunta()));
-          }
-
-          $pesquisaDAO->remover(array("idPesquisa"=>$_POST['idPesquisa']));
-          echo json_encode(array("success"=>true));
         }else{
-          throw new SenhaIncorretaException();
+          throw new DadosCorrompidosException();
         }
-
-      }else{
-        throw new DadosCorrompidosException();
+      }catch(DadosCorrompidosException $e){
+        echo json_encode(array("erro"=>"Por favor, tente novamente.","success"=>"false"));
+      }catch(SenhaIncorretaException $e){
+        echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
       }
-    }catch(DadosCorrompidosException $e){
-      echo json_encode(array("erro"=>"Por favor, tente novamente.","success"=>"false"));
-    }catch(SenhaIncorretaException $e){
-      echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
     }
   }
 
   public function toggle(){
+    if(VerificarPermissao::isAdministrador()){
+      try{
+        if(ValidacaoDados::validarForm($_POST,array('idPesquisa','estadoAtual'))){
+          $pesquisaDAO = new PesquisaDAO();
+          $pesquisaDAO->alterar(array("estaAtiva"=>"0"),array()); //Seta false em todas as pesquisas;
 
-    try{
-      if(ValidacaoDados::validarForm($_POST,array('idPesquisa','estadoAtual'))){
-        $pesquisaDAO = new PesquisaDAO();
-        $pesquisaDAO->alterar(array("estaAtiva"=>"0"),array()); //Seta false em todas as pesquisas;
+          
+          if(strcmp($_POST['estadoAtual'],'false')==0){
+            $pesquisaDAO->alterar(array("estaAtiva"=>1),array("idPesquisa"=>$_POST["idPesquisa"]));
+          }
 
-        
-        if(strcmp($_POST['estadoAtual'],'false')==0){
-          $pesquisaDAO->alterar(array("estaAtiva"=>1),array("idPesquisa"=>$_POST["idPesquisa"]));
+          echo json_encode(array("success"=>true));
         }
-
-        echo json_encode(array("success"=>true));
+      }catch(Exception $e){
+        echo json_encode(array("erro"=>"Ocorreu um erro,tente novamente","success"=>false));
       }
-    }catch(Exception $e){
-      echo json_encode(array("erro"=>"Ocorreu um erro,tente novamente","success"=>false));
     }
-
   }
 
 public function alterar(){
+  if(VerificarPermissao::isAdministrador()){
     try{
       if(ValidacaoDados::validarForm($_POST,array('idPesquisa','json'))){
         $idPesquisa = $_POST['idPesquisa'];
@@ -444,8 +460,8 @@ public function alterar(){
     }catch(PesquisaJaExistenteException $e){
       echo json_encode(array("erro"=>"Já existe uma pesquisa com este título. Tente outro","success"=>false));
     }
-
   }
+}
 
   /**
   * Retorna as perguntas de uma pesquisa
@@ -486,10 +502,6 @@ public function alterar(){
   * Carrega a tela onde o usuário responde a uma pesquisa
   */
   public function responder(){
-
-    if(!isset($_SESSION)){
-        session_start();
-    }
     if(isset($_SESSION['id'])){
       try{
 
@@ -521,23 +533,20 @@ public function alterar(){
   
   //Evitar usar esse método para operações que não envolvam a view, ele foi projetado para o uso com AJAX
   public function buscarAtiva(){
-      $pesquisaDAO = new PesquisaDAO();
-      $pesquisaDAO = $pesquisaDAO->buscar(array(),array("estaAtiva"=>1));//Busca uma pesquisa ativa
-      $pesquisa;
-      if(count($pesquisaDAO)>0){
-        $pesquisa = $this->buscar(array($pesquisaDAO[0]->getIdPesquisa()));
+      if(VerificarPermissao::isAdministrador()){
+        $pesquisaDAO = new PesquisaDAO();
+        $pesquisaDAO = $pesquisaDAO->buscar(array(),array("estaAtiva"=>1));//Busca uma pesquisa ativa
+        $pesquisa;
+        if(count($pesquisaDAO)>0){
+          $pesquisa = $this->buscar(array($pesquisaDAO[0]->getIdPesquisa()));
+        }
       }
-      
   }
 
   /**
   * Guarda as respostas no banco de dados
   */
   public function guardarResposta(){
-    
-    if(!isset($_SESSION)){
-        session_start();      
-    }
 
     if(isset($_SESSION['id'])){
       try{
@@ -586,10 +595,6 @@ public function alterar(){
   * Carrega a página de visualização de respostas de uma pesquisa
   */
   public function respostas(){
-    if(!isset($_SESSION)){
-      session_start();
-    }
-
    if(VerificarPermissao::isAdministrador()){
       $this->carregarConteudo('visualizacaoRespostas',array());
    }else{
@@ -601,44 +606,47 @@ public function alterar(){
   * Resgata as respostas de uma pesquisa
   */
   public function resgatarRespostas(){
-    try{
-      $idPesquisa = $_POST['idPesquisa'];
-      $pesquisaDAO = new PesquisaDAO();
-      $infoPesquisa = $pesquisaDAO->buscar(array('titulo'),array('idPesquisa'=>$idPesquisa));//Procura a pesquisa no banco
-      
-      if(count($infoPesquisa)==0){ //Caso a pesquisa não exista lança uma exceção
-        throw new PesquisaInexistenteException();
-      }
-      
-      $respostaDAO = new RespostaDAO();
-      $infoRespostaAberta = $respostaDAO->buscarRespostaAberta(array(),array('idPesquisa'=>$idPesquisa));//Procura as respostas abertas
-      $infoRespostaFechada = $respostaDAO->buscarRespostaFechada($idPesquisa);//Procura as respostas fechadas
-      
-      if(count($infoRespostaAberta) == 0  && count($infoRespostaFechada) == 0){
-        throw new RespostaInexistenteException();
-      }
+    if(VerificarPermissao::isAdministrador()){
+      try{
+        $idPesquisa = $_POST['idPesquisa'];
+        $pesquisaDAO = new PesquisaDAO();
+        $infoPesquisa = $pesquisaDAO->buscar(array('titulo'),array('idPesquisa'=>$idPesquisa));//Procura a pesquisa no banco
+        
+        if(count($infoPesquisa)==0){ //Caso a pesquisa não exista lança uma exceção
+          throw new PesquisaInexistenteException();
+        }
+        
+        $respostaDAO = new RespostaDAO();
+        $infoRespostaAberta = $respostaDAO->buscarRespostaAberta(array(),array('idPesquisa'=>$idPesquisa));//Procura as respostas abertas
+        $infoRespostaFechada = $respostaDAO->buscarRespostaFechada($idPesquisa);//Procura as respostas fechadas
+        
+        if(count($infoRespostaAberta) == 0  && count($infoRespostaFechada) == 0){
+          throw new RespostaInexistenteException();
+        }
 
-      $respostas = array();
-      $respostas['tituloPesquisa'] = $infoPesquisa[0]->getTitulo();  //Obtém o titulo da pesquisa
-      
-      $respostaAbertaAgrupada = $this->agruparRespostas($infoRespostaAberta); //Agrupa as respostas por ID
-      $respostaFechadaAgrupada = $this->agruparRespostas($infoRespostaFechada); //Agrupa as respostas por ID
+        $respostas = array();
+        $respostas['tituloPesquisa'] = $infoPesquisa[0]->getTitulo();  //Obtém o titulo da pesquisa
+        
+        $respostaAbertaAgrupada = $this->agruparRespostas($infoRespostaAberta); //Agrupa as respostas por ID
+        $respostaFechadaAgrupada = $this->agruparRespostas($infoRespostaFechada); //Agrupa as respostas por ID
 
-      while(count($respostaAbertaAgrupada)>0){
-        array_push($respostas,array_shift($respostaAbertaAgrupada)); // Guarda as respostas em um array único
+        while(count($respostaFechadaAgrupada)>0){
+          array_push($respostas,array_shift($respostaFechadaAgrupada)); // Guarda as respostas em um array único
+        }
+
+        while(count($respostaAbertaAgrupada)>0){
+          array_push($respostas,array_shift($respostaAbertaAgrupada)); // Guarda as respostas em um array único
+        }
+        
+        
+        
+        echo json_encode($respostas); //Envia as respostas para a tela
+      }catch(PesquisaInexistenteException $e){
+        echo json_encode(array("erro"=>"Nenhuma pesquisa foi encontrada","success"=>false));
+      }catch(RespostaInexistenteException $e){
+        echo json_encode(array("alerta"=>"Esta pesquisa ainda não possui respostas","success"=>false));
       }
-      
-      while(count($respostaFechadaAgrupada)>0){
-        array_push($respostas,array_shift($respostaFechadaAgrupada)); // Guarda as respostas em um array único
-      }
-      
-      echo json_encode($respostas); //Envia as respostas para a tela
-    }catch(PesquisaInexistenteException $e){
-      echo json_encode(array("erro"=>"Nenhuma pesquisa foi encontrada","success"=>false));
-    }catch(RespostaInexistenteException $e){
-      echo json_encode(array("alerta"=>"Esta pesquisa ainda não possui respostas","success"=>false));
     }
-    
   }
 
   private function agruparRespostas($respostaRecebida){
