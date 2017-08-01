@@ -342,9 +342,7 @@ class ObraDAO extends Database {
     * Insere uma palavra-chave no banco de dados;
     * @param unknown $palavraChave - A palavra-chave a ser inserida no banco;
     * */
-    public function inserirPalavraChave($palavraChave){
-        
-        $descricao = $palavraChave->getDescricao();
+    public function inserirPalavraChave($numInventario, $descricao){
 
         $query = "INSERT INTO Tag(idTag, descricao) 
                   VALUES (null,'$descricao')";
@@ -353,6 +351,18 @@ class ObraDAO extends Database {
         }catch(PDOException $e){
 
         }
+
+        $idTag = $this->PDO->lastInsertId("idTag"); //pega o ultimo id de tag inserida
+
+        $query2 = "INSERT INTO TagObra(idObra, idTag) //relaciona a tag com a obra 
+                  VALUES ('$numeroInventario','$idTag')";
+
+        try{
+            $this->PDO->query($query2);
+        }catch(PDOException $e){
+
+        }
+                
     }
 
     /**

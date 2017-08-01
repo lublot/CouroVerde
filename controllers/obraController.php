@@ -198,6 +198,8 @@ class obraController extends mainController {
             $obraDAO->inserirObra(new Obra($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
                                             $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
                                             $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado));
+
+            $this->cadastrarPalavraChave();
             }
         else {
             throw new DadosCorrompidosException();
@@ -370,6 +372,7 @@ class obraController extends mainController {
     /**
     *Este método cadastra palavras-chave.
     */
+    /*
     public function cadastrarPalavraChave() {
         if(isset($_POST["submit"]) and ValidacaoDados::validarForm($_POST, array('descricao'))) { //verifica se a variável superglobal foi setada
             if(!ValidacaoDados::validarCampo($_POST['descricao'])) { //verifica se o campo está válido
@@ -383,6 +386,21 @@ class obraController extends mainController {
             $obraDAO->inserirPalavraChave(new PalavraChave(null, $descricao));
         } else {
             throw new DadosCorrompidosException();
+        }
+    }*/
+
+    /**
+    * Cadastra palavras chaves
+    */
+    public function cadastrarPalavraChave(){
+
+        $numeroInventario = $_POST['numInventario']; //pega o numero de inventario
+        $palavrasChave = explode("#", $_POST['palavrasChaves']); //pega as palavras chaves e transforma num array
+
+        $obraDAO = new obraDAO();
+
+        foreach($palavrasChave as $value){
+            $obraDAO->inserirPalavraChave($numeroInventario, $value);   
         }
     }
 }
