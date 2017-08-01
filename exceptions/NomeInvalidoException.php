@@ -13,8 +13,8 @@ class NomeInvalidoException extends \Exception
     /**
 	* Construtor da classe.
 	*/
-    public function __construct()
+    public function __construct($mensagem)
     {
-        parent::__construct("O campo nome é inválido.");
+        parent::__construct($mensagem);
     }
 }

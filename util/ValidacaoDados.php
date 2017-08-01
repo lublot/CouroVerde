@@ -91,6 +91,13 @@ class ValidacaoDados {
     }    
 
     /**
+    * Verifica se a senha informada contém espaços.
+    * @return <code>true</code>, se a senha informada for válida; <code>false</code>, caso contrário.
+    */
+    public static function contemEspacos($senha){
+        return strpos($senha," ") > -1; // Retorna true se a senha contém espaços
+    }
+    /**
     *Verifica a integridade do array de informações para a redefinicão de senha
     *@return <code>true</code>, se o array estiver íntegro; <code>false</code>, caso contrário
     */
@@ -143,6 +150,7 @@ class ValidacaoDados {
     /**
     * Verifica se o texto é vazio
     * @param $campo - O texto para ser testado
+    * @return Retorna true se o campo for vazio.
     * */
     public static function campoVazio($campo){
         $string = preg_replace('/\s+/', '', $campo);

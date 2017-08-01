@@ -75,17 +75,34 @@ class cadastroController extends mainController
                     }
 
                     if (!ValidacaoDados::validarNome($_POST["nome"])) {
-                        throw new NomeInvalidoException();
+                        throw new NomeInvalidoException('O nome não pode conter números.');
+                    }
+
+                    if (ValidacaoDados::campoVazio($_POST["nome"])) {
+                        throw new NomeInvalidoException('O nome não pode ser vazio.');
                     }
 
                     if (!ValidacaoDados::validarNome($_POST["sobrenome"])) {
-                        throw new SobrenomeInvalidoException();
+                        throw new SobrenomeInvalidoException('O sobrenome não pode conter números');
                     }
-                        
+
+                    if (ValidacaoDados::campoVazio($_POST["sobrenome"])) {
+                        throw new SobrenomeInvalidoException('O sobrenome não pode ser vazio.');
+                    }
+                    
+                    if (ValidacaoDados::campoVazio($_POST["senha"])) {
+                        throw new SobrenomeInvalidoException('A senha não pode ser vazia.');
+                    }
+
+                    if (ValidacaoDados::contemEspacos($_POST["senha"])){
+                        throw new SenhaInvalidaException('A senha não pode conter espaços');
+                    } 
+
                     if (!ValidacaoDados::validarSenha($_POST["senha"])) {
-                        throw new SenhaInvalidaException();
+                        throw new SenhaInvalidaException('A senha deve conter em 8 e 32 caracteres.');
                     }
-                        
+
+                     
                     if (!ValidacaoDados::validarEmail($_POST["email"])) {
                         throw new EmailInvalidoException();
                     }

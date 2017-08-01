@@ -13,8 +13,8 @@ class SenhaInvalidaException extends \Exception
     /**
 	* Construtor da classe.
 	*/
-    public function __construct()
+    public function __construct($mensagem)
     {
-        parent::__construct("A senha deve conter entre 8 e 32 caracteres");
+        parent::__construct($mensagem);
     }
 }

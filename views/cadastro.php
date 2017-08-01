@@ -15,7 +15,7 @@
 </head>
 
 <body>
-	<img src=<?php $this->path('assets/images/logo-maior1.png')?>  class="img-rounded" id="logo">
+	<a href =<?php echo ROOT_URL?>><img src=<?php $this->path('assets/images/logo-maior1.png')?>  class="img-rounded" id="logo"></a>
 	<div id="container-reg">
 		<section id="caixa-registro">
 			<h4 class="text-center" style="margin-bottom:16%;">Inscreva-se. É grátis!</h4>
@@ -43,20 +43,21 @@
 						</div>
 					</div>
 				
-					<div class="form-group">
-						<div class="col-md-3"></div>
-                   		<div class="col-md-6">
-                        	<button type="submit" class="btn btn-primary btn-md center">Cadastrar</button>
-							<!--ESSE TRECHO AQUI VAI MOSTRAR UMA EXCEPTION DO BACK-END TU VÊ ONDE COLOCA AÍ-->
-							<?php if(isset($this->dados['exception']) && !empty($this->dados['exception'])){
-									echo $this->dados['exception'];
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-4"></div>
+							<div class="col-md-4">
+								<button type="submit" class="btn btn-primary">Cadastrar</button>
+								<!--ESSE TRECHO AQUI VAI MOSTRAR UMA EXCEPTION DO BACK-END TU VÊ ONDE COLOCA AÍ-->
+							</div>
+							<div class="col-md-4"></div>
+						</div> 
+					</div>
+					<?php if(isset($this->dados['exception']) && !empty($this->dados['exception'])){
+									echo '<br><center><span class="text-danger">'.$this->dados['exception'].'</span></center><br>';
 								}
 							?>
-						</div>
-						<div class="col-md-3"></div>
-					</div> 
-					   
-					<h6 class="text-center" style="margin-top: 16%;">Ou entre com:</h6>
+					<center><span style="margin-top: 16%;">Ou entre com:</span></center>
 
 					<!-- Botões sociais -->
 					<div class="center" style="margin: 0 auto; width:43%">

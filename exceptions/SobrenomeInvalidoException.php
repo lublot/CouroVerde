@@ -13,8 +13,8 @@ class SobrenomeInvalidoException extends \Exception
     /**
 	* Construtor da classe.
 	*/
-    public function __construct()
+    public function __construct($mensagem)
     {
-        parent::__construct("O sobrenome não foi informado..");
+        parent::__construct($mensagem);
     }
 }

@@ -12,7 +12,6 @@ use DAO\UsuarioDAO as UsuarioDAO;
 use \util\ValidacaoDados as ValidacaoDados;
 use \util\VerificarPermissao as VerificarPermissao;
 use \util\GerenciarSenha as GerenciarSenha;
-use \util\PercentualOpcoes as PercentualOpcoes;
 use \models\Pesquisa as Pesquisa;
 use \models\Pergunta as Pergunta;
 use \models\Opcao as Opcao;
