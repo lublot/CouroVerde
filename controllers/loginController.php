@@ -78,7 +78,7 @@ class loginController extends mainController{
                     $senha = $_POST["senha"];
 
                     if (!ValidacaoDados::validarSenha($senha)) {
-                        throw new SenhaInvalidaException();
+                        throw new SenhaInvalidaException('A senha deve conter entre 8 e 32 caracteres.');
                     } 
                     if (!ValidacaoDados::validarEmail($email)) {
                         throw new EmailInvalidoException();

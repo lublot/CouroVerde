@@ -16,6 +16,7 @@ use \util\GerenciarSenha as GerenciarSenha;
 use \util\ValidacaoDados as ValidacaoDados;
 use \models\Usuario as Usuario;
 
+if(!isset($_SESSION)){session_start();}
 class cadastroController extends mainController
 {
 
