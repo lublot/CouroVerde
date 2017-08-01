@@ -34,7 +34,7 @@
     width: 100%;
 }
 
-.div-caixa .section-direita div#cadastro-noticias {
+.div-caixa .section-direita {
     display: table-cell;
     vertical-align: top;
 }
