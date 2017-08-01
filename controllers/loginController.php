@@ -10,6 +10,7 @@ use \util\ValidacaoDados as ValidacaoDados;
 use exceptions\UsuarioInexistenteException as UsuarioInexistenteException;
 use exceptions\SenhaInvalidaException as SenhaInvalidaException;
 use exceptions\EmailInvalidoException as EmailInvalidoException;
+use exceptions\EmailExternoException as EmailExternoException;
 use exceptions\AcessoExternoNegadoException as AcessoExternoNegadoException;
 if(!isset($_SESSION)){
     session_start();
@@ -252,30 +253,35 @@ class loginController extends mainController{
 
         $usuarioDao = new UsuarioDAO();
         $usuario = $usuarioDao->buscarUsuarioContaExterna(array("idUsuarioFacebook"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado","tipoUsuario"),$filtros,"facebook");
-        
-        if(count($usuario)>0){//Se o usuário estiver cadastrado...
-            $usuario = $usuario[0];
-            $_SESSION = array();//Limpa os dados de token
-            $this->setarSession($usuario[0], 'facebook');
+        $usuarioInt = $usuarioDao->buscar(array(), array("email" => $graph->getEmail()));
 
-            //Falta redirecionar usuário
-        }else{
-            $cadastro = new cadastroController();
-            $cadastro->cadastrarUsuarioFacebook([
-                'fb_id' => $graph->getId(),
-                'nome' => $graph->getFirstName(),
-                'sobrenome' => $graph->getLastName(),
-                'email' => $graph->getEmail()
-            ]);
+        if(isset($usuarioInt[0])) {
+            $this->dados['exception'] = 'O email da sua conta já está cadastrado no sistema.';
+            $this->carregarConteudo("login",$this->dados);
+        } else {
+            if(count($usuario)>0){//Se o usuário estiver cadastrado...
+                $usuario = $usuario[0];
+                $_SESSION = array();//Limpa os dados de token
+                $this->setarSession($usuario, 'facebook');
+                //Falta redirecionar usuário
+            }else{
+                $cadastro = new cadastroController();
+                $cadastro->cadastrarUsuarioFacebook([
+                    'fb_id' => $graph->getId(),
+                    'nome' => $graph->getFirstName(),
+                    'sobrenome' => $graph->getLastName(),
+                    'email' => $graph->getEmail()
+                ]);
 
-            $_SESSION = array();//Limpa os dados de token
-            $_SESSION['id'] = $graph->getId();
-            $_SESSION['nome'] = $graph->getFirstName();
-            $_SESSION['sobrenome'] = $graph->getLastName();
-            $_SESSION['email'] = $graph->getEmail();
-            $_SESSION['redeSocial'] = 'facebook';
+                $_SESSION = array();//Limpa os dados de token
+                $_SESSION['id'] = $graph->getId();
+                $_SESSION['nome'] = $graph->getFirstName();
+                $_SESSION['sobrenome'] = $graph->getLastName();
+                $_SESSION['email'] = $graph->getEmail();
+                $_SESSION['redeSocial'] = 'facebook';
+            }
+            $this->redirecionarPagina('home');              
         }
-        $this->redirecionarPagina('home');
     }
 
     /**
