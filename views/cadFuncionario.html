@@ -32,9 +32,12 @@
 
     <!-- Container  -->
     <div class="container">
+        <!-- Painel -->
+        <div class="col-md-3 col-lg-3"></div>
+
 
         <!-- Div cadastro-funcionários -->
-        <div id='cadastro-funcionários'>
+        <div id='cadastro-funcionários' class="col-md-9 col-lg-9">
 
             <!--Título da caixa-->
             <div id="titulo">
@@ -66,12 +69,12 @@
 
                             <!-- Fim Linha com duas entradas -->
                         </div>
-                        
+
                         <!-- Entrada de email -->
                         <div>
                             <input class="form-control" type="text" placeholder="Email">
                         </div>
-                        
+
                         <br />
 
                         <!-- Linha com duas entradas -->
@@ -107,49 +110,54 @@
                         </div>
 
                         <h6>(*) Campos obrigatórios</h6>
-                        
+
                         <!-- Subtítulo -->
                         <div class="form-group">
                             <h5 class="text-center">Privilégios administrativos</h5>
                         </div>
 
                         <!-- Checkboxes de privelégios -->
-                        <div class="control-group">
+                        <div class="control-group" style="padding-left: 3vh; padding-bottom: 5vh">
 
                             <!-- Opções relacionadas a funcionário -->
-                            <div class="controls span2">
-                                <label class="checkbox">
+                            <div class="row">
+                                <div class="controls span2">
+                                    <label class="checkbox  col-md-3">
                                     <input type="checkbox" value="cadFunc" id="inlineCheckbox1"> Cadastrar Funcionário
                                 </label>
-                                <label class="checkbox">
+                                    <label class="checkbox  col-md-3">
                                     <input type="checkbox" value="gerFunc" id="inlineCheckbox2"> Gerenciar Funcionário
-                                </label>                                <label class="checkbox">
+                                </label> <label class="checkbox  col-md-3">
                                     <input type="checkbox" value="remFunc" id="inlineCheckbox3"> Remover Funcionário
                                 </label>
-                            </div>
 
-                            <!-- Opções relacionadas a notícias -->
-                            <div class="controls span2">
-                                <label class="checkbox">
+                                    <label class="checkbox col-md-3">
                                     <input type="checkbox" value="cadNot" id="inlineCheckbox1"> Inserir notícias
                                 </label>
-                                <label class="checkbox">
-                                    <input type="checkbox" value="gerNot" id="inlineCheckbox2"> Gerenciar notícias
-                                </label>
-                                <label class="checkbox">
-                                    <input type="checkbox" value="remNot" id="inlineCheckbox3"> Remover notícias
-                                </label>
+                                </div>
                             </div>
 
-                            <!-- Outras opções -->
-                            <div class="controls span2">
-                                <label class="checkbox">
+                            <div class="row">
+
+                                <!-- Opções relacionadas a notícias -->
+                                <div class="controls span2">
+
+                                    <label class="checkbox col-md-3">
+                                    <input type="checkbox" value="gerNot" id="inlineCheckbox2"> Gerenciar notícias
+                                </label>
+                                    <label class="checkbox col-md-3">
+                                    <input type="checkbox" value="remNot" id="inlineCheckbox3"> Remover notícias
+                                </label>
+
+                                    <label class="checkbox col-md-3">
                                     <input type="checkbox" value="realizarBackup" id="inlineCheckbox1"> Realizar Backup
                                 </label>
-                                <label class="checkbox">
+                                    <label class="checkbox col-md-3">
                                     <input type="checkbox" value="gerUsuarios" id="inlineCheckbox2"> Gerenciar Usuários
                                 </label>
+                                </div>
                             </div>
+
 
                         </div>
 

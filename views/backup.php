@@ -36,173 +36,177 @@
 <body style="background-color: rgb(241, 242, 246);">
 
     <div class="container">
+         <!-- Painel -->
+        <div class="col-md-3 col-lg-3"></div>
 
-        <!--Título da caixa-->
-        <div id="titulo">
-            <h4 class="text-center">Backup</h4>
-        </div>
-        <!--Fim do título da caixa-->
+        <div class="col-md-9 col-lg-9">
 
-        <!-- Contorno -->
-        <div id="contorno">
+            <!--Título da caixa-->
+            <div id="titulo">
+                <h4 class="text-center">Backup</h4>
+            </div>
+            <!--Fim do título da caixa-->
 
-            <!-- Caixa interna -->
-            <section id="caixa">
+            <!-- Contorno -->
+            <div id="contorno">
 
-                <!-- Backup manual -->
-                <p> Deseja fazer backup agora?
-                    <!-- Botão de backup manual -->
-                    <button type="button" target="_new" id="btn-backup" class="btn btn-default btn-sm">
-                        <img src="assets/images/if_backup_383184.png"> 
+                <!-- Caixa interna -->
+                <section id="caixa">
+
+                    <!-- Backup manual -->
+                    <p> Deseja fazer backup agora?
+                        <!-- Botão de backup manual -->
+                        <button type="button" target="_new" id="btn-backup" class="btn btn-default btn-sm">
+                            <img src="assets/images/if_backup_383184.png"> 
+                        </button>
+
+                    <!-- /FIM de botão de backup manual -->
                     </button>
 
-                <!-- /FIM de botão de backup manual -->
-                 </button>
-
-                    <!-- /FIM de Backup manual -->
-                </p>
+                        <!-- /FIM de Backup manual -->
+                    </p>
 
 
-                <!-- Div onde fica localizada as caixas inferiores de histórico e backup automático -->
-                <div class="row" style="margin-top: 5vh">
+                    <!-- Div onde fica localizada as caixas inferiores de histórico e backup automático -->
+                    <div class="row" style="margin-top: 5vh">
 
-                    <!-- Backup automático -->
-                    <div class="col-sm-7 caixa-backup">
+                        <!-- Backup automático -->
+                        <div class="col-sm-7 caixa-backup">
 
-                        <!-- Título da caixa de backup automático -->
-                        <div class="caixa-backup-titulo">
-                            <h6>
-                                Backup Automático
-                            </h6>
-                        </div>
-                        <!-- /FIM Título da caixa de backup automático -->
-
-
-
-                        <!-- Ligar ou desligar backup automatico -->
-                        <div class="row" style="padding-bottom: 2vh;margin-top:6vh;">
-
-                             Nome da opção 
-                            <div class="col-sm-5">
-                                <p>Ativar/Desativar: </p>
+                            <!-- Título da caixa de backup automático -->
+                            <div class="caixa-backup-titulo">
+                                <h6>
+                                    Backup Automático
+                                </h6>
                             </div>
+                            <!-- /FIM Título da caixa de backup automático -->
 
-                            <!-- Toggle -->
-                            <div class="col-sm-5">
-                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-size="small">
 
-                                <!-- TOGGLE OFFLINE
-                                <label class="toggle">
-                                    <input type="checkbox" checked>
-                                    <span class="handle">
-                                    </span>
-
-                                </label>
-
-                            -->
-                            </div>
 
                             <!-- Ligar ou desligar backup automatico -->
-                        </div>
+                            <div class="row" style="padding-bottom: 2vh;margin-top:6vh;">
 
+                                Nome da opção 
+                                <div class="col-sm-5">
+                                    <p>Ativar/Desativar: </p>
+                                </div>
 
-                        <!-- Frequencia do backup automático-->
-                        <div class="row">
+                                <!-- Toggle -->
+                                <div class="col-sm-5">
+                                    <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-size="small">
 
-                            <!-- Nome da opção do caixa de seleção -->
-                            <div class="col-sm-5">
-                                <p>Frequência do backup: </p>
+                                    <!-- TOGGLE OFFLINE
+                                    <label class="toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="handle">
+                                        </span>
+
+                                    </label>
+
+                                -->
+                                </div>
+
+                                <!-- Ligar ou desligar backup automatico -->
                             </div>
 
 
-                            <!-- Caixa de seleção de opção da frequencia -->
-                            <div class="col-sm-5">
-                                <select class="selectpicker">
-                                    <option>Diariamente</option>
-                                    <option class="special">Semanalmente</option>
-                                    <option>Mensalmente</option>
-                                 </select>
+                            <!-- Frequencia do backup automático-->
+                            <div class="row">
 
-                                <select class="selectpicker" data-style="btn-primary" style="display: none;">
-                                    <option data-icon="glyphicon glyphicon-music">Diariamente</option>
-                                    <option data-icon="glyphicon glyphicon-star">Semanalmente</option>
-                                    <option data-icon="glyphicon glyphicon-heart">Mensalmente</option>
-                                </select>
+                                <!-- Nome da opção do caixa de seleção -->
+                                <div class="col-sm-5">
+                                    <p>Frequência do backup: </p>
+                                </div>
 
-                                <select class="selectpicker" data-style="btn-primary" data-width="auto" style="display: none;">
-                                    <option data-icon="glyphicon glyphicon-music">Diariamente</option>
-                                    <option data-icon="glyphicon glyphicon-star">Semanalmente</option>
-                                    <option data-icon="glyphicon glyphicon-heart">Mensalmente</option>
-                                </select><br>
 
-                                <!-- Caixa de seleção de opção -->
+                                <!-- Caixa de seleção de opção da frequencia -->
+                                <div class="col-sm-5">
+                                    <select class="selectpicker">
+                                        <option>Diariamente</option>
+                                        <option class="special">Semanalmente</option>
+                                        <option>Mensalmente</option>
+                                    </select>
+
+                                    <select class="selectpicker" data-style="btn-primary" style="display: none;">
+                                        <option data-icon="glyphicon glyphicon-music">Diariamente</option>
+                                        <option data-icon="glyphicon glyphicon-star">Semanalmente</option>
+                                        <option data-icon="glyphicon glyphicon-heart">Mensalmente</option>
+                                    </select>
+
+                                    <select class="selectpicker" data-style="btn-primary" data-width="auto" style="display: none;">
+                                        <option data-icon="glyphicon glyphicon-music">Diariamente</option>
+                                        <option data-icon="glyphicon glyphicon-star">Semanalmente</option>
+                                        <option data-icon="glyphicon glyphicon-heart">Mensalmente</option>
+                                    </select><br>
+
+                                    <!-- Caixa de seleção de opção -->
+                                </div>
+
+                                <!-- /FIM Frequencia do backup automático-->
                             </div>
 
-                            <!-- /FIM Frequencia do backup automático-->
-                        </div>
-
-                        <div class="row" style="margin-top: 2vh; margin-bottom: 2vh;">
-                            <div class="col-md-offset-9">
-                                <button class="btn btn-primary">
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                    Definir</button>
+                            <div class="row" style="margin-top: 2vh; margin-bottom: 2vh;">
+                                <div class="col-md-offset-9">
+                                    <button class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                        Definir</button>
+                                </div>
                             </div>
+
+                            <!-- /FIM Backup automático -->
                         </div>
 
-                        <!-- /FIM Backup automático -->
+
+                        <!-- Div Histórico de backup -->
+                        <div class="col-sm-4 caixa-backup">
+
+                            <!-- Título da div -->
+                            <div class="caixa-backup-titulo">
+                                <h6>
+                                    Histórico de Backup
+                                </h6>
+                            </div>
+
+                            <!-- Lista de históicos -->
+
+                            <table class="historico-backup">
+                                <?php
+                                    require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
+                                    use \controllers\backupController as BackupController;
+                                    
+                                    $backupController = new BackupController();
+                                    $backups = json_decode($backupController->listarTodosBackups());
+
+                                    foreach($backups as $backup) {
+                                        echo '<tr>';
+                                        echo '<td>';
+                                        echo '<p>' . $backup->dia . '</p>';
+                                        echo '</td>';    
+                                        echo '<td>';
+                                        echo '<p>' . $backup->hora . '</p>';
+                                        echo '</td>';     
+                                        echo '<td>
+                                            <button class="glyphicon glyphicon-cloud-download" onclick=window.location.href="../'.$backup->caminho.'" class="btn btn-default"></button>
+                                                </td>';    
+                                        echo '</tr>';                                                                                                            
+                                    }
+                                ?>
+                            </table>
+
+                        </div>
+
+                        <!-- / Div onde fica localizada as caixas inferiores de histórico e backup automático -->
                     </div>
 
 
-                    <!-- Div Histórico de backup -->
-                    <div class="col-sm-4 caixa-backup">
 
-                        <!-- Título da div -->
-                        <div class="caixa-backup-titulo">
-                            <h6>
-                                Histórico de Backup
-                            </h6>
-                        </div>
+                    <!-- /FIM da Caixa interna -->
+                </section>
 
-                        <!-- Lista de históicos -->
+                <!-- FIM do Contorno -->
+            </div>
 
-                        <table class="historico-backup">
-                            <?php
-                                require_once dirname(dirname(__FILE__)).'/vendor/autoload.php';
-                                use \controllers\backupController as BackupController;
-                                
-                                $backupController = new BackupController();
-                                $backups = json_decode($backupController->listarTodosBackups());
-
-                                foreach($backups as $backup) {
-                                    echo '<tr>';
-                                    echo '<td>';
-                                    echo '<p>' . $backup->dia . '</p>';
-                                    echo '</td>';    
-                                    echo '<td>';
-                                    echo '<p>' . $backup->hora . '</p>';
-                                    echo '</td>';     
-                                    echo '<td>
-                                        <button class="glyphicon glyphicon-cloud-download" onclick=window.location.href="../'.$backup->caminho.'" class="btn btn-default"></button>
-                                            </td>';    
-                                    echo '</tr>';                                                                                                            
-                                }
-                            ?>
-                        </table>
-
-                    </div>
-
-                    <!-- / Div onde fica localizada as caixas inferiores de histórico e backup automático -->
-                </div>
-
-
-
-                <!-- /FIM da Caixa interna -->
-            </section>
-
-            <!-- FIM do Contorno -->
         </div>
-
-
 
     </div>
 
