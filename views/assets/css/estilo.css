@@ -53,23 +53,17 @@ div#container-reg {
 section#caixa {
     padding: 20px 35px 5px;
     margin: 10px 30px 10px;
-    /*border-color: #e5e5e5 #eee #eee;*/
-    /*border-color: black black;*/
     border-style: none;
     border-width: 1px 0;
     -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
     box-shadow: inset 0 3px 15px rgba(0, 0, 0, .05);
-    /*min-height: 70vh;*/
 }
 
 div#contorno {
-    /*border: 2px solid black;*/
     background-color: white;
     border-color: #e5e5e5 #eee #eee;
     border-style: solid;
-    /* border-width: 1px 0;
     padding: 15px 0px 15px;
-    margin: 15px 135px 15px;*/
     box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
 }
 
@@ -84,9 +78,13 @@ div#titulo {
     border-color: #e5e5e5 #333333 #eee;
     border-style: solid;
     border-width: 1px 0;
-    /*margin: 15px 135px -15px;*/
-    margin: 15px 2px -15px;
+    margin: 15px 2px -1px;
     box-shadow: inset 0 1px 12px 3px rgba(0, 0, 0, .05);
+}
+
+.direita {
+    position:relative;
+    left: 90%;
 }
 
 textarea#fixa {
