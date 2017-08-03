@@ -3,11 +3,15 @@ var pagAtual = 1;
 // Inteiro para armazenar o número limite de páginas disponíveis
 var pagMax = 5;
 
-var uploadFeito = false;
+var uploadImgFeito = false;
+var upload3DFeito = false;
 
 $(document).ready(function () {
     var dropzone_img = document.getElementById('dropzone_img');
     var dropzone_3d = document.getElementById('dropzone_3d');
+    var formData = new FormData(),
+        xhr = new XMLHttpRequest(),
+        x;    
 
     var displayUploads = function (data) {
         var uploads = document.getElementById('uploads'),
@@ -24,10 +28,6 @@ $(document).ready(function () {
     }
 
     var upload = function (files) {
-        var formData = new FormData(),
-            xhr = new XMLHttpRequest(),
-            x;
-
         if (files.length > 5) {
             alert('Apenas 5 imagens podem ser carregadas!');
             return;
@@ -51,26 +51,77 @@ $(document).ready(function () {
             displayUploads(data);
         }
 
-        uploadFeito = true;
+        uploadImgFeito = true;
 
-        //Altera o botão para o tipo submit, que serve para finalizar o form
-        $("#btn-confirmar").attr('type', 'submit');
+        if(uploadImgFeito == true && upload3DFeito == true) {
+            //Altera o botão para o tipo submit, que serve para finalizar o form
+            $("#btn-confirmar").attr('type', 'submit');
+        }  
 
-        $("#btn-confirmar").click(function () {
-            if (pagAtual == 5) { //what the fuck
+    }
+
+    var upload3D = function (files) {
+        var cont = 0;
+        var files3D = [];
+
+        for (x = 0; x < files.length; x = x + 1) {
+            var re = /(\.obj)$/i;
+            if (re.exec(files[x].name)) {
+                files3D[cont] = files[x];
+                cont++;                
+            } else {
+                alert("Apenas modelos no formato .obj podem ser carregados!");
+                return;                
+            }
+        }
+
+        if(files3D.length > 1) {
+            alert("Apenas um modelo 3D pode ser carregado!");            
+        }
+
+        for (x = 0; x < files.length; x = x + 1) {
+            formData.append('file[]', files3D[x]);
+        }
+
+        xhr.onload = function () {
+            var data = JSON.parse(this.responseText);
+            displayUploads(data);
+        }
+
+        upload3DFeito = true;
+
+        if(uploadImgFeito == true && upload3DFeito == true) {
+            //Altera o botão para o tipo submit, que serve para finalizar o form
+            $("#btn-confirmar").attr('type', 'submit');
+        }  
+    }
+
+    $("#btn-confirmar").click(function () {   
+        if (pagAtual == 5) { 
+            if(!uploadImgFeito && !upload3DFeito) {
+                alert("Os campos imagem e modelo 3D são obrigatórios!");
+                return;
+            } else if(!uploadImgFeito) {
+                alert("Ao menos uma imagem deve ser carregada!");
+                return;
+            } else if(!upload3DFeito) {
+                alert("Ao menos um modelo 3D deve ser carregado!");
+                return;
+            } else {
                 $("#form-obra").submit(function (event) {
                     $(this).attr('action', '../obra/cadastrarObra');
                 });
 
                 xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
                 xhr.send(formData);
-                uploadFeito = false;
+                uploadFeito = false;                
             }
-        });
-    }
+
+
+        }
+    });
 
     // Dropzone Imagem
-
     dropzone_img.ondrop = function (e) {
         e.preventDefault();
         this.className = 'dropzone';
@@ -93,10 +144,10 @@ $(document).ready(function () {
 
     //Dropzone 3D
 
-        dropzone_3d.ondrop = function (e) {
+    dropzone_3d.ondrop = function (e) {
         e.preventDefault();
         this.className = 'dropzone';
-        upload(e.dataTransfer.files);
+        upload3D(e.dataTransfer.files);
     };
 
     dropzone_3d.ondragover = function () {
