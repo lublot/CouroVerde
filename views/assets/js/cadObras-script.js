@@ -11,6 +11,7 @@ $(document).ready(function () {
     var dropzone_3d = document.getElementById('dropzone_3d');
     var formData = new FormData(),
         xhr = new XMLHttpRequest(),
+        
         x;    
 
     var displayUploads = function (data) {
@@ -96,6 +97,8 @@ $(document).ready(function () {
         }  
     }
 
+    
+
     $("#btn-confirmar").click(function () {   
         if (pagAtual == 5) { 
             if(!uploadImgFeito && !upload3DFeito) {
@@ -114,10 +117,9 @@ $(document).ready(function () {
 
                 xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
                 xhr.send(formData);
-                uploadFeito = false;                
+                uploadImgFeito = false;      
+                upload3DFeito = false;                          
             }
-
-
         }
     });
 
