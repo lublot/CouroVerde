@@ -355,7 +355,7 @@ class ObraDAO extends Database {
         $idTag = $this->PDO->lastInsertId("idTag"); //pega o ultimo id de tag inserida
 
         $query2 = "INSERT INTO TagObra(idObra, idTag) //relaciona a tag com a obra 
-                  VALUES ('$numeroInventario','$idTag')"; //relacionamento
+                  VALUES ('$numeroInventario','$idTag')";
 
         try{
             $this->PDO->query($query2);
