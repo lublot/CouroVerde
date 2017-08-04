@@ -13,10 +13,6 @@ var formData = new FormData(),
 $(document).ready(function () {
     var dropzone_img = document.getElementById('dropzone_img');
     var dropzone_3d = document.getElementById('dropzone_3d');
-    var formData = new FormData(),
-        xhr = new XMLHttpRequest(),
-        
-        x;    
 
     var displayUploads = function (data) {
         var uploads = document.getElementById('uploads'),
@@ -58,76 +54,6 @@ $(document).ready(function () {
 
         uploadImgFeito = true;
 
-        if(uploadImgFeito == true && upload3DFeito == true) {
-            //Altera o botão para o tipo submit, que serve para finalizar o form
-            $("#btn-confirmar").attr('type', 'submit');
-        }  
-
-    }
-
-    var upload3D = function (files) {
-        var cont = 0;
-        var files3D = [];
-
-        for (x = 0; x < files.length; x = x + 1) {
-            var re = /(\.obj)$/i;
-            if (re.exec(files[x].name)) {
-                files3D[cont] = files[x];
-                cont++;                
-            } else {
-                alert("Apenas modelos no formato .obj podem ser carregados!");
-                return;                
-            }
-        }
-
-        if(files3D.length > 1) {
-            alert("Apenas um modelo 3D pode ser carregado!");            
-        }
-
-        for (x = 0; x < files.length; x = x + 1) {
-            formData.append('file[]', files3D[x]);
-        }
-
-        xhr.onload = function () {
-            var data = JSON.parse(this.responseText);
-            displayUploads(data);
-        }
-
-        upload3DFeito = true;
-
-        if(uploadImgFeito == true && upload3DFeito == true) {
-            //Altera o botão para o tipo submit, que serve para finalizar o form
-            $("#btn-confirmar").attr('type', 'submit');
-        }  
-    }
-
-    
-
-    $("#btn-confirmar").click(function () {   
-        if (pagAtual == 5) { 
-            if(!uploadImgFeito && !upload3DFeito) {
-                alert("Os campos imagem e modelo 3D são obrigatórios!");
-                return;
-            } else if(!uploadImgFeito) {
-                alert("Ao menos uma imagem deve ser carregada!");
-                return;
-            } else if(!upload3DFeito) {
-                alert("Ao menos um modelo 3D deve ser carregado!");
-                return;
-            } else {
-                $("#form-obra").submit(function (event) {
-                    $(this).attr('action', '../obra/cadastrarObra');
-                });
-
-                xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
-                xhr.send(formData);
-                uploadImgFeito = false;      
-                upload3DFeito = false;                          
-            }
-        }
-    });
-
-    // Dropzone Imagem
         if (uploadImgFeito == true && upload3DFeito == true) {
             //Altera o botão para o tipo submit, que serve para finalizar o form
             $("#btn-confirmar").attr('type', 'submit');
@@ -231,7 +157,6 @@ $(document).ready(function () {
 
     // **** Dropzone 3D ****
 
-    dropzone_3d.ondrop = function (e) {
     //Action Listener para o Drop 3D verificar se algum arquivo foi solto nele
     dropzone_3d.ondrop = function (e) {
         //Impede que qualquer browser execute suas ações padrão para quando o usuário larga um arquivo no meio da página (Cada browser tem a sua. É necessário cancelar para ter o controle preciso do que vai acontecer na função sem a influência do browser)
