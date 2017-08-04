@@ -5,6 +5,10 @@ var pagMax = 5;
 
 var uploadImgFeito = false;
 var upload3DFeito = false;
+var formData = new FormData(),
+    xhr = new XMLHttpRequest(),
+
+    x;
 
 $(document).ready(function () {
     var dropzone_img = document.getElementById('dropzone_img');
@@ -124,43 +128,137 @@ $(document).ready(function () {
     });
 
     // Dropzone Imagem
+        if (uploadImgFeito == true && upload3DFeito == true) {
+            //Altera o botão para o tipo submit, que serve para finalizar o form
+            $("#btn-confirmar").attr('type', 'submit');
+        }
+
+    }
+
+    var upload3D = function (files) {
+        var cont = 0;
+        var files3D = [];
+
+        for (x = 0; x < files.length; x = x + 1) {
+            var re = /(\.obj)$/i;
+            if (re.exec(files[x].name)) {
+                files3D[cont] = files[x];
+                cont++;
+            } else {
+                alert("Apenas modelos no formato .obj podem ser carregados!");
+                return;
+            }
+        }
+
+        if (files3D.length > 1) {
+            alert("Apenas um modelo 3D pode ser carregado!");
+        }
+
+        for (x = 0; x < files.length; x = x + 1) {
+            formData.append('file[]', files3D[x]);
+        }
+
+        xhr.onload = function () {
+            var data = JSON.parse(this.responseText);
+            displayUploads(data);
+        }
+
+        upload3DFeito = true;
+
+        if (uploadImgFeito == true && upload3DFeito == true) {
+            //Altera o botão para o tipo submit, que serve para finalizar o form
+            $("#btn-confirmar").attr('type', 'submit');
+        }
+    }
+
+
+
+    // $("#btn-confirmar").click(function () {
+    //     if (pagAtual == 5) {
+    //         if (!uploadImgFeito && !upload3DFeito) {
+    //             alert("Os campos imagem e modelo 3D são obrigatórios!");
+    //             return;
+    //         } else if (!uploadImgFeito) {
+    //             alert("Ao menos uma imagem deve ser carregada!");
+    //             return;
+    //         } else if (!upload3DFeito) {
+    //             alert("Ao menos um modelo 3D deve ser carregado!");
+    //             return;
+    //         } else {
+    //             $("#form-obra").submit(function (event) {
+    //                 $(this).attr('action', '../obra/cadastrarObra');
+    //             });
+
+    //             xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
+    //             xhr.send(formData);
+    //             uploadImgFeito = false;
+    //             upload3DFeito = false;
+    //         }
+    //     }
+    // });
+
+    // **** Dropzone Imagem ****
+
+    //Action Listener para o Drop de Imagem verificar se algum arquivo foi solto nele
     dropzone_img.ondrop = function (e) {
+        //Impede que qualquer browser execute suas ações padrão para quando o usuário larga um arquivo no meio da página (Cada browser tem a sua. É necessário cancelar para ter o controle preciso do que vai acontecer na função sem a influência do browser)
         e.preventDefault();
+        //Mudança de classe de CSS para o padrão
         this.className = 'dropzone';
+        //Chama a função para upload de imagem criada e passa os arquivos contidos evento "e". (São os arquivos arrastados pelo mouse)
         upload(e.dataTransfer.files);
     };
 
     dropzone_img.ondragover = function () {
+        //Mudança de classe de CSS para deixar as bordas azuis
         this.className = 'dropzone dragover';
+        //Muda o texto de dentro do HTML para o seguinte
         dropzone_img.innerHTML = 'Solte suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las';
+        //Encerra a função [NECESSÁRIO!]
         return false;
     };
 
     dropzone_img.ondragleave = function () {
+        //Mudança de classe de CSS para o padrão
         this.className = 'dropzone';
+        //Muda o texto de dentro do HTML para o seguinte
         dropzone_img.innerHTML = 'Arraste suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las';
+        //Encerra a função [NECESSÁRIO!]
         return false;
     };
 
     //
 
-    //Dropzone 3D
+    // **** Dropzone 3D ****
 
     dropzone_3d.ondrop = function (e) {
+    //Action Listener para o Drop 3D verificar se algum arquivo foi solto nele
+    dropzone_3d.ondrop = function (e) {
+        //Impede que qualquer browser execute suas ações padrão para quando o usuário larga um arquivo no meio da página (Cada browser tem a sua. É necessário cancelar para ter o controle preciso do que vai acontecer na função sem a influência do browser)
         e.preventDefault();
+        //Mudança de classe de CSS para o padrão
         this.className = 'dropzone';
+        //Chama a função para upload3D criada e passa os arquivos contidos evento "e". (São os arquivos arrastados pelo mouse)
         upload3D(e.dataTransfer.files);
     };
 
+    //Action Listener para o Drop 3D verificar se o mouse está sendo arrastado por cima dele
     dropzone_3d.ondragover = function () {
+        //Mudança de classe de CSS para deixar as bordas azuis
         this.className = 'dropzone dragover';
+        //Muda o texto de dentro do HTML para o seguinte
         dropzone_3d.innerHTML = 'Solte seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também';
+        //Encerra a função [NECESSÁRIO!]
         return false;
     };
 
+    //Action Listener para o Drop 3D verificar se um mouse arrastado saiu de cima dele
     dropzone_3d.ondragleave = function () {
+        //Mudança de classe de CSS para o padrão
         this.className = 'dropzone';
+        //Muda o texto de dentro do HTML para o seguinte
         dropzone_3d.innerHTML = 'Arraste seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também';
+        //Encerra a função [NECESSÁRIO!]
         return false;
     };
 
@@ -197,21 +295,34 @@ function atualizarTextoBotao() {
 
 // Função responsável para passar para a próxima página
 function avancarPag() {
+    // Verificação para caso o usuário esteja no última página deve ser feita no início do método para evitar ser chamada antes da hora
     // Caso o usuário esteja na última página do cadastro
-    if (pagAtual == pagMax && !uploadFeito) {
-        alert("Você deve carregar ao menos uma imagem!");
+    if (pagAtual == pagMax && !uploadImgFeito) {
+        alert("Ao menos uma imagem deve ser carregada!");
+        return;
+    } else if (pagAtual == pagMax && !upload3DFeito) {
+        alert("Ao menos um modelo 3D deve ser carregado!");
+        return;
+    } else {
+        $("#form-obra").submit(function (event) {
+            $(this).attr('action', '../obra/cadastrarObra');
+        });
+
+        xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
+        xhr.send(formData);
+        uploadImgFeito = false;
+        upload3DFeito = false;
     }
+
     // Verifica se a página atual do usuário excedeu o número limite máximo de páginas
     if (pagAtual < pagMax) {
         // String para concatenar o ID da página do HTML com a variável que armazena a página atual
         var pageOld = "#page_" + pagAtual;
         // Atualiza a visualização da tela atual para "nenhum"
         $(pageOld).css("display", "none");
-        console.log("Página atual antes:" + pagAtual);
 
         // Incrementa a variável para avançar a página
         pagAtual++;
-        console.log("Página atual depois:" + pageNew);
         // String para concatenar o ID da página do HTML com a variável que armazena a próxima página
         var pageNew = "#page_" + pagAtual;
         //Caso esteja na última página e fotografia tenha sido selecionada como classificação
@@ -222,6 +333,8 @@ function avancarPag() {
         // Atualiza a visualização da próxima tela para exibir com um Fade In
         $(pageNew).fadeIn(750);
     }
+
+
 }
 
 function voltarPag() {
