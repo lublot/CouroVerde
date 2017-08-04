@@ -63,8 +63,12 @@ div#contorno {
     background-color: white;
     border-color: #e5e5e5 #eee #eee;
     border-style: solid;
+<<<<<<< HEAD
     padding: 15px 0px 15px;
+=======
+>>>>>>> 6ca120bdfa44eefd6cf24b3cf33c796aaa36f0d8
     box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+    padding-top: 10px;
 }
 
 div#container {
@@ -95,6 +99,11 @@ textarea#fixa {
 .center {
     margin: 0 auto;
     width: 80%
+}
+
+.direita {
+    position: relative;
+    left: 90%;
 }
 
 
