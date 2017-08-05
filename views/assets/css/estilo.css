@@ -6,6 +6,10 @@ a {
     display: none;
 }
 
+.busca {
+    margin-bottom: 2vh;
+}
+
 
 /*html, body {height:100%;}*/
 
@@ -435,5 +439,13 @@ input#busca {
     width: 80vh;
     margin-left: 10vh;
     margin-top: 3vh;
+    padding: 2vh;
+}
+
+.painel-imagens-obra {
+    border-left: 2px solid black;
+}
+
+.botao-galeria {
     padding: 2vh;
 }

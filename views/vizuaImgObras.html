@@ -28,9 +28,10 @@
 </head>
 
 <body>
-
+    <!-- Container principal -->
     <div class="container" style="padding: 2vh;">
 
+        <!-- Painel lateral com categorias -->
         <div class="col-md-2">
             <h4>Categoria</h4>
             <h6>Categoria 1</h6>
@@ -43,40 +44,58 @@
 
         </div>
 
-        <div class="col-md-10" style="border-left:2px solid black;">
+        <!-- Div direita com as imagens e a informações -->
+        <div class="col-md-10 painel-imagens-obra">
 
-            <div class="row" style="padding:2vh;">
+            <!-- Botão para voltar para a galeria -->
+            <div class="row botao-galeria">
                 <button class="btn btn-default btn-sm" style="border:none">
-                    <img src="assets/images/if_arrow-back_216437.png">Volta para galeria</button>
+                    <img src="assets/images/if_arrow-back_216437.png">
+                        Volta para galeria
+                </button>
             </div>
 
+            <!-- Recuo em relação ao botão acima -->
             <div style="padding-left:15vh;">
+
+                <!-- Head da vizualização de obras -->
                 <div class="row" style="padding:2vh;">
 
+                    <!-- Botão para voltar para obra anterior da galeria -->
                     <div class="col-md-3">
                         <button type="button" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-chevron-left"></span> obra anterior
-                    </button>
+                            <span class="glyphicon glyphicon-chevron-left"></span> 
+                            obra anterior
+                        </button>
                     </div>
+                    <!-- /Botão para voltar para obra anterior da galeria -->
 
+                    <!-- Título da Obra -->
                     <div class="col-md-5">
                         <h3 class="text-center">Título da obra</h3>
                     </div>
+                    <!-- /Título da Obra -->
 
+                    <!-- Botão para próxima obra da galeria -->
                     <div class="col-md-4" style="padding-left:17vh;">
-
                         <button type="button" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-chevron-right"></span> próxima obra
-                    </button>
+                            <span class="glyphicon glyphicon-chevron-right"></span> 
+                            próxima obra
+                        </button>
                     </div>
+                    <!-- /Botão para próxima obra da galeria -->
 
 
                 </div>
+                <!-- /Head da vizualização de obras -->
+
 
 
 
                 <!-- Imagens da obra -->
                 <div class="carousel slide article-slide center" id="article-photo-carousel">
+
+                    <!-- OBS: AS IMAGENS GRANDES DEVEM ESTÁ NA MESMA ORDEM PARA COINCIDIREM COM AS PEQUENAS -->
 
                     <!-- Imagens Grandes -->
                     <div class="row">
@@ -108,6 +127,7 @@
 
                         <!-- Indicators -->
                         <ol class="carousel-indicators" style="padding-left: 3vh;">
+
                             <li class="active" data-slide-to="0" data-target="#article-photo-carousel">
                                 <img alt="" src="http://placehold.it/250x180">
                             </li>
@@ -131,11 +151,18 @@
                 <!--Informações da obra -->
                 <div class="row">
                     <div class="center">
+
+                        <!-- Borda da caixa -->
                         <div class=" caixa-informacoes-obra ">
+
+                            <!--Título da obra -->
                             <h4 class="text-center">Título da obra</h4>
+
+                            <!-- Demais informações -->
                             <p>Nome do auto: Lucas</p>
                             <p>Coleção: Lucas da Feira</p>
                             <p>Descrição: couro de boi</p>
+
                         </div>
                     </div>
                 </div>

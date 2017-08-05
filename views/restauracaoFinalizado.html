@@ -28,20 +28,17 @@
     <!-- Container principal -->
     <div id="container" class="container">
 
+        <!--Definição de tamanho e posição -->
         <div class="col-sm-10 col-md-offset-2">
-            <div class="row ">
-                <img src="assets/images/if_backup_maior.png" class=" img-responsive" style="margin:0 auto;">
-                <p class="text-center" style="padding-top: 2vh;">Restaurando backup. Isso pode levar algum tempo.</p>
-            </div>
 
-            <div class="col-md-6 col-lg-6 col-md-offset-3">
-                <div class="row ">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                            40%
-                        </div>
-                    </div>
-                </div>
+            <!-- Imagem e mensagem -->
+            <div class="row ">
+                <img src="assets/images/if_ok_circle_1303886.png" class=" img-responsive" style="margin:0 auto;">
+                <p class="text-center" style="padding-top: 2vh;">Backup restaurado com sucesso!</p>
+
+                <!-- AQUI TEM QUE TER UM LINK PARA VOLTAR PARA O SISTEMA -->
+                <p class="text-center" style="padding-top: 2vh;">Clique <a href="#">aqui </a>para voltar a utilizar o sistema.</p>
+
             </div>
 
         </div>
@@ -52,13 +49,5 @@
 
 
 </body>
-
-<script type="text/javascript">
-    window.onbeforeunload = confirmExit;
-
-    function confirmExit() {
-        return "A restauração ainda não terminou, isso pode danificar o sistema. Deseja realmente sair?";
-    }
-</script>
 
 </html>
