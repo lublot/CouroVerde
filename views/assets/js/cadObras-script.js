@@ -7,7 +7,6 @@ var uploadImgFeito = false;
 var upload3DFeito = false;
 var formData = new FormData(),
     xhr = new XMLHttpRequest(),
-
     x;
 
 $(document).ready(function () {
@@ -48,7 +47,6 @@ $(document).ready(function () {
 
         xhr.onload = function () {
             var data = JSON.parse(this.responseText);
-
             displayUploads(data);
         }
 
@@ -56,9 +54,8 @@ $(document).ready(function () {
 
         if (uploadImgFeito == true && upload3DFeito == true) {
             //Altera o botão para o tipo submit, que serve para finalizar o form
-            $("#btn-confirmar").attr('type', 'submit');
+            $("#btn-confirmar").attr('type', 'submit');           
         }
-
     }
 
     var upload3D = function (files) {
@@ -78,9 +75,10 @@ $(document).ready(function () {
 
         if (files3D.length > 1) {
             alert("Apenas um modelo 3D pode ser carregado!");
+            return;
         }
 
-        for (x = 0; x < files.length; x = x + 1) {
+        for (x = 0; x < files3D.length; x = x + 1) {
             formData.append('file[]', files3D[x]);
         }
 
@@ -91,37 +89,12 @@ $(document).ready(function () {
 
         upload3DFeito = true;
 
-        if (uploadImgFeito == true && upload3DFeito == true) {
+        if (uploadImgFeito == true && upload3DFeito == true) {      
             //Altera o botão para o tipo submit, que serve para finalizar o form
             $("#btn-confirmar").attr('type', 'submit');
         }
     }
 
-
-
-    // $("#btn-confirmar").click(function () {
-    //     if (pagAtual == 5) {
-    //         if (!uploadImgFeito && !upload3DFeito) {
-    //             alert("Os campos imagem e modelo 3D são obrigatórios!");
-    //             return;
-    //         } else if (!uploadImgFeito) {
-    //             alert("Ao menos uma imagem deve ser carregada!");
-    //             return;
-    //         } else if (!upload3DFeito) {
-    //             alert("Ao menos um modelo 3D deve ser carregado!");
-    //             return;
-    //         } else {
-    //             $("#form-obra").submit(function (event) {
-    //                 $(this).attr('action', '../obra/cadastrarObra');
-    //             });
-
-    //             xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
-    //             xhr.send(formData);
-    //             uploadImgFeito = false;
-    //             upload3DFeito = false;
-    //         }
-    //     }
-    // });
 
     // **** Dropzone Imagem ****
 
@@ -152,8 +125,6 @@ $(document).ready(function () {
         //Encerra a função [NECESSÁRIO!]
         return false;
     };
-
-    //
 
     // **** Dropzone 3D ****
 
@@ -187,7 +158,6 @@ $(document).ready(function () {
         return false;
     };
 
-    //
 })
 
 window.addEventListener("load", init, false);
@@ -204,6 +174,7 @@ function atualizarTextoBotao() {
         // Deixa o texto "Próximo"
         $("#btn-confirmar").html('Próximo');
     }
+    
     //Caso o usuário não esteja na primeira página
     if (pagAtual > 1) {
         //Atualiza o texto do botão esquerdo para "Retroceder"
@@ -214,7 +185,7 @@ function atualizarTextoBotao() {
         //Deixa o texto "Cancelar"
         $("#btn-cancelar").html('Cancelar');
         //Altera o botão para o tipo reset, que serve para cancelar o form
-        document.getElementById('btn-cancelar').setAttribute('type', 'reset');
+        document.getElementById('btn-cancelar').setAttribute('type', 'reset'); //REVISAR PQ TÁ LIMPANDO O FORM SEMPRE QUE O BOTÃO RETROCEDER É CLICADO
     }
 }
 

@@ -154,12 +154,17 @@ class obraController extends mainController {
                 throw new CampoInvalidoException('estado');
             }
 
-            $caminhosImagens = $this->obterArquivos($_POST['numInventario']);
+            $caminhosArquivos = $this->obterArquivos($_POST['numInventario']);
+            
+            $caminhosImagens = $caminhosArquivos[0];
+            $caminhoModelo3D = $caminhosArquivos[1];
+            
             $caminhoImagem1 = isset($caminhosImagens[0]) ? addslashes($caminhosImagens[0]) : null;
             $caminhoImagem2 = isset($caminhosImagens[1]) ? addslashes($caminhosImagens[1]) : null;
             $caminhoImagem3 = isset($caminhosImagens[2]) ? addslashes($caminhosImagens[2]) : null;
             $caminhoImagem4 = isset($caminhosImagens[3]) ? addslashes($caminhosImagens[3]) : null;
-            $caminhoImagem5 = isset($caminhosImagens[4]) ? addslashes($caminhosImagens[4]) : null;            
+            $caminhoImagem5 = isset($caminhosImagens[4]) ? addslashes($caminhosImagens[4]) : null;
+
 
             $nome = addslashes($_POST["nome"]);
             $titulo = addslashes($_POST["titulo"]);
@@ -210,18 +215,28 @@ class obraController extends mainController {
         $caminhoImagens = '../media/obras/imagens/';
         $caminhoPastaImages .= $numeroInventario;
 
+        $caminhoModelo3D = '../media/obras/modelo3d/';
+        $caminhoPastaModelo3D .= $numInventario;        
+
         $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
+        $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta
 
         unset($imagens[0]);
-        unset($imagens[1]);        
+        unset($imagens[1]);
         
+        unset($modelo3D[0]);
+        unset($modelo3D[1]);
+
         $caminhosImagens = array();
 
         foreach($imagens as $imagem) {
             $caminhosImagens[] = $caminhoPastaImages . '/' . $imagem;
         }
+
+        $caminhoModelo3D = $modelo3D[0];
         
-        return $caminhosImagens;
+        
+        return array($caminhosImagens, $caminhoModelo3D);
     }    
 
     private function uploadImagem() {
