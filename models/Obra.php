@@ -90,11 +90,11 @@ class Obra implements \JsonSerializable {
      * @param unknown $caminhoImagem3 - Caminho da terceira imagem
      * @param unknown $caminhoImagem4 - Caminho da quarta imagem
      * @param unknown $caminhoImagem5 - Caminho da quinta imagem
-     * @param unknown $caminhoModelo - Caminho do modelo 3D
+     * @param unknown $caminhoModelo3D - Caminho do modelo 3D
      */
-    public function __construct($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
-                                $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
-                                $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado) {
+    public function __construct($numInventario, $nome, $titulo, $funcao = null, $origem = null, $procedencia = null, $descricao = null, $idColecao, $idClassificacao,
+                                $altura = null, $largura = null, $diametro = null, $peso = null, $comprimento = null, $materiais = null, $tecnicas = null, $autoria = null, $marcas = null, $historico = null, 
+                                $modoAquisicao = null, $dataAquisicao = null, $autor = null, $observacoes = null, $estado = null, $caminhoImagem1 = null, $caminhoImagem2 = null, $caminhoImagem3 = null, $caminhoImagem4 = null, $caminhoImagem5 = null, $caminhoModelo3D = null) {
         
         $this->numInventario = $numInventario;
         $this->nome = $nome;
@@ -120,12 +120,12 @@ class Obra implements \JsonSerializable {
         $this->autor = $autor;
         $this->observacoes = $observacoes;
         $this->estado = $estado;
-    /*  $this->caminhoImagem1 = $caminhoImagem1;
+        $this->caminhoImagem1 = $caminhoImagem1;
         $this->caminhoImagem2 = $caminhoImagem2;
         $this->caminhoImagem3 = $caminhoImagem3;
         $this->caminhoImagem4 = $caminhoImagem4;
         $this->caminhoImagem5 = $caminhoImagem5;
-        $this->caminhoModelo3D = $caminhoModelo3D; */
+        $this->caminhoModelo3D = $caminhoModelo3D; 
     }
     
 

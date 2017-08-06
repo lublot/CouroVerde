@@ -103,6 +103,19 @@
                                                 <select class="form-control" required="required" id="select-colecao" name="colecao" onchange="cadastroColecao()">
                                                     <!--A lista de opções tem que ser baixada diretamente das opções do banco de dados utilizando PHP-->
                                                     <option>Coleção (*)</option>
+                                                    <?php
+                                                        require_once '../vendor/autoload.php';
+                                                        use \controllers\obraController as ObraController;
+                                                        use \models\Colecao as Colecao;
+
+                                                        $obraController = new ObraController();
+                                                        $colecoes = $obraController->obterColecoes();
+                                                        
+
+                                                        foreach($colecoes as $colecao) {
+                                                            echo "<option value='".$colecao->getId()."'>".$colecao->getNome()."</option>";
+                                                        }
+                                                    ?>
                                                     <option value="add-col" >Adicionar nova opção...</option>
                                                 </select>
                                             </div>
@@ -133,6 +146,15 @@
                                                 <select class="form-control" required="required" id="select-classificacao" name="classificacao" onchange="cadastroClassificacao()">
                                                     <!--A lista de opções tem de ser baixada do banco de dados-->
                                                     <option>Classificação (*)</option>
+                                                    <?php
+                                                        use \models\Classificacao as Classificacao;
+
+                                                        $classificacoes = $obraController->obterClassificacoes();
+
+                                                        foreach($classificacoes as $classificacao) {
+                                                            echo "<option value='".$classificacao->getId()."'>".$classificacao->getNome()."</option>";
+                                                        }
+                                                    ?>                                                    
                                                     <option value="add-cla">Adicionar nova opção...</option>
                                                 </select>
                                             </div>

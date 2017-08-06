@@ -6,6 +6,15 @@ if(!empty($_FILES['file']['name'][0])){
 	mkdir($pastaImagem);	
 	$pasta3D= '../media/obras/modelo3D/'.$_GET["inv"];
 	mkdir($pasta3D);
+
+	ob_start();
+	var_dump($_FILES);
+	$result = ob_get_clean();
+
+	$myfile = fopen("C:\wamp64\www\sertour\media\obras/newfile.html", "w");
+	fwrite($myfile, $result);
+	fclose($myfile);	
+
 		
 	foreach($_FILES['file']['name'] as $position => $name){
 		$name = mb_convert_encoding($name, "Windows-1252", "UTF-8");

@@ -4,6 +4,9 @@ namespace DAO;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \DAO\Database as Database;
 use \models\Obra as Obra;
+use \models\Colecao as Colecao;
+use \models\Classificacao as Classificacao;
+
 
 class ObraDAO extends Database {
 
@@ -21,7 +24,7 @@ class ObraDAO extends Database {
         $procedencia = $obra->getProcedencia();
         $idClassificacao = $obra->getIdClassificacao();
         $funcao = $obra->getFuncao();
-        //$palavrasChave = $obra->getPalavrasChave();
+        $palavrasChave = $obra->getPalavrasChave();
         $descricao = $obra->getDescricao();
         $altura = $obra->getAltura();
         $largura = $obra->getLargura();
@@ -46,11 +49,15 @@ class ObraDAO extends Database {
         $caminhoModelo3D = $obra->getCaminhoModelo3D();
 
         $query = "INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,
-                                    altura, largura, diametro, peso, comprimento, materiaisConstruidos, tecnicasFabricacao, autoria, 
+                                    altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, 
                                     marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao) 
-                  VALUES ( '$numInventario', '$nome','$titulo', '$funcao', '$origem', '$procedencia', '$descricao', '$idColecao', '$idClassificacao',
+                  VALUES ('$numInventario', '$nome','$titulo', '$funcao', '$origem', '$procedencia', '$descricao', '$idColecao', '$idClassificacao',
                             '$altura', '$largura', '$diametro', '$peso', '$comprimento', '$materiais', '$tecnicas', '$autoria', '$marcas', '$historico', 
                             '$modoAquisicao', '$dataAquisicao', '$autor', '$observacoes', '$estado')";
+
+        $myfile = fopen("C:\Users\Vinicius\Documents\Python/newfile.html", "w");
+        fwrite($myfile, $query);
+        fclose($myfile);        
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -231,15 +238,12 @@ class ObraDAO extends Database {
     * @param unknown $colecao - A coleção a ser inserida no banco;
     * */
     public function inserirColecao($colecao){
-        
-        $nome = $colecao->getNome();
+        $query = "INSERT INTO colecao(idColecao, nome) VALUES (null, '".$colecao->getNome()."')";
 
-        $query = "INSERT INTO Colecao(idColecao, nome) 
-                  VALUES (null,'$nome')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
-
+        
         }
     }
 
@@ -248,16 +252,13 @@ class ObraDAO extends Database {
     * @param unknown $classificacao - A classificação a ser inserida no banco;
     * */
     public function inserirClassificacao($classificacao){
-        
-        $nome = $classificacao->getNome();
+        $query = "INSERT INTO classificacao(idClassificacao, nome) VALUES (null, '".$classificacao->getNome()."')";
 
-        $query = "INSERT INTO Classificacao(idClassificacao, nome) 
-                  VALUES (null,'$nome')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
-
-        }
+        
+        }        
     }
 
     /**
@@ -266,14 +267,15 @@ class ObraDAO extends Database {
     * @param unknow $filtros - Filtros utilizados na busca
     * */
     public function buscarClassificacao($campos,$filtros){
-        
         $query = "SELECT ";
 
         if(count($campos) == 0){
-            $campos = array("*");
+            $camposSelect = "*";
+        } else {
+            $camposSelect = implode(', ',$campos);
         }
 
-        $query .= implode(',',$campos)."FROM Classificacao ORDER BY nome ASC";
+        $query .= $camposSelect."FROM classificacao ORDER BY nome ASC";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -309,10 +311,12 @@ class ObraDAO extends Database {
         $query = "SELECT ";
 
         if(count($campos) == 0){
-            $campos = array("*");
+            $camposSelect = "*";
+        } else {
+            $camposSelect = implode(',',$campos);
         }
 
-        $query .= implode(',',$campos)."FROM Colecoes ORDER BY nome ASC";
+        $query .= $camposSelect." FROM colecao ORDER BY nome ASC";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -344,8 +348,7 @@ class ObraDAO extends Database {
     * */
     public function inserirPalavraChave($numInventario, $descricao){
 
-        $query = "INSERT INTO Tag(idTag, descricao) 
-                  VALUES (null,'$descricao')";
+        $query = "INSERT INTO tag(idTag, descricao) VALUES (null,'".$descricao."')";
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -355,7 +358,7 @@ class ObraDAO extends Database {
         $idTag = $this->PDO->lastInsertId("idTag"); //pega o ultimo id de tag inserida
 
         $query2 = "INSERT INTO TagObra(idObra, idTag) //relaciona a tag com a obra 
-                  VALUES ('$numeroInventario','$idTag')";
+                  VALUES ('$numInventario','$idTag')";
 
         try{
             $this->PDO->query($query2);

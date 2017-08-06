@@ -261,9 +261,7 @@ function cadastroColecao() {
         if (novaColecao == null || novaColecao == "") {
             //Exibe uma mensagem informando o cancelamento
             alert("Cadastro cancelado pelo usuário");
-        }
-        //Caso contário
-        else {
+        } else { //Caso contário
             //Cria um elemento HTML do tipo "option" e salva ele numa variável chamada opcao
             var opcao = document.createElement("option");
             //Atualiza o texto da opção para o nome da nova coleção informado pelo usuário
@@ -276,6 +274,14 @@ function cadastroColecao() {
             document.getElementById('select-colecao').selectedIndex = ultimaPosicao;
             //Informa ao usuário que a operação ocorreu com sucesso
             alert("Cadastro efetuado com sucesso!");
+
+            var formColecao = new FormData(),
+                xmlRequest = new XMLHttpRequest();
+
+            formColecao.append('nome', opcao.text);
+            xmlRequest.open('post', '../obra/cadastrarColecao');
+            xmlRequest.send(formColecao);
+            xmlRequest.abort();
         }
     }
 }
@@ -305,6 +311,14 @@ function cadastroClassificacao() {
             document.getElementById('select-classificacao').selectedIndex = ultimaPosicao;
             //Informa ao usuário que a operação ocorreu com sucesso
             alert("Cadastro efetuado com sucesso!");
+
+            var formClassificacao = new FormData(),
+                xmlRequest = new XMLHttpRequest();
+
+            formClassificacao.append('nome', opcao.text);
+            xmlRequest.open('post', '../obra/cadastrarClassificacao');
+            xmlRequest.send(formClassificacao);
+            xmlRequest.abort();            
         }
     }
 

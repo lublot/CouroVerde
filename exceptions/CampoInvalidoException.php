@@ -7,7 +7,7 @@ namespace exceptions;
  *
  */
 
-class CampoInvalidoException extends Exception
+class CampoInvalidoException extends \Exception
 {
     /**
 	* Construtor da classe.
