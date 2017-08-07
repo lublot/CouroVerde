@@ -460,14 +460,31 @@
                                 <fieldset>
                                     <div class="row">
                                         <div class="dnd1">
+
+                                            <div id="uploadImg" hidden>
+                                                <span class="glyphicon glyphicon-camera"></span>                                            
+                                                <span>Imagens carregadas:</span>
+                                                <span id="img1" hidden></span>
+                                                <span id="img2" hidden></span>
+                                                <span id="img3" hidden></span>
+                                                <span id="img4" hidden></span>
+                                                <span id="img5" hidden></span>                                                
+                                            </div>      
+
                                             <!--<input type="file" multiple="multiple" accept="image/*" style="visibility: hidden">-->
                                             <div id="dropzone_img" class="dropzone">
                                                 Arraste suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las
                                             </div>
-                                            <div id="uploads_img" class="uploads"></div>
                                         </div>
                                         <br>
                                         <div class="dnd1">
+
+                                            <div id="upload3D" hidden>
+                                                <span class="glyphicon glyphicon-camera"></span>                                            
+                                                <span id="modelo3D"></span>
+                                                <span></span>                                       
+                                            </div>      
+
                                             <!--<input type="file" multiple="multiple" accept="image/*" style="visibility: hidden">-->
                                             <div id="dropzone_3d" class="dropzone">
                                                 Arraste seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também

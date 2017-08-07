@@ -5,6 +5,7 @@ var pagMax = 5;
 
 var uploadImgFeito = false;
 var upload3DFeito = false;
+var files3D = [];
 var formData = new FormData(),
     xhr = new XMLHttpRequest(),
     x;
@@ -13,23 +14,20 @@ $(document).ready(function () {
     var dropzone_img = document.getElementById('dropzone_img');
     var dropzone_3d = document.getElementById('dropzone_3d');
 
-    var displayUploads = function (files) {
-        var uploads = document.getElementById('#uploads_img'),
-            anchor,
-            x; 
-
-        for (x = 0; x < files.length; x = x + 1) {
-            anchor = document.createElement('span');
-            anchor.innerText = files[x].name;
-            uploads.appendChild(anchor);
-        }
-    }
-
     var upload = function (files) {
-        if (files.length > 5) {
+        var numImg = 0;
+
+        for (var value of formData.values()) {
+            var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+            if (re.exec(value.name)) {
+                numImg = numImg + 1;              
+            }            
+        }   
+        
+        if (numImg > 5) {
             alert('Apenas 5 imagens podem ser carregadas!');
             return;
-        }
+        }        
 
         for (x = 0; x < files.length; x = x + 1) {
             var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
@@ -49,11 +47,33 @@ $(document).ready(function () {
             //Altera o botão para o tipo submit, que serve para finalizar o form
             $("#btn-confirmar").attr('type', 'submit');           
         }
+        
+        $("#uploadImg").attr('hidden', false);
+
+        var x = 1;
+
+        for (var fileUpload of formData.values()) {
+            var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+            if (re.exec(fileUpload.name)) {
+                $("#img".concat((x).toString())).attr('hidden', false);
+                if(x!=5) {
+                    $("#img".concat((x).toString())).html(fileUpload.name.concat(','));
+                } else {
+                    $("#img".concat((x).toString())).html(fileUpload.name);                    
+                }
+                x = x + 1;
+            }            
+        }
+         
     }
 
     var upload3D = function (files) {
+        if (files3D.length > 1) {
+            alert("Apenas um modelo 3D pode ser carregado!");
+            return;
+        }
+
         var cont = 0;
-        var files3D = [];
 
         for (x = 0; x < files.length; x = x + 1) {
             var re = /(\.obj)$/i;
@@ -65,7 +85,7 @@ $(document).ready(function () {
                 return;
             }
         }
-
+       
         if (files3D.length > 1) {
             alert("Apenas um modelo 3D pode ser carregado!");
             return;
@@ -75,17 +95,19 @@ $(document).ready(function () {
             formData.append('file[]', files3D[x]);
         }
 
-        xhr.onload = function () {
-            var data = JSON.parse(this.responseText);
-            displayUploads(data);
-        }
-
         upload3DFeito = true;
 
         if (uploadImgFeito == true && upload3DFeito == true) {      
             //Altera o botão para o tipo submit, que serve para finalizar o form
             $("#btn-confirmar").attr('type', 'submit');
         }
+
+        $("#upload3D").attr('hidden', false);
+
+        for (x = 0; x < files3D.length; x = x + 1) {
+            $("#modelo3D").html("Modelo carregado: ".concat(fileUpload.name));                
+        }        
+
     }
 
 
