@@ -26,18 +26,18 @@ class ObraDAO extends Database {
         $funcao = $obra->getFuncao();
         $palavrasChave = $obra->getPalavrasChave();
         $descricao = $obra->getDescricao();
-        $altura = $obra->getAltura();
-        $largura = $obra->getLargura();
-        $diametro = $obra->getDiametro();
-        $peso = $obra->getPeso();
-        $comprimento = $obra->getComprimento();
+        $altura = $obra->getAltura() == null ? 'NULL' : $obra->getAltura();
+        $largura = $obra->getLargura() == null ? 'NULL' : $obra->getLargura();
+        $diametro = $obra->getDiametro() == null ? 'NULL' : $obra->getDiametro();
+        $peso = $obra->getPeso() == null ? 'NULL' : $obra->getPeso();
+        $comprimento = $obra->getComprimento() == null ? 'NULL': $obra->getComprimento();
         $materiais = $obra->getMateriais();
         $tecnicas = $obra->getTecnicas();
         $autoria = $obra->getAutoria();
         $marcas = $obra->getMarcas();
         $historico = $obra->getHistorico();
         $modoAquisicao = $obra->getModoAquisicao();
-        $dataAquisicao = $obra->getDataAquisicao();
+        $dataAquisicao = $obra->getDataAquisicao() == null ? 'NULL' : $obra->getDataAquisicao();
         $autor = $obra->getAutor();
         $observacoes = $obra->getObservacoes();
         $estado = $obra->getEstado();
@@ -52,12 +52,10 @@ class ObraDAO extends Database {
                                     altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, 
                                     marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao) 
                   VALUES ('$numInventario', '$nome','$titulo', '$funcao', '$origem', '$procedencia', '$descricao', '$idColecao', '$idClassificacao',
-                            '$altura', '$largura', '$diametro', '$peso', '$comprimento', '$materiais', '$tecnicas', '$autoria', '$marcas', '$historico', 
-                            '$modoAquisicao', '$dataAquisicao', '$autor', '$observacoes', '$estado')";
+                            $altura, $largura, $diametro, $peso, $comprimento, '$materiais', '$tecnicas', '$autoria', '$marcas', '$historico', 
+                            '$modoAquisicao', $dataAquisicao, '$autor', '$observacoes', '$estado')";
 
-        $myfile = fopen("C:\Users\Vinicius\Documents\Python/newfile.html", "w");
-        fwrite($myfile, $query);
-        fclose($myfile);        
+   
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
@@ -357,7 +355,7 @@ class ObraDAO extends Database {
 
         $idTag = $this->PDO->lastInsertId("idTag"); //pega o ultimo id de tag inserida
 
-        $query2 = "INSERT INTO TagObra(idObra, idTag) //relaciona a tag com a obra 
+        $query2 = "INSERT INTO tagobra(idObra, idTag) 
                   VALUES ('$numInventario','$idTag')";
 
         try{

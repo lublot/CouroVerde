@@ -84,131 +84,213 @@ class obraController extends mainController {
 
             if(isset($_POST['origem']) && $_POST['origem'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['origem'])) { //verifica se o campo está válido
+                    $origem = null;
                     throw new CampoInvalidoException('origem');
+                } else {
+                    $origem = addslashes($_POST['origem']);
                 }
+            } else {
+                $origem = null;
             }
 
             if(isset($_POST['procedencia']) && $_POST['procedencia'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['procedencia'])) { //verifica se o campo está válido
+                    $procedencia = null;
                     throw new CampoInvalidoException('procedencia');
+                } else {
+                    $procedencia = addslashes($_POST['procedencia']);
                 }
-            }    
+            } else {
+                $procedencia = null;
+            }            
 
             if(isset($_POST['funcao']) && $_POST['funcao'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['funcao'])) { //verifica se o campo está válido
+                    $funcao = null;
                     throw new CampoInvalidoException('funcao');
+                } else {
+                    $funcao = addslashes($_POST['funcao']);
                 }
+            } else {
+                $funcao = null;
             }
 
             if(isset($_POST['descricao']) && $_POST['descricao'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['descricao'])) { //verifica se o campo está válido
+                    $descricao = null;
                     throw new CampoInvalidoException('descricao');
+                } else {
+                    $descricao = addslashes($_POST['descricao']);
                 }
-            }    
+            } else {
+                $descricao = null;
+            }       
 
             if(isset($_POST['altura']) && $_POST['altura'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['altura'])) { //verifica se o campo está válido
+                    $altura = null;
                     throw new CampoInvalidoException('altura');
+                } else {
+                    $altura = addslashes($_POST['altura']);
                 }
-            }                      
+            } else {
+                $altura = null;
+            }
 
             if(isset($_POST['largura']) && $_POST['largura'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['largura'])) { //verifica se o campo está válido
+                    $largura = null;
                     throw new CampoInvalidoException('largura');
+                } else {
+                    $largura = addslashes($_POST['largura']);
                 }
-            }         
-
+            } else {
+                $largura = null;
+            }            
 
             if(isset($_POST['diametro']) && $_POST['diametro'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['diametro'])) { //verifica se o campo está válido
+                    $diametro = null;
                     throw new CampoInvalidoException('diametro');
+                } else {
+                    $diametro = addslashes($_POST['diametro']);
                 }
-            }             
+            } else {
+                $diametro = null;
+            }   
 
             if(isset($_POST['peso']) && $_POST['peso'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['peso'])) { //verifica se o campo está válido
+                    $peso = null;
                     throw new CampoInvalidoException('peso');
+                } else {
+                    $peso = addslashes($_POST['peso']);
                 }
-            }
+            } else {
+                $peso = null;
+            }   
 
             if(isset($_POST['comprimento']) && $_POST['comprimento'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['comprimento'])) { //verifica se o campo está válido
+                    $comprimento = null;
                     throw new CampoInvalidoException('comprimento');
+                } else {
+                    $comprimento = addslashes($_POST['comprimento']);
                 }
-            }
-
+            } else {
+                $comprimento = null;
+            }               
+                
             if(isset($_POST['materiais-constitutivos']) && $_POST['materiais-constitutivos'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['materiais-constitutivos'])) { //verifica se o campo está válido
+                    $materiais = null;
                     throw new CampoInvalidoException('materiais constitutivos');
+                } else {
+                    $materiais = addslashes($_POST['materiais-constitutivos']);
                 }
-            }              
+            } else {
+                $materiais = null;
+            }
 
             if(isset($_POST['tecnicas-de-fabricacao']) && $_POST['tecnicas-de-fabricacao'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['tecnicas-de-fabricacao'])) { //verifica se o campo está válido
+                    $tecnicas = null;
                     throw new CampoInvalidoException('tecnicas de fabricacao');
+                } else {
+                    $tecnicas = addslashes($_POST['tecnicas-de-fabricacao']);
                 }
+            } else {
+                $tecnicas = null;
             }
 
             if(isset($_POST['marcas-e-inscrições']) && $_POST['marcas-e-inscrições'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['marcas-e-inscrições'])) { //verifica se o campo está válido
+                    $marcas = null;
                     throw new CampoInvalidoException('marcas e inscrições');
+                } else {
+                    $marcas = addslashes($_POST['marcas-e-inscrições']);
                 }
-            }     
+            } else {
+                $marcas = null;
+            }
 
             if(isset($_POST['historico-do-objeto']) && $_POST['historico-do-objeto'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['historico-do-objeto'])) { //verifica se o campo está válido
+                    $historico = null;
                     throw new CampoInvalidoException('historico do objeto');
+                } else {
+                    $historico = addslashes($_POST['historico-do-objeto']);
                 }
+            } else {
+                $historico = null;
             }
 
             if(isset($_POST['modo-de-aquisicao']) && $_POST['modo-de-aquisicao'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['modo-de-aquisicao'])) { //verifica se o campo está válido
+                    $modoAquisicao = null;
                     throw new CampoInvalidoException('modo de aquisicao');
+                } else {
+                    $modoAquisicao = addslashes($_POST['modo-de-aquisicao']);
                 }
+            } else {
+                $modoAquisicao = null;
             }
 
             if(isset($_POST['data-de-aquisicao']) && $_POST['data-de-aquisicao'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['data-de-aquisicao'])) { //verifica se o campo está válido
+                    $dataAquisicao = null;
                     throw new CampoInvalidoException('data de aquisicao');
+                } else {
+                    $dataAquisicao = addslashes($_POST['data-de-aquisicao']);
                 }
+            } else {
+                $dataAquisicao = null;
             }
 
             if(isset($_POST['autoria']) && $_POST['autoria'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['autoria'])) { //verifica se o campo está válido
+                    $autoria = null;
                     throw new CampoInvalidoException('autoria');
+                } else {
+                    $autoria = addslashes($_POST['autoria']);
                 }
+            } else {
+                $autoria = null;
             }
 
             if(isset($_POST['aquisicao_autor']) && $_POST['aquisicao_autor'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['aquisicao_autor'])) { //verifica se o campo está válido
+                    $autor = null;
                     throw new CampoInvalidoException('aquisicao autor');
+                } else {
+                    $autor = addslashes($_POST['aquisicao_autor']);
                 }
-            }            
+            } else {
+                $autor = null;
+            }
 
             if(isset($_POST['observacoes']) && $_POST['observacoes'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['observacoes'])) { //verifica se o campo está válido
+                    $observacoes = null;
                     throw new CampoInvalidoException('observacoes');
+                } else {
+                    $observacoes = addslashes($_POST['observacoes']);
                 }
-            }               
+            } else {
+                $observacoes = null;
+            }                       
 
             if(isset($_POST['estado-de-conservacao']) && $_POST['estado-de-conservacao'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['estado-de-conservacao'])) { //verifica se o campo está válido
-                    throw new CampoInvalidoException('estado de conservacao');
+                    $estado = null;
+                    throw new CampoInvalidoException('estado-de-conservacao');
+                } else {
+                    $estado = addslashes($_POST['estado-de-conservacao']);
                 }
-            }
-
-            if(isset($_POST['tags']) && $_POST['tags'] != '') {
-                if(!ValidacaoDados::validarCampo($_POST['tags'])) { //verifica se o campo está válido
-                    throw new CampoInvalidoException('tags');
-                }
+            } else {
+                $estado = null;
             }            
 
-            $palavrasChave = [];
-            $tagsCadastro = explode(',', $_POST['tags']);
-
-            foreach($tagsCadastro as $palavraChave) {
-                 $palavrasChave[] = addslashes($palavraChave);
-             }
             
             $caminhosArquivos = $this->obterArquivos($_POST['inventario']);
             
@@ -221,31 +303,11 @@ class obraController extends mainController {
             $caminhoImagem4 = isset($caminhosImagens[3]) ? addslashes($caminhosImagens[3]) : null;
             $caminhoImagem5 = isset($caminhosImagens[4]) ? addslashes($caminhosImagens[4]) : null;
 
-
             $nome = addslashes($_POST["nome"]);
-            $titulo = addslashes($_POST["titulo"]);
             $numInventario = addslashes($_POST["inventario"]);
-            $idColecao = $_POST["colecao"];
-            $origem = addslashes($_POST["origem"]);
-            $procedencia = addslashes($_POST["procedencia"]);
-            $idClassificacao = $_POST["classificacao"];
-            $funcao = addslashes($_POST["funcao"]);
-            $descricao = addslashes($_POST["descricao"]);
-            $altura = addslashes($_POST["altura"]);
-            $largura = addslashes($_POST["largura"]);
-            $diametro = addslashes($_POST["diametro"]);
-            $peso = addslashes($_POST["peso"]);
-            $comprimento = addslashes($_POST["comprimento"]);
-            $materiais = addslashes($_POST["materiais-constitutivos"]);
-            $tecnicas = addslashes($_POST["tecnicas-de-fabricacao"]);
-            $autoria = addslashes($_POST["autoria"]);
-            $marcas = addslashes($_POST["marcas-e-inscrições"]);
-            $historico = addslashes($_POST["historico-do-objeto"]);
-            $modoAquisicao = addslashes($_POST["modo-de-aquisicao"]);
-            $dataAquisicao = addslashes($_POST["data-de-aquisicao"]);
-            $autor = addslashes($_POST["aquisicao_autor"]);
-            $observacoes = addslashes($_POST["observacoes"]);
-            $estado = addslashes($_POST["estado-de-conservacao"]);
+            $titulo = addslashes($_POST["titulo"]);            
+            $idColecao = addslashes($_POST["colecao"]);
+            $idClassificacao = addslashes($_POST["classificacao"]);
 
             $obraDAO = new ObraDAO();
                 
@@ -466,6 +528,8 @@ class obraController extends mainController {
     public function cadastrarPalavraChave(){
         $numeroInventario = $_POST['inventario']; //pega o numero de inventario
         $palavrasChave = explode("#", $_POST['tags']); //pega as palavras chaves e transforma num array
+        
+        unset($palavrasChave[0]);
 
         $obraDAO = new obraDAO();
 
