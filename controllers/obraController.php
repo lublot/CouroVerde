@@ -283,14 +283,51 @@ class obraController extends mainController {
             if(isset($_POST['estado-de-conservacao']) && $_POST['estado-de-conservacao'] != '') {
                 if(!ValidacaoDados::validarCampo($_POST['estado-de-conservacao'])) { //verifica se o campo está válido
                     $estado = null;
-                    throw new CampoInvalidoException('estado-de-conservacao');
+                    throw new CampoInvalidoException('estado de conservacao');
                 } else {
                     $estado = addslashes($_POST['estado-de-conservacao']);
                 }
             } else {
                 $estado = null;
-            }            
+            }
 
+            $fotografia = false;
+
+            if(isset($_POST['fotografo']) && $_POST['fotografo'] != '') {
+                $fotografia = true;
+                if(!ValidacaoDados::validarCampo($_POST['fotografo'])) { //verifica se o campo está válido
+                    $fotografo = null;
+                    throw new CampoInvalidoException('fotografo');
+                } else {
+                    $fotografo = addslashes($_POST['fotografo']);
+                }
+            } else {
+                $fotografo = null;
+            }
+
+            if(isset($_POST['data-da-fotografia']) && $_POST['data-da-fotografia'] != '') {
+                $fotografia = true;
+                if(!ValidacaoDados::validarCampo($_POST['data-da-fotografia'])) { //verifica se o campo está válido
+                    $dataFotografia = null;
+                    throw new CampoInvalidoException('data da fotografia');
+                } else {
+                    $dataFotografia = addslashes($_POST['data-da-fotografia']);
+                }
+            } else {
+                $dataFotografia = null;
+            }
+
+            if(isset($_POST['fotografia_autor']) && $_POST['fotografia_autor'] != '') {
+                $fotografia = true;
+                if(!ValidacaoDados::validarCampo($_POST['fotografia_autor'])) { //verifica se o campo está válido
+                    $autorFotografia = null;
+                    throw new CampoInvalidoException('fotografia autor');
+                } else {
+                    $autorFotografia = addslashes($_POST['fotografia_autor']);
+                }
+            } else {
+                $autorFotografia = null;
+            }                        
             
             $caminhosArquivos = $this->obterArquivos($_POST['inventario']);
             
@@ -310,11 +347,20 @@ class obraController extends mainController {
             $idClassificacao = addslashes($_POST["classificacao"]);
 
             $obraDAO = new ObraDAO();
-                
-            $obraDAO->inserirObra(new Obra($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
-                                            $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
-                                            $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D));                                        
 
+            if($fotografia) {
+                $obraDAO->inserirObra(new Fotografia($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
+                                                            $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
+                                                            $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D,
+                                                            $fotografo, $dataFotografia, $autorFotografia));                
+
+            } else {
+                $obraDAO->inserirObra(new Obra($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
+                                                            $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
+                                                            $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D));                              
+            }
+                
+            
             $this->cadastrarPalavraChave();
             }
         else {

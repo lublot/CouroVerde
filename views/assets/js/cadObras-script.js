@@ -13,16 +13,14 @@ $(document).ready(function () {
     var dropzone_img = document.getElementById('dropzone_img');
     var dropzone_3d = document.getElementById('dropzone_3d');
 
-    var displayUploads = function (data) {
-        var uploads = document.getElementById('uploads'),
+    var displayUploads = function (files) {
+        var uploads = document.getElementById('#uploads_img'),
             anchor,
-            x;
+            x; 
 
-        for (x = 0; x < data.length; x = x + 1) {
-            anchor = document.createElement('a');
-            anchor.href = data[x].file;
-            anchor.innerText = data[x].name;
-
+        for (x = 0; x < files.length; x = x + 1) {
+            anchor = document.createElement('span');
+            anchor.innerText = files[x].name;
             uploads.appendChild(anchor);
         }
     }
@@ -43,11 +41,6 @@ $(document).ready(function () {
 
         for (x = 0; x < files.length; x = x + 1) {
             formData.append('file[]', files[x]);
-        }
-
-        xhr.onload = function () {
-            var data = JSON.parse(this.responseText);
-            displayUploads(data);
         }
 
         uploadImgFeito = true;

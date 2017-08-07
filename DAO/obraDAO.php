@@ -5,6 +5,7 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use \DAO\Database as Database;
 use \models\Obra as Obra;
 use \models\Colecao as Colecao;
+use \models\Fotografia as Fotografia;
 use \models\Classificacao as Classificacao;
 
 
@@ -14,8 +15,7 @@ class ObraDAO extends Database {
     * Insere uma obra no banco de dados;
     * @param unknown $obra - a obra a ser inserida no banco;
     * */
-    public function inserirObra($obra){
-        
+    public function inserirObra($obra, $fotografia = false){
         $nome = $obra->getNome();
         $titulo = $obra->getTitulo();
         $numInventario = $obra->getNumInventario();
@@ -60,6 +60,20 @@ class ObraDAO extends Database {
             $this->PDO->query($query);
         }catch(PDOException $e){
 
+        }
+
+        if($fotografia) {
+            $fotografo = $obra->getFotografo();
+            $dataFotografia = $obra->getDataFotografia() == null? 'NULL' : $obra->getDataFotografia();
+            $autorFotografia = $obra->getAutorFotografia();
+
+            $query = "INSERT INTO fotografia(idFotografia, Fotografo, data, autorFotografia) VALUES ('$fotografo', $dataFotografia, '$autorFotografia')";
+            
+            try{
+                $this->PDO->query($query);
+            }catch(PDOException $e){
+
+            }
         }
     }
 

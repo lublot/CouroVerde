@@ -18,13 +18,14 @@ class Fotografia extends Obra {
 	* @param unknown $autorFotografia - Autor da fotografia
 	* 
 	*/
-    public function __construct($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
-                                $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
-                                $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $fotografo, $dataFotografia, $autorFotografia) {
+    public function __construct($numInventario, $nome, $titulo, $funcao = null, $origem = null, $procedencia = null, $descricao = null, $idColecao, $idClassificacao,
+                                $altura = null, $largura = null, $diametro = null, $peso = null, $comprimento = null, $materiais = null, $tecnicas = null, $autoria = null, $marcas = null, $historico = null, 
+                                $modoAquisicao = null, $dataAquisicao = null, $autor = null, $observacoes = null, $estado = null, $caminhoImagem1 = null, $caminhoImagem2 = null, $caminhoImagem3 = null, $caminhoImagem4 = null, $caminhoImagem5 = null, $caminhoModelo3D = null,
+                                $fotografo = null, $dataFotografia = null, $autorFotografia = null) {
                                     
-        parent::__construct($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
-                                $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
-                                $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado);
+        parent::__construct($numInventario, $nome, $titulo, $funcao = null, $origem = null, $procedencia = null, $descricao = null, $idColecao, $idClassificacao,
+                                $altura = null, $largura = null, $diametro = null, $peso = null, $comprimento = null, $materiais = null, $tecnicas = null, $autoria = null, $marcas = null, $historico = null, 
+                                $modoAquisicao = null, $dataAquisicao = null, $autor = null, $observacoes = null, $estado = null, $caminhoImagem1 = null, $caminhoImagem2 = null, $caminhoImagem3 = null, $caminhoImagem4 = null, $caminhoImagem5 = null, $caminhoModelo3D = null);
 
         $this->fotografo = $fotografo;
         $this->dataFotografia = $dataFotografia;
