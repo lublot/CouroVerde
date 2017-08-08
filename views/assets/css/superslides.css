@@ -1,0 +1,235 @@
+#slides {
+  position: relative;
+}
+#slides .slides-container {
+  display: none;
+}
+#slides .scrollable {
+  *zoom: 1;
+  position: relative;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+}
+#slides .scrollable:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.slides-navigation {
+  margin: 0 auto;
+  position: absolute;
+  z-index: 3;
+  top: 46%;
+  width: 100%;
+}
+.slides-navigation a {
+  position: absolute;
+  display: block;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    text-decoration: none;
+    background: (0,0,0,0.5);
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    line-height: 40px;
+    font-weight: bold;
+    border-radius: 50%;
+}
+
+.slides-navigation a:hover{
+    background: #000;
+}
+.slides-navigation a.prev {
+  left: 0;
+}
+.slides-navigation a.next {
+  right: 0;
+}
+
+.slides-pagination {
+  position: absolute;
+  z-index: 3;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+}
+.slides-pagination a {
+  border: 2px solid #fff;
+  border-radius: 15px;
+  width: 10px;
+  height: 10px;
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+  background: #fff;
+  margin: 2px;
+  overflow: hidden;
+  text-indent: -100%;
+}
+.slides-pagination a.current {
+  background: #222;
+}
+
+/**********************************/
+
+.slides{
+    position: fixed;
+    
+}
+.description{
+    background: rgba(0,0,0,0.2);
+    color: #fff;
+    padding: 20px;
+    position: absolute;
+    left: 1%;
+    top: 10%;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+header {
+    width: 100%;
+    background: rgba(0,0,0,0.2);
+    position: absolute;
+    z-index: 10;
+}
+
+#btn-menu{
+    display: none;
+}
+
+header label {
+    display: none;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    border-right: 1px solid #333;
+}
+
+header label:hover {
+    cursor: pointer;
+    background: rgba(0,0,0,0.3);
+}
+
+.nome_menu{
+        display: block;
+    }
+    
+    .nome_menu h2{
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+        background: #2a2a2a;
+    }
+    .menu{
+        position: fixed;
+        background: #333;
+        color: #fff;
+        width: 250PX;
+        height: 100%;
+        margin-left: -70%;
+        transition: all 0.4s;
+        outline: 1px solid #2a2a2a;
+    }
+    
+    .menu ul{
+        flex-direction: column-reverse;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .menu a{
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px;
+    }
+    
+    .menu li {
+        border-top: 1px solid #333;
+        outline: 1px solid #2a2a2a;
+        transition: all 0.3s;
+    }
+    
+    
+    .menu li:hover {
+        background: #444;
+        border-left: 5px solid #eee;
+    }
+
+@media (max-width:768px){
+    
+    .conteudo header label {
+        display: block;
+        width: 0px;
+        height: 0px;
+        padding: 1px;
+        
+    }
+    
+    .nome_menu{
+        display: block;
+    }
+    
+    .nome_menu h2{
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+        background: #2a2a2a;
+    }
+    .menu{
+        position: fixed;
+        background: #333;
+        color: #fff;
+        width: 250PX;
+        height: 100%;
+        margin-left: -70%;
+        transition: all 0.4s;
+        outline: 1px solid #2a2a2a;
+    }
+    
+    .menu ul{
+        flex-direction: column-reverse;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .menu a{
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px;
+    }
+    
+    .menu li {
+        border-top: 1px solid #333;
+        outline: 1px solid #2a2a2a;
+        transition: all 0.3s;
+    }
+    
+    
+    .menu li:hover {
+        background: #444;
+        border-left: 5px solid #eee;
+    }
+    
+    #btn-menu:checked ~ .menu {
+        margin: 0;
+    }
+    
+}
+
