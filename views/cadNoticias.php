@@ -23,6 +23,7 @@
     <!--Importação do Javascript pessoal e jQuery  -->
     <script src="assets/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="assets/js/validator.js"></script>
+    <script src="assets/js/cadastroNoticia-script.js"></script>
 
 
 </head>
@@ -51,7 +52,7 @@
                 <section id="caixa">
 
                     <!-- Formulário de cadastro de notícias -->
-                    <form data-toggle="validator" role="form" class="form-horizontal">
+                    <form data-toggle="validator" role="form" method="POST" name="formCad" id="form-CadNoticia" class="form-horizontal" onsubmit="" action="/noticia/salvaNoticia.php">
 
                         <!-- Subtítulo -->
                         <div class="form-group">
@@ -61,7 +62,10 @@
                         <!-- Upload da imagem -->
                         <div class="form-group">
                             <div class="form-control " id="caixa-img">
-                                <button class="pull-right btn btn-default">UPLOAD</button>
+                                <div class="fileUpload pull-right btn btn-default">
+                                    <span>UPLOAD</span>
+                                    <input id='selecao-arquivo' type="file" name="imagem" class="upload" onChange="verificarImagem(this);">
+                                </div>
                             </div>
                         </div>
 
@@ -70,12 +74,12 @@
 
                             <!-- Entrada do título -->
                             <div class="col-xs-6">
-                                <input class="form-control" type="text" placeholder="Título(*)" id="inputName" data-error="Preencha este campo" required>
+                                <input class="form-control" type="text" placeholder="Título(*)" name="titulo" id="inputName" data-error="Preencha este campo" required>
                             </div>
 
                             <!-- Entrada do subtítulo -->
                             <div class="col-xs-6">
-                                <input class="form-control" type="text" placeholder="Subtitulo">
+                                <input class="form-control" type="text" placeholder="Subtitulo" name="subtitulo">
                             </div>
 
                             <!-- Fim Linha com duas entradas -->
@@ -83,7 +87,7 @@
 
                         <!-- TextArea com entrada da descrição -->
                         <div class="form-group ">
-                            <textarea class="form-control" placeholder="Descrição(*)" type="text" rows="5" required></textarea>
+                            <textarea class="form-control" placeholder="Descrição(*)" type="text" rows="5" name="descricao" required></textarea>
                         </div>
 
                         <h6>(*) Campos obrigatórios</h6>
@@ -92,10 +96,10 @@
                         <div class="row modal-footer">
 
                             <!-- Botão cancelar -->
-                            <button type="button" class="pull-rigth btn btn-default">CANCELAR</button>
+                            <button type="button" class="pull-rigth btn btn-default" onclick="atualizarPagina()" name="btnCancelar">CANCELAR</button>
 
                             <!-- Botão cadastrar -->
-                            <button type="submit" class="pull-rigth btn btn-default">CADASTRAR</button>
+                            <button type="submit" class="pull-rigth btn btn-default" name="btnCadNoticia">CADASTRAR</button>
                         </div>
 
                         <!-- Fim do Formulário de cadastro de notícias  -->
