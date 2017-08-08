@@ -33,16 +33,18 @@ class obraController extends mainController {
         $_POST['altura'] = $altura;
         $_POST['largura'] = $largura;
         $_POST['diametro'] = $diametro;
-        $_POST['peso'] = $comprimento;
-        $_POST['materiais'] = $materiais;
-        $_POST['tecnicas'] = $autoria;
-        $_POST['marcas'] = $marcas;
-        $_POST['historico'] = $historico;
-        $_POST['modoAquisicao'] = $modoAquisicao;
-        $_POST['dataAquisicao'] = $dataAquisicao;
-        $_POST['autor'] = $autor;
+        $_POST['peso'] = $peso;
+        $_POST['comprimento'] = $comprimento;
+        $_POST['materiais-constitutivos'] = $materiais;
+        $_POST['tecnicas-de-fabricacao'] = $tecnicas;
+        $_POST['autoria'] = $autoria;
+        $_POST['marcas-e-inscrições'] = $marcas;
+        $_POST['historico-do-objeto'] = $historico;
+        $_POST['modo-de-aquisicao'] = $modoAquisicao;
+        $_POST['data-de-aquisicao'] = $dataAquisicao;
+        $_POST['aquisicao_autor'] = $autor;
         $_POST['observacoes'] = $observacoes;
-        $_POST['estado'] = $estado;
+        $_POST['estado-de-conservacao'] = $estado;
 
         $_POST['submit'] = $post;
     }

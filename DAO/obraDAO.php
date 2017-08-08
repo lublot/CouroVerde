@@ -112,9 +112,10 @@ class ObraDAO extends Database {
     * @param unknown $filtros - um array contendo os filtros usados na identificação do usuário. Ex: array("idObra"=>5);
     * */
     public function remover($filtros){
-        $query = "DELETE FROM obra WHERE ";
+        $query = "DELETE FROM obra ";
 
         if(count($filtros) > 0){
+            $query = $query . 'WHERE ';
             $aux = array();
 
             foreach($filtros as $chave=>$valor){
