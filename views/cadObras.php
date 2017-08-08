@@ -480,7 +480,7 @@
                                         <div class="dnd1">
 
                                             <div id="upload3D" hidden>
-                                                <span class="glyphicon glyphicon-camera"></span>                                            
+                                                <span class="glyphicon glyphicon-road"></span>                                            
                                                 <span id="modelo3D"></span>
                                                 <span></span>                                       
                                             </div>      
@@ -521,7 +521,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--Text: Data da Fotografia  -->
-                                                <input class="form-control" type="text" name="data-da-fotografia" placeholder="Data da Fotografia">
+                                                <input class="form-control" type="date" name="data-da-fotografia" placeholder="Data da Fotografia">
                                             </div>
                                         </div>
 

@@ -16,7 +16,7 @@
                 alert($e);
         } catch (CampoNoticiaInvalidoException $u){
                 alert($u);
-        } catch (DadosCorrompidosException){
+        } catch (DadosCorrompidosException $e){
                 alert("Os dados passados estão corrompidos. Não foi possível fazer o cadastro...");
         }
 

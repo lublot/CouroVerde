@@ -67,7 +67,7 @@ class ObraDAO extends Database {
             $dataFotografia = $obra->getDataFotografia() == null? 'NULL' : $obra->getDataFotografia();
             $autorFotografia = $obra->getAutorFotografia();
 
-            $query = "INSERT INTO fotografia(idFotografia, Fotografo, data, autorFotografia) VALUES ('$fotografo', $dataFotografia, '$autorFotografia')";
+            $query = "INSERT INTO fotografia(idFotografia, fotografo, data, autorFotografia) VALUES ($numInventario, '$fotografo', $dataFotografia, '$autorFotografia')";
             
             try{
                 $this->PDO->query($query);
@@ -75,6 +75,10 @@ class ObraDAO extends Database {
 
             }
         }
+
+        $myfile = fopen("C:\Users\Vinicius\Documents/ewfile.txt", "w");
+        fwrite($myfile, $query);
+        fclose($myfile);
     }
 
     /**
