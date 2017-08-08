@@ -5,7 +5,6 @@ var pagMax = 5;
 
 var uploadImgFeito = false;
 var upload3DFeito = false;
-var files3D = [];
 var formData = new FormData(),
     xhr = new XMLHttpRequest(),
     x;
@@ -22,7 +21,7 @@ $(document).ready(function () {
             if (re.exec(value.name)) {
                 numImg = numImg + 1;              
             }            
-        }   
+        }
         
         if (numImg > 5) {
             alert('Apenas 5 imagens podem ser carregadas!');
@@ -68,13 +67,22 @@ $(document).ready(function () {
     }
 
     var upload3D = function (files) {
-        if (files3D.length > 1) {
+        var files3D = [];
+        var cont = 0;
+
+        for (var value of formData.values()) {
+            var re = /(\.obj)$/i;
+            if (re.exec(value.name)) {
+                cont = cont + 1;             
+            }
+        }
+
+        if(cont >= 1) {
             alert("Apenas um modelo 3D pode ser carregado!");
             return;
         }
 
-        var cont = 0;
-
+        cont = 0;
         for (x = 0; x < files.length; x = x + 1) {
             var re = /(\.obj)$/i;
             if (re.exec(files[x].name)) {
@@ -102,10 +110,9 @@ $(document).ready(function () {
             $("#btn-confirmar").attr('type', 'submit');
         }
 
-        $("#upload3D").attr('hidden', false);
-
         for (x = 0; x < files3D.length; x = x + 1) {
-            $("#modelo3D").html("Modelo carregado: ".concat(fileUpload.name));                
+            $("#upload3D").attr('hidden', false);
+            $("#modelo3D").html("Modelo carregado: ".concat(files3D[x].name));                
         }        
 
     }
@@ -237,10 +244,10 @@ function avancarPag() {
         // String para concatenar o ID da página do HTML com a variável que armazena a próxima página
         var pageNew = "#page_" + pagAtual;
         //Caso esteja na última página e fotografia tenha sido selecionada como classificação
-        if (pagAtual == 5 && document.getElementById('select-classificacao').value == "FOTOGRAFIA") {
+        if (pagAtual == 5 && $("#select-classificacao option:selected").text().toUpperCase() == "FOTOGRAFIA") {
             //Exibe a página especial de fotografias (Documentação Fotográfica)
             $("#page_6").fadeIn(750);
-        }
+        } 
         // Atualiza a visualização da próxima tela para exibir com um Fade In
         $(pageNew).fadeIn(750);
     }
