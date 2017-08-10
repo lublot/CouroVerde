@@ -361,7 +361,7 @@ class obraController extends mainController {
             }
         else {
             throw new DadosCorrompidosException();
-        }
+        }       
     }
 
     private function obterArquivos($numInventario) {
@@ -370,25 +370,18 @@ class obraController extends mainController {
 
         $caminhoPastaModelo3D = dirname(__DIR__).'/media/obras/modelo3d/';
         $caminhoPastaModelo3D .= $numInventario; 
+        $imagens = opendir($caminhoPastaImages); //obtém todos os arquivos da pasta
+        $modelo3D = opendir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
 
-        $erro = true;
+        var_dump($imagens);
 
-        while($erro) { //enquanto não acha a obra
-            try {
-                $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
-                $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta 
-                break;              
-            } catch(Exception $e) {
-            }
-        }
-
-        //remove os dois primeiros elementos do array
-        unset($imagens[0]);
-        unset($imagens[1]);
+        // //remove os dois primeiros elementos do array
+        // unset($imagens[0]);
+        // unset($imagens[1]);
         
-        //remove os dois primeiros elementos do array        
-        unset($modelo3D[0]);
-        unset($modelo3D[1]);
+        // //remove os dois primeiros elementos do array        
+        // unset($modelo3D[0]);
+        // unset($modelo3D[1]);
 
         $caminhosImagens = array();
 
@@ -396,9 +389,12 @@ class obraController extends mainController {
             $caminhosImagens[] = $caminhoPastaImages . '/' . $imagem;
         }
 
-        $caminhoModelo3D = $modelo3D[2];
+
+        var_dump($modelo3D);
+
+        $caminhoPastaModelo3D = $caminhoPastaModelo3D.$modelo3D[0];
         
-        return array($caminhosImagens, $caminhoModelo3D);
+        return array($caminhosImagens, $caminhoPastaModelo3D);
     }    
 
     private function uploadImagem() {
@@ -618,6 +614,11 @@ class obraController extends mainController {
         $obraDAO = new ObraDAO();
         return $obraDAO->buscarClassificacao(array(), array("idClassificacao" => $idClassificacao));
     }    
+
+    public function obterObrasClassificacao($idClassificacao) {
+        $obraDAO = new ObraDAO();
+        return $obraDAO->buscar(array(), array("idClassificacao" => $idClassificacao));        
+    }
 }
 
 

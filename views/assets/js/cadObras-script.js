@@ -127,7 +127,7 @@ $(document).ready(function () {
         //Mudança de classe de CSS para o padrão
         this.className = 'dropzone';
         //Chama a função para upload de imagem criada e passa os arquivos contidos evento "e". (São os arquivos arrastados pelo mouse)
-        upload(e.dataTransfer.files);
+        upload(e.dataTransfer.files);    
     };
 
     dropzone_img.ondragover = function () {
@@ -182,7 +182,7 @@ $(document).ready(function () {
 
 })
 
-window.addEventListener("load", init, false);
+//window.addEventListener("load", init, false);
 
 // Função responsável por atualizar a mensagem contida nos botões "Próximo" e "Retroceder" para "Confirmar" e "Cancelar" na ocasião adequada
 function atualizarTextoBotao() {
@@ -207,7 +207,7 @@ function atualizarTextoBotao() {
         //Deixa o texto "Cancelar"
         $("#btn-cancelar").html('Cancelar');
         //Altera o botão para o tipo reset, que serve para cancelar o form
-        document.getElementById('btn-cancelar').setAttribute('type', 'reset'); //REVISAR PQ TÁ LIMPANDO O FORM SEMPRE QUE O BOTÃO RETROCEDER É CLICADO
+        document.getElementById('btn-cancelar').setAttribute('type', 'button'); //REVISAR PQ TÁ LIMPANDO O FORM SEMPRE QUE O BOTÃO RETROCEDER É CLICADO
     }
 }
 
@@ -221,13 +221,18 @@ function avancarPag() {
     } else if (pagAtual == pagMax && !upload3DFeito) {
         alert("Ao menos um modelo 3D deve ser carregado!");
         return;
-    } else {
-        $("#form-obra").submit(function (event) {
-            $(this).attr('action', '../obra/cadastrarObra');
-        });
-
+    } else if(pagAtual == pagMax) {
         xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
         xhr.send(formData);
+        xhr.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                if(JSON.parse(this.response).sucesso == true) {
+                    $("#form-obra").submit(function (event) {
+                        $(this).attr('action', '../obra/cadastrarObra');
+                    });
+                }
+            }
+        }
         uploadImgFeito = false;
         upload3DFeito = false;
     }

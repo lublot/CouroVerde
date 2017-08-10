@@ -50,10 +50,12 @@ class ObraDAO extends Database {
 
         $query = "INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,
                                     altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, 
-                                    marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao) 
+                                    marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao,
+                                    caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) 
                   VALUES ('$numInventario', '$nome','$titulo', '$funcao', '$origem', '$procedencia', '$descricao', '$idColecao', '$idClassificacao',
                             $altura, $largura, $diametro, $peso, $comprimento, '$materiais', '$tecnicas', '$autoria', '$marcas', '$historico', 
-                            '$modoAquisicao', $dataAquisicao, '$autor', '$observacoes', '$estado')";
+                            '$modoAquisicao', $dataAquisicao, '$autor', '$observacoes', '$estado', '$caminhoImagem1', '$caminhoImagem2',
+                            '$caminhoImagem3', '$caminhoImagem4', '$caminhoImagem5', '$caminhoModelo3D')";
 
    
         try{
@@ -76,10 +78,15 @@ class ObraDAO extends Database {
             }
         }
 
-        $myfile = fopen("C:\Users\Vinicius\Documents/ewfile.txt", "w");
-        fwrite($myfile, $query);
-        fclose($myfile);
+        $query = "INSERT INTO arquivo(idArquivo, caminho, tipo) VALUES (null, ".$caminhoImagem1.", 'IMAGEM')";
+
+        try{
+            $this->PDO->query($query);
+        }catch(PDOException $e){}
+
+        $query = "INSERT INTO arquivoobra(idArquivo, idObra) VALUES (".")";        
     }
+
 
     /**
     * Altera informações de uma obra no banco de dados;
