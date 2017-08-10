@@ -10,6 +10,7 @@ use \util\GerenciarSenha as GerenciarSenha;
 use \models\Obra as Obra;
 use \models\Colecao as Colecao;
 use \models\Classificacao as Classificacao;
+use \models\Fotografia as Fotografia;
 
 class obraController extends mainController {
 
@@ -57,11 +58,6 @@ class obraController extends mainController {
     // }
 //colecao classificacao fotografo data-da-fotografia fotografia_autor
     public function cadastrarObra() {
-        var_dump(isset($_POST));
-        var_dump($_POST);
-        var_dump(ValidacaoDados::validarForm($_POST, array("inventario", "nome", "titulo", "funcao", "origem", "procedencia", "descricao", "idColecao", "idClassificacao",
-                                            "altura", "largura", "diametro", "peso", "comprimento", "materiais-constitutivos", "tecnicas-de-fabricacao", "autoria", "marcas-e-inscrições", "historico-do-objeto", 
-                                            "modo-de-aquisicao", "data-de-aquisicao", "aquisicao_autor", "observacoes", "estado-de-conservacao")));
         if (isset($_POST) and ValidacaoDados::validarForm($_POST, array("inventario", "nome", "titulo", "colecao", "classificacao"))) {
 
             if(!ValidacaoDados::validarCampo($_POST['nome'])) { //verifica se o campo está válido
@@ -354,7 +350,7 @@ class obraController extends mainController {
                 $obraDAO->inserirObra(new Fotografia($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
                                                             $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
                                                             $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D,
-                                                            $fotografo, $dataFotografia, $autorFotografia));                
+                                                            $fotografo, $dataFotografia, $autorFotografia), true);                
 
             } else {
                 $obraDAO->inserirObra(new Obra($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
@@ -377,16 +373,22 @@ class obraController extends mainController {
         $caminhoPastaModelo3D = dirname(__DIR__).'/media/obras/modelo3d/';
         $caminhoPastaModelo3D .= $numInventario; 
 
-        var_dump($caminhoPastaImages);       
+        $erro = true;
 
-        $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
-        $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta
+        while($erro) { //enquanto não acha a obra
+            try {
+                $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
+                $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta 
+                break;              
+            } catch(Exception $e) {
+            }
+        }
 
-        var_dump($modelo3D);
-
+        //remove os dois primeiros elementos do array
         unset($imagens[0]);
         unset($imagens[1]);
         
+        //remove os dois primeiros elementos do array        
         unset($modelo3D[0]);
         unset($modelo3D[1]);
 
@@ -395,7 +397,6 @@ class obraController extends mainController {
         foreach($imagens as $imagem) {
             $caminhosImagens[] = $caminhoPastaImages . '/' . $imagem;
         }
-
 
         $caminhoModelo3D = $modelo3D[2];
         
