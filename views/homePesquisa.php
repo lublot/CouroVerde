@@ -11,29 +11,30 @@
     <body>
         <?php $this->carregarCabecalho();?>
         <div class="container">
+            <div class="col-xs-3">
+                <?php $this->carregarPainel();?>
+            </div>
             
-            <div class="col-sm-4"></div>
-            <div class="col-sm-6">
+            <div class="col-xs-9">
                 <div class="search-only form-search">
                     <i class="search-icon fa fa-search"></i>
                     <input type="text" id="campoBusca" class="form-control search-query" placeholder="Buscar Pesquisa de Satisfação">
                 </div>
-                <br>
-                <div id="alert">
-
-                </div>
+            <br>
+                <div id="alert"> </div>
+                
                 <div class="alert alert-warning alert-dismissible" role="alert" style="display:none;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <span id="aviso"></span>
+                    </div>
+                    <h3>Listando Resultados</h3>
+                    <hr>
+                    
+                    <div id="resposta"></div>
                 </div>
-                <h3>Listando Resultados</h3>
-                <hr>
-                
-                <div id="resposta"></div>
-            </div>
                 
             </div>
-            <div class="col-sm-2"></div>
+        <!--<div class="col-sm-2"></div>-->
         </div>
 
         <!-- Modal Tipo-->

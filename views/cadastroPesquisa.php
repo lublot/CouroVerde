@@ -11,9 +11,12 @@
     </head>
 
     <body>
+        <?php $this->carregarCabecalho()?>
         <div class="container">
-            <?php $this->carregarCabecalho()?>
-            <div class="col-sm-3"></div>
+            
+            <div class="col-sm-3">
+            <?php $this->carregarPainel()?>
+            </div>
             <div class="col-sm-9">
                 <form class="form-horizontal" id="principal">
                     <div class="form-group">
