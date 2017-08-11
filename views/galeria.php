@@ -64,23 +64,25 @@
                 if(isset($_GET['id'])) {
                     $obras = $obraController->obterObrasClassificacao($_GET['id']);
 
-                    $cont = 0;
+                    $numImgsLinha = 0;
+                    $numImgs = 0;
+                    $numPag = 1;
 
                     foreach($obras as $obra) {
-                        if($cont == 0) {
+                        $numImgs++;
+                        if($numImgsLinha == 0) {
                             // 1 row para cada colona de imagens
                             echo '<div class="row"> <!-abre linha-->';
                         }
 
-                        $cont = $cont + 1;                        
+                        $numImgsLinha = $numImgsLinha + 1;                        
 
                         echo '<!--um <col-xs-6 col-md-3> para cada imagem de obra a ser exibida-->
-                                <div class="col-xs-6 col-md-3">
+                                <div id="img'.$numImgs.'_'.$numPag.'" class="col-xs-6 col-md-3" hidden>
                                     <!--#href contendo o caminho para exibição da obra-->
-                                    <a href="imagens/noticias/img1.jpg">
+                                    <a href="LINK_PAGINA_IMG">
                                         <div class="thumbnail">
                                             <!--Caminho da imagem exibida representando uma obra-->
-                                            '.'aaaaaaaaaaaaaaaaaa'.$obra->getCaminhoImagem1().'
                                             <img src="'.$obra->getCaminhoImagem1().'" style="height:150px">
                                             <div class="caption">
                                                 <h5>
@@ -92,22 +94,25 @@
                                     </a>
                                 </div>';
 
-                        if($cont == 4) {
+                        if($numImgsLinha == 4) {
                             echo '</div><!-fecha linha-->';                            
                             $cont = 0;
-                        }  
+                        }
+
+                        if($numImgs == 8) {
+                            $numPag++;
+                        }
                                               
                     }
                 }                
             ?>
             <div class="row text-center">
-                <button type="button" class="btn btn-sm btn-danger">Carregar mais</button>
+                <button type="button" class="btn btn-sm btn-danger btn-mais">Carregar mais</button>
             </div>
         </div>
     </body>
     <!--  -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.js"></script>
-    <script type="text/javascript" src="assets/js/materialize.js"></script>
     <script type="text/javascript" src="assets/js/galeria-script.js"></script>    
 </html>
