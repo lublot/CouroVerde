@@ -55,7 +55,7 @@
             <!--Div com o contorno e organização dos elementos no centro-->
             <div id="contorno">
                     <!--Formulário de cadastro-->
-                    <form method="POST" id="form-obra">
+                    <form id="form-obra">
                         <!--Botão de Ajuda-->
                         <a href="#" class="direita">Ajuda  <span class="glyphicon glyphicon-question-sign"></span></a>
                         

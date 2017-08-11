@@ -58,6 +58,9 @@ class obraController extends mainController {
     // }
 //colecao classificacao fotografo data-da-fotografia fotografia_autor
     public function cadastrarObra() {
+            $myfile = fopen("C:\wamp64\www\sertour\ddddddddddddd.txt", "w");
+            fwrite($myfile, 'kfdsfsdknjddjjkf');
+            fclose($myfile);
         if (isset($_POST) and ValidacaoDados::validarForm($_POST, array("inventario", "nome", "titulo", "colecao", "classificacao"))) {
 
             if(!ValidacaoDados::validarCampo($_POST['nome'])) { //verifica se o campo está válido
@@ -359,7 +362,7 @@ class obraController extends mainController {
             }
                 
             
-            $this->cadastrarPalavraChave();
+            $this->cadastrarPalavraChave();   
             }
         else {
             throw new DadosCorrompidosException();
@@ -372,29 +375,30 @@ class obraController extends mainController {
 
         $caminhoPastaModelo3D = dirname(__DIR__).'/media/obras/modelo3d/';
         $caminhoPastaModelo3D .= $numInventario; 
-        $imagens = opendir($caminhoPastaImages); //obtém todos os arquivos da pasta
-        $modelo3D = opendir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
+        $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
+        $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
 
         var_dump($imagens);
 
         // //remove os dois primeiros elementos do array
-        // unset($imagens[0]);
-        // unset($imagens[1]);
+        unset($imagens[0]);
+        unset($imagens[1]);
         
-        // //remove os dois primeiros elementos do array        
-        // unset($modelo3D[0]);
-        // unset($modelo3D[1]);
+        //remove os dois primeiros elementos do array        
+        unset($modelo3D[0]);
+        unset($modelo3D[1]);
 
         $caminhosImagens = array();
+        
+        var_dump($imagens);
 
         foreach($imagens as $imagem) {
             $caminhosImagens[] = $caminhoPastaImages . '/' . $imagem;
         }
 
-
         var_dump($modelo3D);
 
-        $caminhoPastaModelo3D = $caminhoPastaModelo3D.$modelo3D[0];
+        $caminhoPastaModelo3D = $caminhoPastaModelo3D.$modelo3D[2];
         
         return array($caminhosImagens, $caminhoPastaModelo3D);
     }    

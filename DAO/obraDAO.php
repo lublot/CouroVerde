@@ -76,15 +76,9 @@ class ObraDAO extends Database {
             }catch(PDOException $e){
 
             }
-        }
 
-        $query = "INSERT INTO arquivo(idArquivo, caminho, tipo) VALUES (null, ".$caminhoImagem1.", 'IMAGEM')";
-
-        try{
-            $this->PDO->query($query);
-        }catch(PDOException $e){}
-
-        $query = "INSERT INTO arquivoobra(idArquivo, idObra) VALUES (".")";        
+            echo $query;
+        }    
     }
 
 

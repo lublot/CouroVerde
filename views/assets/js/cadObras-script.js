@@ -5,6 +5,7 @@ var pagMax = 5;
 
 var uploadImgFeito = false;
 var upload3DFeito = false;
+var jaComecou = false;
 var formData = new FormData(),
     xhr = new XMLHttpRequest(),
     x;
@@ -42,10 +43,10 @@ $(document).ready(function () {
 
         uploadImgFeito = true;
 
-        if (uploadImgFeito == true && upload3DFeito == true) {
-            //Altera o botão para o tipo submit, que serve para finalizar o form
-            $("#btn-confirmar").attr('type', 'submit');           
-        }
+        // if (uploadImgFeito == true && upload3DFeito == true) {
+        //     //Altera o botão para o tipo submit, que serve para finalizar o form
+        //     $("#btn-confirmar").attr('type', 'submit');           
+        // }
         
         $("#uploadImg").attr('hidden', false);
 
@@ -105,10 +106,10 @@ $(document).ready(function () {
 
         upload3DFeito = true;
 
-        if (uploadImgFeito == true && upload3DFeito == true) {      
-            //Altera o botão para o tipo submit, que serve para finalizar o form
-            $("#btn-confirmar").attr('type', 'submit');
-        }
+        // if (uploadImgFeito == true && upload3DFeito == true) {      
+        //     //Altera o botão para o tipo submit, que serve para finalizar o form
+        //     $("#btn-confirmar").attr('type', 'submit');
+        // }
 
         for (x = 0; x < files3D.length; x = x + 1) {
             $("#upload3D").attr('hidden', false);
@@ -222,19 +223,30 @@ function avancarPag() {
         alert("Ao menos um modelo 3D deve ser carregado!");
         return;
     } else if(pagAtual == pagMax) {
-        xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
-        xhr.send(formData);
+        if(!jaComecou) {
+            xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
+            xhr.send(formData);
+            jaComecou = true;
+        }
+
+        if(xhr.readyState != 4) {
+            alert('Carregando arquivos...');
+        }
+
         xhr.onreadystatechange = function() {
             if(this.readyState == 4 && this.status == 200) {
-                if(JSON.parse(this.response).sucesso == true) {
+                if(JSON.parse(this.response).sucesso == true && upload3DFeito && uploadImgFeito) {
+                    jaComecou = false;
+                    $("#btn-confirmar").attr("type", "submit");
+                    $("#form-obra").attr("method", "POST");
                     $("#form-obra").submit(function (event) {
+                        $("#form-obra").attr('method', 'POST');
                         $(this).attr('action', '../obra/cadastrarObra');
                     });
                 }
             }
         }
-        uploadImgFeito = false;
-        upload3DFeito = false;
+
     }
 
     // Verifica se a página atual do usuário excedeu o número limite máximo de páginas
