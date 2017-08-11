@@ -21,6 +21,13 @@ class mainController{
     }
 
     /**
+    * Este método carrega o menu do módulo admin
+    */
+    protected function carregarPainel(){
+        include ABSPATH.'/views/painel.php';
+    }
+
+    /**
     * Este método carrega o rodapé do sistema
     */
     protected function carregarRodape(){
