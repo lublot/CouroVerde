@@ -8,11 +8,15 @@
 
         <title>Sertour</title>
         <link rel="stylesheet" href="assets/css/materialize.css">
-        <link rel="stylesheet" href="assets/css/bootstrap.css">
         <link rel="stylesheet" href="assets/css/bootstrap-theme.css">
-        <link rel="stylesheet" href="assets/css/estilo.css">
         <link rel="stylesheet" href="assets/css/bootstrap-social.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/estilo.css">
+
+        <link rel="stylesheet" href="assets/css/bootstrap.css" />
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/css/site.css" />
+        <link rel="stylesheet" href="assets/css/site.min.css" />
 
     </head>
     <body>
@@ -47,12 +51,6 @@
                 ?>
             </ul>
             <!--Inicialização ainel lateral-->
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $(".button-collapse").sideNav();
-                $('.collapsible').collapsible();
-            });
-        </script>
         <br>
         <!--Container que circunda a galeria-->
         <div class="container" id="pagina">
@@ -63,10 +61,9 @@
             <?php
                 if(isset($_GET['id'])) {
                     $obras = $obraController->obterObrasClassificacao($_GET['id']);
-
+                    $numPag = 1;
                     $numImgsLinha = 0;
                     $numImgs = 0;
-                    $numPag = 1;
 
                     foreach($obras as $obra) {
                         $numImgs++;
@@ -75,7 +72,7 @@
                             echo '<div class="row"> <!-abre linha-->';
                         }
 
-                        $numImgsLinha = $numImgsLinha + 1;                        
+                        $numImgsLinha = $numImgsLinha + 1;
 
                         echo '<!--um <col-xs-6 col-md-3> para cada imagem de obra a ser exibida-->
                                 <div id="img'.$numImgs.'_'.$numPag.'" class="col-xs-6 col-md-3" hidden>
@@ -96,20 +93,21 @@
 
                         if($numImgsLinha == 4) {
                             echo '</div><!-fecha linha-->';                            
-                            $cont = 0;
+                            $numImgsLinha = 0;
                         }
 
                         if($numImgs == 8) {
+                            $numImgs = 0;
                             $numPag++;
-                        }
-                                              
+                        }                      
                     }
                 }                
             ?>
-            <div class="row text-center">
-                <button type="button" class="btn btn-sm btn-danger btn-mais">Carregar mais</button>
-            </div>
         </div>
+        <div class="row text-center">
+            <button type="button" class="btn btn-primary btn-mais">Carregar Mais</button>
+            <button type="button" href="#" class="btn btn-primary btn-voltar" style="display: none;">Voltar Ao Início</button>            
+        </div>        
     </body>
     <!--  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -187,10 +187,15 @@ class ObraDAO extends Database {
                                     isset($item['dataAquisicao'])?$item['dataAquisicao']:null,
                                     isset($item['autor'])?$item['autor']:null,
                                     isset($item['observacoes'])?$item['observacoes']:null,
-                                    isset($item['estadoConservacao'])?$item['estadoConservacao']:null);
+                                    isset($item['estadoConservacao'])?$item['estadoConservacao']:null,
+                                    isset($item['caminhoImagem1'])?$item['caminhoImagem1']:null,
+                                    isset($item['caminhoImagem2'])?$item['caminhoImagem2']:null,
+                                    isset($item['caminhoImagem3'])?$item['caminhoImagem3']:null,
+                                    isset($item['caminhoImagem4'])?$item['caminhoImagem4']:null,
+                                    isset($item['caminhoImagem5'])?$item['caminhoImagem5']:null,
+                                    isset($item['caminhoModelo3D'])?$item['caminhoModelo3D']:null);                                                                        
             }    
         }
-        
         return $obras;
     }
 
