@@ -298,7 +298,7 @@ class ObraDAO extends Database {
             $camposSelect = implode(', ',$campos);
         }
 
-        $query .= $camposSelect."FROM classificacao ORDER BY nome ASC";
+        $query .= $camposSelect."FROM classificacao";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -311,6 +311,7 @@ class ObraDAO extends Database {
             $query .= implode(" AND ",$aux);
         }
 
+        $query .= ' ORDER BY nome ASC';
         $result = $this->PDO->query($query);
 
         $classificacoes = array();
@@ -320,7 +321,7 @@ class ObraDAO extends Database {
                                                       isset($item['nome'])?$item['nome']:null);
             }    
         }
-        
+
         return $classificacoes;
     }
 
