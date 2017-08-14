@@ -6,7 +6,7 @@ namespace models;
 * @author MItologhic Software
 *
 */
-class Funcionario extends Usuario {
+class Funcionario extends Usuario implements \JsonSerializable{
 	
 	private $matricula;
 	private $funcao;
@@ -47,6 +47,26 @@ class Funcionario extends Usuario {
 		$this->podeRealizarBackup = $podeRealizarBackup;
 
 	}
+	
+	public function jsonSerialize(){
+        return [
+			"id"=> $this->getId(),
+            "email"=> $this->getEmail(),
+            "nome"=>$this->getNome(),
+            "sobrenome"=>$this->getSobrenome(),
+			"cadastroConfirmado"=>$this->confirmouCadastro(),
+            "matricula"=> $this->getMatricula(),
+            "funcao"=> $this->getFuncao(),
+            "podeCadastrarObra"=>$this->isPodeCadastrarObra(),
+            "podeGerenciarObra"=>$this->isPodeGerenciarObra(),
+			"podeRemoverObra"=>$this->isPodeGerenciarObra(),
+			"podeCadastrarNoticia"=>$this->isPodeCadastrarNoticia(),
+			"podeGerenciarNoticia"=>$this->isPodeGerenciarNoticia(),
+			"podeRemoverNoticia"=>$this->isPodeRemoverNoticia(),
+			"podeRealizarBackup"=>$this->isPodeRealizarBackup()
+
+        ];
+    }
 	
 	/**
 	* Obtém matrícula do funcionário.

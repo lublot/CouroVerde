@@ -8,7 +8,7 @@ namespace models;
  * @author MItologhic Software
  *
  */
-class Usuario {
+class Usuario{
 
     
     /* atributos do usuário */
@@ -37,6 +37,7 @@ class Usuario {
         $this->cadastroConfirmado = $cadastroConfirmado;
         $this->tipoUsuario = $tipoUsuario;
     }
+    
     
 
     /**

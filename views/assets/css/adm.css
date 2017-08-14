@@ -48,13 +48,17 @@
 /**************************** Funcionário **************************/
 
 .caixa-funcionario {
-    border: 1px solid black;
+    box-shadow: 1px 2px 5px  gray;
     border-radius: 5px;
     margin-bottom: 2vh;
 }
 
-.caixa-funcionario:hover {
-    background-color: #b3b3b3;
+.caixa-funcionario a{
+    color: black;
+}
+
+.caixa-funcionario a:hover{
+    color: #4FC1E9;
 }
 
 .caixa-funcionario h5 {

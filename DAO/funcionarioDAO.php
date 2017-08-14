@@ -40,7 +40,6 @@ class FuncionarioDAO extends Database{
         $id = $resultado[0]->getId();
 
         $queryFuncionario = "INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('$matricula', '$id', '$funcao', '$cadastraObra', '$gerenciaObra', '$removeObra', '$cadastraNoticia', '$gerenciaNoticia', '$removeNoticia', '$backup')";
-        echo $queryFuncionario;
         try{
             $this->PDO->query($queryFuncionario);
         }catch(PDOException $e){
@@ -72,7 +71,7 @@ class FuncionarioDAO extends Database{
 
             $query .= implode(" AND ",$aux);
         }
-
+        
         $this->PDO->query($query);
 
     }
@@ -127,7 +126,7 @@ class FuncionarioDAO extends Database{
 
         //Faço uma busca na tabela funcionario e retorno os valores
         $result = $this->PDO->query($query);
-
+        
         $funcionarios = array();
         $usuarioDAO = new UsuarioDAO();
 

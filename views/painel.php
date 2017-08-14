@@ -57,8 +57,8 @@
       </a>
       <div id="submenu-funcionarios" class="panel-collapse collapse">
           <div class="panel-body">
-              <a href="#" class="link" >Cadastrar Funcionário</a><br><br>
-              <a href="#" class="link" >Gerenciar Funcionários</a>
+              <a href=<?php echo ROOT_URL.'funcionario/cadastrar' ?> class="link" >Cadastrar Funcionário</a><br><br>
+              <a href=<?php echo ROOT_URL.'funcionario/' ?> class="link" >Gerenciar Funcionários</a>
           </div>
       </div>
     </h4> <br>

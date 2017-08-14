@@ -43,6 +43,14 @@ class funcionarioController extends mainController {
      }
 
     protected $dados = array();
+
+    public function index(){
+        if(VerificarPermissao::isAdministrador()){
+            $this->carregarConteudo('homeFuncionario',array());
+        }else{
+            $this->carregarConteudo('permissaoNegada',array());
+        }
+    }
     /**
     * Realiza o cadastro de um funcionário.
     */
@@ -171,6 +179,36 @@ class funcionarioController extends mainController {
         }
     }
 
+    public function gerenciar($parametros){
+        if(VerificarPermissao::isAdministrador()){
+            $matricula = array_shift($parametros);
+
+            $funcionarioDAO = new FuncionarioDAO();
+            $funcionarioDAO = $funcionarioDAO->buscar(array(),array("matricula"=>$matricula));
+            
+            if(count($funcionarioDAO)>0){
+                $this->dados['matricula'] = $matricula;
+                $this->dados['nome'] = $funcionarioDAO[0]->getNome();
+                $this->dados['sobrenome'] = $funcionarioDAO[0]->getSobrenome();
+                $this->dados['funcao'] = $funcionarioDAO[0]->getFuncao();
+                $this->dados['email'] = $funcionarioDAO[0]->getEmail();
+                $this->dados['podeCadastrarObra'] = $funcionarioDAO[0]->isPodeCadastrarObra();
+                $this->dados['podeGerenciarObra'] = $funcionarioDAO[0]->isPodeGerenciarObra();
+                $this->dados['podeRemoverObra'] = $funcionarioDAO[0]->isPodeRemoverObra();
+                $this->dados['podeCadastrarNoticia'] = $funcionarioDAO[0]->isPodeCadastrarNoticia();
+                $this->dados['podeGerenciarNoticia'] = $funcionarioDAO[0]->isPodeGerenciarNoticia();
+                $this->dados['podeRemoverNoticia'] = $funcionarioDAO[0]->isPodeRemoverNoticia();
+                $this->dados['podeRealizarBackup'] = $funcionarioDAO[0]->isPodeRealizarBackup();
+            }else{
+                $this->dados['alerta'] = "Funcionário não encontrado";
+            }
+            
+            $this->carregarConteudo('gerenciarFuncionario',$this->dados);
+        }else{
+
+        }
+    }
+
     public function gerenciarFuncionario(){
         if($this->verificarFuncionario() == 'Administrador') {
             if(ValidacaoDados::validarForm($this->POST,array('matricula','funcao'))){
@@ -223,21 +261,26 @@ class funcionarioController extends mainController {
         }
     }
 
-    protected function removerFuncionario(){
-        if($this->verificarFuncionario() == 'Administrador') {
-            if(ValidacaoDados::validarForm($this->POST,array('senhaAdmin','matriculaFuncionario'))){  
-                $matricula = $this->POST['matriculaFuncionario'];
-                $senha = md5($this->POST['senhaAdmin']);
+    public function remover(){
+        if(VerificarPermissao::isAdministrador()) {
+            if(ValidacaoDados::validarForm($_POST,array('senhaAdmin','matriculaFuncionario'))){  
+                $matricula = $_POST['matriculaFuncionario'];
+                $senha = md5($_POST['senhaAdmin']);
 
                 $adminDAO = new UsuarioDAO();
-                $adminDAO = $adminDAO->buscar(array('senha',array("tipoUsuario"=>"ADMINISTRADOR")));
-                $senhaArmazenada = $adminDAO[0]->getSenhaAdmin();
+                $adminDAO = $adminDAO->buscar(array('senha'),array("tipoUsuario"=>"ADMINISTRADOR"));
+                $senhaArmazenada = $adminDAO[0]->getSenha();
 
                 if(strcmp($senhaArmazenada,$senha)==0){// Se a senha do administrador estiver correta, IMPLEMENTAR....
                     $funcionarioDao = new FuncionarioDAO();
+                    $funcionario = $funcionarioDao->buscar(array(),array("matricula"=>$matricula));
+                    $userDAO = new UsuarioDAO();
+                    $userDAO->alterar(array("tipoUsuario"=>"USUARIO"),array("idUsuario"=>$funcionario[0]->getId()));
+
                     $funcionarioDao->remover(array('matricula'=>$matricula));
+                    echo json_encode(array("success"=>true));
                 }else{
-                    throw new SenhaIncorretaException();
+                    echo json_encode(array("success"=>false,"erro"=>"Senha Incorreta"));
                 }
             }
         }
@@ -251,7 +294,7 @@ class funcionarioController extends mainController {
     */
     public function buscarTodosFuncionarios(){
         $funcionarioDAO = new funcionarioDAO();
-        $resultados = $funcionarioDAO->buscarFuncionarioPorCampo(null, null);
+        $resultados = $funcionarioDAO->buscarFuncionarioPorCampo(array(), array());
 
         return $resultados;
     }
@@ -302,6 +345,20 @@ class funcionarioController extends mainController {
 
             return $resultados;
         }
+    }
+
+    public function listarTodosFuncionarios(){
+        if(VerificarPermissao::isAdministrador()){
+            if(isset($_POST['titulo']) && !empty($_POST['titulo'])){
+                
+            }else{
+                $funcionarioDAO = new FuncionarioDAO();
+                $funcionarioDAO = $funcionarioDAO->buscar(array(),array());
+                echo json_encode($funcionarioDAO);
+            }
+        }else{
+
+        }   
     }
 
 }

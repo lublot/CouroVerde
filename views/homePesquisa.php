@@ -39,22 +39,22 @@
 
         <!-- Modal Tipo-->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Deseja realmente remover esta pergunta?</h4>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Deseja realmente remover esta pergunta?</h4>
+                </div>
+                <div class="modal-body">
+                    <h5>Por favor, informe a sua senha!</h5>
+                    <input id="password" name="password" type="password" class="form-control" placeholder="Insira a sua senha">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                    <button id="confirmaRemover" type="button" class="btn btn-danger" data-dismiss="modal">Remover</button>
+                </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <h5>Por favor, informe a sua senha!</h5>
-                <input id="password" name="password" type="password" class="form-control" placeholder="Insira a sua senha">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                <button id="confirmaRemover" type="button" class="btn btn-danger" data-dismiss="modal">Remover</button>
-            </div>
-            </div>
-        </div>
         </div>
 
         <?php $this->carregarRodape();?>
