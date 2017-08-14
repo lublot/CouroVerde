@@ -40,7 +40,7 @@ class FuncionarioDAO extends Database{
         $id = $resultado[0]->getId();
 
         $queryFuncionario = "INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('$matricula', '$id', '$funcao', '$cadastraObra', '$gerenciaObra', '$removeObra', '$cadastraNoticia', '$gerenciaNoticia', '$removeNoticia', '$backup')";
-        
+        echo $queryFuncionario;
         try{
             $this->PDO->query($queryFuncionario);
         }catch(PDOException $e){

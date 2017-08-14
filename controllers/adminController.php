@@ -1,24 +1,18 @@
 <?php
 namespace controllers;
-use util\ValidacaoDados as ValidacaoDados;
+use util\VerificarPermissao as VerificarPermissao;
 use exceptions\NivelDeAcessoInsuficienteException as NivelDeAcessoInsuficienteException;
-use DAO\FuncionarioDAO as FuncionarioDAO;
+
+if(!isset($_SESSION)){session_start();}
 class adminController extends mainController{
 
-    private $POST = array('senhaAdmin'=>'abs','matriculaFuncionario'=>'15111157');
-
-
-
-
-    public function listarTodosFuncionarios(){
-        if(isset($_SESSION['tipoUsuario']) && !empty($_SESSION['tipoUsuario'])){
-            if($_SESSION['tipoUsuario'] == 'Administrador'){
-                $funcionarioDAO = new FuncionarioDAO(); // não seria "funcionarioDAO"?
-                $funcionarios = $funcionarioDAO->buscar();
-
-                echo json_encode($funcionarios);
-            }
+    public function index(){
+        if(VerificarPermissao::isAdministrador() || VerificarPermissao::isFuncionario()){
+            $this->carregarConteudo('homeAdmin',array());
+        }else{
+            throw new NivelDeAcessoInsuficienteException();
         }
+        
     }
 
 }

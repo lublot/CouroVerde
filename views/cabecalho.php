@@ -55,7 +55,7 @@
                         if($_SESSION['tipoUsuario'] == 'ADMINISTRADOR' || $_SESSION['tipoUsuario'] == 'FUNCIONARIO'){
                             echo '<span class="item-cabecalho">
                                     <i class="fa fa-cogs" aria-hidden="true"></i>
-                                    <a href="#"> Admin </a>
+                                    <a href="'.ROOT_URL."admin".'"> Admin </a>
                                     </span>';
                         }
                     }                             
@@ -87,7 +87,7 @@
                         if($_SESSION['tipoUsuario'] == 'ADMINISTRADOR' || $_SESSION['tipoUsuario'] == 'FUNCIONARIO'){
                             echo '<span class="item-cabecalho">
                                     <i class="fa fa-cogs" aria-hidden="true"></i>
-                                    <a href="#">Painel Administrativo </a>
+                                    <a href="'.ROOT_URL.'admin'.'">Painel Administrativo </a>
                                     </span>';
                         }
                     }

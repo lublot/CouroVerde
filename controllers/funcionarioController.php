@@ -12,10 +12,12 @@ use \exceptions\NivelDeAcessoInsuficienteException as NivelDeAcessoInsuficienteE
 use \exceptions\MatriculaInvalidaException as MatriculaInvalidaException;
 use DAO\funcionarioDAO as funcionarioDAO;
 use DAO\usuarioDAO as usuarioDAO;
+use \util\VerificarPermissao as VerificarPermissao;
 use \util\GerenciarSenha as GerenciarSenha;
 use \util\ValidacaoDados as ValidacaoDados;
 use \models\Funcionario as Funcionario;
 
+if(!isset($_SESSION)){session_start();}
 class funcionarioController extends mainController {
 
     /**
@@ -40,95 +42,119 @@ class funcionarioController extends mainController {
         $_SESSION['tipoUsuario'] = 'Administrador';
      }
 
+    protected $dados = array();
     /**
     * Realiza o cadastro de um funcionário.
     */
-    public function cadastrarFuncionario() {
-        if($this->verificarFuncionario() == 'Administrador') {
-            if (ValidacaoDados::validarForm($_POST, array("nome","sobrenome","email","senha", "matricula", "funcao"))) {
-                $funcionarioDAO = new FuncionarioDAO();
-                $usuarioDAO = new UsuarioDAO();
+    public function cadastrar() {
+        
+            if(VerificarPermissao::isAdministrador()){
+                
+                try{
+                    if(isset($_POST) && !empty($_POST)){
+                        if (ValidacaoDados::validarForm($_POST, array("nome","sobrenome","email","senha", "matricula", "funcao"))) {
+                            $funcionarioDAO = new FuncionarioDAO();
+                            $usuarioDAO = new UsuarioDAO();
 
-                $email = addslashes($_POST["email"]);
-                $funcionario = $funcionarioDAO->buscar(array(), array("email"=>$email));
+                            $email = addslashes($_POST["email"]);
+                            $funcionario = $funcionarioDAO->buscar(array(), array("email"=>$email));
 
-                /*if(count($funcionario) > 0) { //verifica se já existe usuário cadastrado
-                    throw new EmailJaCadastradoException();
-                }*/
+                            /*if(count($funcionario) > 0) { //verifica se já existe usuário cadastrado
+                                throw new EmailJaCadastradoException();
+                            }*/
 
-                if (!ValidacaoDados::validarNome($_POST["nome"])) {
-                    throw new NomeInvalidoException();
+                            if (!ValidacaoDados::validarNome($_POST["nome"])) {
+                                throw new NomeInvalidoException("O nome não pode conter números ou ser vazio.");
+                            }
+
+                            if (!ValidacaoDados::validarNome($_POST["sobrenome"])) {
+                                throw new SobrenomeInvalidoException("O sobrenome não pode conter números ou ser vazio.");
+                            }
+                                
+                            if (!ValidacaoDados::validarSenha($_POST["senha"])) {
+                                throw new SenhaInvalidaException("A senha deve conter entre 8 e 32 caracteres.Não são permitidos espaços.");
+                            }
+                                
+                            if (!ValidacaoDados::validarEmail($_POST["email"])) {
+                                throw new EmailInvalidoException("Insira um email válido.");
+                            }
+
+                            if (!ValidacaoDados::validarMatricula($_POST["matricula"])) {
+                                throw new MatriculaInvalidaException("Insira uma matrícula válida.");
+                            }
+
+                            if (!ValidacaoDados::validarNome($_POST["funcao"])) {
+                                throw new NomeInvalidoException("O campo função não pode conter números ou ser vazio");
+                            }
+
+                            $nome = addslashes($_POST["nome"]);
+                            $sobrenome = addslashes($_POST["sobrenome"]);
+                            $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
+                            $email = addslashes($_POST["email"]);
+                            $funcao = addslashes($_POST["funcao"]);
+                            $matricula = $_POST["matricula"];
+                            $podeCadastrarObra = 0;
+                            $podeGerenciarObra = 0;
+                            $podeRemoverObra = 0;
+                            $podeCadastrarNoticia = 0;
+                            $podeGerenciarNoticia = 0;
+                            $podeRemoverNoticia = 0;
+                            $podeRealizarBackup = 0;
+
+                            if(isset($_POST["cadastroObra"])) {
+                                $podeCadastrarObra = 1;
+                            }
+                            if(isset($_POST["gerenciarObra"])) {
+                                $podeGerenciarObra = 1;
+                            }
+                            if(isset($_POST["remocaoObra"])) {
+                                $podeRemoverObra = 1;
+                            }
+                            if(isset($_POST["cadastroNoticia"])) {
+                                $podeCadastrarNoticia = 1;
+                            }
+                            if(isset($_POST["gerenciarNoticia"])) {
+                                $podeGerenciarNoticia = 1;
+                            }
+                            if(isset($_POST["remocaoNoticia"])) {
+                                $podeRemoverNoticia = 1;
+                            }
+                            if(isset($_POST["backup"])) {
+                                $podeRealizarBackup = 1;
+                            }
+                            
+                            $novoFuncionario = new Funcionario(null, $email, $nome, $sobrenome, $senha, 1, "FUNCIONARIO",
+                            $matricula, $funcao, $podeCadastrarObra, $podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia,
+                            $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup);
+
+                            $funcionarioDAO->inserir($novoFuncionario);
+                        }else {
+                            throw new DadosCorrompidosException();
+                        }
+                    }
                 }
-
-                if (!ValidacaoDados::validarNome($_POST["sobrenome"])) {
-                    throw new SobrenomeInvalidoException();
+                catch(NomeInvalidoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }
+                catch(SobrenomeInvalidoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }
+                catch(EmailInvalidoException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }
+                catch(MatriculaInvalidaException $e){
+                    $this->dados['exception'] = $e->getMessage();
+                }
+                catch(Exception $e){
+                    $this->dados['exception'] = $e->getMessage();
                 }
                     
-                if (!ValidacaoDados::validarSenha($_POST["senha"])) {
-                    throw new SenhaInvalidaException();
-                }
-                    
-                if (!ValidacaoDados::validarEmail($_POST["email"])) {
-                    throw new EmailInvalidoException();
-                }
-
-                if (!ValidacaoDados::validarMatricula($_POST["matricula"])) {
-                    throw new MatriculaInvalidaException();
-                }
-
-                if (!ValidacaoDados::validarNome($_POST["funcao"])) {
-                    throw new NomeInvalidoException();
-                }
-
-                $nome = addslashes($_POST["nome"]);
-                $sobrenome = addslashes($_POST["sobrenome"]);
-                $senha = GerenciarSenha::criptografarSenha($_POST["senha"]);
-                $email = addslashes($_POST["email"]);
-                $funcao = addslashes($_POST["funcao"]);
-                $matricula = $_POST["matricula"];
-                $podeCadastrarObra = 0;
-                $podeGerenciarObra = 0;
-                $podeRemoverObra = 0;
-                $podeCadastrarNoticia = 0;
-                $podeGerenciarNoticia = 0;
-                $podeRemoverNoticia = 0;
-                $podeRealizarBackup = 0;
-
-                if(isset($_POST["cadastroObra"])) {
-                    $podeCadastrarObra = 1;
-                }
-                if(isset($_POST["gerenciarObra"])) {
-                    $podeGerenciarObra = 1;
-                }
-                if(isset($_POST["remocaoObra"])) {
-                    $podeRemoverObra = 1;
-                }
-                if(isset($_POST["cadastroNoticia"])) {
-                    $podeCadastrarNoticia = 1;
-                }
-                if(isset($_POST["gerenciarNoticia"])) {
-                    $podeGerenciarNoticia = 1;
-                }
-                if(isset($_POST["remocaoNoticia"])) {
-                    $podeRemoverNoticia = 1;
-                }
-                if(isset($_POST["backup"])) {
-                    $podeRealizarBackup = 1;
-                }
-
-                $novoFuncionario = new Funcionario(null, $email, $nome, $sobrenome, $senha, 1, "FUNCIONARIO",
-                $matricula, $funcao, $podeCadastrarObra, $podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia,
-                $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup);
-
-                $funcionarioDAO->inserir($novoFuncionario);
+                $this->carregarConteudo('cadastroFuncionario',$this->dados);
+            }else {
+                throw new NivelDeAcessoInsuficienteException();
             }
-            else {
-                throw new DadosCorrompidosException();
-            }
-        }
-        else {
-            throw new NivelDeAcessoInsuficienteException();
-        }
+        
+        
     }
 
     /**

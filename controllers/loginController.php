@@ -3,6 +3,7 @@ namespace controllers;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use util\GerenciarSenha as GerenciarSenha;
 use \DAO\usuarioDAO as usuarioDAO;
+use \DAO\FuncionarioDAO as FuncionarioDAO;
 use \models\Usuario as Usuario;
 use \models\Funcionario as Funcionario;
 use \models\Administrador as Administrador;
@@ -443,13 +444,13 @@ class loginController extends mainController{
             $funcionario = $funcionarioDAO->buscar(array(), array('idUsuario'=>$usuario->getId()));
 
             if(count($funcionario) > 0) {
-                $_SESSION['podeCadastrarObra'] = $funcionario->isPodeCadastrarObra();
-                $_SESSION['podeGerenciarObra'] = $funcionario->isPodeGerenciarObra();
-                $_SESSION['podeRemoverObra'] = $funcionario->isPodeRemoverObra();
-                $_SESSION['podeCadastrarNoticia'] = $funcionario->isPodeCadastrarNoticia();
-                $_SESSION['podeGerenciarNoticia'] = $funcionario->isPodeGerenciarNoticia();
-                $_SESSION['podeRemoverNoticia'] = $funcionario->isPodeRemoverNoticia();
-                $_SESSION['podeRealizarBackup'] = $funcionario->isPodeRealizarBackup(); 
+                $_SESSION['podeCadastrarObra'] = $funcionario[0]->isPodeCadastrarObra();
+                $_SESSION['podeGerenciarObra'] = $funcionario[0]->isPodeGerenciarObra();
+                $_SESSION['podeRemoverObra'] = $funcionario[0]->isPodeRemoverObra();
+                $_SESSION['podeCadastrarNoticia'] = $funcionario[0]->isPodeCadastrarNoticia();
+                $_SESSION['podeGerenciarNoticia'] = $funcionario[0]->isPodeGerenciarNoticia();
+                $_SESSION['podeRemoverNoticia'] = $funcionario[0]->isPodeRemoverNoticia();
+                $_SESSION['podeRealizarBackup'] = $funcionario[0]->isPodeRealizarBackup(); 
             } else {
                 throw new UsuarioInexistenteException();
             }
