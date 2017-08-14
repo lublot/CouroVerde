@@ -113,7 +113,7 @@ function carregarPerguntas(perguntaRecebida){
     divPergunta.appendChild(titulo);
     
     //Verifica se a pergunta é fechada
-    if(pergunta['tipoPergunta'] != 'ABERTA'){
+    if(pergunta['tipoPergunta'] != 'ABERTA' && pergunta['tipoPergunta'] != 'Aberta'){
         var opt = perguntaRecebida['opcoes'];
         // var opt = carregarOpcoes(perguntaRecebida['opcoes']);
         for(var i=0; i<opt.length;i++){
@@ -329,6 +329,13 @@ btnConfirmaAddPergunta.addEventListener('click',function(){
     for(var i=0;i<campos.length;i++){ // Procura a opção selecionada
         if(campos[i].checked){
             tipoSelecionado = campos[i].value;
+            if(tipoSelecionado == 'Aberta'){
+                tipoSelecionado = "ABERTA";
+            }else if(tipoSelecionado == 'Múltipla Escolha'){
+                tipoSelecionado = "MULTIPLA ESCOLHA";
+            }else if(tipoSelecionado == 'Única Escolha'){
+                tipoSelecionado = "UNICA ESCOLHA";
+            }
             addPergunta(tipoSelecionado);
         }
     }

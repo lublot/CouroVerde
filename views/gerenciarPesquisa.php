@@ -12,10 +12,11 @@
         <?php $this->carregarCabecalho();?>
         <div class='container'>
             
-            <div class="col-sm-3"></div>
+            <div class="col-sm-3">
+                <?php $this->carregarPainel()?>
+            </div>
             <div id="pesquisa" class="col-sm-9">
-                <div id='alerta' class="alert alert-warning alert-dismissible" role="alert" style="display:none;">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div id='alerta' class="alert alert-warning" role="alert" style="display:none;">
                     <span id="aviso"></span>
                 </div>
                 <form class="form-horizontal" id="principal">

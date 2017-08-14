@@ -14,7 +14,9 @@
         <?php $this->carregarCabecalho()?>
         <div class="container">
             
-            <div class="col-xs-3"></div>
+            <div class="col-xs-3">
+                <?php $this->carregarPainel()?>
+            </div>
             <div class="col-xs-9">
                 <div class="panel">
                     <h4 id="alerta"></h4>

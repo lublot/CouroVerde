@@ -33,8 +33,8 @@
     
     <div id="submenu-funcionario" class="panel-collapse collapse ">
       <div class="panel-body">
-          <a href="#" class="link" >Criar Pesquisa</a><br><br>
-          <a href="#" class="link" >Gerenciar Pesquisas</a>
+          <a href=<?php echo ROOT_URL.'pesquisa/cadastrar' ?> class="link" >Criar Pesquisa</a><br><br>
+          <a href=<?php echo ROOT_URL.'pesquisa/' ?> class="link" >Gerenciar Pesquisas</a>
       </div>
     </div>
     </h4> <br>

@@ -275,9 +275,9 @@ class pesquisaController extends mainController{
             $pesquisaDAO = new PesquisaDAO();  
             $perguntaPesquisaDAO = new PerguntaPesquisaDAO();
             
-            $perguntas = $perguntaPesquisaDAO->buscarPergunta(array(),array());
+            $perguntas = $perguntaPesquisaDAO->buscarPergunta(array(),array("idPesquisa"=>$_POST['idPesquisa']));
 
-
+            
             $opcoesTodasPerguntas;
             $perguntaOpcaoDAO = new PerguntaOpcaoDAO();
           
@@ -288,6 +288,7 @@ class pesquisaController extends mainController{
               }
             }
             
+          
             $perguntaDAO = new PerguntaDAO();
             
             $opcaoDAO = new OpcaoDAO();
@@ -295,6 +296,7 @@ class pesquisaController extends mainController{
               foreach($opcoesTodasPerguntas as $opcoes) {
                 if(isset($opcoes) && !empty($opcoes)){
                   foreach($opcoes as $opcao){
+                    
                     $opcaoDAO->remover(array("idOpcao"=>$opcao->getIdOpcao())); 
                   }              
                 }
@@ -302,9 +304,11 @@ class pesquisaController extends mainController{
             }
 
             foreach($perguntas as $pergunta){
+              
               $perguntaDAO->remover(array("idPergunta"=>$pergunta->getIdPergunta()));
             }
-
+            
+            
             $pesquisaDAO->remover(array("idPesquisa"=>$_POST['idPesquisa']));
             echo json_encode(array("success"=>true));
           }else{

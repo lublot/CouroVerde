@@ -15,6 +15,13 @@ btnConfirmaAddPergunta.addEventListener('click',function(){
     for(var i=0;i<campos.length;i++){ // Procura a opção selecionada
         if(campos[i].checked){
             tipoSelecionado = campos[i].getAttribute('tipo');
+            if(tipoSelecionado == 'Aberta'){
+                tipoSelecionado = "ABERTA";
+            }else if(tipoSelecionado == 'Múltipla Escolha'){
+                tipoSelecionado = "MULTIPLA ESCOLHA";
+            }else if(tipoSelecionado == 'Única Escolha'){
+                tipoSelecionado = "UNICA ESCOLHA";
+            }
             addPergunta(tipoSelecionado);
         }
     }
