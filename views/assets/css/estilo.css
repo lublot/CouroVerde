@@ -457,6 +457,7 @@ input#busca {
     position: relative;
     overflow: hidden;
 }
+
 .fileUpload input.upload {
     position: absolute;
     top: 0;
@@ -467,4 +468,23 @@ input#busca {
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
+}
+
+
+/*********************************** Gerenciamento de Obras ********************************/
+
+.caixa-obra {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 2vh;
+    padding-top: 2vh;
+}
+
+.caixa-obra:hover {
+    background-color: #b3b3b3;
+}
+
+.caixa-obra h5 {
+    transition: background-color 1s;
+    font-size: 2vh;
 }
