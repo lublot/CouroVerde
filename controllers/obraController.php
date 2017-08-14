@@ -371,10 +371,15 @@ class obraController extends mainController {
 
     private function obterArquivos($numInventario) {
         $caminhoPastaImages = dirname(__DIR__).'/media/obras/imagens/';
+        $caminhoImagesExibir = '../media/obras/imagens/';
         $caminhoPastaImages .= $numInventario;
+        $caminhoImagesExibir .= $numInventario;
 
         $caminhoPastaModelo3D = dirname(__DIR__).'/media/obras/modelo3d/';
+        $caminhoModelo3DExibir = '../media/obras/imagens/';        
         $caminhoPastaModelo3D .= $numInventario; 
+        $caminhoModelo3DExibir .= $numInventario; 
+
         $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
         $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
 
@@ -390,15 +395,13 @@ class obraController extends mainController {
 
         $caminhosImagens = array();
         
-        var_dump($imagens);
-
         foreach($imagens as $imagem) {
-            $caminhosImagens[] = $caminhoPastaImages . '/' . $imagem;
+            $caminhosImagens[] = $caminhoImagesExibir . '/' . $imagem;
         }
 
         var_dump($modelo3D);
 
-        $caminhoPastaModelo3D = $caminhoPastaModelo3D.$modelo3D[2];
+        $caminhoPastaModelo3D = $caminhoModelo3DExibir.$modelo3D[2];
         
         return array($caminhosImagens, $caminhoPastaModelo3D);
     }    
@@ -618,7 +621,8 @@ class obraController extends mainController {
     */
     public function obterClassificacao($idClassificacao) {
         $obraDAO = new ObraDAO();
-        return $obraDAO->buscarClassificacao(array(), array("idClassificacao" => $idClassificacao));
+        $classificacao = $obraDAO->buscarClassificacao(array(), array("idClassificacao" => $idClassificacao));
+        return $classificacao[0];
     }    
 
     public function obterObrasClassificacao($idClassificacao) {

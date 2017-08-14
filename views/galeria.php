@@ -1,30 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
-        <meta charset="utf-8" />
-
-        <meta name="description" content="Sertour" />
-        <meta name=viewport  content="width=device-width, initial-scale=1" />
-
         <title>Sertour</title>
-        <link rel="stylesheet" href="assets/css/materialize.css">
-        <link rel="stylesheet" href="assets/css/bootstrap.css">
-        <link rel="stylesheet" href="assets/css/bootstrap-theme.css">
-        <link rel="stylesheet" href="assets/css/estilo.css">
-        <link rel="stylesheet" href="assets/css/bootstrap-social.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+        <meta charset="utf-8">
+        <meta name=viewport  content="width=device-width, initial-scale=1" />
+        <?php $this->carregarDependenciasGaleria();?>
+        <?php $this->carregarDependencias();?>                
     </head>
     <body>
-
         <style type="text/css">
             .container{
                 /*tira a galeira de baixo do painel lateral*/
                 padding-left: 19%;    
             }
         </style>
+        <?php $this->carregarCabecalho();?>
+        <div class="container" style="">
             <!--Painel lateral com as categorias-->
-            <ul id="slide-out" class="side-nav fixed" style="max-width:20%;">
+            <ul class="side-nav fixed" style="max-length: 30%">
                 <!--SUGESTÃO PARA INTEGRAÇÃO-->
                 <!--caso ele esteja em uma categoria, volta pra galeria geral-->
                 <li><a href="#!">CLASSIFICAÇÕES</a></li>
@@ -42,45 +35,44 @@
                     foreach($classificacoes as $classificacao) {
                         echo "<li><a class='waves-effect' href='?id=".$classificacao->getId()."'>".$classificacao->getNome()."</a></li>";
                     }
-
-
                 ?>
             </ul>
+        </div>
+        </div>
             <!--Inicialização ainel lateral-->
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $(".button-collapse").sideNav();
-                $('.collapsible').collapsible();
-            });
-        </script>
         <br>
-        <!--Container que circunda a galeria-->
-        <div class="container" id="pagina">
-            <div class="row text-right">
-                <!--Caso ele tenha escolhido alguma-->
-                <h4>Categoria Atual</h4> 
-            </div>
-            <?php
-                if(isset($_GET['id'])) {
+        <?php
+            if(isset($_GET['id'])) {
+                $obraController = new ObraController();
+                $classificacaoEscolhida = $obraController->obterClassificacao($_GET['id']);
+                
+                echo '<!--Container que circunda a galeria-->
+                        <div class="container" id="pagina" style="margin-top: 0; float: right;">
+                            <div class="row text-right">
+                                <!--Caso ele tenha escolhido alguma-->
+                                <h4>'.$classificacaoEscolhida->getNome().'</h4> 
+                            </div>';
+                            
                     $obras = $obraController->obterObrasClassificacao($_GET['id']);
-
-                    $cont = 0;
+                    $numPag = 1;
+                    $numImgsLinha = 0;
+                    $numImgs = 0;
 
                     foreach($obras as $obra) {
-                        if($cont == 0) {
+                        $numImgs++;
+                        if($numImgsLinha == 0) {
                             // 1 row para cada colona de imagens
                             echo '<div class="row"> <!-abre linha-->';
                         }
 
-                        $cont = $cont + 1;                        
+                        $numImgsLinha = $numImgsLinha + 1;
 
                         echo '<!--um <col-xs-6 col-md-3> para cada imagem de obra a ser exibida-->
-                                <div class="col-xs-6 col-md-3">
+                                <div id="img'.$numImgs.'_'.$numPag.'" class="col-xs-6 col-md-3" hidden>
                                     <!--#href contendo o caminho para exibição da obra-->
-                                    <a href="imagens/noticias/img1.jpg">
+                                    <a href="LINK_PAGINA_IMG">
                                         <div class="thumbnail">
                                             <!--Caminho da imagem exibida representando uma obra-->
-                                            '.'aaaaaaaaaaaaaaaaaa'.$obra->getCaminhoImagem1().'
                                             <img src="'.$obra->getCaminhoImagem1().'" style="height:150px">
                                             <div class="caption">
                                                 <h5>
@@ -92,22 +84,26 @@
                                     </a>
                                 </div>';
 
-                        if($cont == 4) {
+                        if($numImgsLinha == 4) {
                             echo '</div><!-fecha linha-->';                            
-                            $cont = 0;
-                        }  
-                                              
+                            $numImgsLinha = 0;
+                        }
+
+                        if($numImgs == 8) {
+                            $numImgs = 0;
+                            $numPag++;
+                        }                      
                     }
                 }                
             ?>
             <div class="row text-center">
-                <button type="button" class="btn btn-sm btn-danger">Carregar mais</button>
-            </div>
+                <button type="button" class="btn btn-primary btn-mais">Carregar Mais</button>
+            </div>    
+            <div class="row text-center">
+                <button type="button" onclick="topFunction()" id="myBtn" class="btn btn-primary btn-voltar" style="display: none;">Voltar Ao Início</a>                                 
+            </div>                
         </div>
+        
     </body>
-    <!--  -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="assets/js/bootstrap.js"></script>
-    <script type="text/javascript" src="assets/js/materialize.js"></script>
-    <script type="text/javascript" src="assets/js/galeria-script.js"></script>    
+    <!--  -->  
 </html>
