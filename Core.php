@@ -52,13 +52,28 @@ class Core{
             }else{
                 $metodo = "index";
             }
-
             if(!isset($this->parametros) || empty($this->parametros)){
                 $this->parametros = array();
             }
 
-            $c = new $this->controller();//Instancia o controller desejado
-            $c->$metodo($this->parametros);//Chama o metodo desejado
+
+            if(file_exists($this->controller.'.php') && method_exists(new $this->controller(), $metodo)) {
+                $c = new $this->controller();//Instancia o controller desejado
+                $c->$metodo($this->parametros);//Chama o metodo desejado                
+            } else {
+                if( !headers_sent() ){
+                        header("Location: ../views/erro404.php");
+                }else{
+                    ?>
+                        <script type="text/javascript">
+                        document.location.href="../views/erro404.php";
+                        </script>
+                        Redirecting to <a href="../views/erro404.php">views/erro404.php</a>
+                    <?php
+                }
+                die();                
+            }
+
         }
        // call_user_func_array(array($c, $this->metodo), $this->parametros);
         

@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name=viewport  content="width=device-width, initial-scale=1" />
         <?php $this->carregarDependenciasGaleria();?>
-        <?php $this->carregarDependencias();?>                
+        <?php $this->carregarDependencias();?>
     </head>
     <body>
         <style type="text/css">
@@ -57,7 +57,7 @@
                     $numPag = 1;
                     $numImgsLinha = 0;
                     $numImgs = 0;
-
+                    
                     foreach($obras as $obra) {
                         $numImgs++;
                         if($numImgsLinha == 0) {
@@ -70,7 +70,7 @@
                         echo '<!--um <col-xs-6 col-md-3> para cada imagem de obra a ser exibida-->
                                 <div id="img'.$numImgs.'_'.$numPag.'" class="col-xs-6 col-md-3" hidden>
                                     <!--#href contendo o caminho para exibição da obra-->
-                                    <a href="LINK_PAGINA_IMG">
+                                    <a href="'.'../obra?num='.$obra->getNumInventario().'.php">
                                         <div class="thumbnail">
                                             <!--Caminho da imagem exibida representando uma obra-->
                                             <img src="'.$obra->getCaminhoImagem1().'" style="height:150px">
@@ -92,7 +92,8 @@
                         if($numImgs == 8) {
                             $numImgs = 0;
                             $numPag++;
-                        }                      
+                        }
+
                     }
                 }                
             ?>
