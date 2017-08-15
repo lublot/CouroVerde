@@ -49,6 +49,43 @@ class obraController extends mainController {
 
         $_POST['submit'] = $post;
     }
+
+    public function configurarAmbienteParaTesteGerenciamento($numeroInventario, $nome, $titulo, $funcao, $origem, $procedencia,
+    $descricao, $idColecao, $idClassificacao, $altura, $largura, $diametro, $peso, $comprimento, $materiaisContruidos,
+    $tecnicasFabricacao, $autoria, $marcasInscricoes, $historicoObjeto, $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estadoConservacao){
+        $nomeCampos = array(`numeroInventario`,
+        `nome`,
+        `titulo`,
+        `funcao`,
+        `origem`,
+        `procedencia`,
+        `descricao`,
+        `idColecao`,
+        `idClassificacao`,
+        `altura`,
+        `largura`,
+        `diametro`,
+        `peso`,
+        `comprimento`,
+        `materiaisContruidos`,
+        `tecnicasFabricacao`,
+        `autoria`,
+        `marcasInscricoes`,
+        `historicoObjeto`,
+        `modoAquisicao`,
+        `dataAquisicao`,
+        `autor`,
+        `observacoes`,
+        `estadoConservacao`);
+
+        //seta os valores para teste
+        foreach($nomeCampos as $value){
+            $_POST[$value] = $$value;
+        }
+
+        $_POST['submit'] = $post;
+        $_SESSION['podeGerenciarObra'] = true;
+    }
     // public function index() {
     //     if(isset($_POST["submit"])) {
     //         // if(ValidacaoDados::validarForm($_POST, array("colecao"))) {
@@ -522,10 +559,30 @@ class obraController extends mainController {
     public function gerenciarObra(){
         
         //Array com o nome dos campos
-        $nomeCampos = array('nome', 'titulo', 'numInventario', 'idColecao', 'origem', 'procedencia',
-         'idClassificacao', 'funcao', 'palavrasChave', 'descricao', 'altura', 'largura',
-         'diametro', 'peso', 'comprimento', 'materiais', 'tecnicas', 'autoria', 'marcas',
-         'historico', 'modoAquisicao', 'dataAquisicao', 'autor', 'observacoes', 'estado');
+        $nomeCampos = array(`numeroInventario`,
+        `nome`,
+        `titulo`,
+        `funcao`,
+        `origem`,
+        `procedencia`,
+        `descricao`,
+        `idColecao`,
+        `idClassificacao`,
+        `altura`,
+        `largura`,
+        `diametro`,
+        `peso`,
+        `comprimento`,
+        `materiaisContruidos`,
+        `tecnicasFabricacao`,
+        `autoria`,
+        `marcasInscricoes`,
+        `historicoObjeto`,
+        `modoAquisicao`,
+        `dataAquisicao`,
+        `autor`,
+        `observacoes`,
+        `estadoConservacao`);
 
         if(isset($_SESSION['podeGerenciarObra'])){ //verifica se a variavel sessão possui podeCadastrarObra setada
             if($_SESSION['podeGerenciarObra']){ //verfica se o funcionario pode gerenciar obra
@@ -536,11 +593,26 @@ class obraController extends mainController {
 
                     foreach($nomeCampos as $value){ //percorre o nome dos campos
                         if(isset($_POST[$value])){ //verifica se o campo foi modificado
-                            if(!ValidacaoDados::validarCampo($_POST[$value])) { //verifica se o campo está válido
+                            if(ValidacaoDados::validarCampo($_POST[$value])) { //verifica se o campo está válido
+                                $campos [$value] = addslashes($_POST[$value]); //recebe o campo                                
+                            }else{
                                 throw new CampoInvalidoException($value);
                             }
+                        }
+                    }
 
-                            $campos [$value] = addslashes($_POST[$value]); //recebe o campo
+                    $caminhosArquivos = $this->obterArquivos($_POST['numeroInventario']); //obtém o caminho dos arquivos
+                    
+                    $caminhosImagens = $caminhosArquivos[0]; //recebe o caminho das imagens
+                    $caminhoModelo3D = addslashes($caminhosArquivos[1]); //recebe o caminho do modelo 3D
+
+                    if(isset($caminhosArquivos[1])){ //verifica se o arquivo do modelo 3d foi alterado
+                        $campos [$caminhoModelo3D] = addslashes($caminhosArquivos[1]); //modifica o caminho do modelo 3d
+                    }
+            
+                    for($i = 0; $i<5; $i++){ //percorre o array com os caminhos das imagens
+                        if(isset($caminhosImagens[i])){ //verifica se o arquivo foi alterado
+                            $campos [$caminhoImagem.$i] = addslashes($caminhosImagens[$i]); //modifica o caminho do arquivo
                         }
                     }
 
