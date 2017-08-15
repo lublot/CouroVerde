@@ -77,6 +77,20 @@ div#container {
     padding: 10px;
 }
 
+h4.panel-title {
+    font-weight: 900;    
+}
+
+div.panel-collapse {
+    margin-top: 8px;
+    font-weight: 500;
+    background-color: rgb(240, 240, 240);
+    font-size: 14px;
+    font-family: Calibri;
+    color: rgb(10, 10, 10);
+    border-radius: 6px;
+}
+
 div#titulo {
     background-color: #bcd1ec;
     border-color: #e5e5e5 #333333 #eee;
