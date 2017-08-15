@@ -56,7 +56,7 @@ class backupController extends mainController {
         $this->gerenciarQuantidadeBackups(); //verifica e remove, se necessário, algum backup mais antigo        
         $backupDAO = new backupDAO($backup);
         $backupDAO->inserir($backup);
-        header("Refresh:0; url=../views/backup.php");
+        header("Refresh:0; url=../backup");
     }
 
     /**
