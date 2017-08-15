@@ -612,7 +612,7 @@ class obraController extends mainController {
             
                     for($i = 0; $i<5; $i++){ //percorre o array com os caminhos das imagens
                         if(isset($caminhosImagens[i])){ //verifica se o arquivo foi alterado
-                            $campos [$caminhoImagem.$i] = addslashes($caminhosImagens[$i]); //modifica o caminho do arquivo
+                            $campos ['caminhoImagem'.$i] = addslashes($caminhosImagens[$i]); //modifica o caminho do arquivo
                         }
                     }
 
