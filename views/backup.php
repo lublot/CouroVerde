@@ -10,24 +10,14 @@
     <meta name=viewport content="width=device-width, initial-scale=1" />
 
     <title>Backup</title>
-
-
-    <!--Importação do Javascript pessoal e jQuery  -->
-    <script src="assets/js/jquery-3.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.js"></script>
-    <script src="assets/js/backup-script.js"></script>
     
-
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <?php $this->carregarDependencias();?>
-
-
+    <script src="views/assets/js/backup-script.js"></script>
 
 </head>
 
-<body style="background-color: rgb(241, 242, 246);">
-    <?php $this->carregarCabecalho();?>    
+<body>
+    <?php $this->carregarCabecalho();?>
 
     <div class="container">
          <!-- Painel -->
@@ -51,7 +41,7 @@
                     <p> Deseja fazer backup agora?
                         <!-- Botão de backup manual -->
                         <button type="button" target="_new" id="btn-backup" class="btn btn-default btn-sm">
-                            <img src="assets/images/if_backup_383184.png"> 
+                            <img src="views/assets/images/if_backup_383184.png"> 
                         </button>
 
                     <!-- /FIM de botão de backup manual -->
@@ -99,7 +89,9 @@
                                                 echo '<p>' . $backup->hora . '</p>';
                                                 echo '</td>';     
                                                 echo '<td>
-                                                    <button class="glyphicon glyphicon-cloud-download" onclick=window.location.href="../'.$backup->caminho.'" class="btn btn-default"></button>
+                                                    <button onclick=window.location.href="../'.$backup->caminho.'" class="btn btn-default">
+                                                        <img src="views/assets/images/download-2-xxl.png" style="width: 30px"></img>
+                                                    </button>
                                                     </td>';    
                                                 echo '</tr>';                                                                                                            
                                             }
@@ -122,71 +114,7 @@
         </div>
 
     </div>
-
-
-
-    <!-- pop up -->
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog" style="width:60vh;">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-body" style="padding:40px 50px;" align="center">
-                    <p class="text-center">Você tem certeza que deseja restaurar os dados para o backup de "DATA"?</p>
-                    <p class="text-center">Todos os dados obtidos em datas posteriores serão perdidos.</p>
-                    <button class="btn btn-default" data-toggle="modal" data-target="#confSenha" data-dismiss="modal" aria-hidden="true">Sim</button>
-                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Não</button>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="confSenha" role="dialog">
-        <div class="modal-dialog modal-sm">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-body" style="padding:40px 50px;">
-                    <form role="form" data-toggle="validator">
-                        <div class="form-group">
-                            <div>
-                                <label for="psw"> Senha:</label>
-                                <input type="password" class="form-control" id="psw" for="inputsm" placeholder="Digite a senha" required>
-                            </div>
-                            <button type="submit" class="btn btn-success " style="margin-top: 2vh;" onclick="Nova(event)"> Fazer restauração</button>
-                    </form>
-                    </div>
-                </div>
-
-            </div>
-            
-        </div>
     <?php $this->carregarRodape();?>    
-
 </body>
-
-<script type="text/javascript">
-    function Nova(event) {
-        event.preventDefault();
-        console.log("entrou");
-        window.location.replace("backupAndamento.html");
-    }
-
-
-    /*
-        function Nova(event) {
-            event.preventDefault();
-            console.log("entrou");
-            return "backupAndamento.html";
-            
-        }*/
-</script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.5.4/bootstrap-select.js" />
-
-</html>
 
 </html>
