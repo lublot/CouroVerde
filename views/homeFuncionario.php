@@ -24,7 +24,7 @@
     <div class="container">
 
         <!-- Painel -->
-        <div class="col-md-3 col-lg-3" style="margin-top:-7vh">
+        <div class="col-md-3 col-lg-3">
             <?php $this->carregarPainel()?>
         </div>
 
@@ -32,7 +32,7 @@
 
             <!--Título da caixa-->
             <div id="titulo">
-                <h4 class="text-center">Gerenciamento de Funcionarios</h4>
+                <h4 class="text-center">Quadro de Funcionários</h4>
             </div>
             <!--Fim do título da caixa-->
 

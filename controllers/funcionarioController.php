@@ -134,8 +134,8 @@ class funcionarioController extends mainController {
                             $novoFuncionario = new Funcionario(null, $email, $nome, $sobrenome, $senha, 1, "FUNCIONARIO",
                             $matricula, $funcao, $podeCadastrarObra, $podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia,
                             $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup);
-
                             $funcionarioDAO->inserir($novoFuncionario);
+                            $this->redirecionarPagina('funcionario');
                         }else {
                             throw new DadosCorrompidosException();
                         }
@@ -210,50 +210,66 @@ class funcionarioController extends mainController {
     }
 
     public function gerenciarFuncionario(){
-        if($this->verificarFuncionario() == 'Administrador') {
-            if(ValidacaoDados::validarForm($this->POST,array('matricula','funcao'))){
-                $matricula = $this->POST['matricula'];
-                $funcao = $this->POST['funcao'];
+        if(VerificarPermissao::isAdministrador()) {
+            if(ValidacaoDados::validarForm($_POST,array('matricula','funcao','nome','sobrenome','email'))){
+                $matricula = $_POST['matricula'];
+                $nome = $_POST['nome'];
+                $sobrenome = $_POST['sobrenome'];
+                $email = $_POST['email'];
+                $funcao = $_POST['funcao'];
                 $podeCadastrarObra = false; $podeEditarObra = false;
                 $podeRemoverObra = false; $podeCadastrarNoticia = false;
                 $podeRemoverNoticia = false; $podeEditarNoticia = false;
                 $podeRealizarBackup = false;
 
-                if(isset($this->POST['cadastrar-obra'])){
+                
+                if(isset($_POST['cadastrarObra']) && strcmp($_POST['cadastrarObra'],'on')==0){
                     $podeCadastrarObra = true;
                 }
-                if(isset($this->POST['editar-obra'])){
+                if(isset($_POST['editarObra']) && strcmp($_POST['editarObra'],'on')==0){
                     $podeEditarObra = true;
                 }
-                if(isset($this->POST['remover-obra'])){
+                if(isset($_POST['removerObra']) && strcmp($_POST['removerObra'],'on')==0){
                     $podeRemoverObra = true;
                 }
-                if(isset($this->POST['cadastrar-noticia'])){
+                if(isset($_POST['cadastrarNoticia']) && strcmp($_POST['cadastrarNoticia'],'on')==0){
                     $podeCadastrarNoticia = true;
                 }
-                if(isset($this->POST['editar-noticia'])){
+                if(isset($_POST['editarNoticia']) && strcmp($_POST['editarNoticia'],'on')==0){
                     $podeEditarNoticia = true;
                 }
-                if(isset($this->POST['remover-noticia'])){
+                if(isset($_POST['removerNoticia']) && strcmp($_POST['removerNoticia'],'on')==0){
                     $podeRemoverNoticia = true;
                 }
-                if(isset($this->POST['realizar-backup'])){
+                if(isset($_POST['realizarBackup']) && strcmp($_POST['realizarBackup'],'on')==0){
                     $podeRealizarBackup = true;
                 }
                     
                 $campos = array(
                     'funcao'=>$funcao,
-                    'cadastraObra'=> $podeCadastrarObra ? 1:0,
+                    'cadastroObra'=> $podeCadastrarObra ? 1:0,
                     'gerenciaObra'=> $podeEditarObra ? 1:0,
                     'remocaoObra'=>$podeRemoverObra ? 1:0,
-                    'cadastraNoticia'=>$podeCadastrarNoticia ? 1:0,
+                    'cadastroNoticia'=>$podeCadastrarNoticia ? 1:0,
                     'gerenciaNoticia'=>$podeEditarNoticia ? 1:0,
                     'remocaoNoticia'=>$podeRemoverNoticia ? 1:0,
                     'backup'=>$podeRealizarBackup ? 1:0
                 );
+               
+                $camposUsuario = array(
+                    'nome'=>$nome,
+                    'sobrenome'=>$sobrenome,
+                    'email'=>$email
+                );
 
                 $funcionarioDAO = new FuncionarioDAO();
-                $funcionarioDAO->alterar($campos,array('matricula'=>$matricula)); 
+                $idUsuario = $funcionarioDAO->buscar(array('idUsuario'),array('matricula'=>$matricula));
+                $funcionarioDAO->alterar($campos,array('matricula'=>$matricula));
+
+                $usuarioDAO = new UsuarioDAO();
+                $usuarioDAO->alterar($camposUsuario,array('idUsuario'=>$idUsuario[0]->getId()));
+
+                echo json_encode(array('success'=>true));
             }
             else{
                 throw new NivelDeAcessoInsuficienteException();
@@ -349,13 +365,14 @@ class funcionarioController extends mainController {
 
     public function listarTodosFuncionarios(){
         if(VerificarPermissao::isAdministrador()){
+            $funcionarioDAO = new FuncionarioDAO();
             if(isset($_POST['titulo']) && !empty($_POST['titulo'])){
-                
+                $funcionarioDAO = $funcionarioDAO->buscarLikeNome($_POST['titulo']);
             }else{
                 $funcionarioDAO = new FuncionarioDAO();
-                $funcionarioDAO = $funcionarioDAO->buscar(array(),array());
-                echo json_encode($funcionarioDAO);
+                $funcionarioDAO = $funcionarioDAO->buscar(array(),array());  
             }
+            echo json_encode($funcionarioDAO);
         }else{
 
         }   
