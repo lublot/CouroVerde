@@ -23,7 +23,7 @@
     <!--Importação do Javascript pessoal e jQuery  -->
     <script src="assets/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="assets/js/validator.js"></script>
-    <script src="assets/js/cadastroNoticia-script.js"></script>
+    <script src="assets/js/moduloNoticia-script.js"></script>
 
 
 </head>
@@ -41,7 +41,14 @@
 
             <!--Título da caixa-->
             <div id="titulo">
-                <h4 class="text-center">Registro de Notícias</h4>
+                <?php
+                    if (isset($_POST['enviaNoticia'])){
+                        echo "<h4 class='text-center'>Informações da Notícias</h4>";
+                    }
+                    else {
+                        echo "<h4 class='text-center'>Registro de Notícias</h4>";
+                    }
+                ?>
             </div>
             <!--Fim do título da caixa-->
 
@@ -51,8 +58,8 @@
                 <!-- Caixa interna -->
                 <section id="caixa">
 
-                    <!-- Formulário de cadastro de notícias -->
-                    <form data-toggle="validator" role="form" method="POST" name="formCad" id="form-CadNoticia" class="form-horizontal" onsubmit="" action="/noticia/salvaNoticia.php">
+                    <!-- Formulário de cadastro/alteração de notícias -->
+                    <form data-toggle="validator" role="form" method="POST" name="formCad" id="form-CadNoticia" class="form-horizontal" onsubmit="" action="<?php if(isset($_POST['enviaNoticia'])){echo'/noticia/alteraNoticia.php'} else{echo'/noticia/salvaNoticia.php'}?>">
 
                         <!-- Subtítulo -->
                         <div class="form-group">
@@ -64,7 +71,7 @@
                             <div class="form-control " id="caixa-img">
                                 <div class="fileUpload pull-right btn btn-default">
                                     <span>UPLOAD</span>
-                                    <input id='selecao-arquivo' type="file" name="imagem" class="upload" onChange="verificarImagem(this);">
+                                    <input id='selecao-arquivo' type="file" name="imagem" class="upload" value="<?php if (isset($_POST['enviaNoticia'])){$imagem = $_POST['imagem']; echo $imagem;}?>" onchange="verificarImagem(this);" required>
                                 </div>
                             </div>
                         </div>
@@ -74,12 +81,12 @@
 
                             <!-- Entrada do título -->
                             <div class="col-xs-6">
-                                <input class="form-control" type="text" placeholder="Título(*)" name="titulo" id="inputName" data-error="Preencha este campo" required>
+                                <input class="form-control" type="text" placeholder="Título(*)" name="titulo" id="inputName" value="<?php if (isset($_POST['enviaNoticia'])){$titulo = $_POST['titulo']; echo $titulo;}?>" data-error="Preencha este campo" required>
                             </div>
 
                             <!-- Entrada do subtítulo -->
                             <div class="col-xs-6">
-                                <input class="form-control" type="text" placeholder="Subtitulo" name="subtitulo">
+                                <input class="form-control" type="text" placeholder="Subtitulo" name="subtitulo" value="<?php if (isset($_POST['enviaNoticia'])){$subtitulo = $_POST['subtitulo']; echo $subtitulo;}?>">
                             </div>
 
                             <!-- Fim Linha com duas entradas -->
@@ -87,7 +94,7 @@
 
                         <!-- TextArea com entrada da descrição -->
                         <div class="form-group ">
-                            <textarea class="form-control" placeholder="Descrição(*)" type="text" rows="5" name="descricao" required></textarea>
+                            <textarea class="form-control" placeholder="Descrição(*)" type="text" rows="5" name="descricao" value="<?php if (isset($_POST['enviaNoticia'])){$descricao = $_POST['descricao']; echo $descricao;}?>" required></textarea>
                         </div>
 
                         <h6>(*) Campos obrigatórios</h6>
@@ -98,12 +105,26 @@
                             <!-- Botão cancelar -->
                             <button type="button" class="pull-rigth btn btn-default" onclick="atualizarPagina()" name="btnCancelar">CANCELAR</button>
 
-                            <!-- Botão cadastrar -->
-                            <button type="submit" class="pull-rigth btn btn-default" name="btnCadNoticia">CADASTRAR</button>
+                            <!-- Botão cadastrar ou botão alterar-->
+                            <button type="submit" class="pull-rigth btn btn-default" name="btnCadNoticia"> <?php if (isset($_POST['enviaNoticia'])){echo 'ALTERAR';} else{echo 'CADASTRAR';} ?> </button>
+                            <?php
+                                if (isset($_POST['enviaNoticia'])){
+                                    echo '
+                                        <form name="formRemoveNoticia" method="POST" action="/noticia/removeNoticia.php">
+                                            <input type="hidden" name="idNoticia" value="'.$noticia->getidNoticia().'">
+                                            <button type="submit" class="pull-rigth btn btn-danger" name="btnApagaNoticia">REMOVER</button>
+                                        </form>
+                                    ';
+                                }
+                            ?>
                         </div>
 
                         <!-- Fim do Formulário de cadastro de notícias  -->
                     </form>
+                    
+                    <?php
+                        unset($_POST['enviaNoticia']);
+                    ?>
 
                     <!-- Fim da Caixa interna -->
                 </section>
