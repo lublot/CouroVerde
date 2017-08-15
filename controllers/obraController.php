@@ -595,7 +595,10 @@ class obraController extends mainController {
                         if(isset($_POST[$value])){ //verifica se o campo foi modificado
                             if(ValidacaoDados::validarCampo($_POST[$value])) { //verifica se o campo está válido
                                 $campos [$value] = addslashes($_POST[$value]); //recebe o campo                                
-                            }else{
+                            }else if($value != 'numeroInventario' && $value != 'nome' && $value != 'titulo' && $value != 'idColecao' && $value != 'idClassificacao'){ //se o campo não for obrigatorio
+                                $campos [$value] = null;
+                            }
+                            else{ //se o campo for obrigatorio
                                 throw new CampoInvalidoException($value);
                             }
                         }
