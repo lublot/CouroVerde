@@ -12,16 +12,16 @@
          $noticiaController = new noticiasController();
 
         try {
-             $noticiaController->removerNoticia();
+             $noticiaController->alterarNoticia();
         } catch (ErroUploadImagemException $e){
                 echo '<script>alert('.$e.');<script>';
         } catch (CampoNoticiaInvalidoException $u){
                 echo '<script>alert('.$u.');<script>';
         } catch (DadosCorrompidosException $e){
-                echo '<script>alert("Os dados passados estão corrompidos. Não foi possível fazer o cadastro...");</script>';
+                echo '<script>alert("Os dados passados estão corrompidos. Não foi possível alterar a noticia...");</script>';
         }
 
-        echo '<script>alert("Cadastro de noticia realizado com sucesso!");</script>';
+        echo '<script>alert("Alteração da noticia realizada com sucesso!");</script>';
 
         header("location:../painel.php");
 
