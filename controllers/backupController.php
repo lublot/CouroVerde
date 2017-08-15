@@ -17,6 +17,10 @@ class backupController extends mainController {
         $_POST['hora'] = $hora;
     }
 
+    public function index() {
+        $this->carregarConteudo("backup", array());
+    }
+
     /**
     * Realiza o backup completo do sistema.
     * @return String $caminhoBackup - caminho do local onde está armazenado o arquivo de backup.    

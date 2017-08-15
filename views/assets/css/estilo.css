@@ -448,16 +448,18 @@ input#busca {
 }
 
 .caixa-informacoes-obra {
-    border: 2px solid black;
+    border: 2px solid rgba(0, 0, 0, .1);
     height: 50vh;
     width: 80vh;
     margin-left: 10vh;
     margin-top: 3vh;
     padding: 2vh;
+    border-radius: 5px;
 }
 
 .painel-imagens-obra {
     border-left: 2px solid black;
+    
 }
 
 .botao-galeria {
@@ -501,4 +503,9 @@ input#busca {
 .caixa-obra h5 {
     transition: background-color 1s;
     font-size: 2vh;
+}
+
+.item img {
+    width:100%;
+    height:auto !important;
 }

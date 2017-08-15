@@ -14,6 +14,11 @@ use \models\Fotografia as Fotografia;
 
 class obraController extends mainController {
 
+    public function index() {
+        $this->carregarConteudo("imgObra", array());
+    }
+    
+
     /**
     * Configura a classe para realização de testes.
     */

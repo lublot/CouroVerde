@@ -340,19 +340,20 @@ class ObraDAO extends Database {
             $camposSelect = implode(',',$campos);
         }
 
-        $query .= $camposSelect." FROM colecao ORDER BY nome ASC";
+        $query .= $camposSelect." FROM colecao";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
             $aux = array();
 
             foreach($filtros as $chave=>$valor){
-                $aux[] = $chave."="."'$valor'";
+                $aux[] = $chave."="."$valor";
             }
             
             $query .= implode(" AND ",$aux);
         }
 
+        $query .= " ORDER BY nome ASC";
         $result = $this->PDO->query($query);
 
         $colecoes = array();

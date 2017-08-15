@@ -11,14 +11,6 @@
 
     <title>Backup</title>
 
-    <!--Importação do CSS do Bootstrap, Bootflat e o pessoal (Estilos)-->
-    <link rel="stylesheet" href="assets/css/bootstrap.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap-theme.css" />
-    <link rel="stylesheet" href="assets/css/estilo.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap-social.css" />
-    <link rel="stylesheet" href="assets/css/site.css" />
-    <link rel="stylesheet" href="assets/css/site.min.css" />
 
     <!--Importação do Javascript pessoal e jQuery  -->
     <script src="assets/js/jquery-3.2.1.min.js"></script>
@@ -28,12 +20,14 @@
 
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <?php $this->carregarDependencias();?>
 
 
 
 </head>
 
 <body style="background-color: rgb(241, 242, 246);">
+    <?php $this->carregarCabecalho();?>    
 
     <div class="container">
          <!-- Painel -->
@@ -169,7 +163,9 @@
                 </div>
 
             </div>
+            
         </div>
+    <?php $this->carregarRodape();?>    
 
 </body>
 
