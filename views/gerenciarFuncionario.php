@@ -28,7 +28,6 @@
             <?php $this->carregarPainel()?>
         </div>
 
-
         <!-- Div cadastro-funcionários -->
         <div id='cadastro-funcionários' class="col-md-9 col-lg-9">
 
@@ -46,19 +45,19 @@
                     <?php if(isset($this->dados['alerta'])){echo '<div class="alert alert-warning" role="alert">'.$this->dados['alerta'].'</div>';}?>
                     
                     <!-- Formulário de cadastro de funcionários -->
-                    <form data-toggle="validator" role="form" class="form-horizontal" method="POST" <?php if(isset($this->dados['alerta'])){echo 'style="display:none"';}?>>
+                    <form data-toggle="validator" id="form" role="form" class="form-horizontal" method="POST"<?php if(isset($this->dados['alerta'])){echo 'style="display:none"';}?>>
 
                         <!-- Linha com duas entradas -->
                         <div class="form-group row">
 
                             <!-- Entrada do Nome -->
                             <div class="col-xs-6">
-                                <input class="form-control" name="nome" type="text" placeholder="Nome(*)" id="inputName" data-error="Preencha este campo" required value=<?php if(isset($this->dados['nome'])){echo $this->dados['nome'];}?>>
+                                <input class="form-control" name="nome" type="text" placeholder="Nome(*)" id="inputName" data-error="Preencha este campo" required value="<?php if(isset($this->dados['nome'])){echo htmlentities($this->dados['nome']);}?>">
                             </div>
 
                             <!-- Entrada do sobrenome -->
                             <div class="col-xs-6">
-                                <input class="form-control" name="sobrenome" type="text" placeholder="Sobrenome(*)" value=<?php if(isset($this->dados['sobrenome'])){echo $this->dados['sobrenome'];}?>>
+                                <input class="form-control" name="sobrenome" type="text" placeholder="Sobrenome(*)" value="<?php if(isset($this->dados['sobrenome'])){echo $this->dados['sobrenome'];}?>">
                             </div>
 
                             <!-- Fim Linha com duas entradas -->
@@ -66,7 +65,7 @@
 
                         <!-- Entrada de email -->
                         <div>
-                            <input class="form-control" name="email" type="text" placeholder="Email" value=<?php if(isset($this->dados['email'])){echo $this->dados['email'];}?>>
+                            <input class="form-control" name="email" type="text" placeholder="Email" value="<?php if(isset($this->dados['email'])){echo $this->dados['email'];}?>">
                         </div>
 
                         <br />
@@ -76,12 +75,12 @@
 
                             <!-- Entrada do Número de Matrícula -->
                             <div class="col-xs-6">
-                                <input class="form-control" name="matricula" disabled type="text" placeholder="Número de Matrícula(*)" id="inputName" data-error="Preencha este campo" required value=<?php if(isset($this->dados['matricula'])){echo $this->dados['matricula'];}?>>
+                                <input class="form-control" name="matricula" disabled type="text" placeholder="Número de Matrícula(*)" id="inputName" data-error="Preencha este campo" required value="<?php if(isset($this->dados['matricula'])){echo $this->dados['matricula'];}?>">
                             </div>
 
                             <!-- Entrada da Função -->
                             <div class="col-xs-6">
-                                <input class="form-control" name="funcao" type="text" placeholder="Função(*)" id="inputName" data-error="Preencha este campo" required value=<?php if(isset($this->dados['funcao'])){echo $this->dados['funcao'];}?>>
+                                <input class="form-control" name="funcao" type="text" placeholder="Função(*)" id="inputName" data-error="Preencha este campo" required value="<?php if(isset($this->dados['funcao'])){echo $this->dados['funcao'];}?>">
                             </div>
 
                             <!-- Fim Linha com duas entradas -->
@@ -150,7 +149,7 @@
                             <button type="button" id="remover" class="pull-right btn btn-danger">REMOVER</button>
 
                             <!-- Botão cadastrar -->
-                            <button type="submit" class="pull-right btn btn-success" style="margin-right:5px">ATUALIZAR INFORMAÇÕES </button>
+                            <button type="button" id="confirmar" class="pull-right btn btn-success" style="margin-right:5px">ATUALIZAR INFORMAÇÕES </button>
                         </div>
 
                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

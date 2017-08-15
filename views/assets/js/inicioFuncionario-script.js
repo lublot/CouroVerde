@@ -35,7 +35,7 @@ function listarFuncionarios(){
                         campoResposta.appendChild(box);     
                     }
                 }else{
-                    campoResposta.innerHTML = "<h5>Não foi encontrada nenhum funcionário</h5>"
+                    campoResposta.innerHTML = "<h5>Não foi encontrado nenhum funcionário</h5>"
                 }
             }
         }
@@ -59,7 +59,13 @@ function criarBox(dados){
 
 function configurarLink(dados){
     var link = document.createElement('a');
-    link.setAttribute('href',window.location.href+'gerenciar/'+dados.matricula);
+    let url = window.location.href;
+    if(url.substr(-1) != '/'){
+        url = url+'/gerenciar/'+dados.matricula;
+    }else{
+        url = url+'gerenciar/'+dados.matricula
+    }
+    link.setAttribute('href',url);
     link.setAttribute('class','text-center');
     return link;
 }

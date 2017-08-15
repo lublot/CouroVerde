@@ -71,7 +71,6 @@ class FuncionarioDAO extends Database{
 
             $query .= implode(" AND ",$aux);
         }
-        
         $this->PDO->query($query);
 
     }
@@ -189,6 +188,47 @@ class FuncionarioDAO extends Database{
         }*/
     }
 
+    /**
+    * Busca um ou vários funcionários no banco de dados pelo nome;
+    * @param unknown $campos - um array contendo os campos desejados
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("matricula"=>5);
+    * @return unknown $funcionarios - um array contendo os funcionários retornados na busca
+    */
+    public function buscarLikeNome($campo){
+        $query = "SELECT Usuario.*, Funcionario.*  FROM Usuario JOIN Funcionario 
+        ON Usuario.idUsuario = Funcionario.idUsuario WHERE Usuario.nome LIKE '%$campo%'"; //adicionar filtro de nome, sobrenome ou email à query
+
+        /*Caso não seja especificados filtros retorna todos os funcionarios*/
+
+        $result = $this->PDO->query($query); //executa a query
+
+        $funcionarios = array(); //cria array para armazenar os resultados da consulta
+
+        if(!empty($result) && $result->rowCount() > 0){ //verifica se existem resultados para consulta
+            foreach($result->fetchAll() as $item){ //percorre as tuplas retornadas pela consulta
+                $funcionarios[] = new funcionario( //cria um novo funcionario e add uma array, apartir dos dados obtidos
+                    isset($item['idUsuario'])?$item['idUsuario']:null,
+                    isset($item['nome'])?$item['nome']:null,
+                    isset($item['sobrenome'])?$item['sobrenome']:null,
+                    isset($item['email'])?$item['email']:null,
+                    null, //Não retorna a senha
+                    isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null,
+                    isset($item['tipoUsuario'])?$item['tipoUsuario']:null,
+                    isset($item['matricula'])?$item['matricula']:null,
+                    isset($item['funcao'])?$item['funcao']:null,
+                    isset($item['cadastroObra'])?$item['cadastroObra']:null,
+                    isset($item['gerenciaObra'])?$item['gerenciaObra']:null,
+                    isset($item['remocaoObra'])?$item['remocaoObra']:null,
+                    isset($item['cadastroNoticia'])?$item['cadastroNoticia']:null, 
+                    isset($item['gerenciaNoticia'])?$item['gerenciaNoticia']:null,
+                    isset($item['remocaoNoticia'])?$item['remocaoNoticia']:null,
+                    isset($item['backup'])?$item['backup']:null
+                );
+            }
+        }
+
+        return $funcionarios;  //retorna os resultados
+    }
     /**
     * Busca um funcionario por nome, sobrenome, email ou matricula
     */
