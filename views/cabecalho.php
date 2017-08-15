@@ -4,10 +4,16 @@
 ?>
 
 <div class="container-fluid" style="background: #ffcc80;margin-bottom:5vh"> <!-- rgb(249,161,31) -->
-    <div class="row">
+    <div class="row" style="align-items: flex-end;">
         <div class="col-md-1 col-sm-1"></div>
-        <div class="col-xs-12 col-md-11">
+        <div class="col-xs-12 col-md-9">
             <img src=<?php $this->path('assets/images/logo-header.png')?>  class="img-responsive" id="header-logo" style="height: 61; margin-top:10;">
+        </div>
+        <div class="col-md-2">
+            <div class="form-search search-only">
+                <i class="search-icon glyphicon glyphicon-search"></i>
+                <input type="text" class="form-control search-query">
+            </div>
         </div>
     </div>
 
@@ -86,7 +92,7 @@
                     if(isset($_SESSION['tipoUsuario']) && !empty($_SESSION['tipoUsuario']) && $_SESSION['tipoUsuario']){
                         if($_SESSION['tipoUsuario'] == 'ADMINISTRADOR' || $_SESSION['tipoUsuario'] == 'FUNCIONARIO'){
                             echo '<span class="item-cabecalho">
-                                    <i class="fa fa-cogs" aria-hidden="true"></i>
+                                   <div class="icone-adm"></div>
                                     <a href="'.ROOT_URL.'admin'.'">Painel Administrativo </a>
                                     </span>';
                         }
