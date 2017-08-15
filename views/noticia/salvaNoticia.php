@@ -13,7 +13,7 @@
 
         try {
              $noticiaController->removerNoticia();
-        } catch (NoticiaNaoEncontradaException $e){
+        } catch (ErroUploadImagemException $e){
                 echo '<script>alert('.$e.');<script>';
         } catch (CampoNoticiaInvalidoException $u){
                 echo '<script>alert('.$u.');<script>';
