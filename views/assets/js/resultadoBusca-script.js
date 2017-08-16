@@ -118,26 +118,26 @@ function criarBotao(){
 
 var autor = document.getElementById('autor');
 autor.onclick = function(){
-    carregar(p,'autor');
+    carregar(0,'autor');
 }
 
 var tag = document.getElementById('tag');
 tag.onclick = function(){
-    carregar(p,'tag');
+    carregar(0,'tag');
 }
 
 var titulo = document.getElementById('titulo');
 titulo.onclick = function(){
-    carregar(p,'titulo');
+    carregar(0,'titulo');
 }
 
 var classificacao = document.getElementById('classificacao');
 classificacao.onclick = function(){
-    carregar(p,'classificacao');
+    carregar(0,'classificacao');
 }
 
 var colecao = document.getElementById('colecao');
 colecao.onclick = function(){
-    carregar(p,'colecao');
+    carregar(0,'colecao');
 }
 });
