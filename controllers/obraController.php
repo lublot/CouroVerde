@@ -24,35 +24,34 @@ class obraController extends mainController {
     */
     public function configurarAmbienteParaTeste($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
                                                 $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
-                                                $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado)
+                                                $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $tags)
     {
         //seta valores necessários para o teste
-        $_POST['numInventario'] = $numInventario;
-        $_POST['nome'] = $nome;
-        $_POST['titulo'] = $titulo;
-        $_POST['funcao'] = $funcao;
-        $_POST['origem'] = $origem;
-        $_POST['procedencia'] = $procedencia;
-        $_POST['descricao'] = $descricao;
-        $_POST['idColecao'] = $idColecao;
-        $_POST['idClassificacao'] = $idClassificacao;
-        $_POST['altura'] = $altura;
-        $_POST['largura'] = $largura;
-        $_POST['diametro'] = $diametro;
-        $_POST['peso'] = $peso;
-        $_POST['comprimento'] = $comprimento;
-        $_POST['materiais-constitutivos'] = $materiais;
-        $_POST['tecnicas-de-fabricacao'] = $tecnicas;
-        $_POST['autoria'] = $autoria;
-        $_POST['marcas-e-inscrições'] = $marcas;
-        $_POST['historico-do-objeto'] = $historico;
-        $_POST['modo-de-aquisicao'] = $modoAquisicao;
-        $_POST['data-de-aquisicao'] = $dataAquisicao;
-        $_POST['aquisicao_autor'] = $autor;
-        $_POST['observacoes'] = $observacoes;
-        $_POST['estado-de-conservacao'] = $estado;
-
-        $_POST['submit'] = $post;
+        $_POST = array('inventario' => $numInventario,
+        'nome' => $nome,
+        'titulo' => $titulo,
+        'funcao' => $funcao,
+        'origem' => $origem,
+        'procedencia' => $procedencia,
+        'descricao' => $descricao,
+        'colecao' => $idColecao,
+        'classificacao' => $idClassificacao,
+        'altura' => $altura,
+        'largura' => $largura,
+        'diametro' => $diametro,
+        'peso' => $peso,
+        'comprimento' => $comprimento,
+        'materiais-construtivos' => $materiais,
+        'tecnicas-de-fabricacao' => $tecnicas,
+        'autoria' => $autoria,
+        'marcas-e-inscricoes' => $marcas,
+        'historico-do-objeto' => $historico,
+        'modo-de-aquisicao' => $modoAquisicao,
+        'data-de-aquisicao' => $dataAquisicao,
+        'aquisicao-autor' => $autor,
+        'observacoes' => $observacoes,
+        'estado-de-conservacao' => $estado,
+        'tags' => $tags);
     }
 
     public function configurarAmbienteParaTesteGerenciamento($numeroInventario, $nome, $titulo, $funcao, $origem, $procedencia,
@@ -476,6 +475,10 @@ class obraController extends mainController {
         }
 
         return $caminhoImagem;        
+    }
+
+    public function testeColecaoClassificacao($nome) {
+        $_POST = array('nome' => $nome);
     }
 
     /**
