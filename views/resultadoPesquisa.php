@@ -42,7 +42,10 @@
                                 <span class="glyphicon glyphicon-camera"></span> Título da Obra
                             </a>
                         </h4>
-                        <br>
+                        <hr>
+                        <h5>
+                            Busca Avançada
+                        </h5>
                         <h4 class="panel-title">
                             <a data-toggle="collapse" id="classificacao" class="collapsed" style="cursor:pointer">
                                 <span class="glyphicon glyphicon-camera"></span> Classificação
