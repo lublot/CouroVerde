@@ -536,10 +536,9 @@ class Obra implements \JsonSerializable {
      */
     public function jsonSerialize() {
         return [
-            'idObra' => $this->id,
             'nome' => $this->nome,
             'titulo' => $this->titulo,
-            'numInventario' => $this->numInventario,      
+            'numeroInventario' => $this->numInventario,      
             'idColecao' => $this->idColecao,
             'origem' => $this->origem,
             'procedencia' => $this->procedencia,

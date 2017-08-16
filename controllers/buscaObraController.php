@@ -32,5 +32,6 @@ class BuscaObraController extends mainController {
             return json_encode($resultados);
 
         }
-    }    
+    }
+
 }
