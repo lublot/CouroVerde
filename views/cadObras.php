@@ -11,19 +11,11 @@
 
     <title>Cadastro de obras</title>
 
-    <!--Importação do CSS do Bootstrap, Bootflat e o pessoal (Estilos)-->
-    <link rel="stylesheet" href="assets/css/bootstrap.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap-theme.css" />
-    <link rel="stylesheet" href="assets/css/estilo.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap-social.css" />
-    <link rel="stylesheet" href="assets/css/site.css" />
-    <link rel="stylesheet" href="assets/css/site.min.css" />
-    <link rel="stylesheet" href="assets/css/datepicker.css" />
+    <?php $this->carregarDependencias();?>
+    <link rel="stylesheet" href="../views/assets/css/datepicker.css" />
 
     <!--Importação do Javascript pessoal e jQuery  -->
-    <script src="assets/js/jquery-3.2.1.min.js"></script>
-    <script src="assets/js/bootstrap-datepicker.js"></script>
+    <script src="../views/assets/js/bootstrap-datepicker.js"></script>
     <script>
         $(function() {
             $('.datepicker').datepicker({
@@ -31,12 +23,10 @@
             });
         });
     </script>
-    <script src="assets/js/cadObras-script.js"></script>    
-
 </head>
 
 <body style="background-color: rgb(241, 242, 246);">
-
+    <?php $this->carregarCabecalho();?>    
     <div class="container">
 
         <!-- Painel -->
@@ -57,7 +47,7 @@
                     <!--Formulário de cadastro-->
                     <form id="form-obra">
                         <!--Botão de Ajuda-->
-                        <a href="#" class="direita">Ajuda  <span class="glyphicon glyphicon-question-sign"></span></a>
+                        <a href="#" class="direita">Ajuda  <span></span></a>
                         
                         <!--Página 1: Informações da Obra-->
                         <div id="page_1">
@@ -462,7 +452,6 @@
                                         <div class="dnd1">
 
                                             <div id="uploadImg" hidden>
-                                                <span class="glyphicon glyphicon-camera"></span>                                            
                                                 <span>Imagens carregadas:</span>
                                                 <span id="img1" hidden></span>
                                                 <span id="img2" hidden></span>
@@ -473,21 +462,20 @@
 
                                             <!--<input type="file" multiple="multiple" accept="image/*" style="visibility: hidden">-->
                                             <div id="dropzone_img" class="dropzone">
-                                                Arraste suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las
+                                                Arraste suas imagens aqui para carregá-las
                                             </div>
                                         </div>
                                         <br>
                                         <div class="dnd1">
 
                                             <div id="upload3D" hidden>
-                                                <span class="glyphicon glyphicon-road"></span>                                            
                                                 <span id="modelo3D"></span>
                                                 <span></span>                                       
                                             </div>      
 
                                             <!--<input type="file" multiple="multiple" accept="image/*" style="visibility: hidden">-->
                                             <div id="dropzone_3d" class="dropzone">
-                                                Arraste seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também
+                                                Arraste seus arquivos referentes ao modelo 3D  aqui se desejar carregá-los também
                                             </div>
                                             <div id="uploads_3d" class="uploads"></div>
                                         </div>
@@ -558,44 +546,7 @@
 
     </div>
     <!--Fim da div geral-->
-
-    <!-- Footer -->
-    <footer class="footer-distributed">
-
-        <div class="footer-left">
-
-            <h3>Sertour</h3>
-
-            <p class="footer-company-name">MItologic Software® &copy; 2017</p>
-        </div>
-
-        <div class="footer-center">
-
-            <p class="footer-links">
-                <a href="#">Home</a>
-                <a href="#">Galeria</a>
-                <a href="#">Sobre</a>
-            </p>
-
-        </div>
-
-        <div class="footer-right">
-
-            <div class="footer-icons">
-                <p style="text-align: center;">
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-google-plus"></i></a>
-                </p>
-
-            </div>
-
-
-        </div>
-
-    </footer>
-    <!-- /Footer -->
-
 </body>
+    <script src="../views/assets/js/cadObras-script.js"></script>    
 
 </html>

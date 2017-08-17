@@ -28,6 +28,7 @@
 
 <body>
     <?php $this->carregarCabecalho();?>    
+
     <!-- Container principal -->
     <div class="container">
         
@@ -44,6 +45,15 @@
                         if(isset($_GET['num'])){
                             $obraDAO = new ObraDAO();
                             $obraController = new ObraController();
+
+                            if(isset($_SESSION['id'])) {
+                                $usuarioAcessoDAO = new UsuarioAcessoDAO();
+                                $visitas = $usuarioAcessoDAO->buscar(array(), array('numeroInventario' => $_GET['num'], 'idUsuario' => $_SESSION['id']));
+                                
+                                if(count($visitas) <= 0) {
+                                    $usuarioAcessoDAO->inserir(new Visita($_SESSION['id'], $_GET['num']));
+                                }
+                            }
 
                             $obraPagina = $obraDAO->buscar(array(), array("numeroInventario" => $_GET['num']))[0];
                             $obrasClassificacao = $obraController->obterObrasClassificacao($obraPagina->getIdClassificacao());
@@ -66,6 +76,18 @@
                             }     
 
                             echo '<a type="button" href="/obra?num='.$obraAnterior->getNumInventario().'" class="btn btn-primary btn-sm">';                       
+                        } else {
+                            if( !headers_sent() ){
+                                    header("Location: ../views/erro404.php");
+                            }else{
+                                ?>
+                                    <script type="text/javascript">
+                                    document.location.href="../views/erro404.php";
+                                    </script>
+                                    Redirecting to <a href="../views/erro404.php">views/erro404.php</a>
+                                <?php
+                            }
+                            die();                              
                         }
                     ?>
                         <img src="../views/assets/images/glyphicons-211-arrow-left.png"></img>   
@@ -80,7 +102,7 @@
                     <div>
                         <?php
                             if(isset($_GET['num'])) {
-                                echo '<button class="btn btn-primary btn-sm" onClick="modelo3D()">';
+                                echo '<button class="btn btn-primary btn-sm" onClick="modelo3D('. "'" . $obraPagina->getCaminhoModelo3D() . "'" .')">';
                             }
                         ?>
                             Modelo 3D

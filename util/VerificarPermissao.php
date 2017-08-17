@@ -32,7 +32,7 @@ class VerificarPermissao {
 	 * @return <code>true</code>, se o usuário atual pode cadastrar obra; <code>false</code>, caso contrário.
 	 */
 	public static function podeCadastrarObra() {
-	    return ($this->isFuncionario() || $this->isAdministrador()) && isset($_SESSION['podeCadastrarObra']) && $_SESSION['podeCadastrarObra'];
+	    return (self::isFuncionario() || self::isAdministrador()) && isset($_SESSION['podeCadastrarObra']) && $_SESSION['podeCadastrarObra'];
 	}        
 
 	/**

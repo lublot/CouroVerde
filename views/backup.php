@@ -90,7 +90,7 @@
                                                 echo '</td>';     
                                                 echo '<td>
                                                     <button onclick=window.location.href="../'.$backup->caminho.'" class="btn btn-default">
-                                                        <img src="views/assets/images/download-2-xxl.png" style="width: 30px"></img>
+                                                        <img src="../views/assets/images/download-2-xxl.png" style="width: 30px"></img>
                                                     </button>
                                                     </td>';    
                                                 echo '</tr>';                                                                                                            
