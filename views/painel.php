@@ -45,7 +45,7 @@
     <div id="submenu-relatorios" class="panel-collapse collapse">
         <div class="panel-body">
             <a href="#" class="link" >• Relatório de Acesso</a><br><br>
-            <a href="#" class="link" >• Relatórios do Sistema</a>
+            <a href="<?php echo ROOT_URL.'relatorios/sistema'?>" class="link" >• Relatórios do Sistema</a>
         </div>
     </div>
   </h4>

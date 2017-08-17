@@ -59,7 +59,7 @@ class backupDAO extends Database {
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)."FROM backup";
+        $query .= implode(',',$campos)." FROM backup";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -73,7 +73,7 @@ class backupDAO extends Database {
         }
 
         $result = $this->PDO->query($query);
-
+        
         $backup = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){

@@ -90,7 +90,7 @@ class noticiaDAO extends Database {
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)."FROM noticia";
+        $query .= implode(',',$campos)." FROM noticia";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";

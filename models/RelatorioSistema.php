@@ -11,14 +11,19 @@ class RelatorioSistema{
     private $tipoAlvo;
     private $horario;
 
-    public function __construct($idLogAlteracoes, $autor,$acao,$idAlvo,$tipoAlvo){
+    public function __construct($idLogAlteracoes, $autor,$idAlvo,$tipoAlvo,$acao,$horario){
         $this->idLogAlteracoes = $idLogAlteracoes;
         $this->autor = $autor;
         $this->acao = $acao;
         $this->idAlvo = $idAlvo;
         $this->tipoAlvo = $tipoAlvo;
-        date_default_timezone_set("America/Bahia");
-        $this->horario = date('Y-m-d H:i:s');
+        if($horario == null){
+            date_default_timezone_set("America/Bahia");
+            $this->horario = date('Y-m-d H:i:s');
+        }else{
+            $this->horario = $horario;
+        }
+        
     }
 
    /**
