@@ -112,9 +112,6 @@ class obraController extends mainController {
     // }
 //colecao classificacao fotografo data-da-fotografia fotografia_autor
     public function cadastrarObra() {
-            $myfile = fopen("C:\wamp64\www\sertour\ddddddddddddd.txt", "w");
-            fwrite($myfile, 'kfdsfsdknjddjjkf');
-            fclose($myfile);
         if (isset($_POST) and ValidacaoDados::validarForm($_POST, array("inventario", "nome", "titulo", "colecao", "classificacao"))) {
 
             if(!ValidacaoDados::validarCampo($_POST['nome'])) { //verifica se o campo está válido
@@ -417,8 +414,8 @@ class obraController extends mainController {
                 
             
             $this->cadastrarPalavraChave();   
-            }
-        else {
+            $this->cadastro();
+        } else {
             throw new DadosCorrompidosException();
         }       
     }
@@ -430,14 +427,12 @@ class obraController extends mainController {
         $caminhoImagesExibir .= $numInventario;
 
         $caminhoPastaModelo3D = dirname(__DIR__).'/media/obras/modelo3d/';
-        $caminhoModelo3DExibir = '../media/obras/imagens/';        
+        $caminhoModelo3DExibir = '../media/obras/modelo3d/';        
         $caminhoPastaModelo3D .= $numInventario; 
         $caminhoModelo3DExibir .= $numInventario; 
 
         $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
         $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
-
-        var_dump($imagens);
 
         // //remove os dois primeiros elementos do array
         unset($imagens[0]);
@@ -452,8 +447,6 @@ class obraController extends mainController {
         foreach($imagens as $imagem) {
             $caminhosImagens[] = $caminhoImagesExibir . '/' . $imagem;
         }
-
-        var_dump($modelo3D);
 
         $caminhoPastaModelo3D = $caminhoModelo3DExibir.$modelo3D[2];
         
