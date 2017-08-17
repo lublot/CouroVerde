@@ -11,13 +11,26 @@ use \models\Obra as Obra;
 use \models\Colecao as Colecao;
 use \models\Classificacao as Classificacao;
 use \models\Fotografia as Fotografia;
+use \util\VerificarPermissao as VerificarPermissao;
 
 class obraController extends mainController {
-
+    /**
+    * Redireciona para a página de visualização da obra.
+    */
     public function index() {
-        $this->carregarConteudo("imgObra", array());
+        $this->carregarConteudo('imgObra',array());
     }
-    
+
+    /**
+    * Redireciona para a página de cadastro de obra.
+    */    
+    public function cadastro() {
+        //if(VerificarPermissao::podeCadastrarObra()){
+            $this->carregarConteudo('cadObras',array());
+       // } else {
+            //pagina de permissão não concedida
+        //}        
+    } 
 
     /**
     * Configura a classe para realização de testes.

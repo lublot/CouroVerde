@@ -9,6 +9,7 @@ use exceptions\FormatoHoraIncorretoException as FormatoHoraIncorretoException;
 use exceptions\FormatoDataIncorretoException as FormatoDataIncorretoException;
 use exceptions\DadosCorrompidosException as DadosCorrompidosException;
 use util\ValidacaoDados as ValidacaoDados;
+use \util\VerificarPermissao as VerificarPermissao;
 
 class backupController extends mainController {
 
@@ -18,7 +19,11 @@ class backupController extends mainController {
     }
 
     public function index() {
-        $this->carregarConteudo("backup", array());
+        if(VerificarPermissao::podeRealizarBackup()){
+            $this->carregarConteudo('backup',array());
+        } else {
+            //pagina de permissão não concedida
+        }   
     }
 
     /**
