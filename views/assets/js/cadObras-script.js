@@ -12,7 +12,6 @@ var formData = new FormData(),
 
 $(document).ready(function () {
     var dropzone_img = document.getElementById('dropzone_img');
-    alert(dropzone_img);
     var dropzone_3d = document.getElementById('dropzone_3d');
 
     var upload = function (files) {
@@ -225,13 +224,13 @@ function avancarPag() {
         return;
     } else if(pagAtual == pagMax) {
         if(!jaComecou) {
-            xhr.open('post', 'upload.php?inv=' + document.getElementById("inventario").value);
+            xhr.open('post', '../../../views/upload.php?inv=' + document.getElementById("inventario").value);
             xhr.send(formData);
             jaComecou = true;
         }
 
         if(xhr.readyState != 4) {
-            alert('Carregando arquivos...');
+            alert('Seus arquivos estão sendo carregados! Tente novamente...');
         }
 
         xhr.onreadystatechange = function() {

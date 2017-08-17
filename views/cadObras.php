@@ -11,11 +11,10 @@
 
     <title>Cadastro de obras</title>
 
-    <?php $this->carregarDependencias();?>
-    <link rel="stylesheet" href="../views/assets/css/datepicker.css" />
+    <link rel="stylesheet" href="assets/css/datepicker.css" />
 
     <!--Importação do Javascript pessoal e jQuery  -->
-    <script src="../views/assets/js/bootstrap-datepicker.js"></script>
+    <script src="assets/js/bootstrap-datepicker.js"></script>
     <script>
         $(function() {
             $('.datepicker').datepicker({
@@ -23,6 +22,8 @@
             });
         });
     </script>
+    <?php $this->carregarDependencias();?>
+    
 </head>
 
 <body style="background-color: rgb(241, 242, 246);">
@@ -94,7 +95,7 @@
                                                     <!--A lista de opções tem que ser baixada diretamente das opções do banco de dados utilizando PHP-->
                                                     <option>Coleção (*)</option>
                                                     <?php
-                                                        require_once '../vendor/autoload.php';
+                                                        require_once 'vendor/autoload.php';
                                                         use \controllers\obraController as ObraController;
                                                         use \models\Colecao as Colecao;
 
@@ -545,7 +546,7 @@
         </div>
 
     </div>
-    <!--Fim da div geral-->
+    <?php $this->carregarRodape();?>    
 </body>
     <script src="../views/assets/js/cadObras-script.js"></script>    
 
