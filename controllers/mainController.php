@@ -58,9 +58,8 @@ class mainController{
         echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>';
         echo '<script type="text/javascript" src="'.VIEW_BASE.'assets/js/bootstrap.js"></script>';
         echo '<script type="text/javascript" src="'.VIEW_BASE.'assets/js/galeria-script.js"></script>';    
-    }    
-
-
+    }
+    
     /**
     * Este método indica a url atual, funciona como um refresh interno
     */

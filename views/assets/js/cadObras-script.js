@@ -12,6 +12,7 @@ var formData = new FormData(),
 
 $(document).ready(function () {
     var dropzone_img = document.getElementById('dropzone_img');
+    alert(dropzone_img);
     var dropzone_3d = document.getElementById('dropzone_3d');
 
     var upload = function (files) {
