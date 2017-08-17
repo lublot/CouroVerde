@@ -127,14 +127,14 @@ class noticiaDAO extends Database {
     * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("idNoticia"=>5);
     * @return unknown $noticias - um array contendo as notícias retornados na busca
     */
-    public function buscarMaisRecente($campos,$filtros,$limite=0){
+    public function buscarMaisRecente($campos,$filtros,$limite=2){
         $query = "SELECT ";
 
         if(count($campos) == 0){
-            $campos = array("*");
+            $campos = array(" * ");
         }
 
-        $query .= implode(',',$campos)."FROM noticia";
+        $query .= implode(',',$campos)." FROM noticia";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -147,11 +147,10 @@ class noticiaDAO extends Database {
             $query .= implode(" AND ",$aux);
         }
 
-        $query .= "ORDER BY data DESC";
+        $query .= " ORDER BY data DESC";
 
-        if($limite > 0 ){
-            $query .= "LIMIT ".$limite;
-        }
+        
+        $query .= " LIMIT ".$limite;
 
         $result = $this->PDO->query($query);
 
