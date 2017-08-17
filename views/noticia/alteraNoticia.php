@@ -23,10 +23,10 @@
 
         echo '<script>alert("Alteração da noticia realizada com sucesso!");</script>';
 
-        header("location:../painel.php");
+        header("location:../homeAdmin.php");
 
     }
     else {
-        header("location:../painel.php");
+        header("location:../homeAdmin.php");
     }
 ?>

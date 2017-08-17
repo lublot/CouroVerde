@@ -19,10 +19,10 @@
 
         echo '<script>alert("Remoção da noticia realizada com sucesso!");</script>';
 
-        header("location:../painel.php");
+        header("location:../homeAdmin.php");
 
     }
     else {
-        header("location:../painel.php");
+        header("location:../homeAdmin.php");
     }
 ?>

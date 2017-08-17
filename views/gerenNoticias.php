@@ -11,6 +11,8 @@
 
     <title>Gerenciamento de Notícias</title>
 
+    <?php $this->carregarDependencias()?>
+
     <!--Importação do CSS do Bootstrap, Bootflat e o pessoal (Estilos)-->
     <link rel="stylesheet" href="assets/css/bootstrap.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -31,9 +33,13 @@
 
 <body style="background-color: rgb(241, 242, 246);">
 
+    <?php $this->carregarCabecalho()?>
+    <!-- Container  -->
     <div class="container">
         <!-- Painel -->
-        <div class="col-md-3 col-lg-3"></div>
+        <div class="col-xs-3">
+            <?php $this->carregarPainel()?>
+        </div>
 
         <div class="col-md-9 col-lg-9">
 
@@ -174,6 +180,42 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer-distributed">
+
+        <div class="footer-left">
+
+            <h3>Sertour</h3>
+
+            <p class="footer-company-name">MItologic Software® &copy; 2017</p>
+        </div>
+
+        <div class="footer-center">
+
+            <p class="footer-links">
+                <a href="#">Home</a>
+                <a href="#">Galeria</a>
+                <a href="#">Sobre</a>
+            </p>
+
+        </div>
+
+        <div class="footer-right">
+
+            <div class="footer-icons">
+                <p style="text-align: center;">
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-google-plus"></i></a>
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </footer>
+    <!-- /Footer -->
 
 </body>
 

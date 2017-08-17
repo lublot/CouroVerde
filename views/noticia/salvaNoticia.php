@@ -23,10 +23,10 @@
 
         echo '<script>alert("Cadastro de noticia realizado com sucesso!");</script>';
 
-        header("location:../painel.php");
+        header("location:../homeAdmin.php");
 
     }
     else {
-        header("location:../painel.php");
+        header("location:../homeAdmin.php");
     }
 ?>
