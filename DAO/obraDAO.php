@@ -465,8 +465,8 @@ class ObraDAO extends Database {
             $query .= " WHERE $filtro LIKE '%$titulo%'";
         }
 
-        $paginaAtual = $pagina*10;
-        $registrosPorPagina = 10;
+        $paginaAtual = 0;
+        $registrosPorPagina = ($pagina+1)*10;
 
         $query .= "LIMIT $paginaAtual,$registrosPorPagina";
 
@@ -530,8 +530,8 @@ class ObraDAO extends Database {
         //     $query .= "OR tag.descricao LIKE '%$tag$'";
         // }
         
-        $paginaAtual = ($pagina*10);
-        $registrosPorPagina = 10;
+        $paginaAtual = 0;
+        $registrosPorPagina = ($pagina+1)*10;
 
         $query .= "LIMIT $paginaAtual,$registrosPorPagina";
 

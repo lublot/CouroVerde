@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Erro 404</title>
+        <title>Permissão Negada</title>
         <?php $this->carregarDependencias()?>
             
     </head>

@@ -22,7 +22,7 @@ class backupController extends mainController {
         if(VerificarPermissao::podeRealizarBackup()){
             $this->carregarConteudo('backup',array());
         } else {
-            //pagina de permissão não concedida
+            $this->permissaoNegada();
         }   
     }
 

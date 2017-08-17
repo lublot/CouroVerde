@@ -43,7 +43,7 @@ class pesquisaController extends mainController{
     if(VerificarPermissao::isAdministrador()){
       $this->carregarConteudo('homePesquisa',$this->dados);
     }else{
-
+      $this->permissaoNegada();
     }
   }
   
@@ -53,6 +53,8 @@ class pesquisaController extends mainController{
   public function cadastrar(){
     if(VerificarPermissao::isAdministrador()){
       $this->carregarConteudo('cadastroPesquisa',$this->dados);
+    }else{
+      $this->permissaoNegada();
     }
   }
 
@@ -186,7 +188,7 @@ class pesquisaController extends mainController{
     if(VerificarPermissao::isAdministrador()){
       $this->carregarConteudo('gerenciarPesquisa',$this->dados);
     }else{
-
+      $this->permissaoNegada();
     }
   }
 
@@ -257,7 +259,7 @@ class pesquisaController extends mainController{
         echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
       }
     }else{
-
+      $this->permissaoNegada();
     }
   }
 
@@ -323,6 +325,8 @@ class pesquisaController extends mainController{
       }catch(SenhaIncorretaException $e){
         echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
       }
+    }else{
+      $this->permissaoNegada();
     }
   }
 
@@ -343,6 +347,8 @@ class pesquisaController extends mainController{
       }catch(Exception $e){
         echo json_encode(array("erro"=>"Ocorreu um erro,tente novamente","success"=>false));
       }
+    }else{
+      $this->permissaoNegada();
     }
   }
 
@@ -464,6 +470,8 @@ public function alterar(){
     }catch(PesquisaJaExistenteException $e){
       echo json_encode(array("erro"=>"Já existe uma pesquisa com este título. Tente outro","success"=>false));
     }
+  }else{
+    $this->permissaoNegada();
   }
 }
 
@@ -526,7 +534,7 @@ public function alterar(){
       }
       $this->carregarConteudo('respostaPesquisa',$this->dados);
     }else{
-
+      $this->permissaoNegada();
     }
     
   }
@@ -587,7 +595,7 @@ public function alterar(){
         echo json_encode(array("erro"=>"Ocorreu um erro,atualize a página e tente novamente","success"=>false));
       }
     }else{
-
+      $this->permissaoNegada();
     }
     
   }
@@ -599,11 +607,11 @@ public function alterar(){
   * Carrega a página de visualização de respostas de uma pesquisa
   */
   public function respostas(){
-   if(VerificarPermissao::isAdministrador()){
-      $this->carregarConteudo('visualizacaoRespostas',array());
-   }else{
-
-   }
+    if(VerificarPermissao::isAdministrador()){
+        $this->carregarConteudo('visualizacaoRespostas',array());
+    }else{
+      $this->permissaoNegada();
+    }
   }
 
   /**
@@ -650,6 +658,8 @@ public function alterar(){
       }catch(RespostaInexistenteException $e){
         echo json_encode(array("alerta"=>"Esta pesquisa ainda não possui respostas","success"=>false));
       }
+    }else{
+      $this->permissaoNegada();
     }
   }
 

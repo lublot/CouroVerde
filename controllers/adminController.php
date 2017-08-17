@@ -10,9 +10,8 @@ class adminController extends mainController{
         if(VerificarPermissao::isAdministrador() || VerificarPermissao::isFuncionario()){
             $this->carregarConteudo('homeAdmin',array());
         }else{
-            throw new NivelDeAcessoInsuficienteException();
-        }
-        
+            $this->permissaoNegada();
+        } 
     }
 
 }

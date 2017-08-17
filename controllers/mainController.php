@@ -13,6 +13,10 @@ class mainController{
         include ABSPATH.'/views/'.$nomeArquivo.'.php';
     }
 
+    protected function permissaoNegada(){
+        $c= new ErroController();
+        $c->acesso();
+    }
     /**
     * Este método carrega o cabeçalho do sistema
     */

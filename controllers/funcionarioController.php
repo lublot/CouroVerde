@@ -205,7 +205,7 @@ class funcionarioController extends mainController {
             
             $this->carregarConteudo('gerenciarFuncionario',$this->dados);
         }else{
-
+            $this->permissaoNegada();
         }
     }
 
@@ -272,7 +272,7 @@ class funcionarioController extends mainController {
                 echo json_encode(array('success'=>true));
             }
             else{
-                throw new NivelDeAcessoInsuficienteException();
+                $this->permissaoNegada();
             }
         }
     }
@@ -301,7 +301,7 @@ class funcionarioController extends mainController {
             }
         }
         else{
-            throw new NivelDeAcessoInsuficienteException();
+            $this->permissaoNegada();
         }
     }
 
@@ -374,7 +374,7 @@ class funcionarioController extends mainController {
             }
             echo json_encode($funcionarioDAO);
         }else{
-
+            $this->permissaoNegada();
         }   
     }
 
