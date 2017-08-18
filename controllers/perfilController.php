@@ -24,6 +24,8 @@ class perfilController extends mainController{
                     $this->dados['exception'] = $e->getMessage();
                 }
                 $this->carregarConteudo('perfil',$this->dados);
+        }else{
+            $this->permissaoNegada();
         }
         
         

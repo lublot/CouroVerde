@@ -62,14 +62,16 @@ class Core{
                 $c->$metodo($this->parametros);//Chama o metodo desejado                
             } else {
                 if( !headers_sent() ){
-                        header("Location: ../views/erro404.php");
+                        header("Location:".ROOT_URL."erro/");
                 }else{
-                    ?>
+                    /*?>
                         <script type="text/javascript">
                         document.location.href="../views/erro404.php";
                         </script>
                         Redirecting to <a href="../views/erro404.php">views/erro404.php</a>
-                    <?php
+                    <?php*/
+                    $c = new controllers\erroController();
+                    $c->index();
                 }
                 die();                
             }

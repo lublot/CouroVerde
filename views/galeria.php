@@ -8,37 +8,48 @@
         <?php $this->carregarDependencias();?>
     </head>
     <body>
-        <style type="text/css">
-            .container{
-                /*tira a galeira de baixo do painel lateral*/
-                padding-left: 19%;    
-            }
-        </style>
         <?php $this->carregarCabecalho();?>
-        <div class="container" style="">
-            <!--Painel lateral com as categorias-->
-            <ul class="side-nav fixed" style="max-length: 30%">
-                <!--SUGESTÃO PARA INTEGRAÇÃO-->
-                <!--caso ele esteja em uma categoria, volta pra galeria geral-->
-                <li><a href="#!">CLASSIFICAÇÕES</a></li>
-                <li><div class="divider"></div></li>
-                 <!--Um <li> para cada nova categoria-->
-                <?php
-                    require_once dirname(__DIR__).'/vendor/autoload.php';
-                    use \controllers\obraController as ObraController;
-                    use \models\Classificacao as Classificacao;
+            <div class="col-xs-3">
+                <div class="panel-heading text-center">
+                    <h4 class="panel-title">
+                        <a>
+                        <h5>CATEGORIAS</h5>
+                        </a>
+                    </h4>
+                    <br>
+                    <h4 class="panel-title">
+                        <a>
+                        Categoria 1
+                        </a>
+                    </h4>
+                    <br>
+                    <h4 class="panel-title">
+                        <a>
+                        Categoria 2
+                        </a>
+                    </h4>
+                    <br>
+                    <h4 class="panel-title">
+                        <a>
+                        Categoria 3
+                        </a>
+                    </h4>
+                    <br>
+                    <h4 class="panel-title">
+                        <a>
+                        Categoria 4
+                        </a>
+                    </h4>
+                    <br>
+                    <h4 class="panel-title">
+                        <a>
+                        Categoria 5
+                        </a>
+                    </h4>
+                </div>
+            </div>
 
-                    $obraController = new ObraController();
-
-                    $classificacoes = $obraController->obterClassificacoes();
-
-                    foreach($classificacoes as $classificacao) {
-                        echo "<li><a class='waves-effect' href='?id=".$classificacao->getId()."'>".$classificacao->getNome()."</a></li>";
-                    }
-                ?>
-            </ul>
-        </div>
-        </div>
+            <!--Inicialização ainel lateral-->
             <!--Inicialização ainel lateral-->
         <br>
         <?php

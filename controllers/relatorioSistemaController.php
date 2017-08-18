@@ -22,7 +22,7 @@ class relatorioSistemaController extends mainController{
         if(VerificarPermissao::isAdministrador()){
             $this->carregarConteudo('relatorioSistema',array());
         }else{
-            //Niveel Insuficiente
+            $this->permissaoNegada();
         }
     }
     /**
