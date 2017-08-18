@@ -8,48 +8,34 @@
         <?php $this->carregarDependencias();?>
     </head>
     <body>
+        <style type="text/css">
+            .container{
+                /*tira a galeira de baixo do painel lateral*/
+                padding-left: 19%;    
+            }
+        </style>
         <?php $this->carregarCabecalho();?>
-            <div class="col-xs-3">
-                <div class="panel-heading text-center">
-                    <h4 class="panel-title">
-                        <a>
-                        <h5>CATEGORIAS</h5>
-                        </a>
-                    </h4>
-                    <br>
-                    <h4 class="panel-title">
-                        <a>
-                        Categoria 1
-                        </a>
-                    </h4>
-                    <br>
-                    <h4 class="panel-title">
-                        <a>
-                        Categoria 2
-                        </a>
-                    </h4>
-                    <br>
-                    <h4 class="panel-title">
-                        <a>
-                        Categoria 3
-                        </a>
-                    </h4>
-                    <br>
-                    <h4 class="panel-title">
-                        <a>
-                        Categoria 4
-                        </a>
-                    </h4>
-                    <br>
-                    <h4 class="panel-title">
-                        <a>
-                        Categoria 5
-                        </a>
-                    </h4>
-                </div>
-            </div>
-
-            <!--Inicialização ainel lateral-->
+        <div class="container" style="">
+            <!--Painel lateral com as categorias-->
+            <ul class="side-nav fixed" style="max-length: 30%">
+                <!--SUGESTÃO PARA INTEGRAÇÃO-->
+                <!--caso ele esteja em uma categoria, volta pra galeria geral-->
+                <li><a href="#!">CLASSIFICAÇÕES</a></li>
+                <li><div class="divider"></div></li>
+                 <!--Um <li> para cada nova categoria-->
+                <?php
+                    require_once dirname(__DIR__).'/vendor/autoload.php';
+                    use \controllers\obraController as ObraController;
+                    use \models\Classificacao as Classificacao;
+                    $obraController = new ObraController();
+                    $classificacoes = $obraController->obterClassificacoes();
+                    foreach($classificacoes as $classificacao) {
+                        echo "<li><a class='waves-effect' href='?id=".$classificacao->getId()."'>".$classificacao->getNome()."</a></li>";
+                    }
+                ?>
+            </ul>
+        </div>
+        </div>
             <!--Inicialização ainel lateral-->
         <br>
         <?php
@@ -75,9 +61,7 @@
                             // 1 row para cada colona de imagens
                             echo '<div class="row"> <!-abre linha-->';
                         }
-
                         $numImgsLinha = $numImgsLinha + 1;
-
                         echo '<!--um <col-xs-6 col-md-3> para cada imagem de obra a ser exibida-->
                                 <div id="img'.$numImgs.'_'.$numPag.'" class="col-xs-6 col-md-3" hidden>
                                     <!--#href contendo o caminho para exibição da obra-->
@@ -94,23 +78,20 @@
                                         </div>
                                     </a>
                                 </div>';
-
                         if($numImgsLinha == 4) {
                             echo '</div><!-fecha linha-->';                            
                             $numImgsLinha = 0;
                         }
-
                         if($numImgs == 8) {
                             $numImgs = 0;
                             $numPag++;
                         }
-
                     }
                 }                
             ?>
             <div class="row text-center">
                 <button type="button" class="btn btn-primary btn-mais">Carregar Mais</button>
-            </div>
+            </div>    
             <div class="row text-center">
                 <button type="button" onclick="topFunction()" id="myBtn" class="btn btn-primary btn-voltar" style="display: none;">Voltar Ao Início</a>                                 
             </div>                
