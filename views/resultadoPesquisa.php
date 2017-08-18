@@ -27,19 +27,19 @@
                         <hr>
                         <h4 class="panel-title">
                             <a data-toggle="collapse" id="autor" class="collapsed" style="cursor:pointer">
-                                <span  class="glyphicon glyphicon-camera"></span> Autor
+                                <span ></span> Autor
                             </a>
                         </h4>
                         <br>
                         <h4 class="panel-title">
                             <a data-toggle="collapse" id="tag" class="collapsed" style="cursor:pointer">
-                                <span  class="glyphicon glyphicon-camera"></span> Palavras-Chave
+                                <span ></span> Palavras-Chave
                             </a>
                         </h4>
                         <br>
                         <h4 class="panel-title">
                             <a data-toggle="collapse" id="titulo" class="collapsed" style="cursor:pointer">
-                                <span class="glyphicon glyphicon-camera"></span> Título da Obra
+                                Título da Obra
                             </a>
                         </h4>
                         <hr>
@@ -48,13 +48,13 @@
                         </h5>
                         <h4 class="panel-title">
                             <a data-toggle="collapse" id="classificacao" class="collapsed" style="cursor:pointer">
-                                <span class="glyphicon glyphicon-camera"></span> Classificação
+                                Classificação
                             </a>
                         </h4>
                         <br>
                         <h4 class="panel-title">
                             <a data-toggle="collapse" id="colecao" class="collapsed" style="cursor:pointer">
-                                <span class="glyphicon glyphicon-camera"></span> Coleção
+                                Coleção
                             </a>
                         </h4>
                         <br>
