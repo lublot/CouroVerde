@@ -12,6 +12,18 @@ class relatorioAcessoController extends mainController
 {
     private $numInventarioJaRegistrados;
 
+    /**
+    * Redireciona para a página de visualização do relatório de acesso.
+    */
+    public function index() {
+        $this->carregarConteudo('relatorioAcesso',array());
+    }
+
+    /**
+    * Configura o ambiente para testes.
+    * @param $idUsuario - id de um usuário
+    * @param $numInventario - número de inventário 
+    */
     public function configuraAmbienteParaTeste($idUsuario, $numInventario){
         $_POST['idUsuario'] = $idUsuario;
         $_POST['numeroInventario'] = $numeroInventario;
@@ -132,8 +144,10 @@ class relatorioAcessoController extends mainController
                 $pdf->Ln();
             }  
         } 
+
+        $nomeArquivo = "C:\wamp64\www\sertour\media/relatorioacesso/relatorioAcesso.pdf";
  
-        $pdf->Output();
+        $pdf->Output($nomeArquivo, 'F');
     }
 
     /**

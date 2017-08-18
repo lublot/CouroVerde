@@ -33,6 +33,29 @@ class obraController extends mainController {
     } 
 
     /**
+    * Redireciona para a página de gerenciamento de obra.
+    */    
+    public function gerenciar() {
+        //if(VerificarPermissao::podeCadastrarObra()){
+            $this->carregarConteudo('gerenciarObras',array());
+       // } else {
+            //pagina de permissão não concedida
+        //}        
+    }
+
+    /**
+    * Redireciona para a página de gerenciamento de obra.
+    */    
+    public function gerenciaobra() {
+        //if(VerificarPermissao::podeCadastrarObra()){
+            $this->carregarConteudo('gerenciarObraEscolhida',array());
+       // } else {
+            //pagina de permissão não concedida
+        //}        
+    }    
+
+
+    /**
     * Configura a classe para realização de testes.
     */
     public function configurarAmbienteParaTeste($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,

@@ -99,7 +99,7 @@
             ?>
             <div class="row text-center">
                 <button type="button" class="btn btn-primary btn-mais">Carregar Mais</button>
-            </div>    
+            </div>
             <div class="row text-center">
                 <button type="button" onclick="topFunction()" id="myBtn" class="btn btn-primary btn-voltar" style="display: none;">Voltar Ao Início</a>                                 
             </div>                

@@ -41,7 +41,9 @@
                         use \controllers\obraController as ObraController;  
                         use \models\Obra as Obra;  
                         use \DAO\obraDao as ObraDAO;
-
+                        use \DAO\UsuarioAcessoDAO as UsuarioAcessoDAO;
+                        use \models\Visita as Visita;
+                        
                         if(isset($_GET['num'])){
                             $obraDAO = new ObraDAO();
                             $obraController = new ObraController();
@@ -50,8 +52,11 @@
                                 $usuarioAcessoDAO = new UsuarioAcessoDAO();
                                 $visitas = $usuarioAcessoDAO->buscar(array(), array('numeroInventario' => $_GET['num'], 'idUsuario' => $_SESSION['id']));
                                 
+                                $numInventario = explode('.php', $_GET['num']);
+                                $numInventario = $numInventario[0];
+
                                 if(count($visitas) <= 0) {
-                                    $usuarioAcessoDAO->inserir(new Visita($_SESSION['id'], $_GET['num']));
+                                    $usuarioAcessoDAO->inserir(new Visita($_SESSION['id'], $numInventario));
                                 }
                             }
 

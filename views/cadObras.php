@@ -11,10 +11,9 @@
 
     <title>Cadastro de obras</title>
 
-    <link rel="stylesheet" href="assets/css/datepicker.css" />
-
+    <link rel="stylesheet" href=<?php echo '"'.VIEW_BASE.'assets/css/datepicker.css"' ?>/>
     <!--Importação do Javascript pessoal e jQuery  -->
-    <script src="assets/js/bootstrap-datepicker.js"></script>
+    <script src=<?php echo '"'.VIEW_BASE.'assets/js/bootstrap-datepicker.js"' ?>></script>
     <script>
         $(function() {
             $('.datepicker').datepicker({
@@ -28,15 +27,14 @@
 
 <body style="background-color: rgb(241, 242, 246);">
     <?php $this->carregarCabecalho();?>    
-    <div class="container">
 
+    <div class="container">
         <!-- Painel -->
         <div class="col-md-3 col-lg-3">
-
+            <?php $this->carregarPainel();?> 
         </div>
 
         <div class="col-md-9 col-lg-9">
-
             <!--Título da caixa-->
             <div id="titulo">
                 <h4 class="text-center">Registro da Obra</h4>

@@ -256,7 +256,7 @@ class loginController extends mainController{
         $usuario = $usuarioDao->buscarUsuarioContaExterna(array("idUsuarioFacebook"),array("idUsuario","nome","sobrenome","email","cadastroConfirmado","tipoUsuario"),$filtros,"facebook");
         $usuarioInt = $usuarioDao->buscar(array(), array("email" => $graph->getEmail()));
 
-        if(isset($usuarioInt[0])) {
+        if(isset($usuarioInt[0]) && $usuarioInt[0]->getSenha() != null) {
             $this->dados['exception'] = 'O email da sua conta já está cadastrado no sistema.';
             $this->carregarConteudo("login",$this->dados);
         } else {

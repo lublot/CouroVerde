@@ -17,13 +17,14 @@ class usuarioAcessoDAO extends Database {
         $numeroInventario = $visita->getNumeroInventario();
         $idVisitante = $visita->getIdVisitante();
 
-        $query = "INSERT INTO usuarioacessoobra(numeroInventario, idUsuario) VALUES ('$numeroInventario', '$idsVisitantes')";
+        $query = "INSERT INTO usuarioacessoobra(numeroInventario, idUsuario) VALUES ('$numeroInventario', '$idVisitante')";
 
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){
             
         }
+
     }
     
 
