@@ -11,11 +11,11 @@ $(document).ready(function () {
         }
         carregarPag();
     }
-
+    
     $(".btn-mais").click(function () {
         if(!$("#img".concat(1).concat("_").concat(pagAtual+2)).length) {
             pagAtual++;
-            carregarPag();                  
+            carregarPag();
             $(".btn-voltar").removeAttr("style");
             $(".btn-mais").attr('style', "display: none;");
             mostrarVoltar = true;

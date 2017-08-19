@@ -27,8 +27,8 @@ class obraController extends mainController {
     public function cadastro() {
         //if(VerificarPermissao::podeCadastrarObra()){
             $this->carregarConteudo('cadObras',array());
-       // } else {
-            //pagina de permissão não concedida
+       //} else {
+         //   $this->permissaoNegada();
         //}        
     } 
 
@@ -36,10 +36,10 @@ class obraController extends mainController {
     * Redireciona para a página de gerenciamento de obra.
     */    
     public function gerenciar() {
-        //if(VerificarPermissao::podeCadastrarObra()){
+        //if(VerificarPermissao::podeGerenciarObra()){
             $this->carregarConteudo('gerenciarObras',array());
-       // } else {
-            //pagina de permissão não concedida
+        //} else {
+        //    $this->permissaoNegada();
         //}        
     }
 
@@ -47,13 +47,12 @@ class obraController extends mainController {
     * Redireciona para a página de gerenciamento de obra.
     */    
     public function gerenciaobra() {
-        //if(VerificarPermissao::podeCadastrarObra()){
+        //if(VerificarPermissao::podeGerenciarObra()){
             $this->carregarConteudo('gerenciarObraEscolhida',array());
-       // } else {
-            //pagina de permissão não concedida
+       //} else {
+            //$this->permissaoNegada();
         //}        
     }    
-
 
     /**
     * Configura a classe para realização de testes.
@@ -89,34 +88,36 @@ class obraController extends mainController {
         'estado-de-conservacao' => $estado,
         'tags' => $tags);
     }
-
+    /**
+    * Configura a classe para realização de testes de gerenciamento.
+    */
     public function configurarAmbienteParaTesteGerenciamento($numeroInventario, $nome, $titulo, $funcao, $origem, $procedencia,
     $descricao, $idColecao, $idClassificacao, $altura, $largura, $diametro, $peso, $comprimento, $materiaisContruidos,
     $tecnicasFabricacao, $autoria, $marcasInscricoes, $historicoObjeto, $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estadoConservacao){
-        $nomeCampos = array(`numeroInventario`,
-        `nome`,
-        `titulo`,
-        `funcao`,
-        `origem`,
-        `procedencia`,
-        `descricao`,
-        `idColecao`,
-        `idClassificacao`,
-        `altura`,
-        `largura`,
-        `diametro`,
-        `peso`,
-        `comprimento`,
-        `materiaisContruidos`,
-        `tecnicasFabricacao`,
-        `autoria`,
-        `marcasInscricoes`,
-        `historicoObjeto`,
-        `modoAquisicao`,
-        `dataAquisicao`,
-        `autor`,
-        `observacoes`,
-        `estadoConservacao`);
+        $nomeCampos = array('numeroInventario',
+        'nome',
+        'titulo',
+        'funcao',
+        'origem',
+        'procedencia',
+        'descricao',
+        'idColecao',
+        'idClassificacao',
+        'altura',
+        'largura',
+        'diametro',
+        'peso',
+        'comprimento',
+        'materiaisContruidos',
+        'tecnicasFabricacao',
+        'autoria',
+        'marcasInscricoes',
+        'historicoObjeto',
+        'modoAquisicao',
+        'dataAquisicao',
+        'autor',
+        'observacoes',
+        'estadoConservacao');
 
         //seta os valores para teste
         foreach($nomeCampos as $value){
@@ -126,14 +127,10 @@ class obraController extends mainController {
         $_POST['submit'] = $post;
         $_SESSION['podeGerenciarObra'] = true;
     }
-    // public function index() {
-    //     if(isset($_POST["submit"])) {
-    //         // if(ValidacaoDados::validarForm($_POST, array("colecao"))) {
 
-    //         // }
-    //     }
-    // }
-//colecao classificacao fotografo data-da-fotografia fotografia_autor
+    /**
+    * Realiza o cadastro de uma obra.
+    */
     public function cadastrarObra() {
         if (isset($_POST) and ValidacaoDados::validarForm($_POST, array("inventario", "nome", "titulo", "colecao", "classificacao"))) {
 
@@ -443,6 +440,10 @@ class obraController extends mainController {
         }       
     }
 
+    /**
+    * Obtém os arquivos carregados para uma obra
+    * @param int $numInventario - número de inventário da obra desejada
+    */
     private function obterArquivos($numInventario) {
         $caminhoPastaImages = dirname(__DIR__).'/media/obras/imagens/';
         $caminhoImagesExibir = '../media/obras/imagens/';
@@ -453,7 +454,7 @@ class obraController extends mainController {
         $caminhoModelo3DExibir = '../media/obras/modelo3d/';        
         $caminhoPastaModelo3D .= $numInventario; 
         $caminhoModelo3DExibir .= $numInventario; 
-
+        
         $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
         $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
 
@@ -471,40 +472,11 @@ class obraController extends mainController {
             $caminhosImagens[] = $caminhoImagesExibir . '/' . $imagem;
         }
 
-        $caminhoPastaModelo3D = $caminhoModelo3DExibir.$modelo3D[2];
+        $caminhoPastaModelo3D = $caminhoModelo3DExibir.'/'.$modelo3D[2];
         
         return array($caminhosImagens, $caminhoPastaModelo3D);
     }    
 
-    private function uploadImagem() {
-        $arqCaminho = "media/obras/imagens/" . date("Ymd") . date("His") . basename($_FILES["user_file"]["name"]);
-        $uploadOk = true;
-        $extensaoImg = pathinfo($arqCaminho, PATHINFO_EXTENSION);
-            
-        if(isset($_POST["submit"])) { // checar se a imagem é real
-            $checar = getimagesize($_FILES["user_file"]["tmp_name"]);
-            if($checar !== false) {
-                $uploadOk = true;
-            } else {
-                $causa = "O arquivo enviado não é uma imagem";
-                $uploadOk = false;
-            }
-        }
-
-        if(!isset($causa) && $extensaoImg != "jpg" && $extensaoImg != "png" && $extensaoImg != "jpeg" && $extensaoImg != "gif" ) {//apenas algumas extensões de imagem serão permitidas
-            $causa = "Apenas imagens .jpg, .png, .jpeg e .gif são permitidas.";
-            $uploadOk = false;
-        }
-            
-        if ($uploadOk == false) {
-            throw new ErroUploadImagemException($causa);
-        } else {
-            move_uploaded_file($_FILES["user_file"]["tmp_name"], $arqCaminho);
-            $caminhoImagem = $arqCaminho;                    
-        }
-
-        return $caminhoImagem;        
-    }
 
     public function testeColecaoClassificacao($nome) {
         $_POST = array('nome' => $nome);
@@ -549,25 +521,11 @@ class obraController extends mainController {
     * Este método remove uma obra do sistema
     */
     public function removerObra(){
-        try{
-            if(isset($_POST['senha']) && isset($_POST['filtro']) && isset($_POST['valorFiltro'])){
-
-                $senhaReal = GerenciarSenha::criptografarSenha($_POST['senha']);
-                $usuarioDAO = new UsuarioDAO();
-                $usuarioDAO = $usuarioDAO->buscar(array(),array("idUsuario"=>$_SESSION['idUsuario']));
-
-                if(count($usuarioDAO)>0){
-                    $senhaArmazenada = $usuarioDAO[0]->getSenha();
-                    if(GerenciarSenha::checarSenha($senhaArmazenada,$senhaReal)){
-                        $obraDAO = new ObraDAO();
-                        $obraDAO = $obraDAO->remover(array($_POST['filtro']=>$_POST['valorFiltro']));
-                    }
-                }
-            }
-        }catch(Exception $e){
-
+        if(isset($_GET['n'])) {
+            $obraDAO = new ObraDAO();
+            $obraDAO->remover(array('numeroInventario' => $_GET['n']));
         }
-        
+        header("location: /obra/gerenciar");
     }
 
     /**
@@ -596,95 +554,66 @@ class obraController extends mainController {
     public function gerenciarObra(){
         
         //Array com o nome dos campos
-        $nomeCampos = array(`numeroInventario`,
-        `nome`,
-        `titulo`,
-        `funcao`,
-        `origem`,
-        `procedencia`,
-        `descricao`,
-        `idColecao`,
-        `idClassificacao`,
-        `altura`,
-        `largura`,
-        `diametro`,
-        `peso`,
-        `comprimento`,
-        `materiaisContruidos`,
-        `tecnicasFabricacao`,
-        `autoria`,
-        `marcasInscricoes`,
-        `historicoObjeto`,
-        `modoAquisicao`,
-        `dataAquisicao`,
-        `autor`,
-        `observacoes`,
-        `estadoConservacao`);
+        $nomeCampos = array('numeroInventario',
+        'nome',
+        'titulo',
+        'funcao',
+        'origem',
+        'procedencia',
+        'descricao',
+        'idColecao',
+        'idClassificacao',
+        'altura',
+        'largura',
+        'diametro',
+        'peso',
+        'comprimento',
+        'materiaisContruidos',
+        'tecnicasFabricacao',
+        'autoria',
+        'marcasInscricoes',
+        'historicoObjeto',
+        'modoAquisicao',
+        'dataAquisicao',
+        'autor',
+        'observacoes',
+        'estadoConservacao');
 
-        if(isset($_SESSION['podeGerenciarObra'])){ //verifica se a variavel sessão possui podeCadastrarObra setada
-            if($_SESSION['podeGerenciarObra']){ //verfica se o funcionario pode gerenciar obra
-                
-                if (isset($_POST["submit"]) && isset($_POST['numeroInventario'])){
-                    $numeroInventario = addslashes($_POST['numeroInventario']);
-                    $campos; //array para receber campos alterados
-
-                    foreach($nomeCampos as $value){ //percorre o nome dos campos
-                        if(isset($_POST[$value])){ //verifica se o campo foi modificado
-                            if(ValidacaoDados::validarCampo($_POST[$value])) { //verifica se o campo está válido
-                                $campos [$value] = addslashes($_POST[$value]); //recebe o campo                                
-                            }else if($value != 'numeroInventario' && $value != 'nome' && $value != 'titulo' && $value != 'idColecao' && $value != 'idClassificacao'){ //se o campo não for obrigatorio
-                                $campos [$value] = null;
-                            }
-                            else{ //se o campo for obrigatorio
-                                throw new CampoInvalidoException($value);
-                            }
-                        }
+        if (isset($_POST) and ValidacaoDados::validarForm($_POST, array("numeroInventario"))){
+            $numeroInventario = addslashes($_POST['numeroInventario']);
+            $campos = array(); //array para receber campos alterados
+            foreach($nomeCampos as $value){ //percorre o nome dos campos
+                if(ValidacaoDados::validarForm($_POST, array($value))){ //verifica se o campo foi modificado
+                    if(ValidacaoDados::validarCampo($_POST[$value])) { //verifica se o campo está válido
+                        $campos[$value] = addslashes($_POST[$value]); //recebe o campo                                
+                    }else if($value != 'numeroInventario' && $value != 'nome' && $value != 'titulo' && $value != 'idColecao' && $value != 'idClassificacao'){ //se o campo não for obrigatorio
+                        $campos[$value] = null;
+                    }else{ //se o campo for obrigatorio
+                        throw new CampoInvalidoException($value);
                     }
-
-                    $caminhosArquivos = $this->obterArquivos($_POST['numeroInventario']); //obtém o caminho dos arquivos
-                    
-                    $caminhosImagens = $caminhosArquivos[0]; //recebe o caminho das imagens
-                    $caminhoModelo3D = addslashes($caminhosArquivos[1]); //recebe o caminho do modelo 3D
-
-                    if(isset($caminhosArquivos[1])){ //verifica se o arquivo do modelo 3d foi alterado
-                        $campos [$caminhoModelo3D] = addslashes($caminhosArquivos[1]); //modifica o caminho do modelo 3d
-                    }
-            
-                    for($i = 0; $i<5; $i++){ //percorre o array com os caminhos das imagens
-                        if(isset($caminhosImagens[i])){ //verifica se o arquivo foi alterado
-                            $campos ['caminhoImagem'.$i] = addslashes($caminhosImagens[$i]); //modifica o caminho do arquivo
-                        }
-                    }
-
-                    $obraDAO = new obraDAO();
-                    $obraDAO->alterar($campos, array('numeroInventario'=>$numeroInventario)); //atualiza os dados no banco
                 }
-            }else{
-                throw new PermissaoNaoConcedidaException();
             }
-        }
+                        
+            $caminhosArquivos = $this->obterArquivos($_POST['numeroInventario']); //obtém o caminho dos arquivos
+            
+            $caminhosImagens = $caminhosArquivos[0]; //recebe o caminho das imagens
+            $caminhoModelo3D = addslashes($caminhosArquivos[1]); //recebe o caminho do modelo 3D
 
-    }
+            if(isset($caminhosArquivos[1])){ //verifica se o arquivo do modelo 3d foi alterado
+                $campos['caminhoModelo3D'] = addslashes($caminhoModelo3D); //modifica o caminho do modelo 3d
+            }
 
-    /**
-    *Este método cadastra palavras-chave.
-    */
-    /*
-    public function cadastrarPalavraChave() {
-        if(isset($_POST["submit"]) and ValidacaoDados::validarForm($_POST, array('descricao'))) { //verifica se a variável superglobal foi setada
-            if(!ValidacaoDados::validarCampo($_POST['descricao'])) { //verifica se o campo está válido
-                throw new CampoInvalidoException('descricao');
+            $cont = 1;
+
+            foreach($caminhosImagens as $caminho) {
+                $campos['caminhoImagem'.$cont] = addslashes($caminho); //modifica o caminho do arquivo
+                $cont++;
             }
 
             $obraDAO = new obraDAO();
-
-            $descricao = addslashes($POST['descricao']);
-
-            $obraDAO->inserirPalavraChave(new PalavraChave(null, $descricao));
-        } else {
-            throw new DadosCorrompidosException();
+            $obraDAO->alterar($campos, array('numeroInventario'=>$numeroInventario)); //atualiza os dados no banco
         }
-    }*/
+    }
 
     /**
     * Cadastra palavras chaves
@@ -729,14 +658,18 @@ class obraController extends mainController {
 
     /**
     * Obtém uma classificação a partir do seu id.
-    * @param unknown $idColecao - o id da coleção.
+    * @param int $idColecao - o id da coleção.
     */
     public function obterClassificacao($idClassificacao) {
         $obraDAO = new ObraDAO();
         $classificacao = $obraDAO->buscarClassificacao(array(), array("idClassificacao" => $idClassificacao));
         return $classificacao[0];
-    }    
+    }   
 
+    /**
+    * Obtém obras associadas a uma classificação.
+    * @param int $idClassificacao - o id da classificação.
+    */
     public function obterObrasClassificacao($idClassificacao) {
         $obraDAO = new ObraDAO();
         return $obraDAO->buscar(array(), array("idClassificacao" => $idClassificacao));        
