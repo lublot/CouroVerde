@@ -16,7 +16,7 @@ class ValidacaoDados {
     */
     public static function validarForm($array,$chaves){
         foreach($chaves as $chave){
-            if(!array_key_exists($chave,$array) || empty($array[$chave])){
+            if(!array_key_exists($chave,$array) || $array[$chave] == '' || $array[$chave] == null){
                 return false;
             }
         }
@@ -29,7 +29,7 @@ class ValidacaoDados {
     * @return <code>true</code>, se houver informação; <code>false</code>, caso contrário
     */
     public static function validarCampo($campo) {
-        if ($campo != null && isset($campo) && !empty($campo)) {
+        if ($campo != null && isset($campo) && $campo != '') {
             return true;
         }
         return false;

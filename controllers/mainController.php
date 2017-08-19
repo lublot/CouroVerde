@@ -57,11 +57,9 @@ class mainController{
     }
 
     protected function carregarDependenciasGaleria(){
-        echo '<link rel="stylesheet" type ="text/css" href="'.VIEW_BASE.'assets/css/materialize.css"'.'>';
         echo '<link rel="stylesheet" type ="text/css" href="'.VIEW_BASE.'assets/css/bootstrap.min.css"'.'>';
         echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>';
         echo '<script type="text/javascript" src="'.VIEW_BASE.'assets/js/bootstrap.js"></script>';
-        echo '<script type="text/javascript" src="'.VIEW_BASE.'assets/js/galeria-script.js"></script>';    
     }
     
     /**

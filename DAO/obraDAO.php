@@ -108,7 +108,6 @@ class ObraDAO extends Database {
 
         
         $this->PDO->query($query);
-
     }
 
     /**

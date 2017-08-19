@@ -9,7 +9,7 @@
     <!--Regulando a visão da tela para a largura relativa à tela utilizada-->
     <meta name=viewport content="width=device-width, initial-scale=1" />
 
-    <title>Cadastro de obras</title>
+    <title>Gerenciamento de Obra</title>
 
     <link rel="stylesheet" href=<?php echo '"'.VIEW_BASE.'assets/css/datepicker.css"' ?>/>
     <!--Importação do Javascript pessoal e jQuery  -->
@@ -95,7 +95,13 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <!--Text: Título-->
-                                                <input class="form-control" type="text" required="required" name="titulo" placeholder="Título (*)">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="text" value="'.$obra->getTitulo().'" required="required" name="titulo" placeholder="Título (*)">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="text" required="required" name="titulo" placeholder="Título (*)">';                                                        
+                                                    }
+                                                ?>                                                
                                             </div>
                                         </div>
                                     </div>
@@ -105,20 +111,32 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <!--Text: Número do Inventário-->
-                                                <input class="form-control" type="number" required="required" id="inventario" name="inventario" placeholder="Número do Inventário (*)">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="number" value="'.$obra->getNumInventario().'"  required="required" id="numeroInventario" name="numeroInventario" placeholder="Número do Inventário (*)">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="number" required="required" id="numeroInventario" name="numeroInventario" placeholder="Número do Inventário (*)">';                                                        
+                                                    }
+                                                ?>                                                      
+                                                
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <!--Select: Coleção-->
-                                                <select class="form-control" required="required" id="select-colecao" name="colecao" onchange="cadastroColecao()">
+                                                <select class="form-control" required="required" id="select-colecao" name="idColecao" onchange="cadastroColecao()">
                                                     <!--A lista de opções tem que ser baixada diretamente das opções do banco de dados utilizando PHP-->
                                                     <option>Coleção (*)</option>
                                                     <?php
 
 
                                                         foreach($colecoes as $colecao) {
-                                                            echo "<option value='".$colecao->getId()."'>".$colecao->getNome()."</option>";
+                                                            if(isset($_GET['i'])) {
+                                                                echo "<option value='".$colecao->getId()."' selected>".$colecao->getNome()."</option>";
+                                                            } else {
+                                                                echo "<option value='".$colecao->getId()."'>".$colecao->getNome()."</option>";                    
+                                                            }                                                            
+                                                            
                                                         }
                                                     ?>
                                                     <option value="add-col" >Adicionar nova opção...</option>
@@ -138,7 +156,14 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <!--Text: Procedência-->
-                                                <input class="form-control" type="text" name="procedencia" placeholder="Procedência">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="text" value="'.$obra->getProcedencia().'" name="procedencia" placeholder="Procedência">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="text" name="procedencia" placeholder="Procedência">';                                                        
+                                                    }
+                                                ?>                                                                   
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -148,7 +173,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <!--Select: Classificação-->
-                                                <select class="form-control" required="required" id="select-classificacao" name="classificacao" onchange="cadastroClassificacao()">
+                                                <select class="form-control" required="required" id="select-classificacao" name="idClassificacao" onchange="cadastroClassificacao()">
                                                     <!--A lista de opções tem de ser baixada do banco de dados-->
                                                     <option>Classificação (*)</option>
                                                     <?php
@@ -157,7 +182,11 @@
                                                         $classificacoes = $obraController->obterClassificacoes();
 
                                                         foreach($classificacoes as $classificacao) {
-                                                            echo "<option value='".$classificacao->getId()."'>".$classificacao->getNome()."</option>";
+                                                            if(isset($_GET['i'])) {
+                                                                echo "<option value='".$classificacao->getId()."' selected>".$classificacao->getNome()."</option>";
+                                                            } else {
+                                                                echo "<option value='".$classificacao->getId()."'>".$classificacao->getNome()."</option>";                                                        
+                                                            }
                                                         }
                                                     ?>                                                    
                                                     <option value="add-cla">Adicionar nova opção...</option>
@@ -167,7 +196,13 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <!--Text: Função-->
-                                                <input class="form-control" type="text" name="funcao" placeholder="Função"> </div>
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="text" value="'.$obra->getFuncao().'" name="funcao" placeholder="Função"> </div>';
+                                                    } else {
+                                                        echo ' <input class="form-control" type="text" name="funcao" placeholder="Função"> </div>';                                                        
+                                                    }
+                                                ?>                                                  
                                         </div>
                                     </div>
 
@@ -175,14 +210,28 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <!--Text: Tags-->
-                                            <input class="form-control" type="text" name="tags" placeholder="Palavras-chave" align="justify">
+                                            <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="text" value="'.$obra->getPalavrasChave().'" name="tags" placeholder="Palavras-chave" align="justify">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="text" name="tags" placeholder="Palavras-chave" align="justify">';                                                        
+                                                    }
+                                                ?>                                              
+                                            
                                         </div>
                                     </div>
                                     <!--Linha 6-->
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <!--Textarea: Descrição-->
-                                            <textarea class="form-control" id="fixa" rows="3" name="descricao" placeholder="Descrição"></textarea>
+                                            <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" name="descricao" value="'.$obra->getDescricao().'" placeholder="Descrição"></textarea>';
+                                                    } else {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" name="descricao" placeholder="Descrição"></textarea>';                                                        
+                                                    }
+                                                ?>                                              
+                                            
                                         </div>
                                     </div>
 
@@ -214,21 +263,39 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--Text: Altura  -->
-                                                <input class="form-control" type="number" name="altura" placeholder="Altura">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="number" value="'.$obra->getAltura().'" name="altura" placeholder="Altura">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="number" name="altura" placeholder="Altura">';                                                        
+                                                    }
+                                                ?>                                                  
                                             </div>
                                         </div>
 
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--Text: Largura  -->
-                                                <input class="form-control" type="number" name="largura" placeholder="Largura">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="number" value="'.$obra->getLargura().'" name="largura" placeholder="Largura">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="number" name="largura" placeholder="Largura">';                                                        
+                                                    }
+                                                ?>                                                  
                                             </div>
                                         </div>
 
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--Text: Diâmetro  -->
-                                                <input class="form-control" type="number" name="diametro" placeholder="Diâmetro">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="number" value="'.$obra->getDiametro().'" name="diametro" placeholder="Diâmetro">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="number" name="diametro" placeholder="Diâmetro">';                                                        
+                                                    }
+                                                ?>                                                  
                                             </div>
                                         </div>
 
@@ -243,14 +310,27 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--Text: Peso -->
-                                                <input class="form-control" type="number" name="peso" placeholder="Peso">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="number" value="'.$obra->getPeso().'" name="peso" placeholder="Peso">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="number" name="peso" placeholder="Peso">';                                                        
+                                                    }
+                                                ?>                                                  
                                             </div>
                                         </div>
 
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--Text: Comprimento  -->
-                                                <input class="form-control" type="number" name="comprimento" placeholder="Comprimento">
+                                                
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="number" value="'.$obra->getComprimento().'" name="comprimento" placeholder="Comprimento">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="number" name="comprimento" placeholder="Comprimento">';                                                        
+                                                    }
+                                                ?>                                                  
                                             </div>
                                         </div>
                                         <div class="col-lg-2"></div>
@@ -279,21 +359,42 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--TextArea: Materiais Contitutivos  -->
-                                                <textarea class="form-control" id="fixa" rows="3" name="materiais-constitutivos" placeholder="Materiais Constitutivos"></textarea>
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" name="materiaisContruidos" value="'.$obra->getMateriais().'"  placeholder="Materiais Constitutivos"></textarea>';
+                                                    } else {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" name="materiaisContruidos" placeholder="Materiais Constitutivos"></textarea>';                                                        
+                                                    }
+                                                ?>                                                  
+                                                
                                             </div>
                                         </div>
 
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--TextArea: Técnicas de Fabricação -->
-                                                <textarea class="form-control" id="fixa" rows="3" name="tecnicas-de-fabricacao" placeholder="Técnicas de Fabricação"></textarea>
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" name="tecnicasFabricacao" value="'.$obra->getTecnicas().'" placeholder="Técnicas de Fabricação"></textarea>';
+                                                    } else {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" name="tecnicasFabricacao" placeholder="Técnicas de Fabricação"></textarea>';                                                        
+                                                    }
+                                                ?>                                                  
+                                                
                                             </div>
                                         </div>
 
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--TextArea: Autoria  -->
-                                                <textarea class="form-control" id="fixa" rows="3" name="autoria" placeholder="Autoria"></textarea>
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" name="autoria" value="'.$obra->getAutoria().'" placeholder="Autoria"></textarea>';
+                                                    } else {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" name="autoria" placeholder="Autoria"></textarea>';                                                        
+                                                    }
+                                                ?>                                                  
+                                                
                                             </div>
                                         </div>
 
@@ -324,7 +425,14 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <!--TextArea: Marcas e Inscrições  -->
-                                                <textarea class="form-control" id="fixa" rows="5" name="marcas-e-inscrições"></textarea>
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<textarea class="form-control" id="fixa" rows="5" value="'.$obra->getMarcas().'" name="marcasInscricoes"></textarea>';
+                                                    } else {
+                                                        echo '<textarea class="form-control" id="fixa" rows="5" name="marcasInscricoes"></textarea>';                                                        
+                                                    }
+                                                ?>                                                  
+                                                
                                             </div>
                                         </div>
 
@@ -351,7 +459,14 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <!--TextArea: Histórico do Objeto  -->
-                                                <textarea class="form-control" id="fixa" rows="5" name="historico-do-objeto"></textarea>
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<textarea class="form-control" id="fixa" value="'.$obra->getHistorico().'" rows="5" name="historicoObjeto"></textarea>';
+                                                    } else {
+                                                        echo '<textarea class="form-control" id="fixa" rows="5" name="historicoObjeto"></textarea>';                                                        
+                                                    }
+                                                ?>                                                  
+                                                
                                             </div>
                                         </div>
 
@@ -385,21 +500,42 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--Text: Modo de Aquisição  -->
-                                                <input class="form-control" type="text" name="modo-de-aquisicao" placeholder="Modo de Aquisição">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="text" value="'.$obra->getModoAquisicao().'" name="modoAquisicao" placeholder="Modo de Aquisição">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="text" name="modoAquisicao" placeholder="Modo de Aquisição">';                                                        
+                                                    }
+                                                ?>                                                  
+                                                
                                             </div>
                                         </div>
 
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--Text: Data de Aquisição"-->
-                                                <input class="form-control datepicker" id="date" type="text" name="data-de-aquisicao" placeholder="Data de Aquisição">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control datepicker" id="date" type="text" value="'.$obra->getDataAquisicao().'" name="dataAquisicao" placeholder="Data de Aquisição">';
+                                                    } else {
+                                                        echo '<input class="form-control datepicker" id="date" type="text" name="dataAquisicao" placeholder="Data de Aquisição">';                                                        
+                                                    }
+                                                ?>                                               
+                                                
                                             </div>
                                         </div>
 
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--Text: Autor  -->
-                                                <input class="form-control" type="text" name="aquisicao_autor" placeholder="Autor">
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<input class="form-control" type="text" value="'.$obra->getAutor().'" name="autor" placeholder="Autor">';
+                                                    } else {
+                                                        echo '<input class="form-control" type="text" name="autor" placeholder="Autor">';                                                        
+                                                    }
+                                                ?>                                                  
+                                                
                                             </div>
                                         </div>
 
@@ -413,7 +549,14 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <!--TextArea: Observações  -->
-                                                <textarea class="form-control" id="fixa" rows="3" name="observacoes"></textarea>
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" value="'.$obra->getObservacoes().'" name="observacoes"></textarea>';
+                                                    } else {
+                                                        echo '<textarea class="form-control" id="fixa" rows="3" name="observacoes"></textarea>';                                                        
+                                                    }
+                                                ?>                                                  
+                                                
                                             </div>
                                         </div>
 
@@ -440,7 +583,14 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <!--TextArea: Estado de Conservação  -->
-                                                <textarea class="form-control" id="fixa" rows="5" name="estado-de-conservacao"></textarea>
+                                                <?php
+                                                    if(isset($_GET['i'])) {
+                                                        echo '<textarea class="form-control" id="fixa" rows="5" value="'.$obra->getEstado().'" name="estadoConservacao"></textarea>';
+                                                    } else {
+                                                        echo '<textarea class="form-control" id="fixa" rows="5" name="estadoConservacao"></textarea>';                                                        
+                                                    }
+                                                ?>                                                  
+                                                
                                             </div>
                                         </div>
 
@@ -543,13 +693,16 @@
                             <!-- Fim da Seção: Documentação Fotográfica  -->
                         </div>
                         <!--/Página 6  -->                        
-
-                        <div class="modal-footer" style="border-top: 0; margin-right: 15px;">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-default" onclick="voltarPag(); atualizarTextoBotao()" id="btn-cancelar">Cancelar</button>
-                                <button type="button" class="btn btn-primary" onclick="avancarPag(); atualizarTextoBotao()" id="btn-confirmar">Próximo</button>
+                        
+                        <div class="row">
+                            <div class="modal-footer" style="border-top: 0; margin-right: 15px;">
+                                <div class="form-group">
+                                    <a type="button" href=<?php echo "'/obra/removerObra?n=".$obra->getNumInventario()."'"?> class="btn btn-danger" id="btn-remover">Remover Obra</a>                                
+                                    <button type="button" class="btn btn-default" onclick="voltarPag(); atualizarTextoBotao()" id="btn-cancelar">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" onclick="avancarPag(); atualizarTextoBotao()" id="btn-confirmar">Próximo</button>
+                                </div>
                             </div>
-                        </div>                        
+                        </div>
 
                     </form>
                     <!--Fim do formulário-->
@@ -562,6 +715,6 @@
     </div>
     <?php $this->carregarRodape();?>    
 </body>
-    <script src="../views/assets/js/cadObras-script.js"></script>    
+    <script src="../views/assets/js/gerenciarObra-script.js"></script>    
 
 </html>

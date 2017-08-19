@@ -6,37 +6,56 @@
         <meta name=viewport  content="width=device-width, initial-scale=1" />
         <?php $this->carregarDependenciasGaleria();?>
         <?php $this->carregarDependencias();?>
+        <script src="../views/assets/js/galeria-script.js"></script>            
     </head>
-    <body>
+    <body style="background-color: rgb(241, 242, 246);">
         <style type="text/css">
             .container{
                 /*tira a galeira de baixo do painel lateral*/
                 padding-left: 19%;    
             }
+
+            div.titulo {
+                background-color: #bcd1ec;
+                border-color: #e5e5e5 #333333 #eee;
+                border-style: solid;
+                border-width: 1px 0;
+                box-shadow: inset 0 1px 12px 3px rgba(0, 0, 0, .05);
+                border-radius: 4px;
+            }            
         </style>
         <?php $this->carregarCabecalho();?>
-        <div class="container" style="">
-            <!--Painel lateral com as categorias-->
-            <ul class="side-nav fixed" style="max-length: 30%">
-                <!--SUGESTÃO PARA INTEGRAÇÃO-->
-                <!--caso ele esteja em uma categoria, volta pra galeria geral-->
-                <li><a href="#!">CLASSIFICAÇÕES</a></li>
-                <li><div class="divider"></div></li>
-                 <!--Um <li> para cada nova categoria-->
+
+        <div class="col-sm-3 col-xs-3">
+            <div class="titulo" style="width: 80%">
+                <h4 class="panel-title">
+                    <a>
+                        <h5>CATEGORIAS</h5>
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-heading text-center" style="background-color: white; max-width: 80%;min-height: 10; max-height: 10; overflow-y: scroll;">
                 <?php
                     require_once dirname(__DIR__).'/vendor/autoload.php';
                     use \controllers\obraController as ObraController;
                     use \models\Classificacao as Classificacao;
                     $obraController = new ObraController();
                     $classificacoes = $obraController->obterClassificacoes();
+                    echo '';                    
                     foreach($classificacoes as $classificacao) {
-                        echo "<li><a class='waves-effect' href='?id=".$classificacao->getId()."'>".$classificacao->getNome()."</a></li>";
+                            echo "<h4 class='panel-title text-center'>
+                                <a href='?id=".$classificacao->getId()."' style='display:block;width:auto;word-wrap:break-word;'>
+                                ".$classificacao->getNome()."
+                                </a>
+                            </h4>
+                            <hr>";
                     }
-                ?>
-            </ul>
+                ?>                    
+            </div>
         </div>
         </div>
-            <!--Inicialização ainel lateral-->
+
+        <div class="col-sm-9 col-xs-9">
         <br>
         <?php
             if(isset($_GET['id'])) {
@@ -44,8 +63,8 @@
                 $classificacaoEscolhida = $obraController->obterClassificacao($_GET['id']);
                 
                 echo '<!--Container que circunda a galeria-->
-                        <div class="container" id="pagina" style="margin-top: 0; float: right;">
-                            <div class="row text-right">
+                        <div class="container" id="pagina" style="margin-top: 0;float: right;">
+                            <div class="row text-right titulo" style="margin-bottom:20px;margin-top:-21px">
                                 <!--Caso ele tenha escolhido alguma-->
                                 <h4>'.$classificacaoEscolhida->getNome().'</h4> 
                             </div>';
@@ -68,7 +87,7 @@
                                     <a href="'.'../obra?num='.$obra->getNumInventario().'.php">
                                         <div class="thumbnail">
                                             <!--Caminho da imagem exibida representando uma obra-->
-                                            <img src="'.$obra->getCaminhoImagem1().'" style="height:150px">
+                                            <img src="'.$obra->getCaminhoImagem1().'" style="height:130px">
                                             <div class="caption">
                                                 <h5>
                                                     <!--Nome da obra-->
@@ -89,6 +108,7 @@
                     }
                 }                
             ?>
+            </div>
             <div class="row text-center">
                 <button type="button" class="btn btn-primary btn-mais">Carregar Mais</button>
             </div>    
