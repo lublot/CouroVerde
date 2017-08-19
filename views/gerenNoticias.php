@@ -7,7 +7,7 @@
     <!--Descrição da página: Sertour-->
     <meta name="description" content="Setour" />
     <!--Regulando a visão da tela para a largura relativa à tela utilizada-->
-    <meta name=viewport content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Gerenciamento de Notícias</title>
 
@@ -181,40 +181,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer-distributed">
-
-        <div class="footer-left">
-
-            <h3>Sertour</h3>
-
-            <p class="footer-company-name">MItologic Software® &copy; 2017</p>
-        </div>
-
-        <div class="footer-center">
-
-            <p class="footer-links">
-                <a href="#">Home</a>
-                <a href="#">Galeria</a>
-                <a href="#">Sobre</a>
-            </p>
-
-        </div>
-
-        <div class="footer-right">
-
-            <div class="footer-icons">
-                <p style="text-align: center;">
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-google-plus"></i></a>
-                </p>
-
-            </div>
-
-
-        </div>
-
-    </footer>
+    <?php $this->carregarRodape()?>
     <!-- /Footer -->
 
 </body>

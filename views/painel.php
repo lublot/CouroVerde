@@ -22,8 +22,8 @@
     </a>
     <div id="submenu-noticias" class="panel-collapse collapse">
         <div class="panel-body">
-            <a href=<?php echo ROOT_URL.'noticia/cadastrar' ?> class="link" style="color: rgb(67, 74, 84)">• Cadastrar Notícia</a><br><br>
-            <a href=<?php echo ROOT_URL.'noticia/' ?> class="link" style="color: rgb(67, 74, 84)">• Gerenciar Notícias</a>
+            <a href=<?php echo ROOT_URL.'noticias/cadastrar' ?> class="link" style="color: rgb(67, 74, 84)">• Cadastrar Notícia</a><br><br>
+            <a href=<?php echo ROOT_URL.'noticias/' ?> class="link" style="color: rgb(67, 74, 84)">• Gerenciar Notícias</a>
         </div>
     </div>
   </h4>
@@ -74,7 +74,7 @@
     </a>
     <div id="submenu-backup" class="panel-collapse collapse">
         <div class="panel-body">
-            <a href="#" class="link" style="color: rgb(67, 74, 84)">• Realizar Backup</a><br><br>
+            <a href=<?php echo ROOT_URL.'backup/'?> class="link" style="color: rgb(67, 74, 84)">• Realizar Backup</a><br><br>
         </div>
     </div>
   </h4>
