@@ -64,7 +64,7 @@
                 <section id="caixa">
 
                     <!-- Formulário de cadastro/alteração de notícias -->
-                    <form data-toggle="validator" role="form" method="POST" name="formCad" id="form-CadNoticia" class="form-horizontal" onsubmit="" action="<?php if(isset($_POST['enviaNoticia'])){echo'/noticia/alteraNoticia.php'} else{echo'/noticia/salvaNoticia.php'}?>">
+                    <form data-toggle="validator" role="form" method="POST" name="formCad" id="form-CadNoticia" class="form-horizontal" onsubmit="" action="<?php if(isset($_POST['enviaNoticia'])){echo'/noticia/alteraNoticia.php';} else{echo'/noticia/salvaNoticia.php';}?>">
 
                         <!-- Subtítulo -->
                         <div class="form-group">

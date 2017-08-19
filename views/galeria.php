@@ -34,7 +34,8 @@
                     </a>
                 </h4>
             </div>
-            <div class="panel-heading text-center" style="background-color: white; max-width: 80%;min-height: 10; max-height: 10; overflow-y: scroll;">
+
+            <div class="panel-heading" style="background-color: white">
                 <?php
                     require_once dirname(__DIR__).'/vendor/autoload.php';
                     use \controllers\obraController as ObraController;
@@ -43,8 +44,8 @@
                     $classificacoes = $obraController->obterClassificacoes();
                     echo '';                    
                     foreach($classificacoes as $classificacao) {
-                            echo "<h4 class='panel-title text-center'>
-                                <a href='?id=".$classificacao->getId()."' style='display:block;width:auto;word-wrap:break-word;'>
+                            echo "<h4 class='panel-title'>
+                                <a href='?id=".$classificacao->getId()."' style='font-size: 14px;display:block;width:auto;word-wrap:break-word;'>
                                 ".$classificacao->getNome()."
                                 </a>
                             </h4>
