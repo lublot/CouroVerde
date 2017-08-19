@@ -5,7 +5,8 @@
 	<meta charset="utf-8" />
 	<meta name="description" content="Setour" />
 	<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=no" />
-	<title>Cadastro</title>
+	<title>SERTOUR - Cadastro</title>
+    <link rel="icon" href="../sertour/views/assets/images/icone.ico" type="image/x-icon"/>    
 
 	<?php $this->carregarDependencias()?>
 

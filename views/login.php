@@ -5,8 +5,8 @@
     <meta name="description" content="Setour" />
     <meta name=viewport  content="width=device-width, initial-scale=1" />
 
-    <title>Sertour</title>
-
+    <title>SERTOUR - Login</title>
+    <link rel="icon" href="../sertour/views/assets/images/icone.ico" type="image/x-icon"/>    
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/bootstrap-theme.css')?>>
     <link rel="stylesheet" type ="text/css" href=<?php $this->path('assets/css/estilo.css')?>>
@@ -22,12 +22,15 @@
 
 
   </head>
-  <body>
+  <body style="background-color: #ffcc80;">
 
-    <div id="container">
+    <div id="container" style="background-color: #ffcc80;">
       
-      <img src=<?php $this->path('assets/images/logo.jpg')?>  class="img-rounded" id="logo">
-          <section id="caixa-login">
+          <div class="text-center">
+            <img src=<?php $this->path('../views/assets/images/logo-header.png')?>> 
+          </div>
+          <br><br><br>
+          <section id="caixa-login" style="background-color: #FFF;">
               <h4 class="text-center">Login</h4>
 
                 <form class="form-horizontal " id="formLogin" method="POST">

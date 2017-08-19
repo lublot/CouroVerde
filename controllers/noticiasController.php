@@ -13,6 +13,10 @@ use exceptions\NoticiaNaoEncontradaException as NoticiaNaoEncontradaException;
 class noticiasController extends mainController
 {
 
+    public function index() {
+        $this->carregarConteudo('exibirNoticia',array());
+    }
+
     /**
     * Configura a classe para realização de testes.
     */

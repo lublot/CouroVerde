@@ -1,8 +1,9 @@
 <html lang="pt-br">
     <head>
-        <title>Sertour</title>
+        <title>SERTOUR</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+        <link rel="icon" href="../sertour/views/assets/images/icone.ico" type="image/x-icon"/>    
         
        <?php $this->carregarDependencias()?>
     </head>
