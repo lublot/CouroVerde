@@ -19,11 +19,11 @@ class backupController extends mainController {
     }
 
     public function index() {
-        if(VerificarPermissao::podeRealizarBackup()){
+        //if(VerificarPermissao::podeRealizarBackup()){
             $this->carregarConteudo('backup',array());
-        } else {
-            $this->permissaoNegada();
-        }   
+        //} else {
+        //    $this->permissaoNegada();
+        //}   
     }
 
     /**

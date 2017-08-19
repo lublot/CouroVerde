@@ -8,8 +8,8 @@
     </a>
     <div id="submenu-obra" class="panel-collapse collapse">
         <div class="panel-body">
-            <a href=<?php echo ROOT_URL.'obra/cadastrar' ?> class="link" style="color: rgb(67, 74, 84)">• Cadastrar Obra</a><br><br>
-            <a href=<?php echo ROOT_URL.'obra/' ?> class="link" style="color: rgb(67, 74, 84)">• Gerenciar Obras</a>
+            <a href=<?php echo '/obra/cadastro' ?> class="link" style="color: rgb(67, 74, 84)">• Cadastrar Obra</a><br><br>
+            <a href=<?php echo '/obra/gerenciar' ?> class="link" style="color: rgb(67, 74, 84)">• Gerenciar Obras</a>
             
         </div>
     </div>
@@ -48,8 +48,8 @@
     </a>
     <div id="submenu-relatorios" class="panel-collapse collapse">
         <div class="panel-body">
-            <a href="#" class="link" >• Relatório de Acesso</a><br><br>
-            <a href="<?php echo ROOT_URL.'relatorios/sistema'?>" class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatórios do Sistema</a>
+        <a href="relatorioAcesso" class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatório de Acesso</a><br><br>
+        <a href="<?php echo ROOT_URL.'relatorios/sistema'?>" class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatórios do Sistema</a>
         </div>
     </div>
   </h4>
@@ -74,7 +74,7 @@
     </a>
     <div id="submenu-backup" class="panel-collapse collapse">
         <div class="panel-body">
-            <a href="#" class="link" style="color: rgb(67, 74, 84)">• Realizar Backup</a><br><br>
+            <a href="/backup" class="link" style="color: rgb(67, 74, 84)">• Realizar Backup</a><br><br>
         </div>
     </div>
   </h4>

@@ -16,12 +16,14 @@
 
 </head>
 
-<body>
+<body style="background-color: rgb(241, 242, 246);">
     <?php $this->carregarCabecalho();?>
 
     <div class="container">
          <!-- Painel -->
-        <div class="col-md-3 col-lg-3"></div>
+        <div class="col-md-3 col-lg-3">
+            <?php $this->carregarPainel();?>
+        </div>
 
         <div class="col-md-9 col-lg-9">
 
