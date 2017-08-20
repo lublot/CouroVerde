@@ -43,7 +43,7 @@
                     <p> Deseja fazer backup agora?
                         <!-- Botão de backup manual -->
                         <button type="button" target="_new" id="btn-backup" class="btn btn-default btn-sm">
-                            <img src="views/assets/images/if_backup_383184.png"> 
+                            <img src="../views/assets/images/if_backup_383184.png"> 
                         </button>
 
                     <!-- /FIM de botão de backup manual -->

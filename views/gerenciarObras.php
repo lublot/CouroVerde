@@ -95,7 +95,7 @@
                                         
                                         <!-- Caixa do item -->
                                         <!--LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DA OBRA-->
-                                        <a href="/obra/gerenciaobra?i='.$obra->getNumInventario().'" class="text-center" style="width:50%">
+                                        <a href="'.ROOT_URL.'obra/gerenciaobra?i='.$obra->getNumInventario().'" class="text-center" style="width:50%">
                                             <!-- Icone obra -->
                                             <img src="'.$obra->getCaminhoImagem1().'" class="img-responsive" styke="width:25px;length:25px">
         
@@ -121,7 +121,7 @@
                             
                             if($cont != count($obras)) {
                                 echo '<div class="row text-center">
-                                <a href="/obra/gerenciar?u='.$proximoNumInv.'" type="button" class="btn btn-primary btn-mais">Mais Obras</a>
+                                <a href="'.ROOT_URL.'obra/gerenciar?u='.$proximoNumInv.'" type="button" class="btn btn-primary btn-mais">Mais Obras</a>
                                 </div>';
                             } 
                         

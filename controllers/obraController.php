@@ -25,33 +25,33 @@ class obraController extends mainController {
     * Redireciona para a página de cadastro de obra.
     */    
     public function cadastro() {
-        //if(VerificarPermissao::podeCadastrarObra()){
+        if(VerificarPermissao::podeCadastrarObra()){
             $this->carregarConteudo('cadObras',array());
-       //} else {
-         //   $this->permissaoNegada();
-        //}        
+       } else {
+           $this->permissaoNegada();
+        }        
     } 
 
     /**
     * Redireciona para a página de gerenciamento de obra.
     */    
     public function gerenciar() {
-        //if(VerificarPermissao::podeGerenciarObra()){
+        if(VerificarPermissao::podeGerenciarObra()){
             $this->carregarConteudo('gerenciarObras',array());
-        //} else {
-        //    $this->permissaoNegada();
-        //}        
+        } else {
+            $this->permissaoNegada();
+        }        
     }
 
     /**
     * Redireciona para a página de gerenciamento de obra.
     */    
     public function gerenciaobra() {
-        //if(VerificarPermissao::podeGerenciarObra()){
+        if(VerificarPermissao::podeGerenciarObra()){
             $this->carregarConteudo('gerenciarObraEscolhida',array());
-       //} else {
-            //$this->permissaoNegada();
-        //}        
+        } else {
+            $this->permissaoNegada();
+        }        
     }    
 
     /**
@@ -456,23 +456,29 @@ class obraController extends mainController {
         $caminhoModelo3DExibir .= $numInventario; 
         
         $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
-        $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
+        $modelo3Dexiste = scandir($caminhoPastaModelo3D);
 
         // //remove os dois primeiros elementos do array
         unset($imagens[0]);
         unset($imagens[1]);
         
-        //remove os dois primeiros elementos do array        
-        unset($modelo3D[0]);
-        unset($modelo3D[1]);
-
         $caminhosImagens = array();
         
         foreach($imagens as $imagem) {
             $caminhosImagens[] = $caminhoImagesExibir . '/' . $imagem;
         }
 
-        $caminhoPastaModelo3D = $caminhoModelo3DExibir.'/'.$modelo3D[2];
+        if(!$modelo3Dexiste) {
+            $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
+
+            //remove os dois primeiros elementos do array        
+            unset($modelo3D[0]);
+            unset($modelo3D[1]);
+
+            $caminhoPastaModelo3D = $caminhoModelo3DExibir.'/'.$modelo3D[2];
+        } else {
+            $caminhoPastaModelo3D = '';
+        }
         
         return array($caminhosImagens, $caminhoPastaModelo3D);
     }    
@@ -525,7 +531,7 @@ class obraController extends mainController {
             $obraDAO = new ObraDAO();
             $obraDAO->remover(array('numeroInventario' => $_GET['n']));
         }
-        header("location: /obra/gerenciar");
+        header("location: ".ROOT_URL."obra/gerenciar");
     }
 
     /**

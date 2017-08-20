@@ -71,19 +71,6 @@ $(document).ready(function () {
         var files3D = [];
         var cont = 0;
 
-        for (var value of formData.values()) {
-            var re = /(\.obj)$/i;
-            if (re.exec(value.name)) {
-                cont = cont + 1;             
-            }
-        }
-
-        if(cont >= 1) {
-            alert("Apenas um modelo 3D pode ser carregado!");
-            return;
-        }
-
-        cont = 0;
         for (x = 0; x < files.length; x = x + 1) {
             var re = /(\.obj)$/i;
             if (re.exec(files[x].name)) {
@@ -219,9 +206,6 @@ function avancarPag() {
     if (pagAtual == pagMax && !uploadImgFeito) {
         alert("Ao menos uma imagem deve ser carregada!");
         return;
-    } else if (pagAtual == pagMax && !upload3DFeito) {
-        alert("Ao menos um modelo 3D deve ser carregado!");
-        return;
     } else if(pagAtual == pagMax) {
         if(!jaComecou) {
             xhr.open('post', '../../../views/upload.php?inv=' + document.getElementById("inventario").value);
@@ -229,25 +213,19 @@ function avancarPag() {
             jaComecou = true;
         }
         
+        $("#loading").attr("hidden", false);            
+        
+
         xhr.onreadystatechange = function() {
             while(this.readyState != 4 && this.status != 200) {};
-            if(this.readyState == 4 && this.status == 200) {
-                if(JSON.parse(this.response).sucesso == true && upload3DFeito && uploadImgFeito) {
-                    alert('aqui');
-                    
-                    jaComecou = false;
-                    $("#btn-confirmar").attr("type", "submit");
-                    $("#form-obra").attr("method", "POST");
-                    $("#form-obra").submit(function (event) {
-                        $("#form-obra").attr('method', 'POST');
-                        $(this).attr('action', '../obra/cadastrarObra');
-                    });
-                }
-            }
-        }            
-
-
-
+            $("#btn-confirmar").attr("type", "submit");
+            $("#form-obra").attr("method", "POST");
+            $("#form-obra").submit(function (event) {
+                $("#form-obra").attr('method', 'POST');
+                $(this).attr('action', '../obra/cadastrarObra');
+            });
+            $("#form-obra").submit();
+        }
     }
 
     // Verifica se a página atual do usuário excedeu o número limite máximo de páginas

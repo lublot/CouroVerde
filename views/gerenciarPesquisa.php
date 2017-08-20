@@ -15,7 +15,7 @@
             <div class="col-sm-3">
                 <?php $this->carregarPainel()?>
             </div>
-            <div id="pesquisa" class="col-sm-9">
+            <div id="pesquisa" class="col-sm-9"  style="background-color: rgb(241, 242, 246);">
                 <div id='alerta' class="alert alert-warning" role="alert" style="display:none;">
                     <span id="aviso"></span>
                 </div>

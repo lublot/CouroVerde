@@ -530,6 +530,7 @@
                             <!-- Fim da Seção: Documentação Fotográfica  -->
                         </div>
                         <!--/Página 6  -->                        
+                        <p id="loading" class="text-center" hidden>Oxe! Tá carregando, viu? Vá dançar um baião enquanto espera!</p>
 
                         <div class="modal-footer" style="border-top: 0; margin-right: 15px;">
                             <div class="form-group">

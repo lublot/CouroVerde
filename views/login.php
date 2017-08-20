@@ -25,11 +25,11 @@
   <body style="background-color: #ffcc80;">
 
     <div id="container" style="background-color: #ffcc80;">
-      
-          <div class="text-center">
-            <img src=<?php $this->path('../views/assets/images/logo-header.png')?>> 
-          </div>
-          <br><br><br>
+    <a href =<?php echo ROOT_URL?>>
+      <div class="text-center"><img src=<?php $this->path('../views/assets/images/logo-header.png')?>>
+      </div>
+    </a>
+          <br><br>
           <section id="caixa-login" style="background-color: #FFF;">
               <h4 class="text-center">Login</h4>
 
