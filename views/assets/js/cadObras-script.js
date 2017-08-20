@@ -71,19 +71,6 @@ $(document).ready(function () {
         var files3D = [];
         var cont = 0;
 
-        for (var value of formData.values()) {
-            var re = /(\.obj)$/i;
-            if (re.exec(value.name)) {
-                cont = cont + 1;             
-            }
-        }
-
-        if(cont >= 1) {
-            alert("Apenas um modelo 3D pode ser carregado!");
-            return;
-        }
-
-        cont = 0;
         for (x = 0; x < files.length; x = x + 1) {
             var re = /(\.obj)$/i;
             if (re.exec(files[x].name)) {
@@ -113,7 +100,7 @@ $(document).ready(function () {
 
         for (x = 0; x < files3D.length; x = x + 1) {
             $("#upload3D").attr('hidden', false);
-            $("#modelo3D").html("Modelo carregado: ".concat(files3D[x].name));                
+            $("#modelo3D").html("<img src='../views/assets/glyphicons_free/glyphicons/png/glyphicons-27-road.png'/> Modelo carregado: ".concat(files3D[x].name));                
         }        
 
     }
@@ -135,7 +122,7 @@ $(document).ready(function () {
         //Mudança de classe de CSS para deixar as bordas azuis
         this.className = 'dropzone dragover';
         //Muda o texto de dentro do HTML para o seguinte
-        dropzone_img.innerHTML = 'Solte suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las';
+        dropzone_img.innerHTML = 'Solte suas imagens aqui para carregá-las';
         //Encerra a função [NECESSÁRIO!]
         return false;
     };
@@ -144,7 +131,7 @@ $(document).ready(function () {
         //Mudança de classe de CSS para o padrão
         this.className = 'dropzone';
         //Muda o texto de dentro do HTML para o seguinte
-        dropzone_img.innerHTML = 'Arraste suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las';
+        dropzone_img.innerHTML = 'Arraste suas imagens aqui para carregá-las';
         //Encerra a função [NECESSÁRIO!]
         return false;
     };
@@ -166,7 +153,7 @@ $(document).ready(function () {
         //Mudança de classe de CSS para deixar as bordas azuis
         this.className = 'dropzone dragover';
         //Muda o texto de dentro do HTML para o seguinte
-        dropzone_3d.innerHTML = 'Solte seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também';
+        dropzone_3d.innerHTML = 'Solte seus arquivos referentes ao modelo 3D aqui se desejar carregá-los também';
         //Encerra a função [NECESSÁRIO!]
         return false;
     };
@@ -176,7 +163,7 @@ $(document).ready(function () {
         //Mudança de classe de CSS para o padrão
         this.className = 'dropzone';
         //Muda o texto de dentro do HTML para o seguinte
-        dropzone_3d.innerHTML = 'Arraste seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também';
+        dropzone_3d.innerHTML = 'Arraste seus arquivos referentes ao modelo 3D aqui se desejar carregá-los também';
         //Encerra a função [NECESSÁRIO!]
         return false;
     };
@@ -219,34 +206,26 @@ function avancarPag() {
     if (pagAtual == pagMax && !uploadImgFeito) {
         alert("Ao menos uma imagem deve ser carregada!");
         return;
-    } else if (pagAtual == pagMax && !upload3DFeito) {
-        alert("Ao menos um modelo 3D deve ser carregado!");
-        return;
     } else if(pagAtual == pagMax) {
         if(!jaComecou) {
             xhr.open('post', '../../../views/upload.php?inv=' + document.getElementById("inventario").value);
             xhr.send(formData);
             jaComecou = true;
         }
-
-        if(xhr.readyState != 4) {
-            alert('Seus arquivos estão sendo carregados! Tente novamente...');
-        }
+        
+        $("#loading").attr("hidden", false);            
+        
 
         xhr.onreadystatechange = function() {
-            if(this.readyState == 4 && this.status == 200) {
-                if(JSON.parse(this.response).sucesso == true && upload3DFeito && uploadImgFeito) {
-                    jaComecou = false;
-                    $("#btn-confirmar").attr("type", "submit");
-                    $("#form-obra").attr("method", "POST");
-                    $("#form-obra").submit(function (event) {
-                        $("#form-obra").attr('method', 'POST');
-                        $(this).attr('action', '../obra/cadastrarObra');
-                    });
-                }
-            }
+            while(this.readyState != 4 && this.status != 200) {};
+            $("#btn-confirmar").attr("type", "submit");
+            $("#form-obra").attr("method", "POST");
+            $("#form-obra").submit(function (event) {
+                $("#form-obra").attr('method', 'POST');
+                $(this).attr('action', '../obra/cadastrarObra');
+            });
+            $("#form-obra").submit();
         }
-
     }
 
     // Verifica se a página atual do usuário excedeu o número limite máximo de páginas

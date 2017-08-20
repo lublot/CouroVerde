@@ -4,6 +4,7 @@ namespace controllers;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use \DAO\NoticiaDAO as NoticiaDAO;
+use \DAO\UsuarioDAO as UsuarioDAO;
 use \util\ValidacaoDados as ValidacaoDados;
 use \models\Noticia as Noticia;
 use exceptions\ErroUploadImagemException as ErroUploadImagemException;
@@ -11,6 +12,8 @@ use exceptions\CampoInvalidoException as CampoInvalidoException;
 use exceptions\DadosCorrompidosException as DadosCorrompidosException;
 use exceptions\NoticiaNaoEncontradaException as NoticiaNaoEncontradaException;
 use util\VerificarPermissao as VerificarPermissao;
+
+if(!isset($_SESSION)){session_start();}
 class noticiasController extends mainController
 {
 
@@ -82,24 +85,47 @@ class noticiasController extends mainController
         }          
     }
 
-    public function gerenciar(){
-        if(VerificarPermissao::isAdministrador() || VerificarPermissao::podeGerenciarNoticia()){
-            
+    public function gerenciar($parametro){
+        if(VerificarPermissao::isAdministrador()){
+            if(!empty($parametro[0])){
+                $parametro = addslashes($parametro[0]);
+                $noticiaDAO = new NoticiaDAO();
+                $noticia = $noticiaDAO->buscar(array(),array("idNoticia"=>$parametro));
 
-
-
-            $this->carregarConteudo('gerenciarNoticia',array());
+                if(count($noticia)>0){
+                    $this->dados['noticia'] = $noticia[0];
+                    $this->dados['podeGerenciarNoticia'] = VerificarPermissao::podeGerenciarNoticia();
+                    $this->dados['podeRemoverNoticia'] = VerificarPermissao::podeRemoverNoticia();
+                }else{
+                    $this->dados['alerta'] = 'Nenhuma notícia foi encontrada';
+                }
+            }
+            $this->carregarConteudo('gerenciarNoticia',$this->dados);
         }else{
             $this->permissaoNegada();
         }
     }
 
     public function remover(){
-        if(VerificarPermissao::isAdministrador() || VerificarPermissao::podeRemoverNoticia()){
-            $this->carregarConteudo('removerNoticia',array());
-        }else{
-            $this->permissaoNegada();
+        
+        if(ValidacaoDados::validarForm($_POST,array('senhaAdmin','idNoticia'))){  
+            $idNoticia = $_POST['idNoticia'];
+            $senha = md5($_POST['senhaAdmin']);
+
+            $adminDAO = new UsuarioDAO();
+            $adminDAO = $adminDAO->buscar(array('senha'),array("idUsuario"=>$_SESSION['id']));
+            $senhaArmazenada = $adminDAO[0]->getSenha();
+
+            if(strcmp($senhaArmazenada,$senha)==0){// Se a senha do administrador estiver correta, IMPLEMENTAR....
+                $NoticiaDAO = new NoticiaDAO();
+                $noticia = $NoticiaDAO->buscar(array(),array("idNoticia"=>$idNoticia));
+                $NoticiaDAO->remover(array('idNoticia'=>$idNoticia));
+                echo json_encode(array("success"=>true));
+            }else{
+                echo json_encode(array("success"=>false,"erro"=>"Senha Incorreta"));
+            }
         }
+
     }
     
     /**
@@ -143,8 +169,8 @@ class noticiasController extends mainController
     /**
     * Realiza a alteração de uma notícia cadastrada
     */
-    public function alterarNoticia() {
-        if (isset($_POST["submit"]) && isset($_POST['idNoticia'])) {
+    public function gerenciarNoticia() {
+        if (isset($_POST['idNoticia']) && !empty($_POST['idNoticia'])) {
             $idNoticia = addslashes($_POST['idNoticia']);
             $campos;
 
@@ -172,20 +198,13 @@ class noticiasController extends mainController
                 $campos['descricao'] = addslashes($_POST['descricao']);
             }
 
-            if (getimagesize($_FILES["user_file"]["tmp_name"]) != false) { //verifica se o campo foi enviado, ou seja, se o usuario deseja alterá-lo
-                try {
-                    $campos['caminhoImagem'] = addslashes($this->uploadImagem());
-                } catch (ErroUploadImagemException $e) {
-                    throw $e;
-                }
-            }
-
             $campos['data'] = addslashes(date('Y-m-d')); //obtém a data atual
 
             $noticiaDAO = new noticiaDAO();
             $noticiaDAO->alterar($campos, array('idNoticia'=>$idNoticia));
+            echo json_encode(array('success'=>true));
         } else {
-            throw new DadosCorrompidosException();
+            echo json_encode(array('success'=>false,"erro"=>'Ocorreu um erro!'));
         }
     }
 

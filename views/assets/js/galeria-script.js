@@ -1,13 +1,11 @@
 var pagAtual = 1;
 var numTotalImgs = 0;
-var mostrarVoltar = false;
 
 $(document).ready(function () {
     if(pagAtual == 1) {
-        if(!$("#img".concat(1).concat("_").concat(pagAtual+2)).length) {
+        if(!$("#img".concat(1).concat("_").concat(pagAtual+1)).length) {
             $(".btn-voltar").prop("hidden", true);
             $(".btn-mais").attr('style', "display: none;");      
-            mostrarVoltar = true; 
         }
         carregarPag();
     }
@@ -18,7 +16,6 @@ $(document).ready(function () {
             carregarPag();
             $(".btn-voltar").removeAttr("style");
             $(".btn-mais").attr('style', "display: none;");
-            mostrarVoltar = true;
         } else {
             pagAtual++;
             carregarPag();

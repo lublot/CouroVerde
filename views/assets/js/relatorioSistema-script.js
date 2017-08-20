@@ -57,7 +57,7 @@ function criarLinha(dados){
     let coluna2 = document.createElement('td');
     let coluna3 = document.createElement('td');
     
-    let frase = dados.acao+' '+dados.tipoAlvo+' : '+dados.nomeAlvo;
+    let frase = dados.acao+' '+dados.tipoAlvo+' '+dados.nomeAlvo;
     coluna1.appendChild(document.createTextNode(dados.autor));
     coluna2.appendChild(document.createTextNode(frase));
     coluna3.appendChild(document.createTextNode(dados.horario));

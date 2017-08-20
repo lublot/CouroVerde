@@ -5,7 +5,8 @@
 	<meta charset="utf-8" />
 	<meta name="description" content="Setour" />
 	<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=no" />
-	<title>Cadastro</title>
+	<title>SERTOUR - Cadastro</title>
+    <link rel="icon" href="../sertour/views/assets/images/icone.ico" type="image/x-icon"/>    
 
 	<?php $this->carregarDependencias()?>
 
@@ -14,10 +15,11 @@
 
 </head>
 
-<body>
-	<a href =<?php echo ROOT_URL?>><img src=<?php $this->path('assets/images/logo-maior1.png')?>  class="img-rounded" id="logo"></a>
-	<div id="container-reg">
-		<section id="caixa-registro">
+<body style="background-color: #ffcc80;">
+	<a href =<?php echo ROOT_URL?>>
+	<div class="text-center"><img src=<?php $this->path('../views/assets/images/logo-header.png')?>></div></a>
+	<div id="container-reg" style="background-color: #ffcc80;"> 
+		<section id="caixa-registro" style="background-color: #FFF;">
 			<h4 class="text-center" style="margin-bottom:16%;">Inscreva-se. É grátis!</h4>
 			<!-- Form do cadastro -->
 			<form method="POST" data-toggle="validator">

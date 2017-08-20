@@ -89,10 +89,10 @@
                         <div class="row modal-footer">
 
                             <!-- Botão cancelar -->
-                            <button type="button" class="pull-rigth btn btn-default" onclick="window.history.back()" name="btnCancelar">CANCELAR</button>
+                            <button type="button" class="pull-rigth btn btn-default" onclick="window.history.back()" name="btnCancelar">Cancelar</button>
 
                             <!-- Botão cadastrar ou botão alterar-->
-                            <button type="submit" class="pull-rigth btn btn-default" name="btnCadNoticia"> CADASTRAR</button>
+                            <button type="submit" class="pull-rigth btn btn-default" name="btnCadNoticia"> Cadastrar</button>
                         </div>
 
                         <!-- Fim do Formulário de cadastro de notícias  -->

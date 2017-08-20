@@ -10,7 +10,7 @@
 
     </head>
 
-    <body>
+    <body style="background-color: rgb(241, 242, 246);">
         <?php $this->carregarCabecalho()?>
         <div class="container">
             

@@ -113,7 +113,7 @@
                                                 <!--Text: Número do Inventário-->
                                                 <?php
                                                     if(isset($_GET['i'])) {
-                                                        echo '<input class="form-control" type="number" value="'.$obra->getNumInventario().'"  required="required" id="numeroInventario" name="numeroInventario" placeholder="Número do Inventário (*)">';
+                                                        echo '<input class="form-control" type="number" value="'.$obra->getNumInventario().'"  required="required" id="numeroInventario" name="numeroInventario" placeholder="Número do Inventário (*)" disabled>';
                                                     } else {
                                                         echo '<input class="form-control" type="number" required="required" id="numeroInventario" name="numeroInventario" placeholder="Número do Inventário (*)">';                                                        
                                                     }
@@ -697,7 +697,7 @@
                         <div class="row">
                             <div class="modal-footer" style="border-top: 0; margin-right: 15px;">
                                 <div class="form-group">
-                                    <a type="button" href=<?php echo "'/obra/removerObra?n=".$obra->getNumInventario()."'"?> class="btn btn-danger" id="btn-remover">Remover Obra</a>                                
+                                    <a type="button" href=<?php echo "'".ROOT_URL."obra/removerObra?n=".$obra->getNumInventario()."'"?> class="btn btn-danger" id="btn-remover">Remover Obra</a>                                
                                     <button type="button" class="btn btn-default" onclick="voltarPag(); atualizarTextoBotao()" id="btn-cancelar">Cancelar</button>
                                     <button type="button" class="btn btn-primary" onclick="avancarPag(); atualizarTextoBotao()" id="btn-confirmar">Próximo</button>
                                 </div>
