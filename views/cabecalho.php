@@ -48,7 +48,7 @@
 
                 <span class="item-cabecalho">
                     <div class="icone-galeria"></div>
-                    <a href="#"> Galeria </a>
+                    <a href="<?php echo ROOT_URL.'galeria'?>"> Galeria </a>
                 </span>
                   
                 <span class="item-cabecalho">
@@ -80,7 +80,7 @@
 
                 <span class="item-cabecalho">
                     <div class="icone-galeria"></div>
-                    <a href="#"> Galeria </a>
+                    <a href="<?php echo ROOT_URL.'galeria'?>"> Galeria </a>
                 </span>
                 
                 <span class="item-cabecalho">

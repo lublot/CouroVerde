@@ -39,10 +39,18 @@ class relatorioSistemaController extends mainController{
                 $obraDAO = new ObraDAO();
                 $obra = $obraDAO->buscar(array('titulo'),array('numeroInventario'=>$resultado->getIdAlvo()));
 
+                if(count($obra) > 0){
+                    $frase['tipoAlvo'] = 'a Obra';
+                    $frase['nomeAlvo'] = $obra[0]->getTitulo();
+                }else{
+                    $frase['tipoAlvo'] = 'uma obra';
+                    $frase['nomeAlvo'] = "";
+                }
+
                 $frase['autor'] = $resultado->getAutor();
                 $frase['acao'] = ucfirst(strtolower($resultado->getAcao()));
-                $frase['tipoAlvo'] = 'a Obra';
-                $frase['nomeAlvo'] = $obra[0]->getTitulo();
+                
+                
                 $frase['horario'] = $resultado->getHorario();
                 array_push($processando,$frase);
             }else if(strcmp($resultado->getTipoAlvo(),"FUNCIONARIO")==0){
@@ -52,10 +60,15 @@ class relatorioSistemaController extends mainController{
                 $usuarioDAO = new UsuarioDAO();
                 $usuarioDAO = $usuarioDAO->buscar(array('nome','sobrenome'),array('idUsuario'=>$funcionario[0]->getId()));
 
+                if(count($funcionario) > 0){
+                    $frase['tipoAlvo'] = 'o Funcionário';
+                    $frase['nomeAlvo'] = $usuarioDAO[0]->getNome().' '.$usuarioDAO[0]->getSobrenome();
+                }else{
+                    $frase['tipoAlvo'] = 'um funcionário';
+                    $frase['nomeAlvo'] = "";
+                }
                 $frase['autor'] = $resultado->getAutor();
                 $frase['acao'] = ucfirst(strtolower($resultado->getAcao()));
-                $frase['tipoAlvo'] = 'o Funcionário';
-                $frase['nomeAlvo'] = $usuarioDAO[0]->getNome().' '.$usuarioDAO[0]->getSobrenome();
                 $frase['horario'] = $resultado->getHorario();
                 array_push($processando,$frase);
             }else if(strcmp($resultado->getTipoAlvo(),"NOTICIA")==0){
@@ -63,10 +76,17 @@ class relatorioSistemaController extends mainController{
                 $noticiaDAO = new NoticiaDAO();
                 $noticia = $noticiaDAO->buscar(array('titulo'),array('idNoticia'=>$resultado->getIdAlvo()));
 
+                if(count($noticia) > 0){
+                    $frase['tipoAlvo'] = 'a Notícia';
+                    $frase['nomeAlvo'] = '"'.$noticia[0]->getTitulo().'"';
+                }else{
+                    $frase['tipoAlvo'] = 'uma notícia';
+                    $frase['nomeAlvo'] = "";
+                }
+                
                 $frase['autor'] = $resultado->getAutor();
                 $frase['acao'] = ucfirst(strtolower($resultado->getAcao()));
-                $frase['tipoAlvo'] = 'a Notícia';
-                $frase['nomeAlvo'] = '"'.$noticia[0]->getTitulo().'"';
+                
                 $frase['horario'] = $resultado->getHorario();
                 array_push($processando,$frase);
             }else if(strcmp($resultado->getTipoAlvo(),"BACKUP")==0){
@@ -74,11 +94,21 @@ class relatorioSistemaController extends mainController{
                 $backupDAO = new BackupDAO();
                 $backup = $backupDAO->buscar(array(),array('idBackup'=>$resultado->getIdAlvo()));
 
-                $frase['autor'] = $resultado->getAutor();
-                $frase['acao'] = ucfirst(strtolower($resultado->getAcao()));
-                $frase['tipoAlvo'] = 'o Backup';
-                $frase['nomeAlvo'] = 'backup_'.$backup[0]->getHora();
-                $frase['horario'] = $resultado->getHorario();
+                if(count($backup) > 0){
+                    $frase['autor'] = $resultado->getAutor();
+                    $frase['acao'] = ucfirst(strtolower($resultado->getAcao()));
+                    $frase['tipoAlvo'] = 'o Backup';
+                    $frase['nomeAlvo'] = 'backup_'.$backup[0]->getHora();
+                    $frase['horario'] = $resultado->getHorario();
+                }else{
+                    $frase['autor'] = "";
+                    $frase['acao'] = "";
+                    $frase['tipoAlvo'] = "";
+                    $frase['nomeAlvo'] = "";
+                    $frase['horario'] = "";
+                }
+
+                
                 array_push($processando,$frase);
             }
         }

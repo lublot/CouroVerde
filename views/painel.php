@@ -8,8 +8,8 @@
     </a>
     <div id="submenu-obra" class="panel-collapse collapse">
         <div class="panel-body">
-            <a href=<?php echo ROOT_URL.'obra/cadastrar' ?> class="link" style="color: rgb(67, 74, 84)">• Cadastrar Obra</a><br><br>
-            <a href=<?php echo ROOT_URL.'obra/' ?> class="link" style="color: rgb(67, 74, 84)">• Gerenciar Obras</a>
+            <a href=<?php echo ROOT_URL.'obra/cadastro' ?> class="link" style="color: rgb(67, 74, 84)">• Cadastrar Obra</a><br><br>
+            <a href=<?php echo ROOT_URL.'obra/gerenciar' ?> class="link" style="color: rgb(67, 74, 84)">• Gerenciar Obras</a>
             
         </div>
     </div>
