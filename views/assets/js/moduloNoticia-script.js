@@ -1,5 +1,5 @@
 function atualizarPagina(){
-    window.location.reload();
+    window.history.back();
 }
 
 function verificarImagem(){

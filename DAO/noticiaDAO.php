@@ -19,9 +19,10 @@ class noticiaDAO extends Database {
         $data = $noticia->getData();
 
         $query = "INSERT INTO noticia(idNoticia, titulo, subtitulo, descricao, caminhoImagem, data) VALUES (null, '$titulo', '$subtitulo', '$descricao', '$caminhoImagem', '$data')";
-
+        
         try{
             $this->PDO->query($query);
+            
         }catch(PDOException $e){
 
         }
