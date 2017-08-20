@@ -7,6 +7,16 @@ use \DAO\Database as Database;
 use \util\ValidacaoDados as ValidacaoDados;
 
 class noticiaDAO extends Database {
+
+    /**
+    * Recupera o ID da ultima notícia cadastrada
+    * @return $idNoticia
+    */
+    public function getUltimoIdInserido(){
+        $idNoticia = $this->PDO->lastInsertId("idNoticia");
+        return $idNoticia;
+    }
+
     /**
     * Insere uma notícia no banco de dados;
     * @param Noticia $noticia - a noticia a ser inserida no banco;

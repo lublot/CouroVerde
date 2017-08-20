@@ -134,7 +134,14 @@ class funcionarioController extends mainController {
                             $novoFuncionario = new Funcionario(null, $email, $nome, $sobrenome, $senha, 1, "FUNCIONARIO",
                             $matricula, $funcao, $podeCadastrarObra, $podeGerenciarObra, $podeRemoverObra, $podeCadastrarNoticia,
                             $podeGerenciarNoticia, $podeRemoverNoticia, $podeRealizarBackup);
+
                             $funcionarioDAO->inserir($novoFuncionario);
+
+                            //Registra a ação que o funcionario acabou de fazer
+                            $idUsuario = $funcionarioDAO->getUltimoIdInserido();
+                            $logController = new LogController();
+                            $logController->registrarEvento($idUsuario, "FUNCIONARIO", "Um funcionário foi cadastrado");
+
                             $this->redirecionarPagina('funcionario');
                         }else {
                             throw new DadosCorrompidosException();
@@ -269,6 +276,10 @@ class funcionarioController extends mainController {
                 $usuarioDAO = new UsuarioDAO();
                 $usuarioDAO->alterar($camposUsuario,array('idUsuario'=>$idUsuario[0]->getId()));
 
+                //Registra a ação que o funcionario acabou de fazer
+                $logController = new LogController();
+                $logController->registrarEvento($idUsuario[0]->getId(), "FUNCIONARIO", "Um funcionário foi alterado");
+
                 echo json_encode(array('success'=>true));
             }
             else{
@@ -294,6 +305,11 @@ class funcionarioController extends mainController {
                     $userDAO->alterar(array("tipoUsuario"=>"USUARIO"),array("idUsuario"=>$funcionario[0]->getId()));
 
                     $funcionarioDao->remover(array('matricula'=>$matricula));
+
+                    //Registra a ação que o funcionario acabou de fazer
+                    $logController = new LogController();
+                    $logController->registrarEvento($funcionario[0]->getId(), "FUNCIONARIO", "Um funcionário foi removido");
+                    
                     echo json_encode(array("success"=>true));
                 }else{
                     echo json_encode(array("success"=>false,"erro"=>"Senha Incorreta"));

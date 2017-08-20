@@ -10,6 +10,15 @@ use \models\Funcionario as Funcionario;
 class FuncionarioDAO extends Database{
 
     /**
+    * Recupera o ID do ultimo funcionário cadastrado
+    * @return $idUsuario
+    */
+    public function getUltimoIdInserido(){
+        $idUsuario = $this->PDO->lastInsertId("idUsuario");
+        return $idUsuario;
+    }
+
+    /**
     * Insere um funcionário no banco de dados;
     * @param unknown $funcionario - o funcionário a ser inserido no banco;
     * */

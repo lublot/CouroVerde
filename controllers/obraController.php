@@ -425,13 +425,17 @@ class obraController extends mainController {
                                                             $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
                                                             $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D,
                                                             $fotografo, $dataFotografia, $autorFotografia), true);                
-
+    
             } else {
                 $obraDAO->inserirObra(new Obra($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
                                                             $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
                                                             $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D));                              
-            }
                 
+            }
+
+            //Registra a ação que o funcionario acabou de fazer
+            $logController = new LogController();
+            $logController->registrarEvento($numeroInventario, "OBRA", "Uma obra foi cadastrada");
             
             $this->cadastrarPalavraChave();   
             $this->cadastro();
@@ -530,6 +534,11 @@ class obraController extends mainController {
         if(isset($_GET['n'])) {
             $obraDAO = new ObraDAO();
             $obraDAO->remover(array('numeroInventario' => $_GET['n']));
+            
+            $numeroInventario = $_GET['n'];
+            //Registra a ação que o funcionario acabou de fazer
+            $logController = new LogController();
+            $logController->registrarEvento($numeroInventario, "OBRA", "Uma obra foi removida");
         }
         header("location: ".ROOT_URL."obra/gerenciar");
     }
@@ -618,6 +627,10 @@ class obraController extends mainController {
 
             $obraDAO = new obraDAO();
             $obraDAO->alterar($campos, array('numeroInventario'=>$numeroInventario)); //atualiza os dados no banco
+
+            //Registra a ação que o funcionario acabou de fazer
+            $logController = new LogController();
+            $logController->registrarEvento($numeroInventario, "OBRA", "Uma obra foi alterada");
         }
     }
 
