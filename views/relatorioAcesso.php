@@ -10,7 +10,7 @@
     <!--Regulando a visão da tela para a largura relativa à tela utilizada-->
     <meta name=viewport content="width=device-width, initial-scale=1" />
 
-    <title>Cadastro de obras</title>
+    <title>Relatório de Acesso</title>
 
     <link rel="stylesheet" href="assets/css/datepicker.css" />
 

@@ -8,7 +8,6 @@
     <meta name="description" content="Setour" />
     <!--Regulando a visão da tela para a largura relativa à tela utilizada-->
     <meta name=viewport content="width=device-width, initial-scale=1" />
-
     <title>Gerenciamento de Funcionários</title>
 
     <?php $this->carregarDependencias()?>
