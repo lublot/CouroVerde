@@ -435,6 +435,7 @@ class obraController extends mainController {
             
             $this->cadastrarPalavraChave();   
             $this->cadastro();
+            header("Location: ../obra/cadastro");
         } else {
             throw new DadosCorrompidosException();
         }       

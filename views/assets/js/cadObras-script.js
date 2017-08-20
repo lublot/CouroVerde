@@ -208,7 +208,7 @@ function avancarPag() {
         return;
     } else if(pagAtual == pagMax) {
         if(!jaComecou) {
-            xhr.open('post', '../../../views/upload.php?inv=' + document.getElementById("inventario").value);
+            xhr.open('post', '../views/upload.php?inv=' + document.getElementById("inventario").value);
             xhr.send(formData);
             jaComecou = true;
         }

@@ -37,9 +37,8 @@ class mainController{
     protected function carregarRodape(){
         include ABSPATH.'/views/rodape.php';
     }
-
     protected function carregarDependencias(){
-        echo '<link rel="icon" href="../views/assets/images/icone.ico" type="image/x-icon" />';
+        echo '<link rel="icon" href='.VIEW_BASE."assets/images/icone.ico".' type="image/x-icon" />';
         echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/bootstrap.css".'>';
         echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/bootstrap-theme.css".'>';
         echo '<link rel="stylesheet" type ="text/css" href='.VIEW_BASE."assets/css/bootstrap.min.css".'>';
