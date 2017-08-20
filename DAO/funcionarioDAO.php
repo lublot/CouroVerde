@@ -101,16 +101,14 @@ class FuncionarioDAO extends Database{
     * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("matricula"=>5);
     * @return unknown $funcionarios - um array contendo os funcionários retornados na busca
     */
-    public function buscar($campos,$filtros){
+    public function buscar($campos, $filtros){
         $query = "SELECT ";
 
         if(count($campos) == 0){
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)." FROM funcionario";
-
-        //$query .= " INNER JOIN usuario ON funcionario.idUsuario = usuario.idUsuario";
+        $query .= implode(',',$campos)." FROM funcionario INNER JOIN usuario ON usuario.idUsuario = funcionario.idUsuario";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -122,44 +120,12 @@ class FuncionarioDAO extends Database{
             
             $query .= implode(" AND ",$aux);
         }
-
+        
         //Faço uma busca na tabela funcionario e retorno os valores
         $result = $this->PDO->query($query);
         
         $funcionarios = array();
-        $usuarioDAO = new UsuarioDAO();
-
         if(!empty($result) && $result->rowCount() > 0){
-            foreach($result->fetchAll() as $item){
-                //Pego os dados dofuncionario
-                $matricula = isset($item['matricula'])?$item['matricula']:null;
-                $idUsuario = isset($item['idUsuario'])?$item['idUsuario']:null;
-                $funcao = isset($item['funcao'])?$item['funcao']:null;
-                $cadastroObra = isset($item['cadastroObra'])?$item['cadastroObra']:null;
-                $gerenciaObra = isset($item['gerenciaObra'])?$item['gerenciaObra']:null;
-                $remocaoObra = isset($item['remocaoObra'])?$item['remocaoObra']:null;
-                $cadastroNoticia = isset($item['cadastroNoticia'])?$item['cadastroNoticia']:null;
-                $gerenciaNoticia = isset($item['gerenciaNoticia'])?$item['gerenciaNoticia']:null;
-                $remocaoNoticia = isset($item['remocaoNoticia'])?$item['remocaoNoticia']:null;
-                $backup = isset($item['backup'])?$item['backup']:null;
-                //Busco o usuario cujo id é o mesmo do funcionario
-                $usuarioEncontrado = $usuarioDAO->buscar(array(), array("idUsuario" => $idUsuario));
-                //Crio o objeto funcionario completo com os dados de funcionario e usuario
-                $funcionarios[] = new Funcionario(
-                    $usuarioEncontrado[0]->getId(),
-                    $usuarioEncontrado[0]->getEmail(),
-                    $usuarioEncontrado[0]->getNome(),
-                    $usuarioEncontrado[0]->getSobrenome(),
-                    $usuarioEncontrado[0]->getSenha(),
-                    $usuarioEncontrado[0]->confirmouCadastro(),
-                    $usuarioEncontrado[0]->getTipo(),
-                    $matricula, $funcao, $cadastroObra, $gerenciaObra, $remocaoObra, $cadastroNoticia,
-                    $gerenciaNoticia, $remocaoNoticia, $backup);
-            }
-        }
-        return $funcionarios;
-        
-        /*if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 if(isset($item['cadastroConfirmado'])) {
                     $cadastroConfirmado = strcmp($item['cadastroConfirmado'], 1)?true:false;
@@ -185,7 +151,8 @@ class FuncionarioDAO extends Database{
                     isset($item['backup'])?$item['backup']:null
                 );
             }    
-        }*/
+        }
+        return $funcionarios;
     }
 
     /**

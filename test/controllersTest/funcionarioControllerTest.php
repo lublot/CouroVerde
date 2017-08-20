@@ -46,7 +46,7 @@ class funcionarioControllerTest extends TestCase {
     * @runInSeparateProcess
     * @preserveGlobalState disabled    
     */
-    /*public function testEditarFuncionarioSucesso (){
+    public function testEditarFuncionarioSucesso (){
         $this->instanciaFuncionario->configuraAmbienteParaTeste('Aloisio', 'Junior', 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
         $this->instanciaFuncionario->cadastrarFuncionario();
 
@@ -63,14 +63,14 @@ class funcionarioControllerTest extends TestCase {
         $funcionario = $funcionarioDAO->buscar(array(), array("nome"=>$novoNome));
         $this->assertEquals(1,count($funcionario));
 
-    }*/
+    }
 
     /**
     * Testa a edição de um funcionario com falha;
     * @runInSeparateProcess
     * @preserveGlobalState disabled    
     */
-    /*public function testEditarFuncionarioFalha (){
+    public function testEditarFuncionarioFalha (){
         $this->instanciaFuncionario->configuraAmbienteParaTeste('Aloisio', 'Junior', 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
         $this->instanciaFuncionario->cadastrarFuncionario();
 
@@ -86,14 +86,14 @@ class funcionarioControllerTest extends TestCase {
         $this->instanciaFuncionario->gerenciarFuncionario();
         $this->expectException(NivelDeAcessoInsuficienteException::class); //Exception esperada
 
-    }*/
+    }
 
     /**
     * Testa a remoção de um funcionario com sucesso;
     * @runInSeparateProcess
     * @preserveGlobalState disabled    
     */
-    /*public function testRemoverFuncionarioSucesso (){
+    public function testRemoverFuncionarioSucesso (){
         $this->instanciaFuncionario->configuraAmbienteParaTeste('Aloisio', 'Junior', 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
         $this->instanciaFuncionario->cadastrarFuncionario();
 
@@ -122,6 +122,13 @@ class funcionarioControllerTest extends TestCase {
         $_SESSION['tipoUsuario'] = 'Anyway';
         $this->instanciaFuncionario->removerNoticia();
         $this->expectException(NivelDeAcessoInsuficienteException::class); //Exception esperada
+    }
+
+    /*public function testBuscarFuncionario(){
+        $funcionarioDAO = new FuncionarioDAO();
+        $encontrado = $funcionarioDAO->buscar(array(), array('idUsuario' => '10'));
+        $this->assertEquals("Diego", $encontrado[0]->getNome());
+        $this->assertEquals("15111215", $encontrado[0]->getMatricula());
     }*/
 }
 ?>

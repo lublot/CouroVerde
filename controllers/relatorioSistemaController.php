@@ -102,6 +102,5 @@ class relatorioSistemaController extends mainController{
         }
     }
 
-    
 }
 ?>
