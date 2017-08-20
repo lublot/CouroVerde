@@ -12,16 +12,6 @@ class relatorioAcessoController extends mainController
 {
     private $numInventarioJaRegistrados;
 
-    /**
-    * Redireciona para a página de visualização do relatório de acesso.
-    */
-    public function index() {
-        if(VerificarPermissao::isFuncionario()){
-            $this->carregarConteudo('backup',array());
-        } else {
-            $this->permissaoNegada();
-        }   
-    }
 
     /**
     * Configura o ambiente para testes.

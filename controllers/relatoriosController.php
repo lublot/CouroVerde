@@ -21,7 +21,11 @@ class relatoriosController extends mainController{
     }
 
     public function acesso(){
-
+        if(VerificarPermissao::isAdministrador()){
+            $this->carregarConteudo('relatorioAcesso',array());
+        }else{
+            $this->permissaoNegada();
+        }
     }
 
     public function sistema(){

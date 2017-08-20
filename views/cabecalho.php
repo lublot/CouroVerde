@@ -93,7 +93,7 @@
                         if($_SESSION['tipoUsuario'] == 'ADMINISTRADOR' || $_SESSION['tipoUsuario'] == 'FUNCIONARIO'){
                             echo '<span class="item-cabecalho">
                                    <div class="icone-adm"></div>
-                                    <a href="'.ROOT_URL.'/admin'.'">Painel Administrativo </a>
+                                    <a href="'.ROOT_URL.'admin'.'">Painel Administrativo </a>
                                     </span>';
                         }
                     }

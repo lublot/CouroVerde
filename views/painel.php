@@ -3,7 +3,7 @@
 <div class="panel-heading text-center">
   <h4 class="panel-title">
     <a data-toggle="collapse" id="obras" data-parent="#accordion2" href="#submenu-obra" class="collapsed" onclick="selecionar(obras)">
-      <img src="../views/assets/glyphicons_free/glyphicons/png/glyphicons-12-camera.png" height="14px" length="14px"/>
+      <img src=<?php echo '"'.VIEW_BASE.'assets/glyphicons_free/glyphicons/png/glyphicons-12-camera.png"'?> height="14px" length="14px"/>
         Obras
     </a>
     <div id="submenu-obra" class="panel-collapse collapse">
@@ -17,7 +17,7 @@
   <br>
   <h4 class="panel-title">
     <a data-toggle="collapse" data-parent="#accordion2" href="#submenu-noticias" class="collapsed">
-    <img src="../views/assets/glyphicons_free/glyphicons/png/glyphicons-530-list-alt.png" height="14px" length="14px"/>            
+    <img src=<?php echo '"'.VIEW_BASE.'assets/glyphicons_free/glyphicons/png/glyphicons-530-list-alt.png"'?> height="14px" length="14px"/>            
       Notícias
     </a>
     <div id="submenu-noticias" class="panel-collapse collapse">
@@ -30,7 +30,7 @@
   <br>
   <h4 class="panel-title">
     <a data-toggle="collapse"  data-parent="#accordion2" href="#submenu-funcionario" class="collapsed">
-      <img src="../views/assets/glyphicons_free/glyphicons/png/glyphicons-344-thumbs-up.png" height="14px" length="14px"/>      
+      <img src=<?php echo '"'.VIEW_BASE.'assets/glyphicons_free/glyphicons/png/glyphicons-344-thumbs-up.png"'?> height="14px" length="14px"/>      
       Pesquisas
     </a>
     <div id="submenu-funcionario" class="panel-collapse collapse ">
@@ -43,20 +43,22 @@
   <br>
   <h4 class="panel-title">
     <a data-toggle="collapse" data-parent="#accordion2" href="#submenu-relatorios" class="collapsed">
-      <img src="../views/assets/glyphicons_free/glyphicons/png/glyphicons-111-align-left.png" height="14px" length="14px"/>            
+      <img src=<?php echo '"'.VIEW_BASE.'assets/glyphicons_free/glyphicons/png/glyphicons-111-align-left.png"'?> height="14px" length="14px"/>            
       Relatórios
     </a>
     <div id="submenu-relatorios" class="panel-collapse collapse">
         <div class="panel-body">
-        <a href="relatorioAcesso" class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatório de Acesso</a><br><br>
-        <a href="<?php echo ROOT_URL.'relatorios/sistema'?>" class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatórios do Sistema</a>
+
+        <a href=<?php echo ROOT_URL.'relatorios/acesso'?> class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatório de Acesso</a><br><br>
+        <a href=<?php echo ROOT_URL.'relatorios/sistema'?> class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatórios do Sistema</a>
+
         </div>
     </div>
   </h4>
   <br>
   <h4 class="panel-title">
     <a data-toggle="collapse" data-parent="#accordion2" href="#submenu-funcionarios" class="collapsed">
-      <img src="../views/assets/glyphicons_free/glyphicons/png/glyphicons-4-user.png" height="14px" length="14px"/>            
+      <img src=<?php echo '"'.VIEW_BASE.'assets/glyphicons_free/glyphicons/png/glyphicons-4-user.png"'?> height="14px" length="14px"/>            
       Funcionários
     </a>
     <div id="submenu-funcionarios" class="panel-collapse collapse">
@@ -69,7 +71,7 @@
   <br>
   <h4 class="panel-title">
     <a data-toggle="collapse" data-parent="#accordion2" href="#submenu-backup" class="collapsed">
-      <img src="../views/assets/glyphicons_free/glyphicons/png/glyphicons-444-floppy-disk.png" height="14px" length="14px"/>
+      <img src=<?php echo '"'.VIEW_BASE.'assets/glyphicons_free/glyphicons/png/glyphicons-444-floppy-disk.png"'?> height="14px" length="14px"/>
       Backup
     </a>
     <div id="submenu-backup" class="panel-collapse collapse">
