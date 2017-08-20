@@ -68,7 +68,7 @@ function carregar(pagina=0,filtros=0){
 function criarBox(dados){
 
     let link = document.createElement('a');
-    link.setAttribute('href',urlRaiz+'/obra/visualizar/'+dados.numeroInventario);
+    link.setAttribute('href',urlRaiz+'/obra?num='+dados.numeroInventario);
 
     let row = document.createElement('div');
     row.setAttribute('class','row');
@@ -89,7 +89,7 @@ function criarBox(dados){
     thumbnail.setAttribute('class','thumbnail');
 
     let imagem = document.createElement('div');
-    imagem.setAttribute('style',"height:80px;background:url("+dados.caminhoImagem1+");background-size:contain;background-repeat:no-repeat;background-position:center");
+    imagem.setAttribute('style',"height:80px;background:url("+urlRaiz+dados.caminhoImagem1+");background-size:contain;background-repeat:no-repeat;background-position:center");
     
     thumbnail.appendChild(imagem);
     info.appendChild(titulo);
