@@ -88,14 +88,14 @@
                                         echo '<!-- Inicio da galeria -->';
                                         echo '<div class="row" align="center">';
                                     }
-        
+
                                     echo '<!-- Posição e tamanho do item da galeria. Isto que deve ser replicado com o PHP puxando
                                     os funcinários do banco de dados-->
                                     <div class="thumbnail col-lg-3 col-md-3 col-sm-3 col-xs-6 ">
                                         
                                         <!-- Caixa do item -->
                                         <!--LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DA OBRA-->
-                                        <a href="cadObras.html" class="text-center" style="width:50%">
+                                        <a href="'.ROOT_URL.'obra/gerenciaobra?i='.$obra->getNumInventario().'" class="text-center" style="width:50%">
                                             <!-- Icone obra -->
                                             <img src="'.$obra->getCaminhoImagem1().'" class="img-responsive" styke="width:25px;length:25px">
         
@@ -121,19 +121,13 @@
                             
                             if($cont != count($obras)) {
                                 echo '<div class="row text-center">
-                                <a href="/obra/gerenciar?u='.$proximoNumInv.'" type="button" class="btn btn-primary btn-mais">Mais Obras</a>
+                                <a href="'.ROOT_URL.'obra/gerenciar?u='.$proximoNumInv.'" type="button" class="btn btn-primary btn-mais">Mais Obras</a>
                                 </div>';
                             } 
                         
                         
 
                     ?>
-
-                
-
-
-
-
                     <!-- /FIM da Caixa interna -->
                 </section>
 

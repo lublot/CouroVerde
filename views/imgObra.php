@@ -106,15 +106,14 @@
                     <!-- Botão para Modelo 3D -->
                     <div>
                         <?php
-                            if(isset($_GET['num'])) {
+                            if(isset($_GET['num']) && $obraPagina->getCaminhoModelo3D() != null && $obraPagina->getCaminhoModelo3D() != '') {
                                 echo '<button class="btn btn-primary btn-sm" onClick="modelo3D('. "'" . $obraPagina->getCaminhoModelo3D() . "'" .')">';
+                                echo 'Modelo 3D';
                             }
                         ?>
-                            Modelo 3D
                         </button>
                     </div>
-                        <br>
-                    
+                    <br>
                 </div>  
 
                 <!-- Botão para voltar para próxima obra da galeria -->

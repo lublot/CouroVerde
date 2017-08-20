@@ -451,6 +451,7 @@
                                         <div class="dnd1">
 
                                             <div id="uploadImg" hidden>
+                                                <img src="../views/assets/glyphicons_free/glyphicons/png/glyphicons-12-camera.png"/>
                                                 <span>Imagens carregadas:</span>
                                                 <span id="img1" hidden></span>
                                                 <span id="img2" hidden></span>
@@ -458,6 +459,7 @@
                                                 <span id="img4" hidden></span>
                                                 <span id="img5" hidden></span>                                                
                                             </div>      
+                                            <br>
 
                                             <!--<input type="file" multiple="multiple" accept="image/*" style="visibility: hidden">-->
                                             <div id="dropzone_img" class="dropzone">
@@ -474,9 +476,10 @@
 
                                             <!--<input type="file" multiple="multiple" accept="image/*" style="visibility: hidden">-->
                                             <div id="dropzone_3d" class="dropzone">
-                                                Arraste seus arquivos referentes ao modelo 3D  aqui se desejar carregá-los também
+                                                Arraste seus arquivos referentes ao modelo 3D aqui para carregá-los
                                             </div>
                                             <div id="uploads_3d" class="uploads"></div>
+                                            <br><br>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -527,6 +530,7 @@
                             <!-- Fim da Seção: Documentação Fotográfica  -->
                         </div>
                         <!--/Página 6  -->                        
+                        <p id="loading" class="text-center" hidden>Oxe! Tá carregando, viu? Vá dançar um baião enquanto espera!</p>
 
                         <div class="modal-footer" style="border-top: 0; margin-right: 15px;">
                             <div class="form-group">

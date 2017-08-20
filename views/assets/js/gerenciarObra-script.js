@@ -15,20 +15,6 @@ $(document).ready(function () {
     var dropzone_3d = document.getElementById('dropzone_3d');
 
     var upload = function (files) {
-        var numImg = 0;
-
-        for (var value of formData.values()) {
-            var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
-            if (re.exec(value.name)) {
-                numImg = numImg + 1;              
-            }            
-        }
-        
-        if (numImg > 5) {
-            alert('Apenas 5 imagens podem ser carregadas!');
-            return;
-        }        
-
         for (x = 0; x < files.length; x = x + 1) {
             var re = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
             if (!re.exec(files[x].name)) {
@@ -68,22 +54,7 @@ $(document).ready(function () {
     }
 
     var upload3D = function (files) {
-        var files3D = [];
         var cont = 0;
-
-        for (var value of formData.values()) {
-            var re = /(\.obj)$/i;
-            if (re.exec(value.name)) {
-                cont = cont + 1;             
-            }
-        }
-
-        if(cont >= 1) {
-            alert("Apenas um modelo 3D pode ser carregado!");
-            return;
-        }
-
-        cont = 0;
         for (x = 0; x < files.length; x = x + 1) {
             var re = /(\.obj)$/i;
             if (re.exec(files[x].name)) {
@@ -216,13 +187,7 @@ function atualizarTextoBotao() {
 function avancarPag() {
     // Verificação para caso o usuário esteja no última página deve ser feita no início do método para evitar ser chamada antes da hora
     // Caso o usuário esteja na última página do cadastro
-    if (pagAtual == pagMax && !uploadImgFeito) {
-        alert("Ao menos uma imagem deve ser carregada!");
-        return;
-    } else if (pagAtual == pagMax && !upload3DFeito) {
-        alert("Ao menos um modelo 3D deve ser carregado!");
-        return;
-    } else if(pagAtual == pagMax) {
+    if((uploadImgFeito || upload3DFeito) && pagAtual == pagMax) {
         if(!jaComecou) {
             xhr.open('post', '../../../views/upload.php?inv=' + document.getElementById("numeroInventario").value);
             xhr.send(formData);

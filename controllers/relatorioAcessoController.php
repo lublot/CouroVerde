@@ -16,7 +16,11 @@ class relatorioAcessoController extends mainController
     * Redireciona para a página de visualização do relatório de acesso.
     */
     public function index() {
-        $this->carregarConteudo('relatorioAcesso',array());
+        if(VerificarPermissao::isFuncionario()){
+            $this->carregarConteudo('backup',array());
+        } else {
+            $this->permissaoNegada();
+        }   
     }
 
     /**

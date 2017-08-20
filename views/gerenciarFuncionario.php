@@ -9,7 +9,7 @@
     <!--Regulando a visão da tela para a largura relativa à tela utilizada-->
     <meta name=viewport content="width=device-width, initial-scale=1" />
 
-    <title>Cadastro de Funcionários</title>
+    <title>Gerenciamento de Funcionários</title>
 
     <?php $this->carregarDependencias()?>
     <script type="text/javascript" src=<?php $this->path("assets/js/gerenciarFuncionario-script.js")?>></script>
@@ -146,10 +146,10 @@
                         <div class="form-group row modal-footer">
 
                             <!-- Botão cancelar -->
-                            <button type="button" id="remover" class="pull-right btn btn-danger">REMOVER</button>
+                            <button type="button" id="remover" class="pull-right btn btn-danger">Remover</button>
 
                             <!-- Botão cadastrar -->
-                            <button type="button" id="confirmar" class="pull-right btn btn-success" style="margin-right:5px">ATUALIZAR INFORMAÇÕES </button>
+                            <button type="button" id="confirmar" class="pull-right btn btn-primary" style="margin-right:5px">Atualizar Informações</button>
                         </div>
 
                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
