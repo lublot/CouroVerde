@@ -6,6 +6,16 @@ use \models\Backup as Backup;
 use \DAO\Database as Database;
 
 class backupDAO extends Database {
+
+  /**
+    * Recupera o ID do ultimo backup feito
+    * @return $idBackup
+    */
+    public function getUltimoIdInserido(){
+        $idBackup = $this->PDO->lastInsertId("idBackup");
+        return $idBackup;
+    }
+
     /**
     * Insere um backup no banco de dados;
     * @param Backup $backup - backup a ser inserido no banco;

@@ -48,8 +48,10 @@
     </a>
     <div id="submenu-relatorios" class="panel-collapse collapse">
         <div class="panel-body">
-        <a href=<?php echo ROOT_URL.'relatorios/acesso' ?> class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatório de Acesso</a><br><br>
-        <a href="<?php echo ROOT_URL.'relatorios/sistema'?>" class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatórios do Sistema</a>
+
+        <a href=<?php echo ROOT_URL.'relatorios/acesso'?> class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatório de Acesso</a><br><br>
+        <a href=<?php echo ROOT_URL.'relatorios/sistema'?> class="link" style="color: rgb(67, 74, 84)" style="color: rgb(67, 74, 84)">• Relatórios do Sistema</a>
+
         </div>
     </div>
   </h4>

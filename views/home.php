@@ -23,22 +23,22 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox" style="min-width:100%;background:rgba(0,0,0,0)">
             <div class="item active" style="min-width:100%;">
-                <img  src="<?php if(isset($this->dados) && count($this->dados)>0){echo ROOT_URL.$this->dados['noticias'][0]->getCaminhoImagem();}?>" alt="..." style="min-width:100%;">
+                <img  src=<?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo ROOT_URL.$this->dados['noticias'][0]->getCaminhoImagem();}?> alt="..." style="min-width:100%;">
                    
                 <div class="carousel-caption" style="color:black">
-                    <h4><?php if(isset($this->dados) && count($this->dados)>0){echo $this->dados['noticias'][0]->getTitulo();}?></h4>
-                    <h5><?php if(isset($this->dados) && count($this->dados)>0){echo $this->dados['noticias'][0]->getSubtitulo();}?></h5>
+                    <h4><?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo $this->dados['noticias'][0]->getTitulo();}?></h4>
+                    <h5><?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo $this->dados['noticias'][0]->getSubtitulo();}?></h5>
                 </div>
             </div>
 
             <?php
                 for($i=1;$i<count($this->dados);$i++){
                     echo '<div class="item" style="min-width:100%;">
-                            <img  src=".'.ROOT_URL.$this->dados[0]["caminhoImagem"].'" alt="..." style="min-width:100%;">
+                            <img  src=".'.ROOT_URL.$this->dados[$i]["caminhoImagem"].'" alt="..." style="min-width:100%;">
                             
                             <div class="carousel-caption">
                             <h4>.'.$this->dados[$i]["titulo"].'</h4>
-                            <h5>'.$this->dados['.$i.']["subtitulo"].'</h5>
+                            <h5>'.$this->dados[$i]["subtitulo"].'</h5>
                             </div>
                         </div>';
                 }

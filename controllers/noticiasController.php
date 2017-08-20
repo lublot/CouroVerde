@@ -74,6 +74,12 @@ class noticiasController extends mainController
                     $caminhoImagem = addslashes($caminhoImagem);
                     
                     $noticiaDAO->inserir(new Noticia(null, $titulo, $subtitulo, $descricao, $caminhoImagem, $data));
+                    
+                    //Registra a ação que o funcionario acabou de fazer
+                    $idNoticia = $noticiaDAO->getUltimoIdInserido();
+                    $logController = new LogController();
+                    $logController->registrarEvento($idNoticia, "NOTICIA", "Uma notícia foi cadastrada");
+                    
                     echo '<script>window.location.href = "'.ROOT_URL.'noticias"</script>';
                 }  
             }catch(CampoInvalidoException $e){
@@ -120,6 +126,11 @@ class noticiasController extends mainController
                 $NoticiaDAO = new NoticiaDAO();
                 $noticia = $NoticiaDAO->buscar(array(),array("idNoticia"=>$idNoticia));
                 $NoticiaDAO->remover(array('idNoticia'=>$idNoticia));
+
+                //Registra a ação que o funcionario acabou de fazer
+                $logController = new LogController();
+                $logController->registrarEvento($idNoticia, "NOTICIA", "Uma notícia foi removida");
+
                 echo json_encode(array("success"=>true));
             }else{
                 echo json_encode(array("success"=>false,"erro"=>"Senha Incorreta"));
@@ -202,6 +213,11 @@ class noticiasController extends mainController
 
             $noticiaDAO = new noticiaDAO();
             $noticiaDAO->alterar($campos, array('idNoticia'=>$idNoticia));
+
+            //Registra a ação que o funcionario acabou de fazer
+            $logController = new LogController();
+            $logController->registrarEvento($idNoticia, "NOTICIA", "Uma notícia foi alterada");
+
             echo json_encode(array('success'=>true));
         } else {
             echo json_encode(array('success'=>false,"erro"=>'Ocorreu um erro!'));
