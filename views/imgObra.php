@@ -41,6 +41,8 @@
                         use \controllers\obraController as ObraController;  
                         use \models\Obra as Obra;  
                         use \DAO\obraDao as ObraDAO;
+                        use \DAO\pesquisaDAO as PesquisaDAO;                                                
+                        use \DAO\respostaDAO as RespostaDAO;                        
                         use \DAO\UsuarioAcessoDAO as UsuarioAcessoDAO;
                         use \models\Visita as Visita;
                         
@@ -146,11 +148,11 @@
                             use util\ValidacaoDados as ValidacaoDados;
                             $imgs = array();
 
-                            $caminhoImg1 = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem1()) ? $obraPagina->getCaminhoImagem1() : null;
-                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem2()) ? $obraPagina->getCaminhoImagem2() : null;
-                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem3()) ? $obraPagina->getCaminhoImagem3() : null;
-                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem4()) ? $obraPagina->getCaminhoImagem4() : null;
-                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem5()) ? $obraPagina->getCaminhoImagem5() : null;
+                            $caminhoImg1 = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem1()) ? explode("../", $obraPagina->getCaminhoImagem1())[1] : null;
+                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem2()) ? explode("../", $obraPagina->getCaminhoImagem2())[1] : null;
+                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem3()) ? explode("../", $obraPagina->getCaminhoImagem3())[1] : null;
+                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem4()) ? explode("../", $obraPagina->getCaminhoImagem4())[1] : null;
+                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem5()) ? explode("../", $obraPagina->getCaminhoImagem5())[1] : null;
 
                         ?>
 
@@ -360,11 +362,27 @@
                 } else {
                     $galeriaLink = '/galeria';
                 }
-                echo '<a href="'.$galeriaLink.'" class="btn btn-primary btn-sm" style="border:none">';
-            ?>
+                echo '<a href="'.$galeriaLink.'" class="btn btn-primary btn-sm" style="border:none">
                 <img src="../views/assets/images/if_arrow-back_216437.png"></img>                    
-                Voltar Para Galeria
-            </a>
+                Voltar Para Galeria </a>';
+
+                if(isset($_SESSION['id'])) {
+                    $pesquisaDAO = new PesquisaDAO();
+                    $pesquisaAtiva = $pesquisaDAO->buscar(array(), array('estaAtiva' => true));
+                    
+                    if(count($pesquisaAtiva) == 1) {
+                        $pesquisaAtiva = $pesquisaAtiva[0];
+
+                        $respostaDAO = new RespostaDAO();
+                        
+                        if(!$respostaDAO->usuarioRespondeu($_SESSION['id'], $pesquisaAtiva->getIdPesquisa())) {
+                            echo '<a type="button" href="'.ROOT_URL.'pesquisa/responder'.'" class="btn btn-primary btn-sm">Gostou do museu? Responda nossa pesquisa!</a>';
+                        }
+
+                    }
+
+                }
+            ?>
         </div>
     
     </div>

@@ -113,7 +113,7 @@
                                                 <!--Text: Número do Inventário-->
                                                 <?php
                                                     if(isset($_GET['i'])) {
-                                                        echo '<input class="form-control" type="number" value="'.$obra->getNumInventario().'"  required="required" id="numeroInventario" name="numeroInventario" placeholder="Número do Inventário (*)" disabled>';
+                                                        echo '<input class="form-control" type="number" value="'.$obra->getNumInventario().'"  required="required" id="numeroInventario" name="numeroInventario" placeholder="Número do Inventário (*)" readonly="readonly">';
                                                     } else {
                                                         echo '<input class="form-control" type="number" required="required" id="numeroInventario" name="numeroInventario" placeholder="Número do Inventário (*)">';                                                        
                                                     }
@@ -692,7 +692,8 @@
                             </section>
                             <!-- Fim da Seção: Documentação Fotográfica  -->
                         </div>
-                        <!--/Página 6  -->                        
+                        <!--/Página 6  -->              
+                        <p id="loading" class="text-center" hidden>Oxe! Tá carregando, viu? Vá dançar um baião enquanto espera!</p>                                  
                         
                         <div class="row">
                             <div class="modal-footer" style="border-top: 0; margin-right: 15px;">

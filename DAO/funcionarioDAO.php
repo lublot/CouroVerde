@@ -124,7 +124,11 @@ class FuncionarioDAO extends Database{
             $aux = array();
 
             foreach($filtros as $chave=>$valor){
-                $aux[] = $chave."="."'$valor'";
+                if($chave == 'matricula' || $chave == 'idUsuario' || $chave == 'funcao') {
+                    $aux[] = 'funcionario.'.$chave."="."'$valor'";
+                } else {
+                    $aux[] = 'usuario.'.$chave."="."'$valor'";
+                }
             }
             
             $query .= implode(" AND ",$aux);
@@ -132,6 +136,7 @@ class FuncionarioDAO extends Database{
         
         //Faço uma busca na tabela funcionario e retorno os valores
         $result = $this->PDO->query($query);
+
         
         $funcionarios = array();
         if(!empty($result) && $result->rowCount() > 0){

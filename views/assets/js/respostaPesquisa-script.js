@@ -13,10 +13,12 @@ function carregar(){
     ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     ajax.send();
 
+
     ajax.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
+            console.log(this.response);
             
-            if(Object.keys(JSON.parse(this.response)).length >= 3){
+            if(Object.keys(JSON.parse(this.response)).length >= 3){                
                 var mensagem = JSON.parse(this.responseText);
                 carregarPesquisa(mensagem);
             }else{
