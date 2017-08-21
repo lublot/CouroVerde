@@ -7,14 +7,17 @@ use DAO\FuncionarioDAO as FuncionarioDAO;
 use DAO\RelatorioSistemaDAO as RelatorioSistemaDAO;
 use models\RelatorioSistema as RelatorioSistema;
 
-if(!isset($_SESSION)){session_start();}
 class LogController extends mainController {
 
+    public function configuraAmbienteParaTeste($email){
+        $_SESSION['email'] = $email;
+    }
+
     public function registrarEvento($idItem, $tipoItem, $acao){
-        $idUsuario = $_SESSION['id'];
+        $emailUsuario = $_SESSION['email'];
 
         $funcionarioDAO = new FuncionarioDAO();
-        $encontrado = $funcionarioDAO->buscar(array('matricula'), array('idUsuario' => $idUsuario));
+        $encontrado = $funcionarioDAO->buscar(array('matricula'), array('email' => $emailUsuario));
         $matriculaFuncionario = $encontrado[0]->getMatricula();
 
         $relatorioSistema = new RelatorioSistema(null, $matriculaFuncionario, $idItem, $tipoItem, $acao, null);
