@@ -13,9 +13,6 @@
 
     <?php $this->carregarDependencias()?>
 
-    <script src="assets/js/moduloNoticia-script.js"></script>
-
-
 </head>
 
 <body style="background-color: rgb(241, 242, 246);">
@@ -45,7 +42,7 @@
                 <section id="caixa">
 
                     <!-- Formulário de cadastro/alteração de notícias -->
-                    <form data-toggle="validator" role="form" method="POST" enctype="multipart/form-data">
+                    <form data-toggle="validator" role="form" action="../noticias/cadastrar" method="POST" enctype="multipart/form-data">
 
                         <!-- Subtítulo -->
                         <div class="form-group">
@@ -111,5 +108,5 @@
 
     <?php $this->carregarRodape()?>
 </body>
-
+    <script src=<?php '"'.VIEW_BASE.'assets/js/moduloNoticia-script.js"' ?>></script>
 </html>

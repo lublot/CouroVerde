@@ -64,12 +64,6 @@ class Core{
                 if( !headers_sent() ){
                         header("Location:".ROOT_URL."erro/");
                 }else{
-                    /*?>
-                        <script type="text/javascript">
-                        document.location.href="../views/erro404.php";
-                        </script>
-                        Redirecting to <a href="../views/erro404.php">views/erro404.php</a>
-                    <?php*/
                     $c = new controllers\erroController();
                     $c->index();
                 }

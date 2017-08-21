@@ -41,8 +41,6 @@
                         use \controllers\obraController as ObraController;  
                         use \models\Obra as Obra;  
                         use \DAO\obraDao as ObraDAO;
-                        use \DAO\pesquisaDAO as PesquisaDAO;                                                
-                        use \DAO\respostaDAO as RespostaDAO;                        
                         use \DAO\UsuarioAcessoDAO as UsuarioAcessoDAO;
                         use \models\Visita as Visita;
                         
@@ -366,22 +364,6 @@
                 <img src="../views/assets/images/if_arrow-back_216437.png"></img>                    
                 Voltar Para Galeria </a>';
 
-                if(isset($_SESSION['id'])) {
-                    $pesquisaDAO = new PesquisaDAO();
-                    $pesquisaAtiva = $pesquisaDAO->buscar(array(), array('estaAtiva' => true));
-                    
-                    if(count($pesquisaAtiva) == 1) {
-                        $pesquisaAtiva = $pesquisaAtiva[0];
-
-                        $respostaDAO = new RespostaDAO();
-                        
-                        if(!$respostaDAO->usuarioRespondeu($_SESSION['id'], $pesquisaAtiva->getIdPesquisa())) {
-                            echo '<a type="button" href="'.ROOT_URL.'pesquisa/responder'.'" class="btn btn-primary btn-sm">Gostou do museu? Responda nossa pesquisa!</a>';
-                        }
-
-                    }
-
-                }
             ?>
         </div>
     

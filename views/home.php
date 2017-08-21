@@ -15,30 +15,38 @@
       <div id="carousel-example-generic" class="carousel slide col-xs-12" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            <?php
+                $cont = 0;
+                for($i =0; $i < count($this->dados['noticias']); $i++) {
+                    if($i == 0) {
+                        echo '<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>';
+                    } else {
+                        echo '<li data-target="#carousel-example-generic" data-slide-to="'.$i.'"></li>';
+                    }
+                }
+
+            ?>
         </ol>
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox" style="min-width:100%;background:rgba(0,0,0,0)">
             <div class="item active" style="min-width:100%;">
-                <img  src=<?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo ROOT_URL.$this->dados['noticias'][0]->getCaminhoImagem();}?> alt="..." style="min-width:100%;">
+            <a href=<?php echo '"' . ROOT_URL . 'noticias/exibir/'.$this->dados['noticias'][0]->getIdNoticia(). '"' ?>><img src=<?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo ROOT_URL.$this->dados['noticias'][0]->getCaminhoImagem();}?> alt="..." style="min-width:100%;"></a>
                    
-                <div class="carousel-caption" style="color:black">
+                <div class="carousel-caption">
                     <h4><?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo $this->dados['noticias'][0]->getTitulo();}?></h4>
                     <h5><?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo $this->dados['noticias'][0]->getSubtitulo();}?></h5>
                 </div>
             </div>
 
             <?php
-                for($i=1;$i<count($this->dados);$i++){
+                for($i=1;$i<count($this->dados['noticias']);$i++){
                     echo '<div class="item" style="min-width:100%;">
-                            <img  src=".'.ROOT_URL.$this->dados[$i]["caminhoImagem"].'" alt="..." style="min-width:100%;">
+                            <a href="'.ROOT_URL.'noticias/exibir/'.$this->dados['noticias'][$i]->getIdNoticia().'"><img src="'.ROOT_URL.$this->dados['noticias'][$i]->getCaminhoImagem().'" alt="..." style="min-width:100%;"></a>
                             
                             <div class="carousel-caption">
-                            <h4>.'.$this->dados[$i]["titulo"].'</h4>
-                            <h5>'.$this->dados[$i]["subtitulo"].'</h5>
+                            <h4>'.$this->dados['noticias'][$i]->getTitulo().'</h4>
+                            <h5>'.$this->dados['noticias'][$i]->getSubtitulo().'</h5>
                             </div>
                         </div>';
                 }
