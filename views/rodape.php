@@ -11,8 +11,29 @@
 
         <p class="footer-links">
           <a href="<?php echo ROOT_URL.'home'?>">Home</a>
-          <a href="#">Galeria</a>
+          <a href="<?php echo ROOT_URL.'galeria'?>">Galeria</a>
           <a href="<?php echo ROOT_URL.'sobre'?>">Sobre</a>
+        <?php
+            use \DAO\pesquisaDAO as PesquisaDAO;                                                
+            use \DAO\respostaDAO as RespostaDAO;  
+            if(isset($_SESSION['id'])) {
+              $pesquisaDAO = new PesquisaDAO();
+              $pesquisaAtiva = $pesquisaDAO->buscar(array(), array('estaAtiva' => true));
+              
+              if(count($pesquisaAtiva) == 1) {
+                  $pesquisaAtiva = $pesquisaAtiva[0];
+
+                  $respostaDAO = new RespostaDAO();
+                  
+                  if(!$respostaDAO->usuarioRespondeu($_SESSION['id'], $pesquisaAtiva->getIdPesquisa())) {
+                      echo '<br><a href="'.ROOT_URL.'pesquisa/responder" >Pesquisa de Satisfação</a>';
+                  }
+
+              }
+
+            }
+        ?>
+          
         </p>
 
       </div>

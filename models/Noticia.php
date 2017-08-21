@@ -125,7 +125,7 @@ class Noticia implements \JsonSerializable{
      * Define como os dados da classe Noticia serão utilizados na conversão para um json.
      * @return dados da classe em formato .json
      */
-    public function jsonSerialize() {
+    public function jsonSerialize() { 
         return [
             'idNoticia' => $this->idNoticia,
             'titulo' => $this->titulo,

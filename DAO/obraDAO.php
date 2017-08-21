@@ -106,7 +106,6 @@ class ObraDAO extends Database {
             $query .= implode(" AND ",$aux);
         }
 
-        
         $this->PDO->query($query);
     }
 

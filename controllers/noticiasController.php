@@ -18,6 +18,7 @@ class noticiasController extends mainController
 {
 
     protected $dados = array();
+    
     /**
     * Configura a classe para realização de testes.
     */
@@ -34,7 +35,9 @@ class noticiasController extends mainController
         $_POST['submit'] = $post;
     }
 
-
+    /**
+    * Redireciona para a página inicial do gerenciamento de notícias.
+    */
     public function index(){
         if(VerificarPermissao::isAdministrador() || VerificarPermissao::isFuncionario()){
             $this->carregarConteudo('homeNoticia',array());
@@ -44,13 +47,31 @@ class noticiasController extends mainController
     }
 
     /**
+    * Redireciona para a página de exibição de uma notícia. 
+    * @param int $idNoticia - id da notícia que será exibida  
+    */
+    public function exibir($idNoticia){
+        if(isset($idNoticia[0])) {
+            $this->dados['idNoticia'] = $idNoticia[0];
+            $this->carregarConteudo('exibirNoticia', array());
+        } else {
+            if(!headers_sent() ){
+                header("Location:".ROOT_URL."erro/");
+            }else{
+                $c = new controllers\erroController();
+                $c->index();
+            }
+            die();                 
+        }   
+    }    
+
+    /**
     * Realiza o cadastro de uma notícia.
     */
     public function cadastrar(){
         if(VerificarPermissao::isAdministrador() || VerificarPermissao::podeCadastrarNoticia()){
-            
             try{
-                if (ValidacaoDados::validarForm($_POST,array('titulo','descricao','subtitulo'))) { //verifica se a variável superglobal foi setada
+                if (ValidacaoDados::validarForm($_POST,array('titulo','descricao'))) { //verifica se a variável superglobal foi setada
                     if (!ValidacaoDados::validarCampo($_POST['titulo'])) { //verifica se o campo está válido
                         throw new CampoInvalidoException('Por favor, verifique o título');
                     }
@@ -87,7 +108,7 @@ class noticiasController extends mainController
             }
             $this->carregarConteudo('cadastroNoticia',$this->dados);
         }else{
-                $this->permissaoNegada();
+            $this->permissaoNegada();
         }          
     }
 
@@ -173,8 +194,7 @@ class noticiasController extends mainController
             move_uploaded_file($_FILES["imagem"]["tmp_name"], $arqCaminho);
             $caminhoImagem = $arqCaminho;
         }
-
-            return $caminhoImagem;
+        return $caminhoImagem;
     }
 
     /**
@@ -269,6 +289,11 @@ class noticiasController extends mainController
     public function listarTodasNoticias() {
         $noticiaDAO = new noticiaDAO();
         $noticias = $noticiaDAO->buscar(array(), array());
+
+        foreach($noticias as $noticia) {
+            $noticia->setCaminhoImagem(utf8_encode($noticia->getCaminhoImagem()));
+        }    
+
         echo json_encode($noticias);
     }
 

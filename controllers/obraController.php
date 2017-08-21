@@ -435,7 +435,7 @@ class obraController extends mainController {
 
             //Registra a ação que o funcionario acabou de fazer
             $logController = new LogController();
-            $logController->registrarEvento($numeroInventario, "OBRA", "Uma obra foi cadastrada");
+            $logController->registrarEvento($numInventario, "OBRA", "Uma obra foi cadastrada");
             
             $this->cadastrarPalavraChave();   
             $this->cadastro();
@@ -473,7 +473,7 @@ class obraController extends mainController {
             $caminhosImagens[] = $caminhoImagesExibir . '/' . $imagem;
         }
 
-        if(!$modelo3Dexiste) {
+        if($modelo3Dexiste) {
             $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
 
             //remove os dois primeiros elementos do array        
@@ -568,7 +568,7 @@ class obraController extends mainController {
     * Este metodo realiza edições nos campos da obra, verificando se estão dentro do padrão
     */
     public function gerenciarObra(){
-        
+
         //Array com o nome dos campos
         $nomeCampos = array('numeroInventario',
         'nome',
@@ -595,7 +595,8 @@ class obraController extends mainController {
         'observacoes',
         'estadoConservacao');
 
-        if (isset($_POST) and ValidacaoDados::validarForm($_POST, array("numeroInventario"))){
+        if (isset($_POST) and ValidacaoDados::validarForm($_POST, array("nome"))){
+            
             $numeroInventario = addslashes($_POST['numeroInventario']);
             $campos = array(); //array para receber campos alterados
             foreach($nomeCampos as $value){ //percorre o nome dos campos
@@ -626,12 +627,15 @@ class obraController extends mainController {
                 $cont++;
             }
 
+
+
             $obraDAO = new obraDAO();
             $obraDAO->alterar($campos, array('numeroInventario'=>$numeroInventario)); //atualiza os dados no banco
 
             //Registra a ação que o funcionario acabou de fazer
             $logController = new LogController();
             $logController->registrarEvento($numeroInventario, "OBRA", "Uma obra foi alterada");
+            header("Location: ../obra/gerenciar");
         }
     }
 

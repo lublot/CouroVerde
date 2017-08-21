@@ -516,7 +516,6 @@ public function alterar(){
   public function responder(){
     if(isset($_SESSION['id'])){
       try{
-
         $idPesquisa;
         $pesquisaDAO = new PesquisaDAO();
         $pesquisaDAO = $pesquisaDAO->buscar(array(),array("estaAtiva"=>1));
@@ -532,6 +531,7 @@ public function alterar(){
       }catch(UsuarioJaRespondeuException $e){
         $this->dados['exception'] = $e->getMessage();
       }
+      
       $this->carregarConteudo('respostaPesquisa',$this->dados);
     }else{
       $this->permissaoNegada();

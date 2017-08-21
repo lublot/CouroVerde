@@ -55,6 +55,7 @@ $(document).ready(function () {
 
     var upload3D = function (files) {
         var cont = 0;
+        var files3D = [];
         for (x = 0; x < files.length; x = x + 1) {
             var re = /(\.obj)$/i;
             if (re.exec(files[x].name)) {
@@ -189,30 +190,32 @@ function avancarPag() {
     // Caso o usuário esteja na última página do cadastro
     if((uploadImgFeito || upload3DFeito) && pagAtual == pagMax) {
         if(!jaComecou) {
-            xhr.open('post', '../../../views/upload.php?inv=' + document.getElementById("numeroInventario").value);
+            xhr.open('post', '../views/upload.php?inv=' + document.getElementById("numeroInventario").value);
             xhr.send(formData);
             jaComecou = true;
-            alert('aaaaa');
         }
-
-        if(xhr.readyState != 4) {
-            alert('Seus arquivos estão sendo carregados! Tente novamente...');
-        }
+        
+        $("#loading").attr("hidden", false);            
+        
 
         xhr.onreadystatechange = function() {
-            if(this.readyState == 4 && this.status == 200) {
-                if(JSON.parse(this.response).sucesso == true && upload3DFeito && uploadImgFeito) {
-                    jaComecou = false;
-                    $("#btn-confirmar").attr("type", "submit");
-                    $("#form-obra").attr("method", "POST");
-                    $("#form-obra").submit(function (event) {
-                        $("#form-obra").attr('method', 'POST');
-                        $(this).attr('action', '../obra/gerenciarObra');
-                    });
-                }
-            }
+            while(this.readyState != 4 && this.status != 200) {};
+            $("#btn-confirmar").attr("type", "submit");
+            $("#form-obra").attr("method", "POST");
+            $("#form-obra").submit(function (event) {
+                $("#form-obra").attr('method', 'POST');
+                $(this).attr('action', '../obra/gerenciarObra');
+            });
+            $("#form-obra").submit();
         }
-
+    } else if(pagAtual == pagMax){
+        $("#btn-confirmar").attr("type", "submit");
+        $("#form-obra").attr("method", "POST");
+        $("#form-obra").submit(function (event) {
+            $("#form-obra").attr('method', 'POST');
+            $(this).attr('action', '../obra/gerenciarObra');
+        });
+        $("#form-obra").submit();
     }
 
     // Verifica se a página atual do usuário excedeu o número limite máximo de páginas

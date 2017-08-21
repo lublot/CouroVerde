@@ -146,11 +146,11 @@
                             use util\ValidacaoDados as ValidacaoDados;
                             $imgs = array();
 
-                            $caminhoImg1 = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem1()) ? $obraPagina->getCaminhoImagem1() : null;
-                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem2()) ? $obraPagina->getCaminhoImagem2() : null;
-                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem3()) ? $obraPagina->getCaminhoImagem3() : null;
-                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem4()) ? $obraPagina->getCaminhoImagem4() : null;
-                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem5()) ? $obraPagina->getCaminhoImagem5() : null;
+                            $caminhoImg1 = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem1()) ? explode("../", $obraPagina->getCaminhoImagem1())[1] : null;
+                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem2()) ? explode("../", $obraPagina->getCaminhoImagem2())[1] : null;
+                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem3()) ? explode("../", $obraPagina->getCaminhoImagem3())[1] : null;
+                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem4()) ? explode("../", $obraPagina->getCaminhoImagem4())[1] : null;
+                            $imgs[] = ValidacaoDados::validarCampo($obraPagina->getCaminhoImagem5()) ? explode("../", $obraPagina->getCaminhoImagem5())[1] : null;
 
                         ?>
 
@@ -360,11 +360,11 @@
                 } else {
                     $galeriaLink = '/galeria';
                 }
-                echo '<a href="'.$galeriaLink.'" class="btn btn-primary btn-sm" style="border:none">';
-            ?>
+                echo '<a href="'.$galeriaLink.'" class="btn btn-primary btn-sm" style="border:none">
                 <img src="../views/assets/images/if_arrow-back_216437.png"></img>                    
-                Voltar Para Galeria
-            </a>
+                Voltar Para Galeria </a>';
+
+            ?>
         </div>
     
     </div>
