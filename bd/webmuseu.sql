@@ -439,9 +439,14 @@ INSERT INTO noticia(idNoticia, titulo, subtitulo, descricao, caminhoImagem, data
 INSERT INTO noticia(idNoticia, titulo, subtitulo, descricao, caminhoImagem, data) VALUES (null, 'Nova coleção no Museu Casa do Sertão', '', 'O web museu casa do sertão inaugurou uma nova coleção no dia 22/08/2017, nessa nova coleção estão expostos diversos tipos de máquinas.', 'media/noticias/imagens/20170821172456museo_casa_certao_2.jpg', '2017-08-22');
 
 INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado,tipoUsuario) VALUES (1, 'Jamylle', 'Santana', 'jamyllesf@gmail.com', '25d55ad283aa400af464c76d713c07ad', 1,'ADMINISTRADOR');
-INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('112233', '1', 'Dona', '1', '1', '1', '1', '1', '1', '1');
+INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('112233', '1', 'Dona', 1, 1, 1, 1, 1, 1, 1);
 
-01234567
+INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado,tipoUsuario) VALUES (2, 'Usuário', 'Comum', 'usuariocomum@gmail.com', '2e9ec317e197819358fbc43afca7d837', 1,'USUARIO');
+
+INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado,tipoUsuario) VALUES (3, 'Funcionário', 'Museu', 'funcionariomuseu@gmail.com', '551b50cd77c369891fa02b5dc73c03a7', 1,'FUNCIONARIO');
+INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('445566', '3', 'Funcionário', 1, 1, 1, 0, 0, 0, 1);
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

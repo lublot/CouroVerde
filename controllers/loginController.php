@@ -443,6 +443,8 @@ class loginController extends mainController{
             $funcionarioDAO = new FuncionarioDAO();
             $funcionario = $funcionarioDAO->buscar(array(), array('idUsuario'=>$usuario->getId()));
 
+            var_dump($funcionario);
+
             if(count($funcionario) > 0) {
                 $_SESSION['podeCadastrarObra'] = $funcionario[0]->isPodeCadastrarObra();
                 $_SESSION['podeGerenciarObra'] = $funcionario[0]->isPodeGerenciarObra();
@@ -454,6 +456,7 @@ class loginController extends mainController{
             } else {
                 throw new UsuarioInexistenteException();
             }
+            var_dump($_SESSION);
         } else if($usuario->getTipo() == "ADMINISTRADOR") { //se o usuário for o admininistrador
                 $_SESSION['podeCadastrarObra'] = true;
                 $_SESSION['podeGerenciarObra'] = true;

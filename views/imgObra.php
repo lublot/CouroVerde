@@ -80,7 +80,7 @@
                                 $obraProxima = $obraPagina;
                             }     
 
-                            echo '<a type="button" href="/obra?num='.$obraAnterior->getNumInventario().'" class="btn btn-primary btn-sm">';                       
+                            echo '<a type="button" href="'.ROOT_URL.'obra?num='.$obraAnterior->getNumInventario().'" class="btn btn-primary btn-sm">';                       
                         } else {
                             if( !headers_sent() ){
                                     header("Location: ../views/erro404.php");
@@ -95,7 +95,7 @@
                             die();                              
                         }
                     ?>
-                        <img src="../views/assets/images/glyphicons-211-arrow-left.png"></img>   
+                        <?php echo '<img src="'.VIEW_BASE.'assets/images/glyphicons-211-arrow-left.png"></img>'; ?>
                         Obra Anterior
                     </a>
                 </div>
@@ -120,11 +120,11 @@
                 <div class="col-sm-2 col-md-2">
                     <?php
                         if(isset($_GET['num'])) {
-                            echo '<a type="button" href="/obra?num='.$obraProxima->getNumInventario().'" class="btn btn-primary btn-sm">';
+                            echo '<a type="button" href="'.ROOT_URL.'obra?num='.$obraProxima->getNumInventario().'" class="btn btn-primary btn-sm">';
                         }
                     ?>
                         Próxima obra
-                        <img src="../views/assets/images/glyphicons-212-arrow-right.png"></img>                           
+                        <?php echo '<img src="'.VIEW_BASE.'assets/images/glyphicons-212-arrow-right.png"></img>'; ?>
                     </a>
                 </div>
             </div>
@@ -360,8 +360,9 @@
                 } else {
                     $galeriaLink = '/galeria';
                 }
+                
                 echo '<a href="'.$galeriaLink.'" class="btn btn-primary btn-sm" style="border:none">
-                <img src="../views/assets/images/if_arrow-back_216437.png"></img>                    
+                <img src="'.VIEW_BASE.'assets/images/if_arrow-back_216437.png"></img>                    
                 Voltar Para Galeria </a>';
 
             ?>
