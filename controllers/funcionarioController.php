@@ -137,13 +137,12 @@ class funcionarioController extends mainController {
 
                             $funcionarioDAO->inserir($novoFuncionario);
 
-                            $usuarioDAO = new UsuarioDAO();
-                            $usuario = $usuarioDAO->buscar(array(), array('email' => $email))[0];
+                            $funcionario = $funcionarioDAO->buscar(array(), array('email' => $email))[0];
 
                             //Registra a ação que o funcionario acabou de fazer
-                            $idUsuario = $usario->getId();
+                            $matricula = $funcionario->getMatricula();
                             $logController = new LogController();
-                            $logController->registrarEvento($idUsuario, "FUNCIONARIO", "Um funcionário foi cadastrado");
+                            $logController->registrarEvento($matricula, "FUNCIONARIO", "Um funcionario foi cadastrado");
 
                             $this->redirecionarPagina('funcionario');
                         }else {

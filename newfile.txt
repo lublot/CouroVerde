@@ -1,1 +1,0 @@
-SELECT idUsuario FROM funcionario INNER JOIN usuario ON usuario.idUsuario = funcionario.idUsuario WHERE funcionario.matricula='0'

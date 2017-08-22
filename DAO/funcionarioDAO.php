@@ -117,7 +117,17 @@ class FuncionarioDAO extends Database{
             $campos = array("*");
         }
 
-        $query .= implode(',',$campos)." FROM funcionario INNER JOIN usuario ON usuario.idUsuario = funcionario.idUsuario";
+        $camposAtt = array();
+
+        foreach($campos as $campo) {
+            if($campo == 'matricula' || $campo == 'idUsuario' || $campo == 'funcao') {
+                $camposAtt[] = 'funcionario.'.$campo;
+            } else {
+                $camposAtt[] = 'usuario.'.$campo;
+            }
+        }
+
+        $query .= implode(',',$camposAtt)." FROM funcionario INNER JOIN usuario ON usuario.idUsuario = funcionario.idUsuario";
 
         if(count($filtros) > 0){
             $query .= " WHERE ";
@@ -134,15 +144,9 @@ class FuncionarioDAO extends Database{
             $query .= implode(" AND ",$aux);
         }
 
-        $myfile = fopen("C:\wamp64\www\sertour/newfile.txt", "w") or die("Unable to open file!");
-        fwrite($myfile, $query);
-        fclose($myfile);
-        
         //Faço uma busca na tabela funcionario e retorno os valores
         $result = $this->PDO->query($query);
 
-
-        
         $funcionarios = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){

@@ -40,15 +40,15 @@ class relatorioSistemaController extends mainController{
                 $obra = $obraDAO->buscar(array('titulo'),array('numeroInventario'=>$resultado->getIdAlvo()));
 
                 if(count($obra) > 0){
-                    $frase['tipoAlvo'] = 'a Obra';
+                    $frase['tipoAlvo'] = '- Titulo: ';
                     $frase['nomeAlvo'] = $obra[0]->getTitulo();
                 }else{
-                    $frase['tipoAlvo'] = 'uma obra';
+                    $frase['tipoAlvo'] = '';
                     $frase['nomeAlvo'] = "";
                 }
 
                 $frase['autor'] = $resultado->getAutor();
-                $frase['acao'] = ucfirst(strtolower($resultado->getAcao()));
+                $frase['acao'] = mb_convert_encoding(ucfirst(strtolower($resultado->getAcao())), "Windows-1252", "UTF-8");
                 
                 
                 $frase['horario'] = $resultado->getHorario();
@@ -60,14 +60,14 @@ class relatorioSistemaController extends mainController{
                 $usuarioDAO = new UsuarioDAO();
                 $usuarioDAO = $usuarioDAO->buscar(array('nome','sobrenome'),array('idUsuario'=>$funcionario[0]->getId()));
                 if(count($funcionario) > 0){
-                    $frase['tipoAlvo'] = 'o Funcionário';
+                    $frase['tipoAlvo'] = '- Nome: ';
                     $frase['nomeAlvo'] = $usuarioDAO[0]->getNome().' '.$usuarioDAO[0]->getSobrenome();
                 }else{
                     $frase['tipoAlvo'] = 'um funcionário';
                     $frase['nomeAlvo'] = "";
                 }
                 $frase['autor'] = $resultado->getAutor();
-                $frase['acao'] = ucfirst(strtolower($resultado->getAcao()));
+                $frase['acao'] = mb_convert_encoding(ucfirst(strtolower($resultado->getAcao())), "Windows-1252", "UTF-8");
                 $frase['horario'] = $resultado->getHorario();
                 array_push($processando,$frase);
             }else if(strcmp($resultado->getTipoAlvo(),"NOTICIA")==0){
@@ -76,15 +76,15 @@ class relatorioSistemaController extends mainController{
                 $noticia = $noticiaDAO->buscar(array('titulo'),array('idNoticia'=>$resultado->getIdAlvo()));
 
                 if(count($noticia) > 0){
-                    $frase['tipoAlvo'] = 'a Notícia';
+                    $frase['tipoAlvo'] = '- Título: ';
                     $frase['nomeAlvo'] = '"'.$noticia[0]->getTitulo().'"';
                 }else{
-                    $frase['tipoAlvo'] = 'uma notícia';
+                    $frase['tipoAlvo'] = '';
                     $frase['nomeAlvo'] = "";
                 }
                 
                 $frase['autor'] = $resultado->getAutor();
-                $frase['acao'] = ucfirst(strtolower($resultado->getAcao()));
+                $frase['acao'] = mb_convert_encoding(ucfirst(strtolower($resultado->getAcao())), "Windows-1252", "UTF-8");
                 
                 $frase['horario'] = $resultado->getHorario();
                 array_push($processando,$frase);
@@ -95,8 +95,8 @@ class relatorioSistemaController extends mainController{
 
                 if(count($backup) > 0){
                     $frase['autor'] = $resultado->getAutor();
-                    $frase['acao'] = ucfirst(strtolower($resultado->getAcao()));
-                    $frase['tipoAlvo'] = 'o Backup';
+                    $frase['acao'] = mb_convert_encoding(ucfirst(strtolower($resultado->getAcao())), "Windows-1252", "UTF-8");
+                    $frase['tipoAlvo'] = '- Horário do Backup: ';
                     $frase['nomeAlvo'] = 'backup_'.$backup[0]->getHora();
                     $frase['horario'] = $resultado->getHorario();
                 }else{

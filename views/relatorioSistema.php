@@ -9,7 +9,7 @@
     <!--Regulando a visão da tela para a largura relativa à tela utilizada-->
     <meta name=viewport content="width=device-width, initial-scale=1" />
 
-    <title>Relatórios de acesso</title>
+    <title>Relatório do Sistema</title>
 
     
     <?php $this->carregarDependencias()?>
@@ -17,7 +17,7 @@
     <script src=<?php $this->path('assets/js/relatorioSistema-script.js')?>> </script>
 </head>
 
-<body>
+<body style="background-color: rgb(241, 242, 246);">
 
     <?php $this->carregarCabecalho()?>
     <div class="container">

@@ -12,9 +12,7 @@ function carregar(){
 
     ajax.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
-
             alert(this.response);
-
             if(Object.keys(JSON.parse(this.response)).length > 0){
                 var mensagem = JSON.parse(this.responseText);
                 document.getElementById('pagina').appendChild(criarTabela(mensagem));
