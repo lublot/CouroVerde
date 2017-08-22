@@ -244,9 +244,9 @@ class FuncionarioDAO extends Database{
             foreach($result->fetchAll() as $item){ //percorre as tuplas retornadas pela consulta
                 $funcionarios[] = new funcionario( //cria um novo funcionario e add uma array, apartir dos dados obtidos
                     isset($item['idUsuario'])?$item['idUsuario']:null,
+                    isset($item['email'])?$item['email']:null,
                     isset($item['nome'])?$item['nome']:null,
                     isset($item['sobrenome'])?$item['sobrenome']:null,
-                    isset($item['email'])?$item['email']:null,
                     isset($item['senha'])?$item['senha']:null,
                     isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null,
                     isset($item['tipoUsuario'])?$item['tipoUsuario']:null,

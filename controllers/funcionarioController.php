@@ -39,7 +39,7 @@ class funcionarioController extends mainController {
         $_POST["funcao"] = $funcao;
         $_POST["cadastroObra"] = $podeCadastrarObra;
 
-        $_SESSION['tipoUsuario'] = 'Administrador';
+        $_SESSION['tipoUsuario'] = 'ADMINISTRADOR';
      }
 
     protected $dados = array();

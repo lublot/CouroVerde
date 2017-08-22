@@ -17,7 +17,7 @@ class funcionarioControllerTest extends TestCase {
 
     public function testCadastrarFuncionarioComSucesso(){
         $this->instanciaFuncionario->configuraAmbienteParaTeste("Diego", "Lourenço", "diegossl94@gmail.com", "12345678", "15111215", "Qualquer coisa", "1");
-        $this->instanciaFuncionario->cadastrarFuncionario();
+        $this->instanciaFuncionario->cadastrar();
 
         $funcionarioDAO = new FuncionarioDAO();
 
@@ -47,22 +47,23 @@ class funcionarioControllerTest extends TestCase {
     * @preserveGlobalState disabled    
     */
     public function testEditarFuncionarioSucesso (){
-        $this->instanciaFuncionario->configuraAmbienteParaTeste('Aloisio', 'Junior', 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
-        $this->instanciaFuncionario->cadastrarFuncionario();
+       /* $this->instanciaFuncionario->configuraAmbienteParaTeste('Aloisio', 'Junior', 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
+        $this->instanciaFuncionario->cadastrar();*/
 
         $funcionarioDAO = new FuncionarioDAO();
         $usuarioDAO = new UsuarioDAO();
 
-        $usuario = $usuarioDAO->buscar(array(), array("nome"=>"Aloisio"));
+        $usuario = $usuarioDAO->buscar(array(), array("email"=>"kleyner2@hotmail.com"));
         $funcionario = $funcionarioDAO->buscar(array(), array("matricula"=>"14211151"));
-        $this->assertEquals($usuario[0]->getNome(), $funcionario[0]->getNome());
+        //$this->assertEquals($usuario[0]->getNome(), $funcionario[0]->getNome());
 
         $novoNome = 'Iago';
+
         $this->instanciaFuncionario->configuraAmbienteParaTeste($novoNome, 'Junior', 'kleyner2@hotmail.com', '12345678', '14211151', 'Something', '1');
         $this->instanciaFuncionario->gerenciarFuncionario();
-        $funcionario = $funcionarioDAO->buscar(array(), array("nome"=>$novoNome));
-        $this->assertEquals(1,count($funcionario));
 
+        $encontrado = $usuarioDAO->buscar(array(), array("nome"=>$novoNome));
+        $this->assertEquals(1, count($encontrado));
     }
 
     /**
@@ -123,12 +124,5 @@ class funcionarioControllerTest extends TestCase {
         $this->instanciaFuncionario->removerNoticia();
         $this->expectException(NivelDeAcessoInsuficienteException::class); //Exception esperada
     }
-
-    /*public function testBuscarFuncionario(){
-        $funcionarioDAO = new FuncionarioDAO();
-        $encontrado = $funcionarioDAO->buscar(array(), array('idUsuario' => '10'));
-        $this->assertEquals("Diego", $encontrado[0]->getNome());
-        $this->assertEquals("15111215", $encontrado[0]->getMatricula());
-    }*/
 }
 ?>
