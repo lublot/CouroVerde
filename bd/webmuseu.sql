@@ -435,6 +435,14 @@ INSERT INTO classificacao(idClassificacao, nome) VALUES (6, 'Objetos Pessoais');
 INSERT INTO colecao(idColecao, nome) VALUES (6, 'Chapéus');
 INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao,caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) VALUES ('4', 'Chapéu Típico','Chapéu Típico de Sertanejo', '', 'Sertão da Bahia', '', 'Um chapéu típico do sertão da bahia.', '6', '6',1.5, 2, 3, 4, 10, 'Couro', 'Várias', 'Desconhecido', 'Alguns arranhões', '', '', NULL, '', '', '', '../media/obras/imagens/4/chapeu.jpg', '','', '', '', '');
 
+INSERT INTO noticia(idNoticia, titulo, subtitulo, descricao, caminhoImagem, data) VALUES (null, 'Inauguração Web Museu Casa do Sertão', '', 'O web museu casa do sertão foi inaugurado no dia 23/08/2017, desenvolvido pela MITHOLOGIC Software. O nome escolhido foi SERTOUR.', 'media/noticias/imagens/20170821172133museo_casa_certao_1.jpg', '2017-08-22');
+INSERT INTO noticia(idNoticia, titulo, subtitulo, descricao, caminhoImagem, data) VALUES (null, 'Nova coleção no Museu Casa do Sertão', '', 'O web museu casa do sertão inaugurou uma nova coleção no dia 22/08/2017, nessa nova coleção estão expostos diversos tipos de máquinas.', 'media/noticias/imagens/20170821172456museo_casa_certao_2.jpg', '2017-08-22');
+
+INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado,tipoUsuario) VALUES (1, 'Jamylle', 'Santana', 'jamyllesf@gmail.com', '25d55ad283aa400af464c76d713c07ad', 1,'ADMINISTRADOR');
+INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('112233', '1', 'Dona', '1', '1', '1', '1', '1', '1', '1');
+
+01234567
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

@@ -59,7 +59,7 @@ class relatorioAcessoController extends mainController
         if (count($linhasObrasMaisVisitadas) > 0) { //caso a existam linhas para as obras mais visitadas
             //configura o subtitulo
             $pdf->Ln();
-            $pdf->Cell(20, 10, "I. OBRA(S) MAIS ACESSADA(S)");
+            $pdf->Cell(20, 10, "- OBRA(S) MAIS ACESSADA(S) -");
             $pdf->SetFont('Times', 'B', 13);
             $pdf->Ln();
             $cabecalhoSessao = array(utf8_decode("Nº de Inventário"), utf8_decode("Nome"), utf8_decode("Nº de Visitas"));
@@ -89,7 +89,7 @@ class relatorioAcessoController extends mainController
         if(count($linhasObrasMenosVisitadas) > 0) { //caso a existam linhas para as obras menos visitadas
             //configura o subtitulo        
             $pdf->Ln();                               
-            $pdf->Cell(20,10,"II. OBRA(S) MENOS ACESSADA(S)");
+            $pdf->Cell(20,10,"- OBRA(S) MENOS ACESSADA(S) -");
             $pdf->SetFont('Times','B',13);                
             $pdf->Ln();                                                         
             $cabecalhoSessao = array(utf8_decode("Nº de Inventário"), utf8_decode("Nome"), utf8_decode("Nº de Visitas")); 
@@ -119,7 +119,7 @@ class relatorioAcessoController extends mainController
         if(count($linhasOutrasObras) > 0) { //caso a existam linhas para o restante das obras
             //configura o subtitulo                    
             $pdf->Ln();                                                         
-            $pdf->Cell(20,10,"III. OUTRA(S) OBRA(S)");
+            $pdf->Cell(20,10,"- OUTRA(S) OBRA(S) -");
             $pdf->SetFont('Times','B',13);      
             $pdf->Ln();                                                                   
             $cabecalhoSessao = array(utf8_decode("Nº de Inventário"), utf8_decode("Nome"), utf8_decode("Nº de Visitas")); 
@@ -139,7 +139,7 @@ class relatorioAcessoController extends mainController
             }  
         } 
 
-        $nomeArquivo = "C:\wamp64\www\sertour\media/relatorioacesso/relatorioAcesso.pdf";
+        $nomeArquivo = "media/relatorioacesso/relatorioAcesso.pdf";
  
         $pdf->Output($nomeArquivo, 'F');
     }
@@ -182,7 +182,7 @@ class relatorioAcessoController extends mainController
             
             if (!in_array($numeroInventario, $this->numInventarioJaRegistrados)) { //se ainda não tiver sido adicionado ao documento
                 $obra = $obraDAO->buscar(array("nome"), array("numeroInventario" => $numeroInventario));
-                $nomeObra = $obra[0]->getNome();
+                $nomeObra = utf8_decode($obra[0]->getNome());
                 $quantidadeVisitas = $registro->getQuantidadeVisitas();
                 $linhas[] = array($numeroInventario, $nomeObra, $quantidadeVisitas);
                 $this->numInventarioJaRegistrados[] = $numeroInventario; //armazena o numero de inventario da obra na lista dos numeros de inventario que ja foram armazenados
