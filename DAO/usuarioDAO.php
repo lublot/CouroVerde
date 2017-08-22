@@ -121,12 +121,12 @@ class UsuarioDAO extends Database{
                 }
 
                 $usuarios[] = new Usuario(isset($item['idUsuario'])?$item['idUsuario']:null,
-                                          isset($item['email'])?$item['email']:null,
-                                          isset($item['nome'])?$item['nome']:null,
-                                          isset($item['sobrenome'])?$item['sobrenome']:null,
+                                          isset($item['email'])?utf8_encode($item['email']):null,
+                                          isset($item['nome'])?utf8_encode($item['nome']):null,
+                                          isset($item['sobrenome'])?utf8_encode($item['sobrenome']):null,
                                           isset($item['senha'])?$item['senha']:null,
                                           $cadastroConfirmado,
-                                          isset($item['tipoUsuario'])?$item['tipoUsuario']:null);
+                                          isset($item['tipoUsuario'])?utf8_encode($item['tipoUsuario']):null);
             }    
         }
         
@@ -240,12 +240,12 @@ class UsuarioDAO extends Database{
                 }                
                 
                 $usuarios[] = new Usuario(isset($item['idUsuario'])?$item['idUsuario']:null,
-                                          isset($item['email'])?$item['email']:null,
-                                          isset($item['nome'])?$item['nome']:null,
-                                          isset($item['sobrenome'])?$item['sobrenome']:null,
+                                          isset($item['email'])?utf8_encode($item['email']):null,
+                                          isset($item['nome'])?utf8_encode($item['nome']):null,
+                                          isset($item['sobrenome'])?utf8_encode($item['sobrenome']):null,
                                           isset($item['senha'])?$item['senha']:null,
                                           $cadastroConfirmado,
-                                          isset($item['tipoUsuario'])?$item['tipoUsuario']:null);
+                                          isset($item['tipoUsuario'])?utf8_encode($item['tipoUsuario']):null);
             }    
         }
         

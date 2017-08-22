@@ -182,7 +182,7 @@ class relatorioAcessoController extends mainController
             
             if (!in_array($numeroInventario, $this->numInventarioJaRegistrados)) { //se ainda não tiver sido adicionado ao documento
                 $obra = $obraDAO->buscar(array("nome"), array("numeroInventario" => $numeroInventario));
-                $nomeObra = $obra[0]->getNome();
+                $nomeObra = utf8_decode($obra[0]->getNome());
                 $quantidadeVisitas = $registro->getQuantidadeVisitas();
                 $linhas[] = array($numeroInventario, $nomeObra, $quantidadeVisitas);
                 $this->numInventarioJaRegistrados[] = $numeroInventario; //armazena o numero de inventario da obra na lista dos numeros de inventario que ja foram armazenados

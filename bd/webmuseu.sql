@@ -441,6 +441,7 @@ INSERT INTO noticia(idNoticia, titulo, subtitulo, descricao, caminhoImagem, data
 INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado,tipoUsuario) VALUES (1, 'Jamylle', 'Santana', 'jamyllesf@gmail.com', '25d55ad283aa400af464c76d713c07ad', 1,'ADMINISTRADOR');
 INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('112233', '1', 'Dona', '1', '1', '1', '1', '1', '1', '1');
 
+01234567
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
