@@ -122,10 +122,10 @@ class noticiaDAO extends Database {
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 $noticias[] = new Noticia(isset($item['idNoticia']) ? $item['idNoticia']:null,
-                                          isset($item['titulo']) ? $item['titulo']:null,
-                                          isset($item['subtitulo']) ? $item['subtitulo']:null,
-                                          isset($item['descricao']) ? $item['descricao']:null,
-                                          isset($item['caminhoImagem']) ? $item['caminhoImagem']:null,
+                                          isset($item['titulo']) ? utf8_encode($item['titulo']):null,
+                                          isset($item['subtitulo']) ? utf8_encode($item['subtitulo']):null,
+                                          isset($item['descricao']) ? utf8_encode($item['descricao']):null,
+                                          isset($item['caminhoImagem']) ? utf8_encode($item['caminhoImagem']):null,
                                           isset($item['data']) ? ValidacaoDados::formatarDataSQLparaPadrao($item['data']):null);
             }    
         }

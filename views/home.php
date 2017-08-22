@@ -34,8 +34,8 @@
             <a href=<?php echo '"' . ROOT_URL . 'noticias/exibir/'.$this->dados['noticias'][0]->getIdNoticia(). '"' ?>><img src=<?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo ROOT_URL.$this->dados['noticias'][0]->getCaminhoImagem();}?> alt="..." style="min-width:100%;"></a>
                    
                 <div class="carousel-caption">
-                    <h4><?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo $this->dados['noticias'][0]->getTitulo();}?></h4>
-                    <h5><?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo $this->dados['noticias'][0]->getSubtitulo();}?></h5>
+                    <h4><?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo utf8_encode($this->dados['noticias'][0]->getTitulo());}?></h4>
+                    <h5><?php if(isset($this->dados) && count($this->dados['noticias'])>0){echo utf8_encode($this->dados['noticias'][0]->getSubtitulo());}?></h5>
                 </div>
             </div>
 
@@ -45,8 +45,8 @@
                             <a href="'.ROOT_URL.'noticias/exibir/'.$this->dados['noticias'][$i]->getIdNoticia().'"><img src="'.ROOT_URL.$this->dados['noticias'][$i]->getCaminhoImagem().'" alt="..." style="min-width:100%;"></a>
                             
                             <div class="carousel-caption">
-                            <h4>'.$this->dados['noticias'][$i]->getTitulo().'</h4>
-                            <h5>'.$this->dados['noticias'][$i]->getSubtitulo().'</h5>
+                            <h4>'.utf8_encode($this->dados['noticias'][$i]->getTitulo()).'</h4>
+                            <h5>'.utf8_encode($this->dados['noticias'][$i]->getSubtitulo()).'</h5>
                             </div>
                         </div>';
                 }

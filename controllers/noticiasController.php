@@ -294,7 +294,13 @@ class noticiasController extends mainController
             $noticia->setCaminhoImagem(utf8_encode($noticia->getCaminhoImagem()));
         }    
 
+
         echo json_encode($noticias);
+        
+        $myfile = fopen("C:\wamp64\www\sertour\media/noticias\imagens/newfile.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, json_last_error());
+        fclose($myfile);
+
     }
 
 
