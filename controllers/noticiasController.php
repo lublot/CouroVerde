@@ -99,7 +99,7 @@ class noticiasController extends mainController
                     //Registra a ação que o funcionario acabou de fazer
                     $idNoticia = $noticiaDAO->getUltimoIdInserido();
                     $logController = new LogController();
-                    $logController->registrarEvento($idNoticia, "NOTICIA", "Uma noticia foi cadastrada");
+                    $logController->registrarEvento($idNoticia, "NOTICIA", "Uma notícia foi cadastrada");
                     
                     echo '<script>window.location.href = "'.ROOT_URL.'noticias"</script>';
                 }  

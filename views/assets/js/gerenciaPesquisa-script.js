@@ -112,8 +112,9 @@ function carregarPerguntas(perguntaRecebida){
     divPergunta.appendChild(obrigatorio);
     divPergunta.appendChild(titulo);
     
+    
     //Verifica se a pergunta é fechada
-    if(pergunta['tipoPergunta'] != 'ABERTA' && pergunta['tipoPergunta'] != 'Aberta'){
+    if(perguntaRecebida['tipoPergunta'] != 'ABERTA' && perguntaRecebida['tipoPergunta'] != 'Aberta'){
         var opt = perguntaRecebida['opcoes'];
         // var opt = carregarOpcoes(perguntaRecebida['opcoes']);
         for(var i=0; i<opt.length;i++){
