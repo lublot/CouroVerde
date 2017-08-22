@@ -1,1 +1,1 @@
-5\ndsadssda\n\ndsadsasasd\nmedia/noticias/imagens/20170821132013Obras_Gerenciamento_Finalização.png\n21/08/2017\n
+SELECT idUsuario FROM funcionario INNER JOIN usuario ON usuario.idUsuario = funcionario.idUsuario WHERE funcionario.matricula='0'

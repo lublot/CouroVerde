@@ -105,7 +105,6 @@ class UsuarioDAO extends Database{
             
             $query .= implode(" AND ",$aux);
         }
-
         $result = $this->PDO->query($query);
 
         $usuarios = array();

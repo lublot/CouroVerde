@@ -137,8 +137,11 @@ class funcionarioController extends mainController {
 
                             $funcionarioDAO->inserir($novoFuncionario);
 
+                            $usuarioDAO = new UsuarioDAO();
+                            $usuario = $usuarioDAO->buscar(array(), array('email' => $email))[0];
+
                             //Registra a ação que o funcionario acabou de fazer
-                            $idUsuario = $funcionarioDAO->getUltimoIdInserido();
+                            $idUsuario = $usario->getId();
                             $logController = new LogController();
                             $logController->registrarEvento($idUsuario, "FUNCIONARIO", "Um funcionário foi cadastrado");
 
@@ -166,7 +169,7 @@ class funcionarioController extends mainController {
                     
                 $this->carregarConteudo('cadastroFuncionario',$this->dados);
             }else {
-                throw new NivelDeAcessoInsuficienteException();
+                $this->permissaoNegada();
             }
         
         

@@ -59,7 +59,6 @@ class relatorioSistemaController extends mainController{
                 $funcionario = $funcionarioDAO->buscar(array('idUsuario'),array('matricula'=>$resultado->getIdAlvo()));
                 $usuarioDAO = new UsuarioDAO();
                 $usuarioDAO = $usuarioDAO->buscar(array('nome','sobrenome'),array('idUsuario'=>$funcionario[0]->getId()));
-
                 if(count($funcionario) > 0){
                     $frase['tipoAlvo'] = 'o Funcionário';
                     $frase['nomeAlvo'] = $usuarioDAO[0]->getNome().' '.$usuarioDAO[0]->getSobrenome();

@@ -535,6 +535,11 @@ class obraController extends mainController {
         if(isset($_GET['n'])) {
             $obraDAO = new ObraDAO();
             $obraDAO->remover(array('numeroInventario' => $_GET['n']));
+
+            array_map('unlink', glob(dirname(__DIR__).'/media/obras/imagens/'.$_GET['n'].'/*'));
+            array_map('unlink', glob(dirname(__DIR__).'/media/obras/modelo3D/'.$_GET['n'].'/*'));
+            rmdir(dirname(__DIR__).'/media/obras/imagens/'.$_GET['n']);
+            rmdir(dirname(__DIR__).'/media/obras/modelo3D/'.$_GET['n']);
             
             $numeroInventario = $_GET['n'];
             //Registra a ação que o funcionario acabou de fazer

@@ -22,6 +22,7 @@ class relatorioSistemaDAO extends Database{
         $horario = $relatorio->getHorario();
 
         $query = "INSERT INTO logalteracoes(idLogAlteracoes, matriculaFuncionario, idItemAlterado, tipoItemAlterado, descricao, dataHora) VALUES (null, '$matriculaAutor', '$idAlvo', '$tipoAlvo', '$acao', '$horario')";
+
         try{
             $this->PDO->query($query);
         }catch(PDOException $e){

@@ -14,7 +14,7 @@ class FuncionarioDAO extends Database{
     * @return $idUsuario
     */
     public function getUltimoIdInserido(){
-        $idUsuario = $this->PDO->lastInsertId("idUsuario");
+        $idUsuario = $this->PDO->query("SELECT LAST_INSERT_ID()");
         return $idUsuario;
     }
 
@@ -133,9 +133,14 @@ class FuncionarioDAO extends Database{
             
             $query .= implode(" AND ",$aux);
         }
+
+        $myfile = fopen("C:\wamp64\www\sertour/newfile.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, $query);
+        fclose($myfile);
         
         //Faço uma busca na tabela funcionario e retorno os valores
         $result = $this->PDO->query($query);
+
 
         
         $funcionarios = array();

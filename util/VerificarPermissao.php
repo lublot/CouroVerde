@@ -24,7 +24,7 @@ class VerificarPermissao {
 	 * @return <code>true</code>, se o usuário atual for funcionario; <code>false</code>, caso contrário.
 	 */
 	public static function isFuncionario() {
-	    return isset($_SESSION['administrador']) && ($_SESSION['tipoUsuario'] == "FUNCIONARIO");            
+	    return isset($_SESSION['administrador']) || ($_SESSION['tipoUsuario'] == "FUNCIONARIO");            
     }
 
 	/**
