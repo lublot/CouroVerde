@@ -75,6 +75,12 @@
 				};
 				var onError = function ( xhr ) {
 				};
+                //leitura da imagem de textura no objeto
+				var loader = new THREE.ImageLoader( manager );
+				loader.load( '../../media/2a552daa2d6ddf1e992e3e014af1ca0f.jpg', function ( image ) {
+					texture.image = image;
+					texture.needsUpdate = true;
+				} );				
 				// model
                 // leitura do objeto
 				var loader = new THREE.OBJLoader( manager );
