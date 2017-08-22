@@ -142,7 +142,7 @@ class funcionarioController extends mainController {
                             //Registra a ação que o funcionario acabou de fazer
                             $matricula = $funcionario->getMatricula();
                             $logController = new LogController();
-                            $logController->registrarEvento($matricula, "FUNCIONARIO", "Um funcionario foi cadastrado");
+                            $logController->registrarEvento($matricula, "FUNCIONARIO", "Um funcionário foi cadastrado");
 
                             $this->redirecionarPagina('funcionario');
                         }else {

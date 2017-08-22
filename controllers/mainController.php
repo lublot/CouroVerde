@@ -1,6 +1,6 @@
 <?php
 namespace controllers;
-
+ini_set('display_errors',0);
 class mainController{
 
     /**

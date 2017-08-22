@@ -113,20 +113,21 @@ class FuncionarioDAO extends Database{
     public function buscar($campos, $filtros){
         $query = "SELECT ";
 
-        if(count($campos) == 0){
-            $campos = array("*");
-        }
-
         $camposAtt = array();
 
+        if(count($campos) == 0){
+            $campos = array("*");
+            $camposAtt[] = 'funcionario.*';
+        }
+
         foreach($campos as $campo) {
-            if($campo == 'matricula' || $campo == 'idUsuario' || $campo == 'funcao') {
+            if(strcmp($campo,'matricula')==0 || strcmp($campo,'idUsuario')==0 || strcmp($campo,'funcao')==0) {
                 $camposAtt[] = 'funcionario.'.$campo;
             } else {
                 $camposAtt[] = 'usuario.'.$campo;
             }
         }
-
+       
         $query .= implode(',',$camposAtt)." FROM funcionario INNER JOIN usuario ON usuario.idUsuario = funcionario.idUsuario";
 
         if(count($filtros) > 0){
@@ -134,7 +135,7 @@ class FuncionarioDAO extends Database{
             $aux = array();
 
             foreach($filtros as $chave=>$valor){
-                if($chave == 'matricula' || $chave == 'idUsuario' || $chave == 'funcao') {
+                if(strcmp($chave,'matricula')==0 || strcmp($chave,'idUsuario')==0 || strcmp($chave,'funcao')==0) {
                     $aux[] = 'funcionario.'.$chave."="."'$valor'";
                 } else {
                     $aux[] = 'usuario.'.$chave."="."'$valor'";
@@ -143,7 +144,7 @@ class FuncionarioDAO extends Database{
             
             $query .= implode(" AND ",$aux);
         }
-
+        
         //Faço uma busca na tabela funcionario e retorno os valores
         $result = $this->PDO->query($query);
 

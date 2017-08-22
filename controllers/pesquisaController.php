@@ -545,14 +545,14 @@ public function alterar(){
   
   //Evitar usar esse método para operações que não envolvam a view, ele foi projetado para o uso com AJAX
   public function buscarAtiva(){
-      if(VerificarPermissao::isAdministrador()){
+      
         $pesquisaDAO = new PesquisaDAO();
         $pesquisaDAO = $pesquisaDAO->buscar(array(),array("estaAtiva"=>1));//Busca uma pesquisa ativa
         $pesquisa;
         if(count($pesquisaDAO)>0){
           $pesquisa = $this->buscar(array($pesquisaDAO[0]->getIdPesquisa()));
         }
-      }
+      
   }
 
   /**
