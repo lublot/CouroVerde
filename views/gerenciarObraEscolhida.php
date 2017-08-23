@@ -62,7 +62,7 @@
                     <!--Formulário de cadastro-->
                     <form id="form-obra">
                         <!--Botão de Ajuda-->
-                        <a href="#" class="direita">Ajuda  <span></span></a>
+                        <a href="#ajudaobra" data-toggle="modal" class="direita">Ajuda  <span></span></a>
                         
                         <!--Página 1: Informações da Obra-->
                         <div id="page_1">
@@ -717,6 +717,115 @@
         </div>
 
     </div>
+
+    <div>
+        <div class="modal fade" id="ajudaobra" role="dialog">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Tiítulo do modal -->
+                    <div class="modal-header">
+                        <h2 style="margin-bottom: 1px;">Suporte ao usuário - Obra</h2>
+                        <!-- Corpo do modal -->
+                        <div class="modal-body">
+                            <!-- Início da lista de tópicos -->
+                            <div id="accordion" role="tablist" aria-multiselectable="true">
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <div class="card-header" role="tab" id="headingOne">
+                                        <!-- Nome do tópico -->
+                                        <h4 class="mb-0">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            Como cadastrar uma obra?
+                                        </a>
+                                        </h4>
+                                    </div>
+
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="card-block">
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>obras</strong> e em seguida
+                                                    em <strong>cadastrar obra.</strong></li>
+                                                <li>Preencha as informações solicitadas e clique em <img src=<?php $this->path("assets/images/proximo.png")?> style="width: 17%; height: 17%"
+                                                    /img>.</li>
+                                                <li>repita o <strong>passo 2</strong> para todas as telas.</li>
+                                                <li>Você pode enviar ou não um modelo 3D da nova obra cadastrada, porém, caso
+                                                    deseje enviar um modelo 3D, você deve enviar junto com ele seus arquivos
+                                                    adicionais (como textura)</li>
+                                                <li>clique em <img src=<?php $this->path("assets/images/confirmar.png")?> style="width: 18%; height: 18%" /img>                                                    para finalizar o cadastro da obra.</li>
+                                            </ol>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <!-- Nome do tópico -->
+                                    <div class="card-header" role="tab" id="headingTwo">
+                                        <h4 class="mb-0">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Como alterar as informações de uma obra?
+                                        </a>
+                                        </h4>
+                                    </div>
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="card-block">
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>obras</strong> e em seguida
+                                                    em <strong>gerenciar obras </strong></li>
+                                                <li>Selecione a obra cujas informações serão alteradas</li>
+                                                <li>Modifique as informações e arquivos necessários e clique em <img src=<?php $this->path("assets/images/confirmar.png")?>
+                                                        style="width: 18%; height: 18%" /img> para <strong>salvar</strong> suas alterações.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <!-- Nome do tópico -->
+                                    <div class="card-header" role="tab" id="headingThree">
+                                        <h4 class="mb-0">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            Como remover uma obra?
+                                        </a>
+                                        </h4>
+                                    </div>
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                        <div class="card-block">
+
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>obras</strong> e em seguida
+                                                    em <strong>gerenciar obras </strong></li>
+                                                <li>Selecione a obra que você deseja excluir</li>
+                                                <li>Clique em <img src=<?php $this->path("assets/images/removerObra.png")?> style="width: 24%; height: 24%" /img></li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Fim da lista de tópicos -->
+
+                        </div>
+
+                        <!-- Botão de fechar -->
+                        <div class="modal-footer">
+                            <a class="btn btn-primary" data-dismiss="modal">Voltar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            <script src="js/bootstrap.js"></script>
+
+        </div>
     <?php $this->carregarRodape();?>    
 </body>
     <script src="../views/assets/js/gerenciarObra-script.js"></script>    

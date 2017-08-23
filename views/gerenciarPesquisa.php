@@ -18,7 +18,7 @@
             <!--Botão de Ajuda-->
             
             <div id="pesquisa" class="col-sm-9"  style="background-color: rgb(241, 242, 246);">
-                <a href="#" class="direita">Ajuda  <span></span></a><br><br>
+                <a href="#ajudapesquisa" data-toggle="modal" class="direita">Ajuda  <span></span></a><br><br>
                 <div id='alerta' class="alert alert-warning" role="alert" style="display:none;">
                     <span id="aviso"></span>
                 </div>
@@ -86,6 +86,145 @@
             </div>
         </div>
 
+        <div class="modal fade" id="ajudapesquisa" role="dialog">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Tiítulo do modal -->
+                    <div class="modal-header">
+                        <h2 style="margin-bottom: 1px;">Suporte ao usuário - Pesquisas</h2>
+                        <!-- Corpo do modal -->
+                        <div class="modal-body">
+                            <!-- Início da lista de tópicos -->
+                            <div id="accordion" role="tablist" aria-multiselectable="true">
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <div class="card-header" role="tab" id="headingOne">
+                                        <!-- Nome do tópico -->
+                                        <h4 class="mb-0">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            Como criar uma nova pesquisa?
+                                        </a>
+                                        </h4>
+                                    </div>
+
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="card-block">
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>pesquisas</strong> e em seguida
+                                                    em <strong>Criar Pesquisa</strong></li>
+                                                <li>Insira o <strong>título</strong> e a <strong>descrição</strong> da pesquisa</li>
+                                                <li>Clique em <img src=<?php $this->path("assets/images/adicioneUmaPergunta.png")?> style="width: 34%; height: 34%"
+                                                    /img> para adicionar um novo item à sua pesquisa. Você pode inserir quantas perguntas quiser.</li>
+                                                <li>Selecione o <strong>tipo</strong> da pergunta. As perguntas podem ser <strong>abertas</strong>                                                    ou de <strong>marcar</strong>, nesse último caso você pode definir se
+                                                    o usuário pode <strong>marcar várias</strong> ou <strong> apenas uma </strong>                                                    das respostas.</li>
+                                                <li>Insira a definição da pergunta e, caso seja de marcar, clique em <img src=<?php $this->path("assets/images/adicionarUmaOpcao.png")?>
+                                                        style="width: 30%; height: 30%" /img> para adicionar uma resposta. Você
+                                                    pode inserir quantas opções de resposta quiser. </li>
+                                                <li>Marque a caixa abaixo da pergunta caso queira que a resposta dela seja <strong>obrigatória</strong></li>
+                                                <li>Quando tiver acabado de inserir todas as perguntas e respostas desejadas,
+                                                    clique em <img src=<?php $this->path("assets/images/pronto.png")?> style="width: 14%; height:14%" /img>para
+                                                    salvar a sua pesquisa.</li>
+                                                <li>Quando uma nova pesquisa é adicionada ela está <strong>desativada</strong>                                                    por padrão. Para saber como modificar isso veja no tópico abaixo <strong>"Como ativar ou desativar uma pesquisa".</strong></li>
+                                                <li>Você pode ver as respostas da sua nova pesquisa clicando em <strong>Pesquisas</strong>, em seguida
+                                                    em <strong>Gerenciar Pesquisas</strong> e então em <img src=<?php $this->path("assets/images/verRespostas.png")?>
+                                                        style="width: 22%; height: 22%" /img></li>
+                                            </ol>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <!-- Nome do tópico -->
+                                    <div class="card-header" role="tab" id="headingTwo">
+                                        <h4 class="mb-0">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Como ativar ou desativar uma pesquisa?
+                                        </a>
+                                        </h4>
+                                    </div>
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="card-block">
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>Pesquisas</strong> e em seguida
+                                                    em <strong>Gerenciar Pesquisas</strong></li>
+                                                <li>Encontre a pesquisa que deseja</li>
+                                                <li>Clique em <img src=<?php $this->path("assets/images/ativar.png")?> style="width: 16%; height: 16%" /img> para
+                                                    permitir que a pesquisa receba novas respostas ou em
+                                                    <img src=<?php $this->path("assets/images/desativar.png")?> style="width: 18%; height: 18%" /img> para torná-la
+                                                    indisponível</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <!-- Nome do tópico -->
+                                    <div class="card-header" role="tab" id="headingThree">
+                                        <h4 class="mb-0">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            Como editar as perguntas, respostas e outras informações de uma pesquisa?
+                                        </a>
+                                        </h4>
+                                    </div>
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                        <div class="card-block">
+
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>Pesquisas</strong> e em seguida
+                                                    em <strong>Gerenciar Pesquisas</strong></li>
+                                                <li>Encontre a pesquisa que deseja editar e clique em  <img src=<?php $this->path("assets/images/editar.png")?> style="width: 16%; height: 16%" /img></li>
+                                                <li>Faça as alterações desejadas na pesquisa</li>
+                                                <li>clique em <img src=<?php $this->path("assets/images/pronto.png")?> style="width: 14%; height:14%" /img> para salvar as modificações</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <!-- Nome do tópico -->
+                                    <div class="card-header" role="tab" id="headingFour">
+                                        <h4 class="mb-0">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseTwo">
+                                                Como excluir uma pesquisa?
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                                        <div class="card-block">
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>Pesquisas</strong> e em seguida
+                                                    em <strong>Gerenciar Pesquisas</strong></li>
+                                                <li>Encontre a pesquisa que deseja excluir e clique em <img src=<?php $this->path("assets/images/remover.png")?> style="width: 18%; height:18%" /img></li>
+                                                <li><strong>Insira novamente a sua senha</strong> e clique em <img src=<?php $this->path("assets/images/remover.png")?> style="width: 18%; height:18%" /img> para concluir a exclusão</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Fim da lista de tópicos -->
+
+                        </div>
+
+                        <!-- Botão de fechar -->
+                        <div class="modal-footer">
+                            <a class="btn btn-primary" data-dismiss="modal">Voltar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <?php $this->carregarRodape();?>
     </body>
 </html>
