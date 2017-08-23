@@ -15,7 +15,10 @@
             <div class="col-sm-3">
                 <?php $this->carregarPainel()?>
             </div>
+            <!--Botão de Ajuda-->
+            
             <div id="pesquisa" class="col-sm-9"  style="background-color: rgb(241, 242, 246);">
+                <a href="#" class="direita">Ajuda  <span></span></a><br><br>
                 <div id='alerta' class="alert alert-warning" role="alert" style="display:none;">
                     <span id="aviso"></span>
                 </div>

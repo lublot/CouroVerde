@@ -39,7 +39,7 @@
 
             <!-- Contorno -->
             <div id="contorno">
-
+            <a href="#" class="direita">Ajuda  <span></span></a>
                 <!-- Caixa interna -->
                 <section id="caixa">
 

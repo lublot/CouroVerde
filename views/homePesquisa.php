@@ -16,6 +16,7 @@
             </div>
             
             <div class="col-xs-9">
+                <a href="#" class="direita">Ajuda  <span></span></a><br><br>
                 <div class="search-only form-search">
                     <i class="search-icon fa fa-search"></i>
                     <input type="text" id="campoBusca" class="form-control search-query" placeholder="Buscar Pesquisa de Satisfação">

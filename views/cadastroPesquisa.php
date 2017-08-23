@@ -18,6 +18,7 @@
             <?php $this->carregarPainel()?>
             </div>
             <div class="col-sm-9">
+                <a href="#" class="direita">Ajuda  <span></span></a><br><br>
                 <form class="form-horizontal" id="principal">
                     <div class="form-group">
                         <input type="text" id="tituloPesquisa" name="tituloPesquisa" class="form-control" placeholder="Título da Pesquisa">

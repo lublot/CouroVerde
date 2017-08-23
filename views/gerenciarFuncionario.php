@@ -38,14 +38,15 @@
 
             <!-- Contorno -->
             <div id="contorno">
-
+                <!--Botão de Ajuda-->
+                <a href="#" class="direita">Ajuda  <span></span></a>
                 <!-- Caixa interna -->
                 <section id="caixa">
                     <?php if(isset($this->dados['alerta'])){echo '<div class="alert alert-warning" role="alert">'.$this->dados['alerta'].'</div>';}?>
                     
                     <!-- Formulário de cadastro de funcionários -->
                     <form data-toggle="validator" id="form" role="form" class="form-horizontal" method="POST"<?php if(isset($this->dados['alerta'])){echo 'style="display:none"';}?>>
-
+                        
                         <!-- Linha com duas entradas -->
                         <div class="form-group row">
 

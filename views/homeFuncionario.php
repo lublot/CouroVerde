@@ -38,10 +38,10 @@
 
             <!-- Contorno -->
             <div id="contorno">
-
+                <a href="#" class="direita">Ajuda  <span></span></a>
                 <!-- Caixa interna -->
                 <section id="caixa">
-
+                
                     <!-- Inicio da caixa de busca-->
                     <div class="row busca">
 
@@ -49,7 +49,7 @@
                         <div class="col-sm-12">
 
                             <!-- Input de busca  -->
-
+                            
                             <div class="search-only form-search">
                                 <i class="search-icon fa fa-search"></i>
                                 <input type="text" class="form-control search-query input-sm" placeholder="Busca" id="campoBusca" style="border-radius: 30px;" />
