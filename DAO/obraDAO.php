@@ -59,9 +59,6 @@ class ObraDAO extends Database {
 
    
         try{
-            $myfile = fopen("C:\wamp64\www\sertour\media\obras\imagens/newfile.txt", "w") or die("Unable to open file!");
-            fwrite($myfile, $query);
-            fclose($myfile);
             $this->PDO->query($query);
         }catch(PDOException $e){
 
@@ -107,7 +104,9 @@ class ObraDAO extends Database {
 
             $query .= implode(" AND ",$aux);
         }
-
+        $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, $query);
+        fclose($myfile);
         $this->PDO->query($query);
     }
 
@@ -359,7 +358,6 @@ class ObraDAO extends Database {
         }
 
         $query .= " ORDER BY nome ASC";
-        echo $query;
         $result = $this->PDO->query($query);
 
         $colecoes = array();

@@ -417,37 +417,6 @@ CREATE TABLE IF NOT EXISTS `webMuseu`.`RespostaFechada` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-INSERT INTO classificacao(idClassificacao, nome) VALUES (49, 'Objetos de Casa');
-INSERT INTO colecao(idColecao, nome) VALUES (66, 'Luminárias');
-INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao,caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) VALUES ('1', 'Luminária','Luminária sertaneja típica', '', 'Sertão da Bahia', '', 'Uma luminária típica do sertão da bahia.', '66', '49',1.5, 2, 3, 4, 10, 'Plástico e couro', 'Várias', 'Desconhecido', 'Alguns arranhões', '', '', NULL, '', '', '', '../media/obras/imagens/1/luminaria-rustica-de-juta-e-resina-chacaras.jpg', '../media/obras/imagens/1/lu-potes.jpg','', '', '', '../media/obras/modelo3d/1/lamp.obj');
-
-INSERT INTO colecao(idColecao, nome) VALUES (1, 'Pote');
-INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao,caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) VALUES ('2', 'Pote','Pote sertanejo típica', '', 'Feira de Santana', '', 'Um pote típico do sertão da bahia.', '1', '49',1.5, 2, 3, 4, 10, 'Cerâmica', 'Várias', 'Desconhecido', 'Alguns arranhões', '', '', NULL, '', '', '', '../media/obras/imagens/2/pote.jpg', '','', '', '', '../media/obras/modelo3d/2/pote.obj');
-
-INSERT INTO classificacao(idClassificacao, nome) VALUES (3, 'Objetos');
-INSERT INTO colecao(idColecao, nome) VALUES (3, 'Caricaturas');
-INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao,caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) VALUES ('3', 'Rosto Asssustado','Rosto Asssustado do Sertão', '', 'Sertão da Bahia', '', 'Uma caricatura típica do sertão da bahia.', '3', '3',1.5, 2, 3, 4, 10, 'Cerâmica', 'Várias', 'Desconhecido', 'Alguns arranhões', '', '', NULL, '', '', '', '../media/obras/imagens/3/caricatura.jpg', '','', '', '', '');
-
-INSERT INTO colecao(idColecao, nome) VALUES (5, 'Ferros');
-INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao,caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) VALUES ('5', 'Ferro de Passar Roupa','Ferro de Passar Roupa Carvão', '', 'Sertão da Bahia', '', 'Um ferro de passar típico do sertão da bahia.', '5', '49',1.5, 2, 3, 4, 10, 'Ferro e carvão', 'Várias', 'Desconhecido', 'Alguns arranhões', '', '', NULL, '', '', '', '../media/obras/imagens/5/f1.jpg', '../media/obras/imagens/5/f2.jpg','', '', '', '');
-
-INSERT INTO classificacao(idClassificacao, nome) VALUES (6, 'Objetos Pessoais');
-INSERT INTO colecao(idColecao, nome) VALUES (6, 'Chapéus');
-INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao,caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) VALUES ('4', 'Chapéu Típico','Chapéu Típico de Sertanejo', '', 'Sertão da Bahia', '', 'Um chapéu típico do sertão da bahia.', '6', '6',1.5, 2, 3, 4, 10, 'Couro', 'Várias', 'Desconhecido', 'Alguns arranhões', '', '', NULL, '', '', '', '../media/obras/imagens/4/chapeu.jpg', '','', '', '', '');
-
-INSERT INTO noticia(idNoticia, titulo, subtitulo, descricao, caminhoImagem, data) VALUES (null, 'Inauguração Web Museu Casa do Sertão', '', 'O web museu casa do sertão foi inaugurado no dia 23/08/2017, desenvolvido pela MITHOLOGIC Software. O nome escolhido foi SERTOUR.', 'media/noticias/imagens/20170821172133museo_casa_certao_1.jpg', '2017-08-22');
-INSERT INTO noticia(idNoticia, titulo, subtitulo, descricao, caminhoImagem, data) VALUES (null, 'Nova coleção no Museu Casa do Sertão', '', 'O web museu casa do sertão inaugurou uma nova coleção no dia 22/08/2017, nessa nova coleção estão expostos diversos tipos de máquinas.', 'media/noticias/imagens/20170821172456museo_casa_certao_2.jpg', '2017-08-22');
-
-INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado,tipoUsuario) VALUES (1, 'Jamylle', 'Santana', 'jamyllesf@gmail.com', '25d55ad283aa400af464c76d713c07ad', 1,'ADMINISTRADOR');
-INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('112233', '1', 'Dona', 1, 1, 1, 1, 1, 1, 1);
-
-INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado,tipoUsuario) VALUES (2, 'Usuário', 'Comum', 'usuariocomum@gmail.com', '2e9ec317e197819358fbc43afca7d837', 1,'USUARIO');
-
-INSERT INTO usuario(idUsuario, nome, sobrenome, email, senha, cadastroConfirmado,tipoUsuario) VALUES (3, 'Funcionário', 'Museu', 'funcionariomuseu@gmail.com', '551b50cd77c369891fa02b5dc73c03a7', 1,'FUNCIONARIO');
-INSERT INTO funcionario(matricula, idUsuario, funcao, cadastroObra, gerenciaObra, remocaoObra, cadastroNoticia, gerenciaNoticia, remocaoNoticia, backup) VALUES ('445566', '3', 'Funcionário', 1, 1, 1, 0, 0, 0, 1);
-
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
