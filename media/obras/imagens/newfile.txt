@@ -1,0 +1,8 @@
+INSERT INTO obra(numeroInventario, nome, titulo, funcao, origem, procedencia, descricao, idColecao, idClassificacao,
+                                    altura, largura, diametro, peso, comprimento, materiaisContruidos, tecnicasFabricacao, autoria, 
+                                    marcasInscricoes, historicoObjeto, modoAquisicao, dataAquisicao, autor, observacoes, estadoConservacao,
+                                    caminhoImagem1, caminhoImagem2, caminhoImagem3, caminhoImagem4, caminhoImagem5, caminhoModelo3D) 
+                  VALUES ('4656', 'fgdfgd','gfgdgd', '', '', '', '', '', '',
+                            NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', 
+                            '', NULL, '', '', '', '../media/obras/imagens/4656/1.jpg', '',
+                            '', '', '', '')

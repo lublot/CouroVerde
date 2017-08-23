@@ -135,7 +135,7 @@ class obraController extends mainController {
     */
     public function cadastrarObra() {
         if (isset($_POST) and ValidacaoDados::validarForm($_POST, array("inventario", "nome", "titulo", "colecao", "classificacao"))) {
-
+            
             if(!ValidacaoDados::validarCampo($_POST['nome'])) { //verifica se o campo está válido
                 throw new CampoInvalidoException('nome');
             }
@@ -422,6 +422,14 @@ class obraController extends mainController {
 
             $obraDAO = new ObraDAO();
 
+            if(!is_numeric($idColecao)) {
+                $idColecao = addslashes($obraDAO->buscarColecoes(array(), array('nome' => $idColecao))[0]->getid());
+            }
+
+            if(!is_numeric($idClassificacao)) {
+                $idClassificacao = addslashes($obraDAO->buscarClassificacao(array(), array('nome' => $idClassificacao))[0]->getId());                
+            }
+            
             if($fotografia) {
                 $obraDAO->inserirObra(new Fotografia($numInventario, $nome, $titulo, $funcao, $origem, $procedencia, $descricao, $idColecao, $idClassificacao,
                                                             $altura, $largura, $diametro, $peso, $comprimento, $materiais, $tecnicas, $autoria, $marcas, $historico, 
@@ -434,14 +442,14 @@ class obraController extends mainController {
                                                             $modoAquisicao, $dataAquisicao, $autor, $observacoes, $estado, $caminhoImagem1, $caminhoImagem2, $caminhoImagem3, $caminhoImagem4, $caminhoImagem5, $caminhoModelo3D));                              
                 
             }
-
+            
             //Registra a ação que o funcionario acabou de fazer
             $logController = new LogController();
             $logController->registrarEvento($numInventario, "OBRA", "Uma obra foi cadastrada");
             
             $this->cadastrarPalavraChave();   
             $this->cadastro();
-            header("Location: ../obra/cadastro");
+
         } else {
             throw new DadosCorrompidosException();
         }       
