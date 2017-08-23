@@ -41,7 +41,7 @@
             <!-- Contorno -->
             <div id="contorno">
                 <!--Botão de Ajuda-->
-                <a href="#" class="direita">Ajuda  <span></span></a>
+                <a href="#ajudanoticia" data-toggle="modal" class="direita">Ajuda  <span></span></a>
                 <!-- Caixa interna -->
                 <section id="caixa">
                     <input type="hidden" id="idNoticia" value="<?php if(isset($this->dados['noticia'])){echo $this->dados['noticia']->getIdNoticia();} ?>"></input>

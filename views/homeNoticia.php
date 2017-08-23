@@ -38,7 +38,7 @@
 
             <!-- Contorno -->
             <div id="contorno">
-                <a href="#" class="direita">Ajuda  <span></span></a>
+                <a href="#ajudanoticia" data-toggle="modal" class="direita">Ajuda  <span></span></a>
                 <!-- Caixa interna -->
                 <section id="caixa">
 
@@ -77,6 +77,111 @@
         </div>
 
     </div>
+
+    <div>
+        <div class="modal fade" id="ajudanoticia" role="dialog">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Tiítulo do modal -->
+                    <div class="modal-header">
+                        <h2 style="margin-bottom: 1px;">Suporte ao usuário - Notícia</h2>
+                        <!-- Corpo do modal -->
+                        <div class="modal-body">
+                            <!-- Início da lista de tópicos -->
+                            <div id="accordion" role="tablist" aria-multiselectable="true">
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <div class="card-header" role="tab" id="headingOne">
+                                        <!-- Nome do tópico -->
+                                        <h4 class="mb-0">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            Como inserir uma nova notícia no site?
+                                        </a>
+                                        </h4>
+                                    </div>
+
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="card-block">
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>notícias</strong> e em seguida
+                                                    em <strong>cadastrar notícia.</strong></li>
+                                                <li>Escolha uma imagem ilustrativa para a notícia clicando em <img src=<?php $this->path("assets/images/upload.png")?> style="width: 18%; height: 18%"
+                                                    /img></li>
+                                                <li>Insira o título, subtítulo e o corpo de sua notícia</li>
+                                                <li>clique em <img src=<?php $this->path("assets/images/cadastrar.png")?> style="width: 18%; height: 18%" /img> para salvar a notícia</li>
+                                            </ol>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <!-- Nome do tópico -->
+                                    <div class="card-header" role="tab" id="headingTwo">
+                                        <h4 class="mb-0">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Como alterar as informações de uma notícia?
+                                        </a>
+                                        </h4>
+                                    </div>
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="card-block">
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>notícias</strong> e em seguida
+                                                    em <strong>gerenciar notícias</strong></li>
+                                                <li>Selecione a notícia cujas informações serão alteradas</li>
+                                                <li>Clique em <strong>pronto</strong> para salvar suas alterações</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Novo tópico -->
+                                <div class="card">
+                                    <!-- Nome do tópico -->
+                                    <div class="card-header" role="tab" id="headingThree">
+                                        <h4 class="mb-0">
+                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            Como remover uma notícia?
+                                        </a>
+                                        </h4>
+                                    </div>
+                                    <!-- Corpo do tópico -->
+                                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                        <div class="card-block">
+
+                                            <ol>
+                                                <li>Na barra lateral esquerda, clique em <strong>notícias</strong> e em seguida
+                                                    em <strong>gerenciar notícias</strong></li>
+                                                <li>Selecione a notícia que você deseja excluir</li>
+                                                <li>.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Fim da lista de tópicos -->
+
+                        </div>
+
+                        <!-- Botão de fechar -->
+                        <div class="modal-footer">
+                            <a class="btn btn-primary" data-dismiss="modal">Voltar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            <script src="js/bootstrap.js"></script>
+
+        </div>
     <?php $this->carregarRodape()?>
 
 </body>
