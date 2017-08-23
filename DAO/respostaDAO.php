@@ -13,7 +13,6 @@ class RespostaDAO extends Database{
     * @param unknown $pesquisa - a pesquisa deve ser inserida no banco;
     * */
     public function inserir($idUsuario,$idPesquisa,$idPergunta,$tipoPergunta,$resposta){
-        $resposta = utf8_encode($resposta);
         
         if(strcmp($tipoPergunta,"ABERTA")==0){
             $query = "INSERT INTO respostaaberta(idUsuario, idPesquisa, idPergunta, descricao) VALUES ('$idUsuario', '$idPesquisa', '$idPergunta', '$resposta')";

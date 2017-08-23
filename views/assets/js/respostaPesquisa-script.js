@@ -76,7 +76,7 @@ function carregarPesquisa(pesquisa){
 
             ajax.onreadystatechange = function(){
                 if (this.readyState == 4 && this.status == 200) {
-                    
+                    alert(this.response);
                     if(JSON.parse(this.response).success == true){
                         window.location.href = '/'+window.location.pathname.split('/')[1]+'/';
                     }else{

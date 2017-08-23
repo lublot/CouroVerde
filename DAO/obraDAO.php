@@ -89,7 +89,7 @@ class ObraDAO extends Database {
         $query = "UPDATE obra SET ";
 
         foreach($dados as $chave=>$valor){
-            $query .= $chave.'='."'$valor',";
+            $query .= $chave.'='."'".mb_convert_encoding($valor,'HTML-ENTITIES', 'UTF-8')."',";
         }
 
         $query = substr($query, 0, -1);
@@ -103,11 +103,8 @@ class ObraDAO extends Database {
             }
 
             $query .= implode(" AND ",$aux);
+          
         }
-        $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-        fwrite($myfile, $query);
-        fclose($myfile);
-        $this->PDO->query($query);
     }
 
     /**
@@ -478,7 +475,7 @@ class ObraDAO extends Database {
         }
 
         $paginaAtual = 0;
-        $registrosPorPagina = ($pagina+1)*10;
+        $registrosPorPagina = ($pagina+1)*5;
 
         $query .= "LIMIT $paginaAtual,$registrosPorPagina";
         
@@ -549,7 +546,7 @@ class ObraDAO extends Database {
         // }
         
         $paginaAtual = 0;
-        $registrosPorPagina = ($pagina+1)*10;
+        $registrosPorPagina = ($pagina+1)*5;
 
         $query .= "LIMIT $paginaAtual,$registrosPorPagina";
 

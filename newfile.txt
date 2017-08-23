@@ -1,1 +1,0 @@
-UPDATE obra SET numeroInventario='2',nome='Pote',titulo='Pote sertanejo tÃÂ?ÃÂ?ÃÂ?ÃÂÃÂ­pico',idColecao='1',idClassificacao='6',altura='1.5',largura='2',diametro='3',peso='4',comprimento='10',caminhoModelo3D='../media/obras/modelo3d/2/pote.obj',caminhoImagem1='../media/obras/imagens/2/pote.jpg' WHERE numeroInventario = '2'

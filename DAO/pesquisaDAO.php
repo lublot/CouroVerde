@@ -13,8 +13,8 @@ class PesquisaDAO extends Database{
     * @param unknown $pesquisa - a pesquisa deve ser inserida no banco;
     * */
     public function inserir($pesquisa){
-        $titulo = utf8_encode($pesquisa->getTitulo());
-        $descricao = utf8_encode($pesquisa->getDescricao());
+        $titulo = $pesquisa->getTitulo();
+        $descricao = $pesquisa->getDescricao();
         $estaAtiva = $pesquisa->getEstaAtiva()? 1:0;
 
         $buscarPesquisa = $this->buscar(array("idPesquisa"),array("titulo"=>$titulo));

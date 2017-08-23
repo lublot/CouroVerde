@@ -193,7 +193,6 @@ class pesquisaController extends mainController{
   }
 
   public function buscar($parametros){
-    if(VerificarPermissao::isAdministrador()){
      try{
       if(isset($parametros) && !empty($parametros)){
         $idPesquisa = array_shift($parametros);
@@ -258,9 +257,6 @@ class pesquisaController extends mainController{
       }catch(PesquisaInexistenteException $e){
         echo json_encode(array("erro"=>$e->getMessage(),"success"=>"false"));
       }
-    }else{
-      $this->permissaoNegada();
-    }
   }
 
   public function remover(){

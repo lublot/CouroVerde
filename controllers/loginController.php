@@ -443,8 +443,6 @@ class loginController extends mainController{
             $funcionarioDAO = new FuncionarioDAO();
             $funcionario = $funcionarioDAO->buscar(array(), array('idUsuario'=>$usuario->getId()));
 
-            var_dump($funcionario);
-
             if(count($funcionario) > 0) {
                 $_SESSION['podeCadastrarObra'] = $funcionario[0]->isPodeCadastrarObra();
                 $_SESSION['podeGerenciarObra'] = $funcionario[0]->isPodeGerenciarObra();
