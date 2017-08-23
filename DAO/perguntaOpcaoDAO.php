@@ -48,9 +48,9 @@ class perguntaOpcaoDAO extends Database{
                     $obrigatorio = $item['obrigatorio'] ? true:false;
                 }
                 $perguntas[] = new Pergunta(
-                    isset($item['idPergunta'])?$item['idPergunta']:null,
-                    isset($item['titulo'])?$item['titulo']:null,
-                    isset($item['tipo'])?$item['tipo']:null,
+                    isset($item['idPergunta'])?utf8_encode($item['idPergunta']):null,
+                    isset($item['titulo'])?utf8_encode($item['titulo']):null,
+                    isset($item['tipo'])?utf8_encode($item['tipo']):null,
                     isset($item['obrigatorio'])?$obrigatorio:null
                 );
             }    
@@ -91,8 +91,8 @@ class perguntaOpcaoDAO extends Database{
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 $opcoes[] = new Opcao(
-                    isset($item['idOpcao'])?$item['idOpcao']:null,
-                    isset($item['descricao'])?$item['descricao']:null
+                    isset($item['idOpcao'])?utf8_encode($item['idOpcao']):null,
+                    isset($item['descricao'])?utf8_encode($item['descricao']):null
                 );
             }    
         } 

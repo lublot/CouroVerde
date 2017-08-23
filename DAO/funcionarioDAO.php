@@ -157,22 +157,22 @@ class FuncionarioDAO extends Database{
                     $cadastroConfirmado = null;
                 }
                 $funcionarios[] = new Funcionario(
-                    isset($item['idUsuario'])?$item['idUsuario']:null,
-                    isset($item['email'])?$item['email']:null,
-                    isset($item['nome'])?$item['nome']:null,
-                    isset($item['sobrenome'])?$item['sobrenome']:null,
-                    isset($item['senha'])?$item['senha']:null,
+                    isset($item['idUsuario'])?utf8_encode($item['idUsuario']):null,
+                    isset($item['email'])?utf8_encode($item['email']):null,
+                    isset($item['nome'])?utf8_encode($item['nome']):null,
+                    isset($item['sobrenome'])?utf8_encode($item['sobrenome']):null,
+                    isset($item['senha'])?utf8_encode($item['senha']):null,
                     $cadastroConfirmado,
-                    isset($item['tipoUsuario'])?$item['tipoUsuario']:null,
-                    isset($item['matricula'])?$item['matricula']:null,
-                    isset($item['funcao'])?$item['funcao']:null,
-                    isset($item['cadastroObra'])?$item['cadastroObra']:null,
-                    isset($item['gerenciaObra'])?$item['gerenciaObra']:null,
-                    isset($item['remocaoObra'])?$item['remocaoObra']:null,
-                    isset($item['cadastroNoticia'])?$item['cadastroNoticia']:null, 
-                    isset($item['gerenciaNoticia'])?$item['gerenciaNoticia']:null,
-                    isset($item['remocaoNoticia'])?$item['remocaoNoticia']:null,
-                    isset($item['backup'])?$item['backup']:null
+                    isset($item['tipoUsuario'])?utf8_encode($item['tipoUsuario']):null,
+                    isset($item['matricula'])?utf8_encode($item['matricula']):null,
+                    isset($item['funcao'])?utf8_encode($item['funcao']):null,
+                    isset($item['cadastroObra'])?utf8_encode($item['cadastroObra']):null,
+                    isset($item['gerenciaObra'])?utf8_encode($item['gerenciaObra']):null,
+                    isset($item['remocaoObra'])?utf8_encode($item['remocaoObra']):null,
+                    isset($item['cadastroNoticia'])?utf8_encode($item['cadastroNoticia']):null, 
+                    isset($item['gerenciaNoticia'])?utf8_encode($item['gerenciaNoticia']):null,
+                    isset($item['remocaoNoticia'])?utf8_encode($item['remocaoNoticia']):null,
+                    isset($item['backup'])?utf8_encode($item['backup']):null
                 );
             }    
         }
@@ -198,22 +198,22 @@ class FuncionarioDAO extends Database{
         if(!empty($result) && $result->rowCount() > 0){ //verifica se existem resultados para consulta
             foreach($result->fetchAll() as $item){ //percorre as tuplas retornadas pela consulta
                 $funcionarios[] = new funcionario( //cria um novo funcionario e add uma array, apartir dos dados obtidos
-                    isset($item['idUsuario'])?$item['idUsuario']:null,
-                    isset($item['nome'])?$item['nome']:null,
-                    isset($item['sobrenome'])?$item['sobrenome']:null,
-                    isset($item['email'])?$item['email']:null,
+                    isset($item['idUsuario'])?utf8_encode($item['idUsuario']):null,
+                    isset($item['email'])?utf8_encode($item['email']):null,
+                    isset($item['nome'])?utf8_encode($item['nome']):null,
+                    isset($item['sobrenome'])?utf8_encode($item['sobrenome']):null,
                     null, //Não retorna a senha
-                    isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null,
-                    isset($item['tipoUsuario'])?$item['tipoUsuario']:null,
-                    isset($item['matricula'])?$item['matricula']:null,
-                    isset($item['funcao'])?$item['funcao']:null,
-                    isset($item['cadastroObra'])?$item['cadastroObra']:null,
-                    isset($item['gerenciaObra'])?$item['gerenciaObra']:null,
-                    isset($item['remocaoObra'])?$item['remocaoObra']:null,
-                    isset($item['cadastroNoticia'])?$item['cadastroNoticia']:null, 
-                    isset($item['gerenciaNoticia'])?$item['gerenciaNoticia']:null,
-                    isset($item['remocaoNoticia'])?$item['remocaoNoticia']:null,
-                    isset($item['backup'])?$item['backup']:null
+                    isset($item['cadastroConfirmado'])?utf8_encode($item['cadastroConfirmado']):null,
+                    isset($item['tipoUsuario'])?utf8_encode($item['tipoUsuario']):null,
+                    isset($item['matricula'])?utf8_encode($item['matricula']):null,
+                    isset($item['funcao'])?utf8_encode($item['funcao']):null,
+                    isset($item['cadastroObra'])?utf8_encode($item['cadastroObra']):null,
+                    isset($item['gerenciaObra'])?utf8_encode($item['gerenciaObra']):null,
+                    isset($item['remocaoObra'])?utf8_encode($item['remocaoObra']):null,
+                    isset($item['cadastroNoticia'])?utf8_encode($item['cadastroNoticia']):null, 
+                    isset($item['gerenciaNoticia'])?utf8_encode($item['gerenciaNoticia']):null,
+                    isset($item['remocaoNoticia'])?utf8_encode($item['remocaoNoticia']):null,
+                    isset($item['backup'])?utf8_encode($item['backup']):null
                 );
             }
         }
@@ -248,22 +248,22 @@ class FuncionarioDAO extends Database{
         if(!empty($result) && $result->rowCount() > 0){ //verifica se existem resultados para consulta
             foreach($result->fetchAll() as $item){ //percorre as tuplas retornadas pela consulta
                 $funcionarios[] = new funcionario( //cria um novo funcionario e add uma array, apartir dos dados obtidos
-                    isset($item['idUsuario'])?$item['idUsuario']:null,
-                    isset($item['email'])?$item['email']:null,
-                    isset($item['nome'])?$item['nome']:null,
-                    isset($item['sobrenome'])?$item['sobrenome']:null,
-                    isset($item['senha'])?$item['senha']:null,
-                    isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null,
-                    isset($item['tipoUsuario'])?$item['tipoUsuario']:null,
-                    isset($item['matricula'])?$item['matricula']:null,
-                    isset($item['funcao'])?$item['funcao']:null,
-                    isset($item['cadastroObra'])?$item['cadastroObra']:null,
-                    isset($item['gerenciaObra'])?$item['gerenciaObra']:null,
-                    isset($item['remocaoObra'])?$item['remocaoObra']:null,
-                    isset($item['cadastroNoticia'])?$item['cadastroNoticia']:null, 
-                    isset($item['gerenciaNoticia'])?$item['gerenciaNoticia']:null,
-                    isset($item['remocaoNoticia'])?$item['remocaoNoticia']:null,
-                    isset($item['backup'])?$item['backup']:null
+                    isset($item['idUsuario'])?utf8_encode($item['idUsuario']):null,
+                    isset($item['email'])?utf8_encode($item['email']):null,
+                    isset($item['nome'])?utf8_encode($item['nome']):null,
+                    isset($item['sobrenome'])?utf8_encode($item['sobrenome']):null,
+                    isset($item['senha'])?utf8_encode($item['senha']):null,
+                    isset($item['cadastroConfirmado'])?utf8_encode($item['cadastroConfirmado']):null,
+                    isset($item['tipoUsuario'])?utf8_encode($item['tipoUsuario']):null,
+                    isset($item['matricula'])?utf8_encode($item['matricula']):null,
+                    isset($item['funcao'])?utf8_encode($item['funcao']):null,
+                    isset($item['cadastroObra'])?utf8_encode($item['cadastroObra']):null,
+                    isset($item['gerenciaObra'])?utf8_encode($item['gerenciaObra']):null,
+                    isset($item['remocaoObra'])?utf8_encode($item['remocaoObra']):null,
+                    isset($item['cadastroNoticia'])?utf8_encode($item['cadastroNoticia']):null, 
+                    isset($item['gerenciaNoticia'])?utf8_encode($item['gerenciaNoticia']):null,
+                    isset($item['remocaoNoticia'])?utf8_encode($item['remocaoNoticia']):null,
+                    isset($item['backup'])?utf8_encode($item['backup']):null
                 );
             }
         }
