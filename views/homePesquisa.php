@@ -16,24 +16,33 @@
             </div>
             
             <div class="col-xs-9">
-                <a href="#" class="direita">Ajuda  <span></span></a><br><br>
-                <div class="search-only form-search">
-                    <i class="search-icon fa fa-search"></i>
-                    <input type="text" id="campoBusca" class="form-control search-query" placeholder="Buscar Pesquisa de Satisfação">
+                <!--Título da caixa-->
+                <div id="titulo">
+                    <h4 class="text-center">Gerenciamento de Pesquisa</h4>
                 </div>
-            <br>
-                <div id="alert"> </div>
-                
-                <div class="alert alert-warning alert-dismissible" role="alert" style="display:none;">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <span id="aviso"></span>
+                <!--Fim do título da caixa-->
+
+                <!--Div com o contorno e organização dos elementos no centro-->
+                <div id="contorno">                
+                    <a href="#" class="direita">Ajuda  <span></span></a><br><br>
+                    <div class="search-only form-search">
+                        <i class="search-icon fa fa-search"></i>
+                        <input type="text" id="campoBusca" class="form-control search-query" placeholder="Buscar Pesquisa de Satisfação">
                     </div>
-                    <h3>Listando Resultados</h3>
-                    <hr>
+                    <br>
+                    <div id="alert"> </div>
                     
-                    <div id="resposta"></div>
+                    <div class="alert alert-warning alert-dismissible" role="alert" style="display:none;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <span id="aviso"></span>
+                        </div>
+                        <h3>Listando Resultados</h3>
+                        <hr>
+                        
+                        <div id="resposta"></div>
+                    </div>
                 </div>
-                
+                    
             </div>
         <!--<div class="col-sm-2"></div>-->
         </div>

@@ -6,6 +6,9 @@
         <meta name=viewport  content="width=device-width, initial-scale=1" />
         <?php $this->carregarDependenciasGaleria();?>
         <?php $this->carregarDependencias();?>
+        <style>
+			h4 { margin-right: 15px; }
+		</style>
     </head>
     <body style="background-color: rgb(241, 242, 246);overflow-x:hidden">
         <style type="text/css">
@@ -23,7 +26,7 @@
             <div class="titulo" style="width: 80%">
                 <h5 class="text-center">CLASSIFICAÇÕES</h5>
             </div>
-                <div class="panel panel-default" style="width: 80%;background-color: white;float: left; height: 420px;overflow-y: scroll; overflow-x: hidden;min-height: 100%;">
+                <div class="panel panel-default" style="width: 80%;background-color: white;float: left; height: 400px;overflow-y: scroll; overflow-x: hidden;min-height: 100%;">
                     <?php
                         require_once dirname(__DIR__).'/vendor/autoload.php';
                         use \controllers\obraController as ObraController;
@@ -53,7 +56,7 @@
                 
                 echo '<!--Container que circunda a galeria-->
                         <div class="container" id="pagina" style="width:100%">
-                            <div class="row text-right titulo"style="margin-bottom:20px;margin-top:-21px">
+                            <div class="row text-right titulo"style="margin-bottom:20px;margin0rught: 20px">
                                 <!--Caso ele tenha escolhido alguma-->
                                 <h4>'.$classificacaoEscolhida->getNome().'</h4> 
                             </div>
@@ -74,7 +77,6 @@
                     // 1 row para cada colona de imagens
                     echo '<div class="row"> <!-abre linha-->';
                 }
-
                 $numImgsLinha = $numImgsLinha + 1;
                 echo '<!--um <col-xs-6 col-md-3> para cada imagem de obra a ser exibida-->
                         <div id="img'.$numImgs.'_'.$numPag.'" class="col-xs-6 col-md-3" hidden>
@@ -82,7 +84,7 @@
                             <a href="'.ROOT_URL.'obra?num='.$obra->getNumInventario().'.php">
                                 <div class="thumbnail">
                                     <!--Caminho da imagem exibida representando uma obra-->
-                                    <img src="'.explode("../", $obra->getCaminhoImagem1())[1].'" style="height:130px"></img>
+                                    <img src="'.ROOT_URL.explode("../", $obra->getCaminhoImagem1())[1].'" style="height:130px"></img>
                                     <div class="caption">
                                         <h5>
                                             <!--Nome da obra-->
@@ -112,5 +114,5 @@
                 <button type="button" onclick="topFunction()" id="myBtn" class="btn btn-primary btn-voltar" style="display: none;">Voltar ao Início</a>                
         </div>    
     </body>
-    <script src="views/assets/js/galeria-script.js"></script>            
+    <?php echo '<script src="'.VIEW_BASE.'assets/js/galeria-script.js"></script>'; ?>            
 </html>

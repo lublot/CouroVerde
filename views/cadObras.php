@@ -9,7 +9,7 @@
     <!--Regulando a visão da tela para a largura relativa à tela utilizada-->
     <meta name=viewport content="width=device-width, initial-scale=1" />
 
-    <title>Cadastro de obras</title>
+    <title>Registro de Obras</title>
 
     <link rel="stylesheet" href=<?php echo '"'.VIEW_BASE.'assets/css/datepicker.css"' ?>/>
     <!--Importação do Javascript pessoal e jQuery  -->

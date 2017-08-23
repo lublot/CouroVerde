@@ -8,10 +8,8 @@
 
         <title>Sertour</title>
         <?php $this->carregarDependencias()?>
-        <script type="text/javascript" src=<?php $this->path("assets/js/resultadoBusca-script.js")?>></script>
-
     </head>
-    <body>
+    <body style="background-color: rgb(241, 242, 246);">
 
         <?php $this->carregarCabecalho()?>
         <div class="container">
@@ -71,5 +69,6 @@
         <?php $this->carregarRodape()?>
     </body>
     <!--  -->
-
+    <?php echo '<script src="'.VIEW_BASE.'assets/js/resultadoBusca-script.js"></script>'; ?>            
+    
 </html>
