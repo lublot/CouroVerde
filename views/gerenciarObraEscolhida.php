@@ -128,10 +128,9 @@
                                                     <!--A lista de opções tem que ser baixada diretamente das opções do banco de dados utilizando PHP-->
                                                     <option>Coleção (*)</option>
                                                     <?php
-
-
+                                                        
                                                         foreach($colecoes as $colecao) {
-                                                            if(isset($_GET['i'])) {
+                                                            if(isset($_GET['i']) && $obra->getIdColecao() == $colecao->getId()) {
                                                                 echo "<option value='".$colecao->getId()."' selected>".$colecao->getNome()."</option>";
                                                             } else {
                                                                 echo "<option value='".$colecao->getId()."'>".$colecao->getNome()."</option>";                    
@@ -180,9 +179,11 @@
                                                         use \models\Classificacao as Classificacao;
 
                                                         $classificacoes = $obraController->obterClassificacoes();
+                                                        
+                                                        var_dump($obra->getIdClassificacao());
 
                                                         foreach($classificacoes as $classificacao) {
-                                                            if(isset($_GET['i'])) {
+                                                            if(isset($_GET['i']) && $obra->getIdClassificacao() == $classificacao->getId()) {
                                                                 echo "<option value='".$classificacao->getId()."' selected>".$classificacao->getNome()."</option>";
                                                             } else {
                                                                 echo "<option value='".$classificacao->getId()."'>".$classificacao->getNome()."</option>";                                                        
