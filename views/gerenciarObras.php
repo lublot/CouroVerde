@@ -89,26 +89,18 @@
                                         echo '<div class="row" align="center">';
                                     }
 
-                                    echo '<!-- Posição e tamanho do item da galeria. Isto que deve ser replicado com o PHP puxando
-                                    os funcinários do banco de dados-->
-                                    <div class="thumbnail col-lg-3 col-md-3 col-sm-3 col-xs-6 ">
-                                        
-                                        <!-- Caixa do item -->
-                                        <!--LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DA OBRA-->
-                                        <a href="'.ROOT_URL.'obra/gerenciaobra?i='.$obra->getNumInventario().'" class="text-center" style="width:50%">
-                                            <!-- Icone obra -->
-                                            <img src="'.$obra->getCaminhoImagem1().'" class="img-responsive" styke="width:25px;length:25px">
-        
-                                            <!-- Nome da obra -->
-                                            <h5><dt style="color: black"><span style="display:block;width:150px;word-wrap:break-word;">'.$obra->getNome().'</span></dt></h5>
-        
-                                            <!-- FIM LINK A SER REDIRECIONADO COM AS INFORMAÇÕES DA OBRA-->
+                                    echo '<!--um <col-xs-6 col-md-3> para cada imagem de obra a ser exibida-->
+                                    <div class="col-xs-6 col-md-3">
+                                        <!--#href contendo o caminho para exibição da obra-->
+                                        <a href="'.ROOT_URL.'obra/gerenciaobra?i='.$obra->getNumInventario().'" class="text-center">
+                                            <div class="thumbnail">
+                                                <!--Caminho da imagem exibida representando uma obra-->
+                                                <img src="'.$obra->getCaminhoImagem1().'" style="height:130px"></img>
+                                                <div class="caption">
+                                                    <h5><dt style="color: black"><span style="display:block;width:150px;word-wrap:break-word;">'.$obra->getNome().'</span></dt></h5>
+                                                </div>
+                                            </div>
                                         </a>
-        
-                                        <!-- FIM da Caixa do item -->
-            
-                                        <!-- /Posição e tamanho do item da galeria. Isto que deve ser replicado com o PHP puxando
-                                    os funcinários do banco de dados-->
                                     </div>';       
         
                                     $numObras++;
