@@ -3,10 +3,11 @@ window.addEventListener('load',function(){
 var urlRaiz = window.location.origin+'/'+window.location.pathname.split('/')[1];
 var p = 0;
 var btnCarregar;
+var qtdAnterior;
 
 carregar();
 
-function carregar(pagina=0,filtros=0){
+function carregar(pagina=0,filtros=0,qtdResultadosAnterior=0){
     var ajax = new XMLHttpRequest();
     var busca = window.location.href.split('?').pop();
     var endereco = '/'+window.location.pathname.split('/')[1]+'/busca/pesquisar/?'+busca+'&p='+pagina;
@@ -31,16 +32,22 @@ function carregar(pagina=0,filtros=0){
                 while (document.getElementById('pagina').firstChild) {
                     document.getElementById('pagina').removeChild(document.getElementById('pagina').firstChild);
                 }
+                
                 Object.keys(mensagem).forEach(function(k,i){
                     document.getElementById('pagina').appendChild(criarBox(mensagem[k]));
                 });
 
-                document.getElementById('pagina').appendChild(criarBotao());
+                if(qtdResultadosAnterior >= Object.keys(mensagem).length){
+                   // document.getElementById('pagina').removeChild(document.getElementById('carregarMais'));
+                }else{
+                    qtdResultadosAnterior = Object.keys(mensagem).length;
+                    document.getElementById('pagina').appendChild(criarBotao());
+                    btnCarregar = document.getElementById('carregarMais');
+                    btnCarregar.addEventListener('click',function(){
+                        carregar(++p,filtros,qtdResultadosAnterior);
+                    });
+                }
                 
-                btnCarregar = document.getElementById('carregarMais');
-                btnCarregar.addEventListener('click',function(){
-                    carregar(++p);
-                });
             }else{
                 if(pagina==0){
                     while (document.getElementById('pagina').firstChild) {

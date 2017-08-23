@@ -482,7 +482,7 @@ class ObraDAO extends Database {
         $registrosPorPagina = ($pagina+1)*10;
 
         $query .= "LIMIT $paginaAtual,$registrosPorPagina";
-
+        
         $result = $this->PDO->query($query);
 
         $obras = array();
