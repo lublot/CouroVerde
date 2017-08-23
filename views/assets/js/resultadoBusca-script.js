@@ -89,7 +89,9 @@ function criarBox(dados){
     thumbnail.setAttribute('class','thumbnail');
 
     let imagem = document.createElement('div');
-    imagem.setAttribute('style',"height:80px;background:url("+urlRaiz+'/media/'+dados.caminhoImagem1+");background-size:contain;background-repeat:no-repeat;background-position:center");
+    let caminho = dados.caminhoImagem1;
+    caminho = caminho.replace('..','');
+    imagem.setAttribute('style',"height:80px;background:url("+urlRaiz+caminho+");background-size:contain;background-repeat:no-repeat;background-position:center");
     console.log(urlRaiz);
     thumbnail.appendChild(imagem);
     info.appendChild(titulo);
