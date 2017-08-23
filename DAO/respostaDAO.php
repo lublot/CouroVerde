@@ -13,6 +13,7 @@ class RespostaDAO extends Database{
     * @param unknown $pesquisa - a pesquisa deve ser inserida no banco;
     * */
     public function inserir($idUsuario,$idPesquisa,$idPergunta,$tipoPergunta,$resposta){
+        $resposta = utf8_encode($resposta);
         
         if(strcmp($tipoPergunta,"ABERTA")==0){
             $query = "INSERT INTO respostaaberta(idUsuario, idPesquisa, idPergunta, descricao) VALUES ('$idUsuario', '$idPesquisa', '$idPergunta', '$resposta')";
@@ -69,10 +70,10 @@ class RespostaDAO extends Database{
             foreach($result->fetchAll() as $item){
                 $pesquisa = array();
                 $pesquisa['idPergunta'] = isset($item['idPergunta'])?$item['idPergunta']:null;
-                $pesquisa['tituloPergunta'] = isset($item['titulo'])?$item['titulo']:null;
+                $pesquisa['tituloPergunta'] = isset($item['titulo'])?utf8_encode($item['titulo']):null;
                 $pesquisa['opcional'] = isset($item['opcional'])?$item['opcional']:null;
                 $pesquisa['tipoPergunta'] = isset($item['tipo'])?$item['tipo']:null;
-                $pesquisa['resposta'] = isset($item['descricao'])?$item['descricao']:null;
+                $pesquisa['resposta'] = isset($item['descricao'])?utf8_encode($item['descricao']):null;
   
                 array_push($pesquisas,$pesquisa);              
             }    
@@ -90,11 +91,11 @@ class RespostaDAO extends Database{
                 $resposta = array();
                 
                 $resposta['idPergunta'] = isset($item['idPergunta'])?$item['idPergunta']:null;
-                $resposta['tituloPergunta'] = isset($item['titulo'])?$item['titulo']:null;
+                $resposta['tituloPergunta'] = isset($item['titulo'])?utf8_encode($item['titulo']):null;
                 $resposta['opcional'] = isset($item['opcional'])?$item['opcional']:null;
                 $resposta['tipoPergunta'] = isset($item['tipo'])?$item['tipo']:null;
                 $resposta['idOpcao'] = isset($item['idOpcao'])?$item['idOpcao']:null;
-                $resposta['resposta'] = isset($item['descricao'])?$item['descricao']:null;
+                $resposta['resposta'] = isset($item['descricao'])?utf8_encode($item['descricao']):null;
                 $resposta['qtdRespostas'] = isset($item['COUNT(RespostaFechada.idOpcao)'])?$item['COUNT(RespostaFechada.idOpcao)']:null;
                 array_push($respostas,$resposta);              
             }    

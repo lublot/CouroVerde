@@ -13,8 +13,8 @@ class PesquisaDAO extends Database{
     * @param unknown $pesquisa - a pesquisa deve ser inserida no banco;
     * */
     public function inserir($pesquisa){
-        $titulo = $pesquisa->getTitulo();
-        $descricao = $pesquisa->getDescricao();
+        $titulo = utf8_encode($pesquisa->getTitulo());
+        $descricao = utf8_encode($pesquisa->getDescricao());
         $estaAtiva = $pesquisa->getEstaAtiva()? 1:0;
 
         $buscarPesquisa = $this->buscar(array("idPesquisa"),array("titulo"=>$titulo));
@@ -103,14 +103,14 @@ class PesquisaDAO extends Database{
         }
        
         $result = $this->PDO->query($query);
-        
+
         $pesquisas = array();
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 $pesquisas[] = new Pesquisa(
                     isset($item['idPesquisa'])?$item['idPesquisa']:null,
-                    isset($item['titulo'])?$item['titulo']:null,
-                    isset($item['descricao'])?$item['descricao']:null,
+                    isset($item['titulo'])?utf8_encode($item['titulo']):null,
+                    isset($item['descricao'])?utf8_encode($item['descricao']):null,
                     isset($item['estaAtiva'])?$item['estaAtiva']:null
                 );
             }    

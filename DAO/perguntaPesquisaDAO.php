@@ -49,8 +49,8 @@ class perguntaPesquisaDAO extends Database{
                 }
                 $perguntas[] = new Pergunta(
                     isset($item['idPergunta'])?$item['idPergunta']:null,
-                    isset($item['titulo'])?$item['titulo']:null,
-                    isset($item['tipo'])?$item['tipo']:null,
+                    isset($item['titulo'])?utf8_encode($item['titulo']):null,
+                    isset($item['tipo'])?utf8_encode($item['tipo']):null,
                     isset($item['opcional'])?$opcional:null
                 );
             }    
@@ -96,8 +96,8 @@ class perguntaPesquisaDAO extends Database{
                 }
                 $pesquisas[] = new Pesquisa(
                     isset($item['idPesquisa'])?$item['idPesquisa']:null,
-                    isset($item['titulo'])?$item['titulo']:null,
-                    isset($item['descricao'])?$item['descricao']:null,
+                    isset($item['titulo'])?utf8_encode($item['titulo']):null,
+                    isset($item['descricao'])?utf8_encode($item['descricao']):null,
                     isset($item['estaAtiva'])? $estaAtiva:null
                 );
             }    

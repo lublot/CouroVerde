@@ -14,7 +14,7 @@
         <div class="col-md-2">
             <div class="form-search search-only">
                 <i class="search-icon glyphicon glyphicon-search"></i>
-                <input id="busca" type="text" class="form-control search-query">
+                <input style="margin-top: 10%;" id="busca" type="text" class="form-control search-query">
             </div>
         </div>
     </div>
