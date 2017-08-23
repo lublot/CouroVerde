@@ -74,7 +74,6 @@
                     // 1 row para cada colona de imagens
                     echo '<div class="row"> <!-abre linha-->';
                 }
-
                 $numImgsLinha = $numImgsLinha + 1;
                 echo '<!--um <col-xs-6 col-md-3> para cada imagem de obra a ser exibida-->
                         <div id="img'.$numImgs.'_'.$numPag.'" class="col-xs-6 col-md-3" hidden>
@@ -82,7 +81,7 @@
                             <a href="'.ROOT_URL.'obra?num='.$obra->getNumInventario().'.php">
                                 <div class="thumbnail">
                                     <!--Caminho da imagem exibida representando uma obra-->
-                                    <img src="'.explode("../", $obra->getCaminhoImagem1())[1].'" style="height:130px"></img>
+                                    <img src="'.ROOT_URL.explode("../", $obra->getCaminhoImagem1())[1].'" style="height:130px"></img>
                                     <div class="caption">
                                         <h5>
                                             <!--Nome da obra-->
@@ -112,5 +111,5 @@
                 <button type="button" onclick="topFunction()" id="myBtn" class="btn btn-primary btn-voltar" style="display: none;">Voltar ao Início</a>                
         </div>    
     </body>
-    <script src="views/assets/js/galeria-script.js"></script>            
+    <?php echo '<script src="'.VIEW_BASE.'assets/js/galeria-script.js"></script>'; ?>            
 </html>

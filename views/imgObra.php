@@ -356,9 +356,9 @@
 
                     $obra = $obraDAO->buscar(array(), array("numeroInventario" => $_GET['num']))[0];   
 
-                    $galeriaLink = '/galeria/?id='.$obra->getIdClassificacao();
+                    $galeriaLink = ROOT_URL.'galeria/?id='.$obra->getIdClassificacao();
                 } else {
-                    $galeriaLink = '/galeria';
+                    $galeriaLink = ROOT_URL.'galeria/';
                 }
                 
                 echo '<a href="'.$galeriaLink.'" class="btn btn-primary btn-sm" style="border:none">

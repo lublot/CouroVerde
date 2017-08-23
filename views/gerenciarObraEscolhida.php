@@ -609,6 +609,7 @@
                         <div class="page" id="page_5">
 
                             <h3 class="text-center"> Imagens e Modelos 3D</h3>
+                            <h6 class="text-center"> Atenção! Suas imagens e/ou modelo 3D serão substituidos caso upload seja feito.</h6>
                             <br>
 
                             <section id="caixa">

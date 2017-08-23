@@ -74,7 +74,7 @@
                                 if(isset($achou) && $achou == true) {
                                     $proximoNumInv = $obra->getNumInventario();
                                     
-                                    if($numObrasLinha == 4) {
+                                    if($numObrasLinha == 3) {
                                         echo '</div>';
                                         $numObrasLinha = 0;
                                         $numLinhas++;
@@ -86,18 +86,18 @@
                                                                 
                                     if($numObrasLinha == 0) {
                                         echo '<!-- Inicio da galeria -->';
-                                        echo '<div class="row" align="center">';
+                                        echo '<div class="row" style="margin-left: 10%" align="center">';
                                     }
 
-                                    echo '<!--um <col-xs-6 col-md-3> para cada imagem de obra a ser exibida-->
-                                    <div class="col-xs-6 col-md-3">
+                                    echo '<!--um <col-xs-6 col-lg-6 col-md-6> para cada imagem de obra a ser exibida-->
+                                    <div class="col-xs-6 col-lg-6 col-md-6 text-center" style="width:30%">
                                         <!--#href contendo o caminho para exibição da obra-->
                                         <a href="'.ROOT_URL.'obra/gerenciaobra?i='.$obra->getNumInventario().'" class="text-center">
                                             <div class="thumbnail">
                                                 <!--Caminho da imagem exibida representando uma obra-->
                                                 <img src="'.$obra->getCaminhoImagem1().'" style="height:130px"></img>
                                                 <div class="caption">
-                                                    <h5><dt style="color: black"><span style="display:block;width:150px;word-wrap:break-word;">'.$obra->getNome().'</span></dt></h5>
+                                                    <h5><dt style="color: black"><span style="">'.$obra->getNome().'</span></dt></h5>
                                                 </div>
                                             </div>
                                         </a>
