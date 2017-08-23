@@ -108,8 +108,8 @@ class OpcaoDAO extends DataBase {
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 $opcoes[] = new Opcao(
-                    isset($item['idOpcao'])?$item['idOpcao']:null,
-                    isset($item['descricao'])?$item['descricao']:null
+                    isset($item['idOpcao'])?utf8_encode($item['idOpcao']):null,
+                    isset($item['descricao'])?utf8_encode($item['descricao']):null
                 );
             }    
         } 

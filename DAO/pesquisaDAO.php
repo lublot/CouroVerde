@@ -151,10 +151,10 @@ class PesquisaDAO extends Database{
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 $pesquisas[] = new Pesquisa(
-                    isset($item['idPesquisa'])?$item['idPesquisa']:null,
-                    isset($item['titulo'])?$item['titulo']:null,
-                    isset($item['descricao'])?$item['descricao']:null,
-                    isset($item['estaAtiva'])?$item['estaAtiva']:null
+                    isset($item['idPesquisa'])?utf8_encode($item['idPesquisa']):null,
+                    isset($item['titulo'])?utf8_encode($item['titulo']):null,
+                    isset($item['descricao'])?utf8_encode($item['descricao']):null,
+                    isset($item['estaAtiva'])?utf8_encode($item['estaAtiva']):null
                 );
             }    
         } 

@@ -113,10 +113,10 @@ class PerguntaDAO extends Database {
         if(!empty($result) && $result->rowCount() > 0){
             foreach($result->fetchAll() as $item){
                 $perguntas[] = new Pergunta(
-                    isset($item['idPergunta'])?$item['idPergunta']:null,
-                    isset($item['titulo'])?$item['titulo']:null,
-                    isset($item['tipo'])?$item['tipo']:null,
-                    isset($item['opcional'])?$item['opcional']:null
+                    isset($item['idPergunta'])?utf8_encode($item['idPergunta']):null,
+                    isset($item['titulo'])?utf8_encode($item['titulo']):null,
+                    isset($item['tipo'])?utf8_encode($item['tipo']):null,
+                    isset($item['opcional'])?utf8_encode($item['opcional']):null
                     
                 );
             }    
