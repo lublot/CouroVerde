@@ -358,6 +358,7 @@ class ObraDAO extends Database {
         }
 
         $query .= " ORDER BY nome ASC";
+        
         $result = $this->PDO->query($query);
 
         $colecoes = array();

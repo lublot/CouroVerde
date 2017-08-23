@@ -283,25 +283,36 @@ class noticiasController extends mainController
         }
     }
 
-    /**
-    * Efetua a listagem de todas as notícias no banco de dados.
-    */
-    public function listarTodasNoticias() {
-        $noticiaDAO = new noticiaDAO();
-        $noticias = $noticiaDAO->buscar(array(), array());
-
-        foreach($noticias as $noticia) {
-            $noticia->setCaminhoImagem(utf8_encode($noticia->getCaminhoImagem()));
-        }    
-
-
-        echo json_encode($noticias);
-        
-        $myfile = fopen("C:\wamp64\www\sertour\media/noticias\imagens/newfile.txt", "w") or die("Unable to open file!");
-        fwrite($myfile, json_last_error());
-        fclose($myfile);
-
+    public function listarTodasNoticias(){
+        if(VerificarPermissao::isAdministrador() || VerificarPermissao::isFuncionario()){
+            $noticiaDAO = new NoticiaDAO();
+            if(isset($_POST['titulo']) && !empty($_POST['titulo'])){
+                $noticiaDAO = $noticiaDAO->buscarLikeNome($_POST['titulo']);
+            }else{
+                $noticiaDAO = new NoticiaDAO();
+                $noticiaDAO = $noticiaDAO->buscar(array(),array());  
+            }
+            echo json_encode($noticiaDAO);
+        }else{
+            $this->permissaoNegada();
+        }   
     }
+    // /**
+    // * Efetua a listagem de todas as notícias no banco de dados.
+    // */
+    // public function listarTodasNoticias() {
+    //     $noticiaDAO = new noticiaDAO();
+    //     $noticias = $noticiaDAO->buscar(array(), array());
+
+    //     foreach($noticias as $noticia) {
+    //         $noticia->setCaminhoImagem(utf8_encode($noticia->getCaminhoImagem()));
+    //     }    
+
+        
+
+    //     echo json_encode($noticias);
+
+    // }
 
 
 }
