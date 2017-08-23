@@ -53,7 +53,7 @@ CREATE TABLE `classificacao` (
   `nome` varchar(45) NOT NULL,
   PRIMARY KEY (`idClassificacao`),
   UNIQUE KEY `nome_UNIQUE` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `classificacao` (
 
 LOCK TABLES `classificacao` WRITE;
 /*!40000 ALTER TABLE `classificacao` DISABLE KEYS */;
-INSERT INTO `classificacao` VALUES (2,'acervo madeira'),(3,'Objetos'),(49,'Objetos de Casa'),(6,'Objetos Pessoais'),(1,'periodo escravo');
+INSERT INTO `classificacao` VALUES (2,'acervo madeira'),(3,'Objetos'),(49,'Objetos de Casa'),(50,'Objetos de couro'),(6,'Objetos Pessoais'),(1,'periodo escravo');
 /*!40000 ALTER TABLE `classificacao` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,7 +78,7 @@ CREATE TABLE `colecao` (
   `nome` varchar(45) NOT NULL,
   PRIMARY KEY (`idColecao`),
   UNIQUE KEY `nome_UNIQUE` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +87,7 @@ CREATE TABLE `colecao` (
 
 LOCK TABLES `colecao` WRITE;
 /*!40000 ALTER TABLE `colecao` DISABLE KEYS */;
-INSERT INTO `colecao` VALUES (3,'Caricaturas'),(6,'Chapéus'),(5,'Ferros'),(67,'lucas da feira'),(66,'Luminárias'),(1,'Pote');
+INSERT INTO `colecao` VALUES (3,'Caricaturas'),(6,'Chapéus'),(5,'Ferros'),(70,'Instrumentos'),(67,'lucas da feira'),(66,'Luminárias'),(1,'Pote'),(69,'vaqueiro');
 /*!40000 ALTER TABLE `colecao` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +169,7 @@ CREATE TABLE `logalteracoes` (
   PRIMARY KEY (`idLogAlteracoes`),
   KEY `fk_LogAlteracoes_Funcionario_idx` (`matriculaFuncionario`),
   CONSTRAINT `fk_LogAlteracoes_Funcionario` FOREIGN KEY (`matriculaFuncionario`) REFERENCES `funcionario` (`matricula`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,7 @@ CREATE TABLE `logalteracoes` (
 
 LOCK TABLES `logalteracoes` WRITE;
 /*!40000 ALTER TABLE `logalteracoes` DISABLE KEYS */;
-INSERT INTO `logalteracoes` VALUES (1,5,6,'OBRA','Uma obra foi alterada','2017-08-22 22:45:32'),(2,5,6,'OBRA','Uma obra foi alterada','2017-08-22 22:46:52'),(3,5,8,'OBRA','Uma obra foi cadastrada','2017-08-22 22:50:54'),(4,4,8,'OBRA','Uma obra foi removida','2017-08-22 22:56:54'),(5,4,7,'OBRA','Uma obra foi cadastrada','2017-08-22 22:59:58');
+INSERT INTO `logalteracoes` VALUES (1,5,6,'OBRA','Uma obra foi alterada','2017-08-22 22:45:32'),(2,5,6,'OBRA','Uma obra foi alterada','2017-08-22 22:46:52'),(3,5,8,'OBRA','Uma obra foi cadastrada','2017-08-22 22:50:54'),(4,4,8,'OBRA','Uma obra foi removida','2017-08-22 22:56:54'),(5,4,7,'OBRA','Uma obra foi cadastrada','2017-08-22 22:59:58'),(6,4,8,'OBRA','Uma obra foi cadastrada','2017-08-22 23:25:05'),(7,4,9,'OBRA','Uma obra foi cadastrada','2017-08-22 23:26:14'),(8,4,10,'OBRA','Uma obra foi cadastrada','2017-08-22 23:27:32'),(9,4,11,'OBRA','Uma obra foi cadastrada','2017-08-22 23:28:44'),(10,4,7,'OBRA','Uma obra foi alterada','2017-08-22 23:29:34');
 /*!40000 ALTER TABLE `logalteracoes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +262,7 @@ CREATE TABLE `obra` (
 
 LOCK TABLES `obra` WRITE;
 /*!40000 ALTER TABLE `obra` DISABLE KEYS */;
-INSERT INTO `obra` VALUES (1,'Luminária','Luminária sertaneja típica','','Sertão da Bahia','','Uma luminária típica do sertão da bahia.',66,49,1.5,2,3,4,10,'Plástico e couro','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/1/luminaria-rustica-de-juta-e-resina-chacaras.jpg','../media/obras/imagens/1/lu-potes.jpg','','','','../media/obras/modelo3d/1/lamp.obj'),(2,'Pote','Pote sertanejo típica','','Feira de Santana','','Um pote típico do sertão da bahia.',1,49,1.5,2,3,4,10,'Cerâmica','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/2/pote.jpg','','','','','../media/obras/modelo3d/2/pote.obj'),(3,'Rosto Asssustado','Rosto Asssustado do Sertão','','Sertão da Bahia','','Uma caricatura típica do sertão da bahia.',3,3,1.5,2,3,4,10,'Cerâmica','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/3/caricatura.jpg','','','','',''),(4,'Chapéu Típico','Chapéu Típico de Sertanejo','','Sertão da Bahia','','Um chapéu típico do sertão da bahia.',6,6,1.5,2,3,4,10,'Couro','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/4/chapeu.jpg','','','','',''),(5,'Ferro de Passar Roupa','Ferro de Passar Roupa Carvão','','Sertão da Bahia','','Um ferro de passar típico do sertão da bahia.',5,49,1.5,2,3,4,10,'Ferro e carvão','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/5/f1.jpg','../media/obras/imagens/5/f2.jpg','','','',''),(6,'Carro de boi','Carro de boi','','','','',1,1,NULL,NULL,NULL,NULL,NULL,'','','','','','',NULL,'','','','../media/obras/imagens/6/IMG-20170822-WA0008.jpg','../media/obras/imagens/6/carro de boi.jpg','','','','../media/obras/modelo3d/6/carroca.obj'),(7,'Tear','Tear','','','','',67,49,NULL,NULL,NULL,NULL,NULL,'','','','','','',NULL,'','','','../media/obras/imagens/7/Tear.jpg','','','','','');
+INSERT INTO `obra` VALUES (1,'Luminária','Luminária sertaneja típica','','Sertão da Bahia','','Uma luminária típica do sertão da bahia.',66,49,1.5,2,3,4,10,'Plástico e couro','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/1/luminaria-rustica-de-juta-e-resina-chacaras.jpg','../media/obras/imagens/1/lu-potes.jpg','','','','../media/obras/modelo3d/1/lamp.obj'),(2,'Pote','Pote sertanejo típica','','Feira de Santana','','Um pote típico do sertão da bahia.',1,49,1.5,2,3,4,10,'Cerâmica','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/2/pote.jpg','','','','','../media/obras/modelo3d/2/pote.obj'),(3,'Rosto Asssustado','Rosto Asssustado do Sertão','','Sertão da Bahia','','Uma caricatura típica do sertão da bahia.',3,3,1.5,2,3,4,10,'Cerâmica','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/3/caricatura.jpg','','','','',''),(4,'Chapéu Típico','Chapéu Típico de Sertanejo','','Sertão da Bahia','','Um chapéu típico do sertão da bahia.',6,6,1.5,2,3,4,10,'Couro','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/4/chapeu.jpg','','','','',''),(5,'Ferro de Passar Roupa','Ferro de Passar Roupa Carvão','','Sertão da Bahia','','Um ferro de passar típico do sertão da bahia.',5,49,1.5,2,3,4,10,'Ferro e carvão','Várias','Desconhecido','Alguns arranhões','','',NULL,'','','','../media/obras/imagens/5/f1.jpg','../media/obras/imagens/5/f2.jpg','','','',''),(6,'Carro de boi','Carro de boi','','','','',1,1,NULL,NULL,NULL,NULL,NULL,'','','','','','',NULL,'','','','../media/obras/imagens/6/IMG-20170822-WA0008.jpg','../media/obras/imagens/6/carro de boi.jpg','','','','../media/obras/modelo3d/6/carroca.obj'),(7,'Tear','Tear','','','','',69,1,NULL,NULL,NULL,NULL,NULL,'','','','','','',NULL,'','','','../media/obras/imagens/7/Tear.jpg','../media/obras/imagens/7/Tear2.jpg','','','',''),(9,'Piso','Piso antigo','','','','',67,49,NULL,NULL,NULL,NULL,NULL,'','','','','','',NULL,'','','','../media/obras/imagens/9/piso.jpg','','','','',''),(10,'Prensa','Prensa','','','','',67,1,NULL,NULL,NULL,NULL,NULL,'','','','','','',NULL,'','','','../media/obras/imagens/10/Prensa.jpg','','','','','');
 /*!40000 ALTER TABLE `obra` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -562,7 +562,7 @@ CREATE TABLE `usuarioacessoobra` (
 
 LOCK TABLES `usuarioacessoobra` WRITE;
 /*!40000 ALTER TABLE `usuarioacessoobra` DISABLE KEYS */;
-INSERT INTO `usuarioacessoobra` VALUES (1,5),(2,5),(6,5);
+INSERT INTO `usuarioacessoobra` VALUES (1,4),(2,4),(3,4),(4,4),(5,4),(6,4),(7,4),(1,5),(2,5),(6,5);
 /*!40000 ALTER TABLE `usuarioacessoobra` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -625,4 +625,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-22 23:02:49
+-- Dump completed on 2017-08-22 23:32:03
