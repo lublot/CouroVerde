@@ -181,6 +181,38 @@ class noticiaDAO extends Database {
         
         return $noticias;
     }
+
+    /**
+    * Busca um ou vários funcionários no banco de dados pelo descricao;
+    * @param unknown $campos - um array contendo os campos desejados
+    * @param unknown $filtros - um array contendo os filtros usados na busca. Ex: array("matricula"=>5);
+    * @return unknown $funcionarios - um array contendo os funcionários retornados na busca
+    */
+    public function buscarLikeNome($campo){
+        $query = "SELECT * FROM noticia WHERE titulo LIKE '%$campo%'"; //adicionar filtro de descricao, sobredescricao ou titulo à query
+
+        /*Caso não seja especificados filtros retorna todos os funcionarios*/
+
+        $result = $this->PDO->query($query); //executa a query
+
+        $noticias = array(); //cria array para armazenar os resultados da consulta
+
+        if(!empty($result) && $result->rowCount() > 0){ //verifica se existem resultados para consulta
+            foreach($result->fetchAll() as $item){ //percorre as tuplas retornadas pela consulta
+                $noticias[] = new Noticia( //cria um novo funcionario e add uma array, apartir dos dados obtidos
+                    isset($item['idNoticia'])?utf8_encode($item['idNoticia']):null,
+                    isset($item['titulo'])?utf8_encode($item['titulo']):null,
+                    isset($item['subtitulo'])?utf8_encode($item['subtitulo']):null,
+                    isset($item['descricao'])?utf8_encode($item['descricao']):null,
+                    isset($item['caminhoImagem'])?utf8_encode($item['caminhoImagem']):null,
+                    isset($item['data'])?utf8_encode($item['data']):null
+
+                );
+            }
+        }
+
+        return $noticias;  //retorna os resultados
+    }
 }
 
 
