@@ -5,9 +5,11 @@
 <script src=<?php $this->path('assets/js/cabecalho-script.js')?>></script>
 <div class="container-fluid" style="background: #ffcc80;margin-bottom:5vh"> <!-- rgb(249,161,31) -->
     <div class="row">
-        <div class="col-md-1 col-sm-1"></div>
+        <div class="col-md-1 col-sm-1">
+            
+        </div>
         <div class="col-xs-12 col-md-9">
-            <img src=<?php $this->path('assets/images/logo-header.png')?>  class="img-responsive" id="header-logo" style="height: 61; margin-top:10;">
+            <img src=<?php $this->path('assets/images/logo-header.png')?>  class="img-responsive" id="header-logo" style="width: 400px" style="height: 61; margin-top:10;">
         </div>
         <div class="col-md-2">
             <div class="form-search search-only">

@@ -55,6 +55,7 @@
         </div>
     </div>
 </div>
-<?php $this->carregarRodape()?>
 </body>
+<?php $this->carregarRodape()?>
+
 </html>
