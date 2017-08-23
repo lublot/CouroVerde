@@ -617,13 +617,15 @@
                                         <div class="dnd1">
 
                                             <div id="uploadImg" hidden>
+                                                <img src="../views/assets/glyphicons_free/glyphicons/png/glyphicons-12-camera.png"/>
                                                 <span>Imagens carregadas:</span>
                                                 <span id="img1" hidden></span>
                                                 <span id="img2" hidden></span>
                                                 <span id="img3" hidden></span>
                                                 <span id="img4" hidden></span>
                                                 <span id="img5" hidden></span>                                                
-                                            </div>      
+                                            </div>    
+                                            <br>                                             
 
                                             <!--<input type="file" multiple="multiple" accept="image/*" style="visibility: hidden">-->
                                             <div id="dropzone_img" class="dropzone">

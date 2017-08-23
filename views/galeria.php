@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
-        <title>Sertour</title>
+        <title>SERTOUR - Galeria</title>
         <meta charset="utf-8">
         <meta name=viewport  content="width=device-width, initial-scale=1" />
         <?php $this->carregarDependenciasGaleria();?>

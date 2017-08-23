@@ -25,7 +25,6 @@ function listarNoticias(){
        var campoResposta = document.getElementById('resposta');
         ajax.onreadystatechange = function(){
             if (this.readyState == 4 && this.status == 200) {
-                alert(this.response);
                 var resposta = JSON.parse(this.response);
                 if(resposta.length > 0){
                     while (campoResposta.firstChild) {

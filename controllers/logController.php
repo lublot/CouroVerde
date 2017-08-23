@@ -14,7 +14,6 @@ class LogController extends mainController {
     }
 
     public function registrarEvento($idItem, $tipoItem, $acao){
-
         $emailUsuario = $_SESSION['email'];
 
         $funcionarioDAO = new FuncionarioDAO();

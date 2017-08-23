@@ -1,5 +1,6 @@
 <?php
 namespace controllers;
+session_start();
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use \models\Backup as Backup;
@@ -61,13 +62,13 @@ class backupController extends mainController {
         $this->gerenciarQuantidadeBackups(); //verifica e remove, se necessário, algum backup mais antigo        
         $backupDAO = new backupDAO($backup);
         $backupDAO->inserir($backup);
-
+        
         //Registra a ação que o funcionario acabou de fazer
         $idBackup = $backupDAO->getUltimoIdInserido();
         $logController = new LogController();
         $logController->registrarEvento($idBackup, "BACKUP", "Um backup foi criado");
-        
-        header("Refresh:0; url=../backup");
+
+        header("Refresh:0; url=../backup/");     
     }
 
     /**

@@ -85,7 +85,7 @@ $(document).ready(function () {
 
         for (x = 0; x < files3D.length; x = x + 1) {
             $("#upload3D").attr('hidden', false);
-            $("#modelo3D").html("Modelo carregado: ".concat(files3D[x].name));                
+            $("#modelo3D").html("<img src='../views/assets/glyphicons_free/glyphicons/png/glyphicons-27-road.png'/> Modelo carregado: ".concat(files3D[x].name));                
         }        
 
     }
@@ -107,7 +107,7 @@ $(document).ready(function () {
         //Mudança de classe de CSS para deixar as bordas azuis
         this.className = 'dropzone dragover';
         //Muda o texto de dentro do HTML para o seguinte
-        dropzone_img.innerHTML = 'Solte suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las';
+        dropzone_img.innerHTML = 'Solte suas imagens aqui para carregá-las';
         //Encerra a função [NECESSÁRIO!]
         return false;
     };
@@ -116,7 +116,7 @@ $(document).ready(function () {
         //Mudança de classe de CSS para o padrão
         this.className = 'dropzone';
         //Muda o texto de dentro do HTML para o seguinte
-        dropzone_img.innerHTML = 'Arraste suas imagens <span class="glyphicon glyphicon-camera"></span> aqui para carregá-las';
+        dropzone_img.innerHTML = 'Arraste suas imagens aqui para carregá-las';
         //Encerra a função [NECESSÁRIO!]
         return false;
     };
@@ -138,7 +138,7 @@ $(document).ready(function () {
         //Mudança de classe de CSS para deixar as bordas azuis
         this.className = 'dropzone dragover';
         //Muda o texto de dentro do HTML para o seguinte
-        dropzone_3d.innerHTML = 'Solte seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também';
+        dropzone_3d.innerHTML = 'Solte seus arquivos referentes ao modelo 3D aqui se desejar carregá-los também';
         //Encerra a função [NECESSÁRIO!]
         return false;
     };
@@ -148,7 +148,7 @@ $(document).ready(function () {
         //Mudança de classe de CSS para o padrão
         this.className = 'dropzone';
         //Muda o texto de dentro do HTML para o seguinte
-        dropzone_3d.innerHTML = 'Arraste seus arquivos referentes ao modelo 3D <span class="glyphicon glyphicon-road"></span> aqui se desejar carregá-los também';
+        dropzone_3d.innerHTML = 'Arraste seus arquivos referentes ao modelo 3D aqui se desejar carregá-los também';
         //Encerra a função [NECESSÁRIO!]
         return false;
     };

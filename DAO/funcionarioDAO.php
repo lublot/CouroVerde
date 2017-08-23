@@ -158,14 +158,14 @@ class FuncionarioDAO extends Database{
                 }
                 $funcionarios[] = new Funcionario(
                     isset($item['idUsuario'])?$item['idUsuario']:null,
-                    isset($item['email'])?$item['email']:null,
-                    isset($item['nome'])?$item['nome']:null,
-                    isset($item['sobrenome'])?$item['sobrenome']:null,
+                    isset($item['email'])?utf8_encode($item['email']):null,
+                    isset($item['nome'])?utf8_encode($item['nome']):null,
+                    isset($item['sobrenome'])?utf8_encode($item['sobrenome']):null,
                     isset($item['senha'])?$item['senha']:null,
                     $cadastroConfirmado,
-                    isset($item['tipoUsuario'])?$item['tipoUsuario']:null,
+                    isset($item['tipoUsuario'])?utf8_encode($item['tipoUsuario']):null,
                     isset($item['matricula'])?$item['matricula']:null,
-                    isset($item['funcao'])?$item['funcao']:null,
+                    isset($item['funcao'])?utf8_encode($item['funcao']):null,
                     isset($item['cadastroObra'])?$item['cadastroObra']:null,
                     isset($item['gerenciaObra'])?$item['gerenciaObra']:null,
                     isset($item['remocaoObra'])?$item['remocaoObra']:null,
@@ -247,16 +247,16 @@ class FuncionarioDAO extends Database{
 
         if(!empty($result) && $result->rowCount() > 0){ //verifica se existem resultados para consulta
             foreach($result->fetchAll() as $item){ //percorre as tuplas retornadas pela consulta
-                $funcionarios[] = new funcionario( //cria um novo funcionario e add uma array, apartir dos dados obtidos
+                $funcionarios[] = new Funcionario(
                     isset($item['idUsuario'])?$item['idUsuario']:null,
-                    isset($item['email'])?$item['email']:null,
-                    isset($item['nome'])?$item['nome']:null,
-                    isset($item['sobrenome'])?$item['sobrenome']:null,
+                    isset($item['email'])?utf8_encode($item['email']):null,
+                    isset($item['nome'])?utf8_encode($item['nome']):null,
+                    isset($item['sobrenome'])?utf8_encode($item['sobrenome']):null,
                     isset($item['senha'])?$item['senha']:null,
-                    isset($item['cadastroConfirmado'])?$item['cadastroConfirmado']:null,
-                    isset($item['tipoUsuario'])?$item['tipoUsuario']:null,
+                    $cadastroConfirmado,
+                    isset($item['tipoUsuario'])?utf8_encode($item['tipoUsuario']):null,
                     isset($item['matricula'])?$item['matricula']:null,
-                    isset($item['funcao'])?$item['funcao']:null,
+                    isset($item['funcao'])?utf8_encode($item['funcao']):null,
                     isset($item['cadastroObra'])?$item['cadastroObra']:null,
                     isset($item['gerenciaObra'])?$item['gerenciaObra']:null,
                     isset($item['remocaoObra'])?$item['remocaoObra']:null,

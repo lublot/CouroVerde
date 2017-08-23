@@ -1,5 +1,7 @@
 <?php
 namespace controllers;
+session_start();
+
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use \exceptions\DadosCorrompidosException as DadosCorrompidosException;
@@ -461,7 +463,6 @@ class obraController extends mainController {
         $caminhoModelo3DExibir .= $numInventario; 
         
         $imagens = scandir($caminhoPastaImages); //obtém todos os arquivos da pasta
-        $modelo3Dexiste = scandir($caminhoPastaModelo3D);
 
         // //remove os dois primeiros elementos do array
         unset($imagens[0]);
@@ -473,7 +474,7 @@ class obraController extends mainController {
             $caminhosImagens[] = $caminhoImagesExibir . '/' . $imagem;
         }
 
-        if($modelo3Dexiste) {
+        if(file_exists($caminhoPastaModelo3D)) {
             $modelo3D = scandir($caminhoPastaModelo3D); //obtém todos os arquivos da pasta  
 
             //remove os dois primeiros elementos do array        

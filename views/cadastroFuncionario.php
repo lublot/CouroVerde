@@ -160,10 +160,10 @@
                         <div class="form-group row modal-footer">
 
                             <!-- Botão cancelar -->
-                            <button class="pull-right btn btn-default">CANCELAR</button>
+                            <button class="pull-right btn btn-default">Cancelar</button>
 
                             <!-- Botão cadastrar -->
-                            <button type="submit" class="pull-right btn btn-default" style="margin-right:5px">CADASTRAR </button>
+                            <button type="submit" class="pull-right btn btn-primary" style="margin-right:5px">Cadastrar</button>
                         </div>
 
                         <!-- Fim do Formulário de cadastro de notícias  -->

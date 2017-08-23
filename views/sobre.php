@@ -5,7 +5,7 @@
     <meta name="description" content="Setour" />
     <meta name=viewport  content="width=device-width, initial-scale=1 user-scalable=no"/>
 
-    <title>Sobre</title>
+    <title>SERTOUR - Sobre</title>
     <link rel="icon" href="../sertour/views/assets/images/icone.ico" type="image/x-icon"/>    
 
     <?php $this->carregarDependencias()?>

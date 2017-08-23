@@ -215,7 +215,6 @@ function avancarPag() {
         
         $("#loading").attr("hidden", false);            
         
-
         xhr.onreadystatechange = function() {
             while(this.readyState != 4 && this.status != 200) {};
             $("#btn-confirmar").attr("type", "submit");

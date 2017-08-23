@@ -8,7 +8,7 @@
         <script src=<?php $this->path('assets/js/inicioPesquisa-script.js');?>></script>
     </head>
 
-    <body>
+    <body style="background-color: rgb(241, 242, 246);">
         <?php $this->carregarCabecalho();?>
         <div class="container">
             <div class="col-xs-3">

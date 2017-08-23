@@ -12,7 +12,6 @@
     <title>Backup</title>
     
     <?php $this->carregarDependencias();?>
-    <script src="views/assets/js/backup-script.js"></script>
 
 </head>
 
@@ -42,9 +41,9 @@
                     <!-- Backup manual -->
                     <p> Deseja fazer backup agora?
                         <!-- Botão de backup manual -->
-                        <button type="button" target="_new" id="btn-backup" class="btn btn-default btn-sm">
+                        <a type="button" target="_new" id="btn-backup" class="btn btn-default btn-sm">
                             <img src="../views/assets/images/if_backup_383184.png"> 
-                        </button>
+                        </a>
 
                     <!-- /FIM de botão de backup manual -->
                     </button>
@@ -118,5 +117,5 @@
     </div>
     <?php $this->carregarRodape();?>    
 </body>
-
+<script src="../views/assets/js/backup-script.js"></script>    
 </html>
