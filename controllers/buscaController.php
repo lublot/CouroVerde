@@ -45,6 +45,7 @@ class buscaController extends mainController {
             }else if(isset($_GET['filtros']) && strcmp($_GET['filtros'],'titulo')==0){
                 $obraPorTitulo = $obraDAO->buscarLike(array(),$titulo,'titulo',$pagina);
                 $obraTituloAgrupada = $this->agruparObras($obraPorTitulo);
+                
             
             }else{
                 
@@ -60,20 +61,28 @@ class buscaController extends mainController {
                 
             }
             
+            $chaves = array_keys($obraTituloAgrupada);
+            $i=0;
             while(count($obraTituloAgrupada)>0){
-                $arrayFinal[array_keys($obraTituloAgrupada)[0]] = array_shift($obraTituloAgrupada)[0];
+                $arrayFinal[$chaves[$i++]] = array_shift($obraTituloAgrupada)[0];
             }
 
+            $chaves = array_keys($obraAutorAgrupada);
+            $i=0;
             while(count($obraAutorAgrupada)>0){
-                $arrayFinal[array_keys($obraAutorAgrupada)[0]] = array_shift($obraAutorAgrupada)[0];
+                $arrayFinal[$chaves[$i++]] = array_shift($obraAutorAgrupada)[0];
             }
 
+            $chaves = array_keys($obraAutoriaAgrupada);
+            $i=0;
             while(count($obraAutoriaAgrupada)>0){
-                $arrayFinal[array_keys($obraAutoriaAgrupada)[0]] = array_shift($obraAutoriaAgrupada)[0];                
+                $arrayFinal[$chaves[$i++]] = array_shift($obraAutoriaAgrupada)[0];                
             }
 
+            $chaves = array_keys($obraPorTagAgrupada);
+            $i=0;
             while(count($obraPorTagAgrupada)>0){
-                $arrayFinal[array_keys($obraPorTagAgrupada)[0]] = array_shift($obraPorTagAgrupada)[0];
+                $arrayFinal[$chaves[$i++]] = array_shift($obraPorTagAgrupada)[0];
             }
             
             echo json_encode($arrayFinal);
@@ -99,8 +108,10 @@ class buscaController extends mainController {
             $obraPorClassificacao = $obraDAO->buscarPorAtributoEspecial(array(),$titulo,$pagina,'classificacao');
             $obraPorClassificacaoAgrupada  = $this->agruparObras($obraPorClassificacao);
 
+            $chaves = array_keys($obraPorClassificacaoAgrupada);
+            $i=0;
             while(count($obraPorClassificacaoAgrupada)>0){
-                $arrayFinal[array_keys($obraPorClassificacaoAgrupada)[0]] = array_shift($obraPorClassificacaoAgrupada)[0];
+                $arrayFinal[$chaves[$i++]] = array_shift($obraPorClassificacaoAgrupada)[0];
             }
 
             echo json_encode($arrayFinal);
@@ -128,8 +139,10 @@ class buscaController extends mainController {
             $obraPorColecaoAgrupada  = $this->agruparObras($obraPorColecao);
             $arrayFinal = array();
 
+            $chaves = array_keys($obraPorColecaoAgrupada);
+            $i=0;
             while(count($obraPorColecaoAgrupada)>0){
-                $arrayFinal[array_keys($obraPorColecaoAgrupada)[0]] = array_shift($obraPorColecaoAgrupada)[0];
+                $arrayFinal[$chaves[$i++]] = array_shift($obraPorColecaoAgrupada)[0];
             }
 
             echo json_encode($arrayFinal);
