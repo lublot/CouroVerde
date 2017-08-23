@@ -111,7 +111,7 @@ function criarBotao(){
     let btn = document.createElement('button');
     btn.setAttribute('id','carregarMais');
     btn.setAttribute('type','button');
-    btn.setAttribute('class','btn btn-sm btn-danger');
+    btn.setAttribute('class','btn btn-sm btn-primary');
     btn.appendChild(document.createTextNode('Carregar mais'));
     botao.appendChild(btn);
 
